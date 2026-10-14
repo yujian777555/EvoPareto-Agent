@@ -1,0 +1,22 @@
+{
+  "config": {
+    "pop": 8,
+    "gens": 5,
+    "tasks": 50,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "budget_evals": 48
+  },
+  "cache": {
+    "n_entries": 0,
+    "hits": 0,
+    "misses": 0,
+    "hit_rate": 0.0,
+    "saved_tokens": 0,
+    "saved_cost": 0.0
+  },
+  "note": "cache shared across runs via results/real_world/cache_real_world.json"
+}

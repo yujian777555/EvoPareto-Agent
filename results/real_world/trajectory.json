@@ -1,0 +1,29 @@
+{
+  "curve": [
+    {
+      "generation": 0,
+      "hypervolume": 0.8240073859745138,
+      "success_proxy": null,
+      "n_non_dominated": 5
+    },
+    {
+      "generation": 1,
+      "hypervolume": 0.8295766201695602,
+      "success_proxy": null,
+      "n_non_dominated": 6
+    },
+    {
+      "generation": 3,
+      "hypervolume": 0.8469046014252201,
+      "success_proxy": null,
+      "n_non_dominated": 6
+    },
+    {
+      "generation": 5,
+      "hypervolume": 0.8452341781482472,
+      "success_proxy": null,
+      "n_non_dominated": 8
+    }
+  ],
+  "final_hv": 0.8477398130637065
+}

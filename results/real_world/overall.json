@@ -1,0 +1,1034 @@
+{
+  "table": [
+    {
+      "Method": "B1_react",
+      "Success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "Cost": {
+        "mean": 0.0013695149502085055,
+        "std": 2.168404344971009e-19
+      },
+      "Latency": {
+        "mean": 0.12626105148161815,
+        "std": 0.0
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    {
+      "Method": "B2_nsga3",
+      "Success": {
+        "mean": 0.9683333333333333,
+        "std": 0.010474837574980411
+      },
+      "Cost": {
+        "mean": 0.0014100545267834417,
+        "std": 8.878000053303546e-05
+      },
+      "Latency": {
+        "mean": 0.13513579816398172,
+        "std": 0.003227631391339394
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    {
+      "Method": "B3_nsga3_peem",
+      "Success": {
+        "mean": 0.975,
+        "std": 0.018142950880897728
+      },
+      "Cost": {
+        "mean": 0.0013895497183133148,
+        "std": 8.013796140860531e-05
+      },
+      "Latency": {
+        "mean": 0.12753150754289633,
+        "std": 0.009589097046253528
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    {
+      "Method": "B4_peem_ppec",
+      "Success": {
+        "mean": 0.975,
+        "std": 0.018142950880897728
+      },
+      "Cost": {
+        "mean": 0.0013895497183133148,
+        "std": 8.013796140860531e-05
+      },
+      "Latency": {
+        "mean": 0.12753150754289633,
+        "std": 0.009589097046253528
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    }
+  ],
+  "runs": [
+    {
+      "method": "B1_react",
+      "seed": 11,
+      "split": "all",
+      "success": 1.0,
+      "cost": 0.0013695149502085057,
+      "efficiency": 0.8737389485183819,
+      "latency_proxy": 0.12626105148161815,
+      "pss": 0.9572072200469679,
+      "tool_calls": 33,
+      "tool_success": 1.0
+    },
+    {
+      "method": "B2_nsga3",
+      "seed": 11,
+      "split": "all",
+      "success": 0.965,
+      "cost": 0.0014684613259917682,
+      "efficiency": 0.8690960516866058,
+      "latency_proxy": 0.13090394831339425,
+      "pss": 0.9137588514054562,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8120744903997287,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 3,
+          "hypervolume": 0.7098609867935228,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.7874473349428731,
+          "archive_size": 8,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.815537545410188,
+          "archive_size": 15,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8022181033762089,
+          "archive_size": 23,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8056241740238856,
+          "archive_size": 29,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8080976319746566,
+          "archive_size": 33,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.329357385635376
+    },
+    {
+      "method": "B3_nsga3_peem",
+      "seed": 11,
+      "split": "all",
+      "success": 0.9824999999999999,
+      "cost": 0.0013546058858261436,
+      "efficiency": 0.8815488791162964,
+      "latency_proxy": 0.11845112088370358,
+      "pss": 0.9076221879794274,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8563524385390989,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 3,
+          "hypervolume": 0.7098609867935228,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 3,
+          "hypervolume": 0.6964392454465864,
+          "archive_size": 8,
+          "mutation_entropy": 1.811278124459133,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.1928453413084809,
+            "memory": 0.22265136285588039,
+            "planner": 0.1449964417802219,
+            "reflection": 0.20346540930633733,
+            "tool": 0.23604144474907962
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.8546454023753828,
+          "archive_size": 16,
+          "mutation_entropy": 2.25,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.1575326101366849,
+            "memory": 0.24295474160765146,
+            "planner": 0.13732403462245374,
+            "reflection": 0.2771594785265341,
+            "tool": 0.18502913510667574
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.8512938517778322,
+          "archive_size": 24,
+          "mutation_entropy": 2.3045851693377997,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.18491988547469154,
+            "memory": 0.31162889843633396,
+            "planner": 0.1222275213372639,
+            "reflection": 0.24620287230348217,
+            "tool": 0.13502082244822847
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8580282750137351,
+          "archive_size": 32,
+          "mutation_entropy": 2.274988766373815,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.1361564873042513,
+            "memory": 0.16798204918359957,
+            "planner": 0.08918444114545604,
+            "reflection": 0.473304094845917,
+            "tool": 0.13337292752077604
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8530007655898265,
+          "archive_size": 40,
+          "mutation_entropy": 2.2649798205164813,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.46639473558199723,
+            "memory": 0.15354413627052735,
+            "planner": 0.049735794361266794,
+            "reflection": 0.21926780023337944,
+            "tool": 0.1110575335528291
+          }
+        }
+      ],
+      "wall_time": 0.3280928134918213
+    },
+    {
+      "method": "B4_peem_ppec",
+      "seed": 11,
+      "split": "all",
+      "success": 0.9824999999999999,
+      "cost": 0.0013546058858261436,
+      "efficiency": 0.8815488791162964,
+      "latency_proxy": 0.11845112088370358,
+      "pss": 0.9076221879794274,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8563524385390989,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 3,
+          "hypervolume": 0.7098609867935228,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 3,
+          "hypervolume": 0.6964392454465864,
+          "archive_size": 8,
+          "mutation_entropy": 1.811278124459133,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.1928453413084809,
+            "memory": 0.22265136285588039,
+            "planner": 0.1449964417802219,
+            "reflection": 0.20346540930633733,
+            "tool": 0.23604144474907962
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.8546454023753828,
+          "archive_size": 16,
+          "mutation_entropy": 2.25,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.1575326101366849,
+            "memory": 0.24295474160765146,
+            "planner": 0.13732403462245374,
+            "reflection": 0.2771594785265341,
+            "tool": 0.18502913510667574
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.8512938517778322,
+          "archive_size": 24,
+          "mutation_entropy": 2.3045851693377997,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.18491988547469154,
+            "memory": 0.31162889843633396,
+            "planner": 0.1222275213372639,
+            "reflection": 0.24620287230348217,
+            "tool": 0.13502082244822847
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8580282750137351,
+          "archive_size": 32,
+          "mutation_entropy": 2.274988766373815,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.1361564873042513,
+            "memory": 0.16798204918359957,
+            "planner": 0.08918444114545604,
+            "reflection": 0.473304094845917,
+            "tool": 0.13337292752077604
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8530007655898265,
+          "archive_size": 40,
+          "mutation_entropy": 2.2649798205164813,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.46639473558199723,
+            "memory": 0.15354413627052735,
+            "planner": 0.049735794361266794,
+            "reflection": 0.21926780023337944,
+            "tool": 0.1110575335528291
+          }
+        }
+      ],
+      "wall_time": 0.3317070007324219
+    },
+    {
+      "method": "B1_react",
+      "seed": 22,
+      "split": "all",
+      "success": 1.0,
+      "cost": 0.0013695149502085057,
+      "efficiency": 0.8737389485183819,
+      "latency_proxy": 0.12626105148161815,
+      "pss": 0.9572072200469679,
+      "tool_calls": 33,
+      "tool_success": 1.0
+    },
+    {
+      "method": "B2_nsga3",
+      "seed": 22,
+      "split": "all",
+      "success": 0.9824999999999999,
+      "cost": 0.0014771024497501784,
+      "efficiency": 0.8612667264630174,
+      "latency_proxy": 0.13873327353698262,
+      "pss": 0.9303745914693201,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8008302172108992,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.7405485529468087,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.7710868040255715,
+          "archive_size": 8,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7849507268727819,
+          "archive_size": 15,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7911681583727643,
+          "archive_size": 23,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.797051720303884,
+          "archive_size": 31,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7992444148005806,
+          "archive_size": 38,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.4428234100341797
+    },
+    {
+      "method": "B3_nsga3_peem",
+      "seed": 22,
+      "split": "all",
+      "success": 0.9925,
+      "cost": 0.0015003883080352998,
+      "efficiency": 0.8766510341821429,
+      "latency_proxy": 0.12334896581785715,
+      "pss": 0.9302301291748216,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8243138558479325,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.7405485529468087,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7608340629175082,
+          "archive_size": 8,
+          "mutation_entropy": 1.2987949406953985,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.1863246044128516,
+            "memory": 0.20162385990510673,
+            "planner": 0.16493135317502117,
+            "reflection": 0.24549632260191384,
+            "tool": 0.20162385990510673
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.772153531329654,
+          "archive_size": 16,
+          "mutation_entropy": 1.936278124459133,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.18483851091415338,
+            "memory": 0.19282972186247155,
+            "planner": 0.13601463929340638,
+            "reflection": 0.2862553854471895,
+            "tool": 0.2000617424827793
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7867340988227378,
+          "archive_size": 24,
+          "mutation_entropy": 2.2195083368391986,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.234956437124341,
+            "memory": 0.20612939287871596,
+            "planner": 0.10066966231814706,
+            "reflection": 0.2920147253332345,
+            "tool": 0.1662297823455614
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8218774602148845,
+          "archive_size": 32,
+          "mutation_entropy": 2.267439550117998,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.22747267009555322,
+            "memory": 0.12394750906951925,
+            "planner": 0.07198121361763758,
+            "reflection": 0.39357011961034905,
+            "tool": 0.18302848760694088
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8235017239702499,
+          "archive_size": 40,
+          "mutation_entropy": 2.287032676609251,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.34808226167888817,
+            "memory": 0.12403612565953037,
+            "planner": 0.046357373018334584,
+            "reflection": 0.2934517574815274,
+            "tool": 0.18807248216171957
+          }
+        }
+      ],
+      "wall_time": 0.3510754108428955
+    },
+    {
+      "method": "B4_peem_ppec",
+      "seed": 22,
+      "split": "all",
+      "success": 0.9925,
+      "cost": 0.0015003883080352998,
+      "efficiency": 0.8766510341821429,
+      "latency_proxy": 0.12334896581785715,
+      "pss": 0.9302301291748216,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8243138558479325,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.7405485529468087,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7608340629175082,
+          "archive_size": 8,
+          "mutation_entropy": 1.2987949406953985,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.1863246044128516,
+            "memory": 0.20162385990510673,
+            "planner": 0.16493135317502117,
+            "reflection": 0.24549632260191384,
+            "tool": 0.20162385990510673
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.772153531329654,
+          "archive_size": 16,
+          "mutation_entropy": 1.936278124459133,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.18483851091415338,
+            "memory": 0.19282972186247155,
+            "planner": 0.13601463929340638,
+            "reflection": 0.2862553854471895,
+            "tool": 0.2000617424827793
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7867340988227378,
+          "archive_size": 24,
+          "mutation_entropy": 2.2195083368391986,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.234956437124341,
+            "memory": 0.20612939287871596,
+            "planner": 0.10066966231814706,
+            "reflection": 0.2920147253332345,
+            "tool": 0.1662297823455614
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8218774602148845,
+          "archive_size": 32,
+          "mutation_entropy": 2.267439550117998,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.22747267009555322,
+            "memory": 0.12394750906951925,
+            "planner": 0.07198121361763758,
+            "reflection": 0.39357011961034905,
+            "tool": 0.18302848760694088
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8235017239702499,
+          "archive_size": 40,
+          "mutation_entropy": 2.287032676609251,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.34808226167888817,
+            "memory": 0.12403612565953037,
+            "planner": 0.046357373018334584,
+            "reflection": 0.2934517574815274,
+            "tool": 0.18807248216171957
+          }
+        }
+      ],
+      "wall_time": 0.5016849040985107
+    },
+    {
+      "method": "B1_react",
+      "seed": 33,
+      "split": "all",
+      "success": 1.0,
+      "cost": 0.0013695149502085057,
+      "efficiency": 0.8737389485183819,
+      "latency_proxy": 0.12626105148161815,
+      "pss": 0.9572072200469679,
+      "tool_calls": 33,
+      "tool_success": 1.0
+    },
+    {
+      "method": "B2_nsga3",
+      "seed": 33,
+      "split": "all",
+      "success": 0.9575,
+      "cost": 0.0012845998046083793,
+      "efficiency": 0.8642298273584317,
+      "latency_proxy": 0.13577017264156832,
+      "pss": 0.9082390455107647,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8444041850760865,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 4,
+          "hypervolume": 0.8290115009145324,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.8260161674358885,
+          "archive_size": 7,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 6,
+          "hypervolume": 0.8278961525564725,
+          "archive_size": 13,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 6,
+          "hypervolume": 0.8427484905955452,
+          "archive_size": 20,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8460598795566279,
+          "archive_size": 27,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8427484905955452,
+          "archive_size": 34,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.36093640327453613
+    },
+    {
+      "method": "B3_nsga3_peem",
+      "seed": 33,
+      "split": "all",
+      "success": 0.95,
+      "cost": 0.0013136549610785009,
+      "efficiency": 0.8592055640728717,
+      "latency_proxy": 0.14079443592712826,
+      "pss": 0.9162283818223588,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8409347294888604,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 4,
+          "hypervolume": 0.8290115009145324,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.8274496396802216,
+          "archive_size": 8,
+          "mutation_entropy": 2.0,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.17778367913409732,
+            "memory": 0.18443249552341145,
+            "planner": 0.16911068254360406,
+            "reflection": 0.2657431313162117,
+            "tool": 0.20293001148267553
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8290720899541044,
+          "archive_size": 16,
+          "mutation_entropy": 2.0524212838293647,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.21908106623825974,
+            "memory": 0.17437999162619067,
+            "planner": 0.19922231665585305,
+            "reflection": 0.2802988581862128,
+            "tool": 0.1270177672934838
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8380392735558451,
+          "archive_size": 24,
+          "mutation_entropy": 2.035235442391543,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.2483565204958979,
+            "memory": 0.15883660958408558,
+            "planner": 0.1307647614623458,
+            "reflection": 0.2575635403281033,
+            "tool": 0.20447856812956733
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8434104941487883,
+          "archive_size": 32,
+          "mutation_entropy": 2.1211959760363217,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.18325473112958995,
+            "memory": 0.3789298185079557,
+            "planner": 0.09872721919799064,
+            "reflection": 0.21396398428136343,
+            "tool": 0.12512424688310028
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8401094746022177,
+          "archive_size": 40,
+          "mutation_entropy": 2.2200813738380267,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.1631628865245619,
+            "memory": 0.2791817136332901,
+            "planner": 0.03882226255826753,
+            "reflection": 0.11086540660850663,
+            "tool": 0.40796773067537384
+          }
+        }
+      ],
+      "wall_time": 0.43533802032470703
+    },
+    {
+      "method": "B4_peem_ppec",
+      "seed": 33,
+      "split": "all",
+      "success": 0.95,
+      "cost": 0.0013136549610785009,
+      "efficiency": 0.8592055640728717,
+      "latency_proxy": 0.14079443592712826,
+      "pss": 0.9162283818223588,
+      "tool_calls": 33,
+      "tool_success": 1.0,
+      "final_hv": 0.8409347294888604,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 4,
+          "hypervolume": 0.8290115009145324,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.8274496396802216,
+          "archive_size": 8,
+          "mutation_entropy": 2.0,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.17778367913409732,
+            "memory": 0.18443249552341145,
+            "planner": 0.16911068254360406,
+            "reflection": 0.2657431313162117,
+            "tool": 0.20293001148267553
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8290720899541044,
+          "archive_size": 16,
+          "mutation_entropy": 2.0524212838293647,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.21908106623825974,
+            "memory": 0.17437999162619067,
+            "planner": 0.19922231665585305,
+            "reflection": 0.2802988581862128,
+            "tool": 0.1270177672934838
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8380392735558451,
+          "archive_size": 24,
+          "mutation_entropy": 2.035235442391543,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.2483565204958979,
+            "memory": 0.15883660958408558,
+            "planner": 0.1307647614623458,
+            "reflection": 0.2575635403281033,
+            "tool": 0.20447856812956733
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8434104941487883,
+          "archive_size": 32,
+          "mutation_entropy": 2.1211959760363217,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.18325473112958995,
+            "memory": 0.3789298185079557,
+            "planner": 0.09872721919799064,
+            "reflection": 0.21396398428136343,
+            "tool": 0.12512424688310028
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.8401094746022177,
+          "archive_size": 40,
+          "mutation_entropy": 2.2200813738380267,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.1631628865245619,
+            "memory": 0.2791817136332901,
+            "planner": 0.03882226255826753,
+            "reflection": 0.11086540660850663,
+            "tool": 0.40796773067537384
+          }
+        }
+      ],
+      "wall_time": 0.4376029968261719
+    }
+  ]
+}

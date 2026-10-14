@@ -1,0 +1,223 @@
+{
+  "config": {
+    "pop": 8,
+    "gens": 5,
+    "tasks": 50,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "budget_evals": 48
+  },
+  "overall": [
+    {
+      "Method": "B1_react",
+      "Success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "Cost": {
+        "mean": 0.0013695149502085055,
+        "std": 2.168404344971009e-19
+      },
+      "Latency": {
+        "mean": 0.12626105148161815,
+        "std": 0.0
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    {
+      "Method": "B2_nsga3",
+      "Success": {
+        "mean": 0.9683333333333333,
+        "std": 0.010474837574980411
+      },
+      "Cost": {
+        "mean": 0.0014100545267834417,
+        "std": 8.878000053303546e-05
+      },
+      "Latency": {
+        "mean": 0.13513579816398172,
+        "std": 0.003227631391339394
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    {
+      "Method": "B3_nsga3_peem",
+      "Success": {
+        "mean": 0.975,
+        "std": 0.018142950880897728
+      },
+      "Cost": {
+        "mean": 0.0013895497183133148,
+        "std": 8.013796140860531e-05
+      },
+      "Latency": {
+        "mean": 0.12753150754289633,
+        "std": 0.009589097046253528
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    {
+      "Method": "B4_peem_ppec",
+      "Success": {
+        "mean": 0.975,
+        "std": 0.018142950880897728
+      },
+      "Cost": {
+        "mean": 0.0013895497183133148,
+        "std": 8.013796140860531e-05
+      },
+      "Latency": {
+        "mean": 0.12753150754289633,
+        "std": 0.009589097046253528
+      },
+      "ToolCalls": {
+        "mean": 33.0,
+        "std": 0.0
+      },
+      "ToolSuccess": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    }
+  ],
+  "trajectory": {
+    "curve": [
+      {
+        "generation": 0,
+        "hypervolume": 0.8240073859745138,
+        "success_proxy": null,
+        "n_non_dominated": 5
+      },
+      {
+        "generation": 1,
+        "hypervolume": 0.8295766201695602,
+        "success_proxy": null,
+        "n_non_dominated": 6
+      },
+      {
+        "generation": 3,
+        "hypervolume": 0.8469046014252201,
+        "success_proxy": null,
+        "n_non_dominated": 6
+      },
+      {
+        "generation": 5,
+        "hypervolume": 0.8452341781482472,
+        "success_proxy": null,
+        "n_non_dominated": 8
+      }
+    ],
+    "final_hv": 0.8477398130637065
+  },
+  "preference": [
+    {
+      "Preference": "accuracy_first",
+      "Success": {
+        "mean": 0.9766666666666667,
+        "std": 0.019293061504650343
+      },
+      "Cost": {
+        "mean": 0.0013992452952009164,
+        "std": 8.507580093110033e-05
+      },
+      "PSS": {
+        "mean": 0.9285026808055711,
+        "std": 0.019437128920097503
+      }
+    },
+    {
+      "Preference": "cost_first",
+      "Success": {
+        "mean": 0.9783333333333334,
+        "std": 0.018295415333416717
+      },
+      "Cost": {
+        "mean": 0.001402110998449319,
+        "std": 2.3794605857415756e-05
+      },
+      "PSS": {
+        "mean": 0.9290551705191673,
+        "std": 0.006966387036903528
+      }
+    },
+    {
+      "Preference": "balanced",
+      "Success": {
+        "mean": 0.975,
+        "std": 0.018142950880897728
+      },
+      "Cost": {
+        "mean": 0.0013895497183133148,
+        "std": 8.013796140860531e-05
+      },
+      "PSS": {
+        "mean": 0.9180268996588693,
+        "std": 0.009316857520279592
+      }
+    }
+  ],
+  "transfer": {
+    "evolved_test_success": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "react_test_success": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "evolved_test_cost": {
+      "mean": 0.001445445566826086,
+      "std": 0.00028422422025072935
+    },
+    "react_test_cost": {
+      "mean": 0.0013695503309746639,
+      "std": 0.0
+    }
+  },
+  "cost_report": {
+    "config": {
+      "pop": 8,
+      "gens": 5,
+      "tasks": 50,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "budget_evals": 48
+    },
+    "cache": {
+      "n_entries": 0,
+      "hits": 0,
+      "misses": 0,
+      "hit_rate": 0.0,
+      "saved_tokens": 0,
+      "saved_cost": 0.0
+    },
+    "note": "cache shared across runs via results/real_world/cache_real_world.json"
+  }
+}

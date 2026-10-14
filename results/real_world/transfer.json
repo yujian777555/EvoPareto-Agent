@@ -1,0 +1,46 @@
+{
+  "table": {
+    "evolved_test_success": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "react_test_success": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "evolved_test_cost": {
+      "mean": 0.001445445566826086,
+      "std": 0.00028422422025072935
+    },
+    "react_test_cost": {
+      "mean": 0.0013695503309746639,
+      "std": 0.0
+    }
+  },
+  "runs": [
+    {
+      "seed": 11,
+      "evolved_test_success": 1.0,
+      "evolved_test_cost": 0.0011415525114155253,
+      "react_test_success": 1.0,
+      "react_test_cost": 0.0013695503309746639,
+      "train_success": 0.9571428571428572
+    },
+    {
+      "seed": 22,
+      "evolved_test_success": 1.0,
+      "evolved_test_cost": 0.0013695503309746639,
+      "react_test_success": 1.0,
+      "react_test_cost": 0.0013695503309746639,
+      "train_success": 0.9714285714285715
+    },
+    {
+      "seed": 33,
+      "evolved_test_success": 1.0,
+      "evolved_test_cost": 0.0018252338580880682,
+      "react_test_success": 1.0,
+      "react_test_cost": 0.0013695503309746639,
+      "train_success": 0.9535714285714286
+    }
+  ]
+}

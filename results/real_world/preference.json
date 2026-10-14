@@ -1,0 +1,123 @@
+{
+  "table": [
+    {
+      "Preference": "accuracy_first",
+      "Success": {
+        "mean": 0.9766666666666667,
+        "std": 0.019293061504650343
+      },
+      "Cost": {
+        "mean": 0.0013992452952009164,
+        "std": 8.507580093110033e-05
+      },
+      "PSS": {
+        "mean": 0.9285026808055711,
+        "std": 0.019437128920097503
+      }
+    },
+    {
+      "Preference": "cost_first",
+      "Success": {
+        "mean": 0.9783333333333334,
+        "std": 0.018295415333416717
+      },
+      "Cost": {
+        "mean": 0.001402110998449319,
+        "std": 2.3794605857415756e-05
+      },
+      "PSS": {
+        "mean": 0.9290551705191673,
+        "std": 0.006966387036903528
+      }
+    },
+    {
+      "Preference": "balanced",
+      "Success": {
+        "mean": 0.975,
+        "std": 0.018142950880897728
+      },
+      "Cost": {
+        "mean": 0.0013895497183133148,
+        "std": 8.013796140860531e-05
+      },
+      "PSS": {
+        "mean": 0.9180268996588693,
+        "std": 0.009316857520279592
+      }
+    }
+  ],
+  "runs": [
+    {
+      "preference": "accuracy_first",
+      "seed": 11,
+      "success": 0.995,
+      "cost": 0.001399645610233675,
+      "pss": 0.9399063946606888,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "cost_first",
+      "seed": 11,
+      "success": 0.9924999999999999,
+      "cost": 0.0014093264091908399,
+      "pss": 0.9313889550516915,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "balanced",
+      "seed": 11,
+      "success": 0.9824999999999999,
+      "cost": 0.0013546058858261436,
+      "pss": 0.9076221879794274,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "accuracy_first",
+      "seed": 22,
+      "success": 0.985,
+      "cost": 0.0015032407118084328,
+      "pss": 0.9444611436752287,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "cost_first",
+      "seed": 22,
+      "success": 0.99,
+      "cost": 0.0014269678023442738,
+      "pss": 0.9361774826682107,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "balanced",
+      "seed": 22,
+      "success": 0.9925,
+      "cost": 0.0015003883080352998,
+      "pss": 0.9302301291748216,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "accuracy_first",
+      "seed": 33,
+      "success": 0.9500000000000001,
+      "cost": 0.0012948495635606416,
+      "pss": 0.9011405040807959,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "cost_first",
+      "seed": 33,
+      "success": 0.9525000000000001,
+      "cost": 0.0013700387838128428,
+      "pss": 0.9195990738375998,
+      "tool_success": 1.0
+    },
+    {
+      "preference": "balanced",
+      "seed": 33,
+      "success": 0.95,
+      "cost": 0.0013136549610785009,
+      "pss": 0.9162283818223588,
+      "tool_success": 1.0
+    }
+  ]
+}

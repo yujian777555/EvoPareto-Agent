@@ -165,6 +165,9 @@ python experiments/ablation/run_all_ablation.py
 
 # Phase 5-benchmark: WebShop + NSGA-II cross-benchmark extension
 python experiments/run_benchmark_extension.py
+
+# Phase 5-R1: real-world tool-use agent validation
+python experiments/run_real_world_validation.py
 ```
 
 Artifacts land in `results/`:
@@ -254,10 +257,11 @@ Phase 4 LLM backends: `MockLLMBackend` (offline default) or set
 | **Phase 4-R1** | **Real LLM validation** (DeepSeek + cache) | ✅ frozen (`2a703df`) |
 | **Phase 4-R2** | **Final real-LLM experiment freeze** | ✅ frozen (`bcb399e`) |
 | **Phase 5-Pre** | **Comprehensive ablation study** | ✅ frozen (`c4464d4`) |
-| **Phase 5-BM** | **WebShop + NSGA-II benchmark extension** | ✅ current |
+| **Phase 5-BM** | **WebShop + NSGA-II benchmark extension** | ✅ frozen (`2a1f50a`) |
+| **Phase 5-R1** | **Real-world tool-use agent validation** | ✅ current |
 | Phase 5 | Paper writing + CCF-B submission package | |
 
-See `docs/PHASE0_FINAL_AUDIT.md` … `docs/PHASE5_BENCHMARK_EXTENSION.md`.
+See `docs/PHASE0_FINAL_AUDIT.md` … `docs/PHASE5_R1_REAL_WORLD_VALIDATION.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 
