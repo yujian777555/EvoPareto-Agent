@@ -1,14 +1,14 @@
-"""Adaptive mutation controller + operator registry (Phase 2).
+"""Adaptive mutation controller + operator registry (Phase 2 / 2.5).
 
-Replaces uniform random mutation with a probability distribution derived
-from MutationExperience. Existing Phase 0 operators are preserved.
+Phase 2: probability from success-rate MutationExperience.
+Phase 2.5: probability from Pareto-aware Mutation Value (PEEM) when provided.
 """
 
 from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import Callable, Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import Callable, Dict, List, Mapping, Optional, Protocol, Sequence, Tuple
 
 from src.agent.genome import AgentGenome
 from src.agent.individual import Individual
@@ -23,6 +23,12 @@ from src.evolution.operators import (
 
 
 MutationFn = Callable[..., AgentGenome]
+
+
+class ScoreSource(Protocol):
+    """Anything that can score a mutation type (Experience or PEEM)."""
+
+    def get_score(self, mutation_type: str) -> float: ...
 
 
 @dataclass
@@ -82,30 +88,34 @@ def default_registry() -> MutationOperatorRegistry:
 
 @dataclass
 class AdaptiveMutationController:
-    """Maps MutationExperience -> mutation probability distribution.
+    """Maps mutation utility -> probability distribution.
 
-    After enough evidence, probabilities concentrate on historically
-    effective mutation types (e.g. planner 0.45, budget 0.10).
+    If `experience` implements PEEM `get_score` (composite MV), the controller
+    becomes Pareto-aware. Otherwise it falls back to Phase 2 success-rate.
     """
 
-    experience: MutationExperience
+    experience: ScoreSource
     registry: MutationOperatorRegistry = field(default_factory=default_registry)
     epsilon: float = 0.08  # explore: flatten distribution
     min_prob: float = 0.02
+    # Phase 2.5: if True, treat low MV as more strongly suppressed.
+    sharpness: float = 1.0
 
     def probability_distribution(self) -> Dict[str, float]:
         names = self.registry.names()
         if not names:
             return {}
-        scores = {n: max(1e-9, self.experience.get_score(n)) for n in names}
-        total = sum(scores.values())
-        probs = {n: scores[n] / total for n in names}
-        # Mix with uniform for exploration.
+        raw = [max(1e-9, self.experience.get_score(n)) for n in names]
+        # PEEM values can be negative → shift to positive scale.
+        min_raw = min(raw)
+        if min_raw <= 0:
+            raw = [r - min_raw + 1e-3 for r in raw]
+        if self.sharpness != 1.0:
+            raw = [r ** self.sharpness for r in raw]
+        total = sum(raw)
+        probs = {n: raw[i] / total for i, n in enumerate(names)}
         uniform = 1.0 / len(names)
-        mixed = {
-            n: (1.0 - self.epsilon) * probs[n] + self.epsilon * uniform for n in names
-        }
-        # Enforce a small floor then renormalize.
+        mixed = {n: (1.0 - self.epsilon) * probs[n] + self.epsilon * uniform for n in names}
         floored = {n: max(self.min_prob, mixed[n]) for n in names}
         s = sum(floored.values())
         return {n: floored[n] / s for n in names}

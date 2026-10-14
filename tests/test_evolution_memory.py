@@ -287,7 +287,11 @@ def test_archive_update_after_evolution():
 def test_experience_updated_after_evolution():
     out = run_memory_evolution(toy_eval, pop_size=10, n_generations=3, seed=2, use_adaptive=True)
     exp = out["experience"]
-    assert any(st.count > 0 for st in exp.stats.values())
+    # PEEM: utility table; Phase 2: stats table
+    if hasattr(exp, "utility"):
+        assert any(u.n_updates > 0 for u in exp.utility.values())
+    else:
+        assert any(st.count > 0 for st in exp.stats.values())
 
 
 def test_end_to_end_memory_pipeline():

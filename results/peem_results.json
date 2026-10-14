@@ -1,0 +1,6601 @@
+{
+  "phase": "Phase 2.5 — Pareto-aware Evolution Experience Memory (PEEM)",
+  "claim": "PEEM estimates mutation utility from Pareto improvement, diversity, and survival feedback",
+  "E1": {
+    "name": "E1_mutation_strategy_comparison",
+    "runs": [
+      {
+        "mode": "random",
+        "seed": 11,
+        "final_hv": 0.8007671180275011,
+        "final_pareto": 30,
+        "spacing": 0.07856344072040372,
+        "mutation_entropy": 0.0,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 13,
+            "hypervolume": 0.711347186162361,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7362521204700148,
+            "archive_size": 23,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 21,
+            "hypervolume": 0.7490004417553662,
+            "archive_size": 50,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 23,
+            "hypervolume": 0.761536014002318,
+            "archive_size": 80,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 23,
+            "hypervolume": 0.783999866605681,
+            "archive_size": 105,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 27,
+            "hypervolume": 0.784871281694925,
+            "archive_size": 132,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7582781223129117,
+            "archive_size": 160,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7891611435869789,
+            "archive_size": 188,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7926602653000776,
+            "archive_size": 214,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7909712319014583,
+            "archive_size": 240,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8037546053463305,
+            "archive_size": 265,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8067104662563049,
+            "archive_size": 293,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8003708948122475,
+            "archive_size": 321,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.2,
+          "memory": 0.2,
+          "planner": 0.2,
+          "reflection": 0.2,
+          "tool": 0.2
+        },
+        "wall_time": 2.169074535369873,
+        "igd": 0.025974476900325755
+      },
+      {
+        "mode": "success",
+        "seed": 11,
+        "final_hv": 0.7978859790633481,
+        "final_pareto": 30,
+        "spacing": 0.1102532302572501,
+        "mutation_entropy": 2.094850104413331,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 13,
+            "hypervolume": 0.711347186162361,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 16,
+            "hypervolume": 0.7564873795949835,
+            "archive_size": 30,
+            "mutation_entropy": 2.0832194462630236,
+            "mutation_probs": {
+              "budget": 0.24150195567144722,
+              "memory": 0.18392698826597131,
+              "planner": 0.08317079530638853,
+              "reflection": 0.057981747066492825,
+              "tool": 0.4334185136897001
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 23,
+            "hypervolume": 0.7627684257638908,
+            "archive_size": 60,
+            "mutation_entropy": 2.1710603757919595,
+            "mutation_probs": {
+              "budget": 0.24501787863813185,
+              "memory": 0.10127261438653844,
+              "planner": 0.11345441644175822,
+              "reflection": 0.07801644682657341,
+              "tool": 0.4622386437069982
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 29,
+            "hypervolume": 0.7705676939209859,
+            "archive_size": 90,
+            "mutation_entropy": 2.089993490279571,
+            "mutation_probs": {
+              "budget": 0.26867053524327394,
+              "memory": 0.12053272734650813,
+              "planner": 0.12053272734650813,
+              "reflection": 0.07479965913241082,
+              "tool": 0.4154643509312989
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7721275475524049,
+            "archive_size": 120,
+            "mutation_entropy": 2.101960226046748,
+            "mutation_probs": {
+              "budget": 0.2719575013043685,
+              "memory": 0.11276952995304275,
+              "planner": 0.11276952995304275,
+              "reflection": 0.08588910496608643,
+              "tool": 0.4166143338234597
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7830465229723379,
+            "archive_size": 150,
+            "mutation_entropy": 2.0493485321912814,
+            "mutation_probs": {
+              "budget": 0.2458113237797237,
+              "memory": 0.10727258249407463,
+              "planner": 0.0965346316124188,
+              "reflection": 0.09206048541172887,
+              "tool": 0.4583209767020541
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7580888648696339,
+            "archive_size": 180,
+            "mutation_entropy": 2.0312394747076463,
+            "mutation_probs": {
+              "budget": 0.23639401103230895,
+              "memory": 0.09719779353821906,
+              "planner": 0.09313790386130812,
+              "reflection": 0.09719779353821906,
+              "tool": 0.47607249802994484
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7737379937129211,
+            "archive_size": 210,
+            "mutation_entropy": 2.0061470115289577,
+            "mutation_probs": {
+              "budget": 0.2396101235227161,
+              "memory": 0.10163791964699766,
+              "planner": 0.10163791964699766,
+              "reflection": 0.09419114402551959,
+              "tool": 0.462922893157769
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.791487187064761,
+            "archive_size": 240,
+            "mutation_entropy": 1.9905861510431513,
+            "mutation_probs": {
+              "budget": 0.3032442141691841,
+              "memory": 0.09042562745212034,
+              "planner": 0.09689742114360905,
+              "reflection": 0.09352669526262535,
+              "tool": 0.4159060419724613
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7787469506532557,
+            "archive_size": 270,
+            "mutation_entropy": 1.9934327180818894,
+            "mutation_probs": {
+              "budget": 0.24787482993814347,
+              "memory": 0.23959182393700296,
+              "planner": 0.0739682506503341,
+              "reflection": 0.07842734685420596,
+              "tool": 0.3601377486203136
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7946722461676373,
+            "archive_size": 300,
+            "mutation_entropy": 2.0213533882642483,
+            "mutation_probs": {
+              "budget": 0.22113121989325246,
+              "memory": 0.31178826677668464,
+              "planner": 0.06886428597710957,
+              "reflection": 0.07068719239011335,
+              "tool": 0.32752903496284
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7994160631409866,
+            "archive_size": 330,
+            "mutation_entropy": 2.052403290989774,
+            "mutation_probs": {
+              "budget": 0.1888103918672763,
+              "memory": 0.299112959739531,
+              "planner": 0.05812761816115136,
+              "reflection": 0.18357012402493697,
+              "tool": 0.27037890620710425
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7897276357191421,
+            "archive_size": 360,
+            "mutation_entropy": 2.094850104413331,
+            "mutation_probs": {
+              "budget": 0.16176060677401854,
+              "memory": 0.28358864937547174,
+              "planner": 0.1576785881511425,
+              "reflection": 0.1364148922189623,
+              "tool": 0.2605572634804049
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.16176060677401854,
+          "memory": 0.28358864937547174,
+          "planner": 0.1576785881511425,
+          "reflection": 0.1364148922189623,
+          "tool": 0.2605572634804049
+        },
+        "wall_time": 6.872084379196167,
+        "igd": 0.05213238455800926
+      },
+      {
+        "mode": "peem",
+        "seed": 11,
+        "final_hv": 0.8104303843288091,
+        "final_pareto": 30,
+        "spacing": 0.09525581335465352,
+        "mutation_entropy": 2.303477428569947,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 13,
+            "hypervolume": 0.711347186162361,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 16,
+            "hypervolume": 0.7564873795949835,
+            "archive_size": 30,
+            "mutation_entropy": 2.0832194462630236,
+            "mutation_probs": {
+              "budget": 0.14623698675897634,
+              "memory": 0.2790980432571776,
+              "planner": 0.23823707656216664,
+              "reflection": 0.17961254791295966,
+              "tool": 0.15681534550871978
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7642701715661253,
+            "archive_size": 60,
+            "mutation_entropy": 2.3034145848708873,
+            "mutation_probs": {
+              "budget": 0.15201565740493428,
+              "memory": 0.23268104728340938,
+              "planner": 0.18416776017739045,
+              "reflection": 0.21966849275182837,
+              "tool": 0.21146704238243752
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 23,
+            "hypervolume": 0.7889000442729922,
+            "archive_size": 90,
+            "mutation_entropy": 2.3016956887795916,
+            "mutation_probs": {
+              "budget": 0.16452739097802277,
+              "memory": 0.19910913686178683,
+              "planner": 0.21968447346865866,
+              "reflection": 0.19516441799244855,
+              "tool": 0.22151458069908336
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 25,
+            "hypervolume": 0.8053827427577391,
+            "archive_size": 120,
+            "mutation_entropy": 2.3009065992309923,
+            "mutation_probs": {
+              "budget": 0.21979361997965463,
+              "memory": 0.10715612988091804,
+              "planner": 0.15817143621521412,
+              "reflection": 0.2421044078630587,
+              "tool": 0.27277440606115455
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 28,
+            "hypervolume": 0.8104303843288091,
+            "archive_size": 150,
+            "mutation_entropy": 2.285511080643048,
+            "mutation_probs": {
+              "budget": 0.18921006681366875,
+              "memory": 0.19698575656073758,
+              "planner": 0.23018302962228937,
+              "reflection": 0.22007229908502735,
+              "tool": 0.16354884791827695
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7843400701451855,
+            "archive_size": 180,
+            "mutation_entropy": 2.303465819317967,
+            "mutation_probs": {
+              "budget": 0.2612031422869756,
+              "memory": 0.12677618136436303,
+              "planner": 0.17097922440765467,
+              "reflection": 0.21326122867034575,
+              "tool": 0.22778022327066105
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8006465165099502,
+            "archive_size": 210,
+            "mutation_entropy": 2.3106073276750916,
+            "mutation_probs": {
+              "budget": 0.17661435572482156,
+              "memory": 0.21443420031283236,
+              "planner": 0.13166291653873238,
+              "reflection": 0.2659292500088081,
+              "tool": 0.21135927741480567
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8087997396923327,
+            "archive_size": 240,
+            "mutation_entropy": 2.304839298786556,
+            "mutation_probs": {
+              "budget": 0.22508219354559128,
+              "memory": 0.08308883492676297,
+              "planner": 0.22392253564793108,
+              "reflection": 0.20633971807372936,
+              "tool": 0.26156671780598517
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8006465165099502,
+            "archive_size": 270,
+            "mutation_entropy": 2.2983446387843625,
+            "mutation_probs": {
+              "budget": 0.2105888039405711,
+              "memory": 0.1611864374527695,
+              "planner": 0.22743500852784437,
+              "reflection": 0.20790826848045113,
+              "tool": 0.192881481598364
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.816952962874715,
+            "archive_size": 300,
+            "mutation_entropy": 2.3055210942763287,
+            "mutation_probs": {
+              "budget": 0.214549150924508,
+              "memory": 0.1912909977500032,
+              "planner": 0.17303441487314283,
+              "reflection": 0.134124691007164,
+              "tool": 0.2870007454451819
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.816952962874715,
+            "archive_size": 330,
+            "mutation_entropy": 2.300205028433128,
+            "mutation_probs": {
+              "budget": 0.16689880652686445,
+              "memory": 0.23543915355421735,
+              "planner": 0.17994375809803081,
+              "reflection": 0.24256740045185798,
+              "tool": 0.1751508813690294
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8120610289652856,
+            "archive_size": 360,
+            "mutation_entropy": 2.303477428569947,
+            "mutation_probs": {
+              "budget": 0.17665865973410066,
+              "memory": 0.20880679854122147,
+              "planner": 0.2036523136328342,
+              "reflection": 0.15408358332632505,
+              "tool": 0.25679864476551856
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.17665865973410066,
+          "memory": 0.20880679854122147,
+          "planner": 0.2036523136328342,
+          "reflection": 0.15408358332632505,
+          "tool": 0.25679864476551856
+        },
+        "wall_time": 6.2345709800720215,
+        "igd": 0.03218996684792051
+      },
+      {
+        "mode": "random",
+        "seed": 22,
+        "final_hv": 0.8139435010257297,
+        "final_pareto": 30,
+        "spacing": 0.05514957024903369,
+        "mutation_entropy": 0.0,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7025992511899058,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 16,
+            "hypervolume": 0.7361289334592723,
+            "archive_size": 27,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7399478395991701,
+            "archive_size": 54,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 25,
+            "hypervolume": 0.7872306740786871,
+            "archive_size": 82,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 27,
+            "hypervolume": 0.8032638853633854,
+            "archive_size": 111,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8102706179512713,
+            "archive_size": 140,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7821889254949803,
+            "archive_size": 167,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.804814224992769,
+            "archive_size": 197,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8112785962778515,
+            "archive_size": 223,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7983498537076865,
+            "archive_size": 249,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8089038062613825,
+            "archive_size": 275,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8137282822430607,
+            "archive_size": 300,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8082967175696542,
+            "archive_size": 328,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.2,
+          "memory": 0.2,
+          "planner": 0.2,
+          "reflection": 0.2,
+          "tool": 0.2
+        },
+        "wall_time": 3.809995174407959,
+        "igd": 0.05181469394766053
+      },
+      {
+        "mode": "success",
+        "seed": 22,
+        "final_hv": 0.8114104813213282,
+        "final_pareto": 30,
+        "spacing": 0.06412827528498784,
+        "mutation_entropy": 1.9916457810992476,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7025992511899058,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 15,
+            "hypervolume": 0.7086955570570634,
+            "archive_size": 30,
+            "mutation_entropy": 2.2516291673878226,
+            "mutation_probs": {
+              "budget": 0.08220560747663551,
+              "memory": 0.671177570093458,
+              "planner": 0.08220560747663551,
+              "reflection": 0.08220560747663551,
+              "tool": 0.08220560747663551
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 22,
+            "hypervolume": 0.7391770863928511,
+            "archive_size": 60,
+            "mutation_entropy": 1.883930340240648,
+            "mutation_probs": {
+              "budget": 0.07503478026422215,
+              "memory": 0.3836031275276355,
+              "planner": 0.16780372067942842,
+              "reflection": 0.06027608519816661,
+              "tool": 0.31328228633054733
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 29,
+            "hypervolume": 0.7552994545286135,
+            "archive_size": 90,
+            "mutation_entropy": 1.935102020099408,
+            "mutation_probs": {
+              "budget": 0.06333360555328703,
+              "memory": 0.42974642711310734,
+              "planner": 0.19857247856267862,
+              "reflection": 0.07385218456512861,
+              "tool": 0.23449530420579823
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 28,
+            "hypervolume": 0.7795843264546076,
+            "archive_size": 120,
+            "mutation_entropy": 1.9478419444121053,
+            "mutation_probs": {
+              "budget": 0.07229976554509013,
+              "memory": 0.4700899122653171,
+              "planner": 0.18972499082484956,
+              "reflection": 0.07741792604918923,
+              "tool": 0.190467405315554
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8013402282043105,
+            "archive_size": 150,
+            "mutation_entropy": 1.9346795063850153,
+            "mutation_probs": {
+              "budget": 0.07381972147120339,
+              "memory": 0.4770559608223231,
+              "planner": 0.18945916441361016,
+              "reflection": 0.07381972147120339,
+              "tool": 0.18584543182165997
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7773409827818121,
+            "archive_size": 180,
+            "mutation_entropy": 1.9619665267210187,
+            "mutation_probs": {
+              "budget": 0.06469008285738546,
+              "memory": 0.47191110653977325,
+              "planner": 0.22183823970157035,
+              "reflection": 0.07118209390503684,
+              "tool": 0.17037847699623407
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7902161957471423,
+            "archive_size": 210,
+            "mutation_entropy": 1.9683910319217743,
+            "mutation_probs": {
+              "budget": 0.06582582269517255,
+              "memory": 0.443490673763819,
+              "planner": 0.2544523841421143,
+              "reflection": 0.06582582269517255,
+              "tool": 0.17040529670372154
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8037594643758665,
+            "archive_size": 240,
+            "mutation_entropy": 1.9688214275924132,
+            "mutation_probs": {
+              "budget": 0.06524907234924432,
+              "memory": 0.43175650288872813,
+              "planner": 0.2803247050134582,
+              "reflection": 0.06055868450645914,
+              "tool": 0.16211103524211024
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 28,
+            "hypervolume": 0.797316502737583,
+            "archive_size": 270,
+            "mutation_entropy": 1.9891814607315808,
+            "mutation_probs": {
+              "budget": 0.0640253871314321,
+              "memory": 0.43234729966825813,
+              "planner": 0.2772985003438483,
+              "reflection": 0.05984926651130757,
+              "tool": 0.16647954634515394
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.81020242601415,
+            "archive_size": 300,
+            "mutation_entropy": 1.9897761729612828,
+            "mutation_probs": {
+              "budget": 0.05685642300566436,
+              "memory": 0.41649335461146136,
+              "planner": 0.2525667872250531,
+              "reflection": 0.05855877396423371,
+              "tool": 0.21552466119358754
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8134239068332918,
+            "archive_size": 330,
+            "mutation_entropy": 2.000059626509814,
+            "mutation_probs": {
+              "budget": 0.053902443491535106,
+              "memory": 0.4020074132071782,
+              "planner": 0.23822791307058422,
+              "reflection": 0.058450736710519306,
+              "tool": 0.2474114935201832
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8053702047854374,
+            "archive_size": 360,
+            "mutation_entropy": 1.9916457810992476,
+            "mutation_probs": {
+              "budget": 0.05547319339477213,
+              "memory": 0.38189604825846063,
+              "planner": 0.2635675189407554,
+              "reflection": 0.0541120487949524,
+              "tool": 0.2449511906110593
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.05547319339477213,
+          "memory": 0.38189604825846063,
+          "planner": 0.2635675189407554,
+          "reflection": 0.0541120487949524,
+          "tool": 0.2449511906110593
+        },
+        "wall_time": 6.359260559082031,
+        "igd": 0.06472017598603295
+      },
+      {
+        "mode": "peem",
+        "seed": 22,
+        "final_hv": 0.8121148028621538,
+        "final_pareto": 30,
+        "spacing": 0.06778677157605109,
+        "mutation_entropy": 2.294310534463651,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7025992511899058,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 15,
+            "hypervolume": 0.7086955570570634,
+            "archive_size": 30,
+            "mutation_entropy": 2.2516291673878226,
+            "mutation_probs": {
+              "budget": 0.23781728471628588,
+              "memory": 0.2304781864859815,
+              "planner": 0.19989340207575684,
+              "reflection": 0.1661015401842338,
+              "tool": 0.16570958653774215
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 23,
+            "hypervolume": 0.7364277772748407,
+            "archive_size": 60,
+            "mutation_entropy": 2.288468551013999,
+            "mutation_probs": {
+              "budget": 0.1648063787914737,
+              "memory": 0.22893733366693841,
+              "planner": 0.2090314507321525,
+              "reflection": 0.21204229648715556,
+              "tool": 0.18518254032227977
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7393168156183747,
+            "archive_size": 90,
+            "mutation_entropy": 2.29326225738795,
+            "mutation_probs": {
+              "budget": 0.22088101118905373,
+              "memory": 0.18002962528198796,
+              "planner": 0.20836848471510838,
+              "reflection": 0.18534897291394958,
+              "tool": 0.2053719058999004
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.769427584046421,
+            "archive_size": 120,
+            "mutation_entropy": 2.3118695288222115,
+            "mutation_probs": {
+              "budget": 0.2010130222962565,
+              "memory": 0.1958780927092587,
+              "planner": 0.17435079839529344,
+              "reflection": 0.2298174482654763,
+              "tool": 0.19894063833371506
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 25,
+            "hypervolume": 0.8361182416328546,
+            "archive_size": 150,
+            "mutation_entropy": 2.3125407337847443,
+            "mutation_probs": {
+              "budget": 0.20742895026737618,
+              "memory": 0.17267538775787133,
+              "planner": 0.21761771729799845,
+              "reflection": 0.19818660455192366,
+              "tool": 0.20409134012483038
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8052109619394829,
+            "archive_size": 180,
+            "mutation_entropy": 2.316371274170249,
+            "mutation_probs": {
+              "budget": 0.1900646831739661,
+              "memory": 0.20527119214233672,
+              "planner": 0.18502119654585045,
+              "reflection": 0.2150932211620967,
+              "tool": 0.20454970697575017
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8217790887283611,
+            "archive_size": 210,
+            "mutation_entropy": 2.3134749528674203,
+            "mutation_probs": {
+              "budget": 0.13242324184893892,
+              "memory": 0.11031427541766028,
+              "planner": 0.2594656367507041,
+              "reflection": 0.26980781909429313,
+              "tool": 0.2279890268884035
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8137134540488903,
+            "archive_size": 240,
+            "mutation_entropy": 2.3149004502701205,
+            "mutation_probs": {
+              "budget": 0.21021637519141256,
+              "memory": 0.2180259418223766,
+              "planner": 0.14946128403209258,
+              "reflection": 0.2519141872846795,
+              "tool": 0.1703822116694388
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8073188493019442,
+            "archive_size": 270,
+            "mutation_entropy": 2.3042844745338145,
+            "mutation_probs": {
+              "budget": 0.25205354050572637,
+              "memory": 0.07701254792981026,
+              "planner": 0.2514240295088647,
+              "reflection": 0.2616378981749163,
+              "tool": 0.15787198388068235
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8127298785927315,
+            "archive_size": 300,
+            "mutation_entropy": 2.3019040224835785,
+            "mutation_probs": {
+              "budget": 0.20072202080329216,
+              "memory": 0.1847439736244107,
+              "planner": 0.16013136229804575,
+              "reflection": 0.24152088686630263,
+              "tool": 0.21288175640794887
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8153121052356268,
+            "archive_size": 330,
+            "mutation_entropy": 2.3060938178355284,
+            "mutation_probs": {
+              "budget": 0.3696439010929688,
+              "memory": 0.06577948907248392,
+              "planner": 0.14970517875087017,
+              "reflection": 0.30357410997567796,
+              "tool": 0.11129732110799913
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8121148028621538,
+            "archive_size": 360,
+            "mutation_entropy": 2.294310534463651,
+            "mutation_probs": {
+              "budget": 0.252846791759353,
+              "memory": 0.1871602260024998,
+              "planner": 0.25332814629399886,
+              "reflection": 0.22412424508382903,
+              "tool": 0.08254059086031937
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.252846791759353,
+          "memory": 0.1871602260024998,
+          "planner": 0.25332814629399886,
+          "reflection": 0.22412424508382903,
+          "tool": 0.08254059086031937
+        },
+        "wall_time": 7.303180456161499,
+        "igd": 0.05896959442640181
+      }
+    ],
+    "mean_final_hv": {
+      "random": 0.8073553095266154,
+      "success": 0.8046482301923381,
+      "peem": 0.8112725935954814
+    },
+    "mean_igd": {
+      "random": 0.03889458542399314,
+      "success": 0.05842628027202111,
+      "peem": 0.04557978063716116
+    },
+    "mean_spacing": {
+      "random": 0.0668565054847187,
+      "success": 0.08719075277111897,
+      "peem": 0.08152129246535231
+    },
+    "mean_entropy": {
+      "random": 0.0,
+      "success": 2.043247942756289,
+      "peem": 2.298893981516799
+    }
+  },
+  "E2": {
+    "name": "E2_nsga3_enhancement",
+    "runs": [
+      {
+        "mode": "random",
+        "seed": 7,
+        "final_hv": 0.7910729798345811,
+        "final_pareto": 30,
+        "spacing": 0.029341717537397873,
+        "mutation_entropy": 0.0,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7388670694420414,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7384326988872923,
+            "archive_size": 27,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 22,
+            "hypervolume": 0.7692901612689,
+            "archive_size": 52,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7787293043519541,
+            "archive_size": 78,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7926664092664019,
+            "archive_size": 106,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7814342941553395,
+            "archive_size": 135,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7447686536964495,
+            "archive_size": 162,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7639295723649914,
+            "archive_size": 189,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7754419038906963,
+            "archive_size": 216,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7725016624335823,
+            "archive_size": 244,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7992323636560736,
+            "archive_size": 274,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7993502755877083,
+            "archive_size": 301,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7961970200627074,
+            "archive_size": 326,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.2,
+          "memory": 0.2,
+          "planner": 0.2,
+          "reflection": 0.2,
+          "tool": 0.2
+        },
+        "wall_time": 3.4226086139678955,
+        "igd": 0.049011931989742796
+      },
+      {
+        "mode": "success",
+        "seed": 7,
+        "final_hv": 0.8156727003331004,
+        "final_pareto": 30,
+        "spacing": 0.07198248919255808,
+        "mutation_entropy": 2.2673483133364813,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7388670694420414,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 11,
+            "hypervolume": 0.7573773091775414,
+            "archive_size": 30,
+            "mutation_entropy": 2.1492553971685,
+            "mutation_probs": {
+              "budget": 0.1256707606564145,
+              "memory": 0.15700526370110438,
+              "planner": 0.06717968830632674,
+              "reflection": 0.30513200536691093,
+              "tool": 0.3450122819692435
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 17,
+            "hypervolume": 0.7651711377001977,
+            "archive_size": 60,
+            "mutation_entropy": 2.2506754284742967,
+            "mutation_probs": {
+              "budget": 0.23715036588244554,
+              "memory": 0.26820552364466127,
+              "planner": 0.07246392320402864,
+              "reflection": 0.2889089621528051,
+              "tool": 0.13327122511605952
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7878252307654436,
+            "archive_size": 90,
+            "mutation_entropy": 2.2353946521602985,
+            "mutation_probs": {
+              "budget": 0.19482163381492024,
+              "memory": 0.3169184166711424,
+              "planner": 0.08258252322895966,
+              "reflection": 0.29184188194854715,
+              "tool": 0.11383554433643053
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 18,
+            "hypervolume": 0.799260143621833,
+            "archive_size": 120,
+            "mutation_entropy": 2.2219938400286066,
+            "mutation_probs": {
+              "budget": 0.15723594567258176,
+              "memory": 0.25958875220770866,
+              "planner": 0.21883885814679294,
+              "reflection": 0.2672009007141996,
+              "tool": 0.09713554325871718
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8004624670371824,
+            "archive_size": 150,
+            "mutation_entropy": 2.252206678578391,
+            "mutation_probs": {
+              "budget": 0.1382294352835271,
+              "memory": 0.23318400955412394,
+              "planner": 0.2767561286048578,
+              "reflection": 0.26334845532553003,
+              "tool": 0.08848197123196117
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 26,
+            "hypervolume": 0.7765782545655191,
+            "archive_size": 180,
+            "mutation_entropy": 2.282133504963273,
+            "mutation_probs": {
+              "budget": 0.14389151671530465,
+              "memory": 0.25099385922412143,
+              "planner": 0.2639462766616714,
+              "reflection": 0.2516987526901105,
+              "tool": 0.08946959470879202
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8055892823311623,
+            "archive_size": 210,
+            "mutation_entropy": 2.277960074702911,
+            "mutation_probs": {
+              "budget": 0.1185651366741422,
+              "memory": 0.3064964238870223,
+              "planner": 0.2353148135266232,
+              "reflection": 0.25850108112583087,
+              "tool": 0.08112254478638144
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8088707050697822,
+            "archive_size": 240,
+            "mutation_entropy": 2.281502807115702,
+            "mutation_probs": {
+              "budget": 0.12238067061143985,
+              "memory": 0.3129132149901381,
+              "planner": 0.21964299802761345,
+              "reflection": 0.2572561637080868,
+              "tool": 0.0878069526627219
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8116155307942142,
+            "archive_size": 270,
+            "mutation_entropy": 2.2840240432430763,
+            "mutation_probs": {
+              "budget": 0.13307957684089844,
+              "memory": 0.3435063838657564,
+              "planner": 0.19428026473500443,
+              "reflection": 0.2412894887696076,
+              "tool": 0.08784428578873313
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8198136674689033,
+            "archive_size": 300,
+            "mutation_entropy": 2.2786041369793315,
+            "mutation_probs": {
+              "budget": 0.1344260608837843,
+              "memory": 0.3388819957834484,
+              "planner": 0.18813032795957632,
+              "reflection": 0.24394686857374273,
+              "tool": 0.09461474679944831
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8230358440673009,
+            "archive_size": 330,
+            "mutation_entropy": 2.273851782732015,
+            "mutation_probs": {
+              "budget": 0.11547423110053755,
+              "memory": 0.3491936614985634,
+              "planner": 0.16830766826504684,
+              "reflection": 0.23082640988936942,
+              "tool": 0.13619802924648283
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8181270815778339,
+            "archive_size": 360,
+            "mutation_entropy": 2.2673483133364813,
+            "mutation_probs": {
+              "budget": 0.14859739036994032,
+              "memory": 0.3208514484896385,
+              "planner": 0.14642310487953356,
+              "reflection": 0.21213056769908065,
+              "tool": 0.1719974885618071
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.14859739036994032,
+          "memory": 0.3208514484896385,
+          "planner": 0.14642310487953356,
+          "reflection": 0.21213056769908065,
+          "tool": 0.1719974885618071
+        },
+        "wall_time": 3.5888004302978516,
+        "igd": 0.03415105678153613
+      },
+      {
+        "mode": "peem",
+        "seed": 7,
+        "final_hv": 0.8002790030512342,
+        "final_pareto": 30,
+        "spacing": 0.06391246454023372,
+        "mutation_entropy": 2.301627871642663,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7388670694420414,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 11,
+            "hypervolume": 0.7573773091775414,
+            "archive_size": 30,
+            "mutation_entropy": 2.1492553971685,
+            "mutation_probs": {
+              "budget": 0.19533453693360237,
+              "memory": 0.15353724541821634,
+              "planner": 0.20416354307539958,
+              "reflection": 0.20987271129330964,
+              "tool": 0.23709196327947213
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7720164732262428,
+            "archive_size": 60,
+            "mutation_entropy": 2.2992195936868263,
+            "mutation_probs": {
+              "budget": 0.12452273161009346,
+              "memory": 0.1519502163134039,
+              "planner": 0.23330304442895744,
+              "reflection": 0.2750992580796507,
+              "tool": 0.2151247495678944
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7896111278034608,
+            "archive_size": 90,
+            "mutation_entropy": 2.3174675076586437,
+            "mutation_probs": {
+              "budget": 0.20110751363630847,
+              "memory": 0.1365829734441268,
+              "planner": 0.19534796439559765,
+              "reflection": 0.23884120440373635,
+              "tool": 0.22812034412023074
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 18,
+            "hypervolume": 0.799260143621833,
+            "archive_size": 120,
+            "mutation_entropy": 2.318396984104804,
+            "mutation_probs": {
+              "budget": 0.2393470997079204,
+              "memory": 0.2283086886669506,
+              "planner": 0.1929645610962667,
+              "reflection": 0.17357434740682048,
+              "tool": 0.16580530312204195
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8069887949768634,
+            "archive_size": 150,
+            "mutation_entropy": 2.3147954056309934,
+            "mutation_probs": {
+              "budget": 0.21200265890778003,
+              "memory": 0.1630346595434965,
+              "planner": 0.16397775687704913,
+              "reflection": 0.2251769951334246,
+              "tool": 0.23580792953824986
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7740534563919524,
+            "archive_size": 180,
+            "mutation_entropy": 2.317060164097153,
+            "mutation_probs": {
+              "budget": 0.20602091662502764,
+              "memory": 0.12171039784025472,
+              "planner": 0.07827141987764917,
+              "reflection": 0.2710901020213796,
+              "tool": 0.3229071636356888
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7948332176461635,
+            "archive_size": 210,
+            "mutation_entropy": 2.3071384402138846,
+            "mutation_probs": {
+              "budget": 0.18888509460912284,
+              "memory": 0.21861080180129933,
+              "planner": 0.09408435302795021,
+              "reflection": 0.2510523967621881,
+              "tool": 0.2473673537994397
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8065115745219601,
+            "archive_size": 240,
+            "mutation_entropy": 2.302798196433108,
+            "mutation_probs": {
+              "budget": 0.18159171866391738,
+              "memory": 0.2741404436310173,
+              "planner": 0.09080788157435743,
+              "reflection": 0.21285757395097155,
+              "tool": 0.24060238217973634
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7921948010097359,
+            "archive_size": 270,
+            "mutation_entropy": 2.3006862953279286,
+            "mutation_probs": {
+              "budget": 0.16207979927937216,
+              "memory": 0.20448167579379117,
+              "planner": 0.2285832928735267,
+              "reflection": 0.2043572580081176,
+              "tool": 0.20049797404519248
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8027916760148258,
+            "archive_size": 300,
+            "mutation_entropy": 2.3044571704504326,
+            "mutation_probs": {
+              "budget": 0.15305191738833585,
+              "memory": 0.0832129013788878,
+              "planner": 0.20400069853146235,
+              "reflection": 0.28997543311788065,
+              "tool": 0.2697590495834334
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8090382757214468,
+            "archive_size": 330,
+            "mutation_entropy": 2.2951463514527393,
+            "mutation_probs": {
+              "budget": 0.20303063843252517,
+              "memory": 0.13618482847374086,
+              "planner": 0.18530689953014695,
+              "reflection": 0.29413058740318176,
+              "tool": 0.1813470461604053
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7978901105048126,
+            "archive_size": 360,
+            "mutation_entropy": 2.301627871642663,
+            "mutation_probs": {
+              "budget": 0.23551086419990525,
+              "memory": 0.08107404724977017,
+              "planner": 0.17642935022529121,
+              "reflection": 0.26382804848068964,
+              "tool": 0.24315768984434383
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.23551086419990525,
+          "memory": 0.08107404724977017,
+          "planner": 0.17642935022529121,
+          "reflection": 0.26382804848068964,
+          "tool": 0.24315768984434383
+        },
+        "wall_time": 5.999617338180542,
+        "igd": 0.032565157081276455
+      },
+      {
+        "mode": "random",
+        "seed": 17,
+        "final_hv": 0.8163048453154076,
+        "final_pareto": 30,
+        "spacing": 0.08930158598168417,
+        "mutation_entropy": 0.0,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7108979294613901,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 15,
+            "hypervolume": 0.7414741844919875,
+            "archive_size": 22,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 17,
+            "hypervolume": 0.7384165589889278,
+            "archive_size": 50,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 25,
+            "hypervolume": 0.7496643402188499,
+            "archive_size": 77,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7750399627245692,
+            "archive_size": 102,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.793781147356543,
+            "archive_size": 125,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7686111738639643,
+            "archive_size": 152,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7871153902925443,
+            "archive_size": 176,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7913554790279554,
+            "archive_size": 202,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7881451119730754,
+            "archive_size": 228,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8125954424057232,
+            "archive_size": 256,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.817441936098004,
+            "archive_size": 283,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8203986509589152,
+            "archive_size": 311,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {}
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.2,
+          "memory": 0.2,
+          "planner": 0.2,
+          "reflection": 0.2,
+          "tool": 0.2
+        },
+        "wall_time": 3.287813186645508,
+        "igd": 0.028375664073670467
+      },
+      {
+        "mode": "success",
+        "seed": 17,
+        "final_hv": 0.7919781545917874,
+        "final_pareto": 30,
+        "spacing": 0.0411015660802394,
+        "mutation_entropy": 2.1485881736738195,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7108979294613901,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 22,
+            "hypervolume": 0.7124267422129199,
+            "archive_size": 30,
+            "mutation_entropy": 2.2513073660949607,
+            "mutation_probs": {
+              "budget": 0.07675471698113207,
+              "memory": 0.17222641509433964,
+              "planner": 0.3219433962264151,
+              "reflection": 0.36750943396226415,
+              "tool": 0.06156603773584904
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7477184498108835,
+            "archive_size": 60,
+            "mutation_entropy": 2.2521217265575983,
+            "mutation_probs": {
+              "budget": 0.08177230183835626,
+              "memory": 0.18512877615577328,
+              "planner": 0.2810673216944283,
+              "reflection": 0.2515274808687805,
+              "tool": 0.20050411944266172
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 17,
+            "hypervolume": 0.7569355360988627,
+            "archive_size": 90,
+            "mutation_entropy": 2.2104052212686156,
+            "mutation_probs": {
+              "budget": 0.06473058894976318,
+              "memory": 0.27307871925538335,
+              "planner": 0.19291844362549493,
+              "reflection": 0.2133321101976674,
+              "tool": 0.2559401379716911
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 21,
+            "hypervolume": 0.7573452725054185,
+            "archive_size": 120,
+            "mutation_entropy": 2.239775102940043,
+            "mutation_probs": {
+              "budget": 0.05437337357751764,
+              "memory": 0.4524971244442631,
+              "planner": 0.15242125871844026,
+              "reflection": 0.16521075172329402,
+              "tool": 0.17549749153648492
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 16,
+            "hypervolume": 0.7808303625141417,
+            "archive_size": 150,
+            "mutation_entropy": 2.2325405874926085,
+            "mutation_probs": {
+              "budget": 0.05396691945935794,
+              "memory": 0.43301624598013155,
+              "planner": 0.24560946530183136,
+              "reflection": 0.1371325525608087,
+              "tool": 0.13027481669787047
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 28,
+            "hypervolume": 0.7700472088761848,
+            "archive_size": 180,
+            "mutation_entropy": 2.210631421458626,
+            "mutation_probs": {
+              "budget": 0.060404779997430796,
+              "memory": 0.4129875846281936,
+              "planner": 0.25845009878597214,
+              "reflection": 0.14449356603907715,
+              "tool": 0.12366397054932628
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7858918016514149,
+            "archive_size": 210,
+            "mutation_entropy": 2.2020172580605366,
+            "mutation_probs": {
+              "budget": 0.06054526980958725,
+              "memory": 0.38958779236858276,
+              "planner": 0.26656714267892834,
+              "reflection": 0.14923808380546186,
+              "tool": 0.1340617113374399
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 27,
+            "hypervolume": 0.787476260928938,
+            "archive_size": 240,
+            "mutation_entropy": 2.177707625574656,
+            "mutation_probs": {
+              "budget": 0.058656602752445615,
+              "memory": 0.43698719617856296,
+              "planner": 0.2545151560153488,
+              "reflection": 0.1315522527391047,
+              "tool": 0.11828879231453798
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7843073423738919,
+            "archive_size": 270,
+            "mutation_entropy": 2.1655591608024736,
+            "mutation_probs": {
+              "budget": 0.058875223649159036,
+              "memory": 0.449327561562585,
+              "planner": 0.24980121957255702,
+              "reflection": 0.12363990574215104,
+              "tool": 0.11835608947354793
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.792229638761507,
+            "archive_size": 300,
+            "mutation_entropy": 2.1534695071834067,
+            "mutation_probs": {
+              "budget": 0.05893305556845263,
+              "memory": 0.42943405989095934,
+              "planner": 0.25543741194576736,
+              "reflection": 0.12979618684737115,
+              "tool": 0.12639928574744963
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8018050419459366,
+            "archive_size": 330,
+            "mutation_entropy": 2.144845510340504,
+            "mutation_probs": {
+              "budget": 0.05779367911150669,
+              "memory": 0.42861163256949153,
+              "planner": 0.2533994697830483,
+              "reflection": 0.13194933749362112,
+              "tool": 0.12824588104233228
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7888228631392306,
+            "archive_size": 360,
+            "mutation_entropy": 2.1485881736738195,
+            "mutation_probs": {
+              "budget": 0.1576541968664708,
+              "memory": 0.37911701949135285,
+              "planner": 0.2301456639991042,
+              "reflection": 0.12192226674715759,
+              "tool": 0.11116085289591457
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.1576541968664708,
+          "memory": 0.37911701949135285,
+          "planner": 0.2301456639991042,
+          "reflection": 0.12192226674715759,
+          "tool": 0.11116085289591457
+        },
+        "wall_time": 3.6713826656341553,
+        "igd": 0.031239454656955896
+      },
+      {
+        "mode": "peem",
+        "seed": 17,
+        "final_hv": 0.8134397424381777,
+        "final_pareto": 30,
+        "spacing": 0.05690533444629708,
+        "mutation_entropy": 2.3042341026283975,
+        "evals": 390,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7108979294613901,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 30,
+            "n_non_dominated": 22,
+            "hypervolume": 0.7124267422129199,
+            "archive_size": 30,
+            "mutation_entropy": 2.2513073660949607,
+            "mutation_probs": {
+              "budget": 0.22283297155531973,
+              "memory": 0.16289401860212085,
+              "planner": 0.18115718669208783,
+              "reflection": 0.23309758596365054,
+              "tool": 0.200018237186821
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 30,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7477184498108835,
+            "archive_size": 60,
+            "mutation_entropy": 2.2863685101478177,
+            "mutation_probs": {
+              "budget": 0.19384301507708368,
+              "memory": 0.24010117032950318,
+              "planner": 0.14896113260179017,
+              "reflection": 0.20611444672321694,
+              "tool": 0.2109802352684061
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 30,
+            "n_non_dominated": 15,
+            "hypervolume": 0.7618891365124989,
+            "archive_size": 90,
+            "mutation_entropy": 2.305718508410581,
+            "mutation_probs": {
+              "budget": 0.2140969827757639,
+              "memory": 0.20968614023305882,
+              "planner": 0.21833213919032773,
+              "reflection": 0.15341828192801804,
+              "tool": 0.20446645587283163
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 30,
+            "n_non_dominated": 23,
+            "hypervolume": 0.7793939494157892,
+            "archive_size": 120,
+            "mutation_entropy": 2.3111308843416465,
+            "mutation_probs": {
+              "budget": 0.14420297577452051,
+              "memory": 0.16022992220611743,
+              "planner": 0.22232048142464766,
+              "reflection": 0.24651487472054529,
+              "tool": 0.22673174587416922
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 30,
+            "n_non_dominated": 27,
+            "hypervolume": 0.7885255100591579,
+            "archive_size": 150,
+            "mutation_entropy": 2.302805775080639,
+            "mutation_probs": {
+              "budget": 0.21661826449066174,
+              "memory": 0.1496623049451693,
+              "planner": 0.18979129430162878,
+              "reflection": 0.2672043788599637,
+              "tool": 0.17672375740257656
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7709316345811645,
+            "archive_size": 180,
+            "mutation_entropy": 2.2944169727219625,
+            "mutation_probs": {
+              "budget": 0.16576177853417168,
+              "memory": 0.189189173754922,
+              "planner": 0.16503430012949877,
+              "reflection": 0.19565489720040863,
+              "tool": 0.28435985038099904
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7867806926501125,
+            "archive_size": 210,
+            "mutation_entropy": 2.295012830935319,
+            "mutation_probs": {
+              "budget": 0.13344821779274313,
+              "memory": 0.20747707374228513,
+              "planner": 0.2868887782123954,
+              "reflection": 0.16822619385472332,
+              "tool": 0.20395973639785303
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.78536303187957,
+            "archive_size": 240,
+            "mutation_entropy": 2.2976849716983843,
+            "mutation_probs": {
+              "budget": 0.21276642956516495,
+              "memory": 0.18317608995689744,
+              "planner": 0.15185789301792002,
+              "reflection": 0.2421005847978298,
+              "tool": 0.21009900266218778
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7884378809567693,
+            "archive_size": 270,
+            "mutation_entropy": 2.2983997852980114,
+            "mutation_probs": {
+              "budget": 0.16934824763344555,
+              "memory": 0.1803151850803346,
+              "planner": 0.19270970490109987,
+              "reflection": 0.2541450290836066,
+              "tool": 0.2034818333015135
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.7999952155659239,
+            "archive_size": 300,
+            "mutation_entropy": 2.2985832377328204,
+            "mutation_probs": {
+              "budget": 0.20527479276232158,
+              "memory": 0.14646149203245698,
+              "planner": 0.2164776617482156,
+              "reflection": 0.1796711228444127,
+              "tool": 0.25211493061259305
+            }
+          },
+          {
+            "generation": 11,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8171093954115831,
+            "archive_size": 330,
+            "mutation_entropy": 2.3033299065192954,
+            "mutation_probs": {
+              "budget": 0.24832182210072984,
+              "memory": 0.1288910514961166,
+              "planner": 0.20429339216969772,
+              "reflection": 0.19517021807220936,
+              "tool": 0.22332351616124652
+            }
+          },
+          {
+            "generation": 12,
+            "n_individuals": 30,
+            "n_non_dominated": 30,
+            "hypervolume": 0.8154784385345141,
+            "archive_size": 360,
+            "mutation_entropy": 2.3042341026283975,
+            "mutation_probs": {
+              "budget": 0.220924468571573,
+              "memory": 0.13256253103817772,
+              "planner": 0.21981290324453434,
+              "reflection": 0.19274222988304757,
+              "tool": 0.23395786726266732
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.220924468571573,
+          "memory": 0.13256253103817772,
+          "planner": 0.21981290324453434,
+          "reflection": 0.19274222988304757,
+          "tool": 0.23395786726266732
+        },
+        "wall_time": 6.060265302658081,
+        "igd": 0.042997816116632746
+      }
+    ],
+    "mean_final_hv": {
+      "random": 0.8036889125749944,
+      "success": 0.8038254274624439,
+      "peem": 0.806859372744706
+    },
+    "mean_igd": {
+      "random": 0.03869379803170663,
+      "success": 0.03269525571924601,
+      "peem": 0.0377814865989546
+    },
+    "mean_final_pareto": {
+      "random": 30.0,
+      "success": 30.0,
+      "peem": 30.0
+    },
+    "mean_hv_curve": {
+      "random": [
+        0.7248824994517158,
+        0.73995344168964,
+        0.7538533601289139,
+        0.764196822285402,
+        0.7838531859954856,
+        0.7876077207559413,
+        0.7566899137802069,
+        0.7755224813287678,
+        0.7833986914593258,
+        0.7803233872033288,
+        0.8059139030308984,
+        0.8083961058428561,
+        0.8082978355108112
+      ],
+      "success": [
+        0.7248824994517158,
+        0.7349020256952307,
+        0.7564447937555406,
+        0.7723803834321532,
+        0.7783027080636258,
+        0.790646414775662,
+        0.7733127317208519,
+        0.7957405419912886,
+        0.7981734829993601,
+        0.797961436584053,
+        0.8060216531152051,
+        0.8124204430066188,
+        0.8034749723585322
+      ],
+      "peem": [
+        0.7248824994517158,
+        0.7349020256952307,
+        0.7598674615185632,
+        0.7757501321579798,
+        0.7893270465188111,
+        0.7977571525180107,
+        0.7724925454865585,
+        0.790806955148138,
+        0.7959373032007651,
+        0.7903163409832525,
+        0.8013934457903749,
+        0.813073835566515,
+        0.8066842745196634
+      ]
+    }
+  },
+  "E3": {
+    "name": "E3_search_efficiency",
+    "records": [
+      {
+        "seed": 5,
+        "target_hv": 0.7904450337736932,
+        "evals_random": 360,
+        "evals_success": 180,
+        "evals_peem": 150,
+        "final_hv_peem": 0.8198884109800948
+      },
+      {
+        "seed": 15,
+        "target_hv": 0.8063735679962705,
+        "evals_random": 330,
+        "evals_success": 270,
+        "evals_peem": 390,
+        "final_hv_peem": 0.7945703213985298
+      }
+    ],
+    "mean_evals": {
+      "random": 345.0,
+      "success": 225.0,
+      "peem": 270.0
+    }
+  },
+  "E4": {
+    "name": "E4_ablation",
+    "runs": [
+      {
+        "mode": "peem",
+        "seed": 3,
+        "final_hv": 0.7756291243975322,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            0.75,
+            0.8452022454076545,
+            0.004763506899650473,
+            0.44999999999999996,
+            0.8638333333333333
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            0.75,
+            0.7454810926120565,
+            0.03659090740805599,
+            0.6499999999999999,
+            0.9365
+          ],
+          [
+            0.75,
+            0.8324342693194363,
+            0.004224273660089459,
+            0.44999999999999996,
+            0.6945
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.8302559978729166,
+            0.03180485547340474,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            0.875,
+            0.8244982856666918,
+            0.010472726416474065,
+            0.7250000000000001,
+            0.5607500000000001
+          ],
+          [
+            1.0,
+            0.839975992211108,
+            0.04296514536766382,
+            1.0,
+            0.7583333333333335
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            0.75,
+            0.8356796382656095,
+            0.008472969631645257,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            0.75,
+            0.8356796382656095,
+            0.008472969631645257,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ]
+        ],
+        "front_rows": [
+          [
+            0.75,
+            0.8452022454076545,
+            0.004763506899650473,
+            0.44999999999999996,
+            0.8638333333333333
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            0.75,
+            0.7454810926120565,
+            0.03659090740805599,
+            0.6499999999999999,
+            0.9365
+          ],
+          [
+            0.75,
+            0.8324342693194363,
+            0.004224273660089459,
+            0.44999999999999996,
+            0.6945
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.8302559978729166,
+            0.03180485547340474,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            0.875,
+            0.8244982856666918,
+            0.010472726416474065,
+            0.7250000000000001,
+            0.5607500000000001
+          ],
+          [
+            1.0,
+            0.839975992211108,
+            0.04296514536766382,
+            1.0,
+            0.7583333333333335
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            0.75,
+            0.8356796382656095,
+            0.008472969631645257,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            0.75,
+            0.8356796382656095,
+            0.008472969631645257,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ]
+        ],
+        "spacing": 0.0862896158671253,
+        "mutation_entropy": 2.3067710102008325,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 5,
+            "hypervolume": 0.7546610440904665,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 9,
+            "hypervolume": 0.7515618200900951,
+            "archive_size": 24,
+            "mutation_entropy": 2.08429531609601,
+            "mutation_probs": {
+              "budget": 0.286040760514913,
+              "memory": 0.1617771863750633,
+              "planner": 0.19080495342588605,
+              "reflection": 0.1636382505496141,
+              "tool": 0.1977388491345235
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 15,
+            "hypervolume": 0.7689550423422731,
+            "archive_size": 48,
+            "mutation_entropy": 2.3106677999715277,
+            "mutation_probs": {
+              "budget": 0.17640753804942055,
+              "memory": 0.20247523897277653,
+              "planner": 0.16980606267484172,
+              "reflection": 0.1938780817496949,
+              "tool": 0.25743307855326636
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7846043989081375,
+            "archive_size": 72,
+            "mutation_entropy": 2.319664417455868,
+            "mutation_probs": {
+              "budget": 0.1669099961220545,
+              "memory": 0.26601767036354307,
+              "planner": 0.2467696502770958,
+              "reflection": 0.10526688743716431,
+              "tool": 0.21503579580014232
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 21,
+            "hypervolume": 0.8035767154074821,
+            "archive_size": 96,
+            "mutation_entropy": 2.3161895987376844,
+            "mutation_probs": {
+              "budget": 0.15890204015585563,
+              "memory": 0.19399636207774063,
+              "planner": 0.2604965458165933,
+              "reflection": 0.09397871082560692,
+              "tool": 0.2926263411242036
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7901285720950268,
+            "archive_size": 120,
+            "mutation_entropy": 2.313258449923369,
+            "mutation_probs": {
+              "budget": 0.23506674214410175,
+              "memory": 0.15629420590455798,
+              "planner": 0.20731439796476245,
+              "reflection": 0.1717180960200155,
+              "tool": 0.2296065579665624
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7684710068295548,
+            "archive_size": 144,
+            "mutation_entropy": 2.306867459907314,
+            "mutation_probs": {
+              "budget": 0.23788774197034002,
+              "memory": 0.14144461854924667,
+              "planner": 0.15734285449585939,
+              "reflection": 0.22724890651224405,
+              "tool": 0.23607587847230993
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7794941565176837,
+            "archive_size": 168,
+            "mutation_entropy": 2.2966091291576047,
+            "mutation_probs": {
+              "budget": 0.11933805424145308,
+              "memory": 0.1075560612671926,
+              "planner": 0.17916955234072565,
+              "reflection": 0.27992094426443254,
+              "tool": 0.3140153878861961
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7752551699911021,
+            "archive_size": 192,
+            "mutation_entropy": 2.304527306799688,
+            "mutation_probs": {
+              "budget": 0.060043574149412686,
+              "memory": 0.17122611482746802,
+              "planner": 0.26558338843569906,
+              "reflection": 0.26898476321604065,
+              "tool": 0.23416215937137963
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7615267766812134,
+            "archive_size": 216,
+            "mutation_entropy": 2.3039361299253485,
+            "mutation_probs": {
+              "budget": 0.14967447393017824,
+              "memory": 0.12566410829944907,
+              "planner": 0.2911888283763251,
+              "reflection": 0.22694658197939954,
+              "tool": 0.20652600741464805
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7834637620177092,
+            "archive_size": 240,
+            "mutation_entropy": 2.3067710102008325,
+            "mutation_probs": {
+              "budget": 0.13450869095644152,
+              "memory": 0.15649442188702295,
+              "planner": 0.2150682412877839,
+              "reflection": 0.14244354436297346,
+              "tool": 0.3514851015057782
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.13450869095644152,
+          "memory": 0.15649442188702295,
+          "planner": 0.2150682412877839,
+          "reflection": 0.14244354436297346,
+          "tool": 0.3514851015057782
+        },
+        "wall_time": 3.363076686859131,
+        "variant": "full"
+      },
+      {
+        "mode": "peem",
+        "seed": 3,
+        "final_hv": 0.8295943230665247,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            1.0,
+            0.8206686967905257,
+            0.04895129664943537,
+            1.0,
+            0.9183333333333332
+          ],
+          [
+            0.75,
+            0.8571591941578834,
+            0.0023509383801229235,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.7941695547740285,
+            0.011645212475317156,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.7598191829705314,
+            0.02858437150702846,
+            0.7250000000000001,
+            0.9474166666666668
+          ],
+          [
+            1.0,
+            0.8338311491211234,
+            0.012106153248171244,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            0.5,
+            0.7211163657143791,
+            0.009103867522034521,
+            0.3,
+            0.9286666666666669
+          ],
+          [
+            1.0,
+            0.8928214405102937,
+            0.013801127309383892,
+            1.0,
+            0.8949999999999998
+          ],
+          [
+            0.875,
+            0.8469115397935549,
+            0.011213690593896786,
+            0.7250000000000001,
+            0.7194166666666666
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.875,
+            0.8302559978729166,
+            0.03180485547340474,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            0.875,
+            0.8469115397935549,
+            0.011213690593896786,
+            0.7250000000000001,
+            0.7194166666666666
+          ],
+          [
+            0.875,
+            0.7941695547740285,
+            0.011645212475317156,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.7570940423572962,
+            0.03725047612015598,
+            0.7250000000000001,
+            0.9614166666666668
+          ],
+          [
+            0.75,
+            0.7848144148458439,
+            0.0077570417772270936,
+            0.6499999999999999,
+            0.7438333333333333
+          ],
+          [
+            0.625,
+            0.7533928380334548,
+            0.010935857673510643,
+            0.575,
+            0.9255833333333334
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.5,
+            0.7119554875430408,
+            0.004266293538475196,
+            0.3,
+            0.8820000000000001
+          ],
+          [
+            0.75,
+            0.7946658180508416,
+            0.005454860304062455,
+            0.6499999999999999,
+            0.7345
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.75,
+            0.7694706473849484,
+            0.007146805557697144,
+            0.6499999999999999,
+            0.8945000000000002
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.625,
+            0.7294805003477539,
+            0.014689687918376177,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "front_rows": [
+          [
+            1.0,
+            0.8206686967905257,
+            0.04895129664943537,
+            1.0,
+            0.9183333333333332
+          ],
+          [
+            0.75,
+            0.8571591941578834,
+            0.0023509383801229235,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.7941695547740285,
+            0.011645212475317156,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.7598191829705314,
+            0.02858437150702846,
+            0.7250000000000001,
+            0.9474166666666668
+          ],
+          [
+            1.0,
+            0.8338311491211234,
+            0.012106153248171244,
+            1.0,
+            0.8670000000000001
+          ],
+          [
+            1.0,
+            0.860299267465015,
+            0.01156259375012527,
+            1.0,
+            0.707
+          ],
+          [
+            0.5,
+            0.7211163657143791,
+            0.009103867522034521,
+            0.3,
+            0.9286666666666669
+          ],
+          [
+            1.0,
+            0.8928214405102937,
+            0.013801127309383892,
+            1.0,
+            0.8949999999999998
+          ],
+          [
+            0.875,
+            0.8469115397935549,
+            0.011213690593896786,
+            0.7250000000000001,
+            0.7194166666666666
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.875,
+            0.8302559978729166,
+            0.03180485547340474,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            0.875,
+            0.8469115397935549,
+            0.011213690593896786,
+            0.7250000000000001,
+            0.7194166666666666
+          ],
+          [
+            0.875,
+            0.7941695547740285,
+            0.011645212475317156,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.7570940423572962,
+            0.03725047612015598,
+            0.7250000000000001,
+            0.9614166666666668
+          ],
+          [
+            0.75,
+            0.7848144148458439,
+            0.0077570417772270936,
+            0.6499999999999999,
+            0.7438333333333333
+          ],
+          [
+            0.625,
+            0.7533928380334548,
+            0.010935857673510643,
+            0.575,
+            0.9255833333333334
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.5,
+            0.7119554875430408,
+            0.004266293538475196,
+            0.3,
+            0.8820000000000001
+          ],
+          [
+            0.75,
+            0.7946658180508416,
+            0.005454860304062455,
+            0.6499999999999999,
+            0.7345
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.75,
+            0.7694706473849484,
+            0.007146805557697144,
+            0.6499999999999999,
+            0.8945000000000002
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.8238691504162531,
+            0.009106151305334211,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.625,
+            0.7294805003477539,
+            0.014689687918376177,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "spacing": 0.08942750605356167,
+        "mutation_entropy": 2.3017939708181134,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 5,
+            "hypervolume": 0.7546610440904665,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 9,
+            "hypervolume": 0.7515618200900951,
+            "archive_size": 24,
+            "mutation_entropy": 2.08429531609601,
+            "mutation_probs": {
+              "budget": 0.25822737765838594,
+              "memory": 0.17941804454561688,
+              "planner": 0.18163296275709256,
+              "reflection": 0.16537844775626465,
+              "tool": 0.21534316728263986
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 15,
+            "hypervolume": 0.7689550423422731,
+            "archive_size": 48,
+            "mutation_entropy": 2.301574525166053,
+            "mutation_probs": {
+              "budget": 0.14381009263367656,
+              "memory": 0.2294274688855148,
+              "planner": 0.1747245148995616,
+              "reflection": 0.19014900036950289,
+              "tool": 0.2618889232117442
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 19,
+            "hypervolume": 0.7846043989081375,
+            "archive_size": 72,
+            "mutation_entropy": 2.3081152391738673,
+            "mutation_probs": {
+              "budget": 0.1668890966296095,
+              "memory": 0.283225393045235,
+              "planner": 0.2297449790877138,
+              "reflection": 0.1111821985154525,
+              "tool": 0.20895833272198927
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 22,
+            "hypervolume": 0.7968393894805992,
+            "archive_size": 96,
+            "mutation_entropy": 2.3070963239322095,
+            "mutation_probs": {
+              "budget": 0.16339862274532585,
+              "memory": 0.17147908240076065,
+              "planner": 0.3159985085088564,
+              "reflection": 0.0824632106852982,
+              "tool": 0.26666057565975904
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7873154127138987,
+            "archive_size": 120,
+            "mutation_entropy": 2.3030783870021074,
+            "mutation_probs": {
+              "budget": 0.22460088254775878,
+              "memory": 0.22821194636178266,
+              "planner": 0.13546813650099437,
+              "reflection": 0.21111964496376384,
+              "tool": 0.2005993896257004
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7671373342081981,
+            "archive_size": 144,
+            "mutation_entropy": 2.3077812201170502,
+            "mutation_probs": {
+              "budget": 0.17142101703800205,
+              "memory": 0.19597508663152735,
+              "planner": 0.12487222807737391,
+              "reflection": 0.20508963666802427,
+              "tool": 0.30264203158507236
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7806170737024786,
+            "archive_size": 168,
+            "mutation_entropy": 2.3000926277547884,
+            "mutation_probs": {
+              "budget": 0.2121248414504473,
+              "memory": 0.09261678170259777,
+              "planner": 0.21787306188540534,
+              "reflection": 0.21240725935509164,
+              "tool": 0.264978055606458
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8231970394506346,
+            "archive_size": 192,
+            "mutation_entropy": 2.3030791196639075,
+            "mutation_probs": {
+              "budget": 0.1549163768809359,
+              "memory": 0.22053624741346683,
+              "planner": 0.20615429176544847,
+              "reflection": 0.23223733549103737,
+              "tool": 0.18615574844911142
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8178863386684084,
+            "archive_size": 216,
+            "mutation_entropy": 2.300307264038651,
+            "mutation_probs": {
+              "budget": 0.1854904458473543,
+              "memory": 0.18227152007653669,
+              "planner": 0.25169019088724764,
+              "reflection": 0.14246074364573258,
+              "tool": 0.2380870995431289
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8362845998654483,
+            "archive_size": 240,
+            "mutation_entropy": 2.3017939708181134,
+            "mutation_probs": {
+              "budget": 0.16662704775567105,
+              "memory": 0.2136628681513027,
+              "planner": 0.20200076665161976,
+              "reflection": 0.2099008826674026,
+              "tool": 0.207808434774004
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.16662704775567105,
+          "memory": 0.2136628681513027,
+          "planner": 0.20200076665161976,
+          "reflection": 0.2099008826674026,
+          "tool": 0.207808434774004
+        },
+        "wall_time": 3.2292532920837402,
+        "variant": "no_hv"
+      },
+      {
+        "mode": "peem",
+        "seed": 3,
+        "final_hv": 0.7829245386371818,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            1.0,
+            0.8547857451067925,
+            0.012105133242270468,
+            1.0,
+            0.5670000000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.875,
+            0.831947617974371,
+            0.010633840944992763,
+            0.7250000000000001,
+            0.5700833333333334
+          ],
+          [
+            1.0,
+            0.8240239713624736,
+            0.08007647872411895,
+            1.0,
+            0.8810000000000001
+          ],
+          [
+            1.0,
+            0.8573812902979344,
+            0.04168136380046561,
+            1.0,
+            0.609
+          ],
+          [
+            0.875,
+            0.8302559978729166,
+            0.03180485547340474,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            0.625,
+            0.7764236716412792,
+            0.006278784546662442,
+            0.575,
+            0.91625
+          ],
+          [
+            0.875,
+            0.7703228504591219,
+            0.013940519381061247,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.7659951848239485,
+            0.02685319505076454,
+            0.7250000000000001,
+            0.8887499999999999
+          ],
+          [
+            0.75,
+            0.8397804852633646,
+            0.006716967346966034,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.7392375087456431,
+            0.07654339366190624,
+            1.0,
+            0.9183333333333332
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.5,
+            0.7238645027383475,
+            0.012583874469839768,
+            0.3,
+            0.9333333333333333
+          ],
+          [
+            0.875,
+            0.7226868857145994,
+            0.051208209635680034,
+            0.7250000000000001,
+            0.9520833333333336
+          ],
+          [
+            1.0,
+            0.8526164395776229,
+            0.013350003734623228,
+            1.0,
+            0.5763333333333334
+          ],
+          [
+            1.0,
+            0.8573812902979344,
+            0.04168136380046561,
+            1.0,
+            0.609
+          ],
+          [
+            0.75,
+            0.8527248525776729,
+            0.0034151787561004852,
+            0.44999999999999996,
+            0.8638333333333333
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.875,
+            0.7226868857145994,
+            0.051208209635680034,
+            0.7250000000000001,
+            0.9520833333333336
+          ],
+          [
+            1.0,
+            0.8573812902979344,
+            0.04168136380046561,
+            1.0,
+            0.609
+          ],
+          [
+            1.0,
+            0.8526164395776229,
+            0.013350003734623228,
+            1.0,
+            0.5763333333333334
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            0.75,
+            0.8257125317775817,
+            0.006633769500980137,
+            0.6499999999999999,
+            0.9225000000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ]
+        ],
+        "front_rows": [
+          [
+            1.0,
+            0.8547857451067925,
+            0.012105133242270468,
+            1.0,
+            0.5670000000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.875,
+            0.831947617974371,
+            0.010633840944992763,
+            0.7250000000000001,
+            0.5700833333333334
+          ],
+          [
+            1.0,
+            0.8240239713624736,
+            0.08007647872411895,
+            1.0,
+            0.8810000000000001
+          ],
+          [
+            1.0,
+            0.8573812902979344,
+            0.04168136380046561,
+            1.0,
+            0.609
+          ],
+          [
+            0.875,
+            0.8302559978729166,
+            0.03180485547340474,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            0.625,
+            0.7764236716412792,
+            0.006278784546662442,
+            0.575,
+            0.91625
+          ],
+          [
+            0.875,
+            0.7703228504591219,
+            0.013940519381061247,
+            0.7250000000000001,
+            0.70075
+          ],
+          [
+            0.875,
+            0.7659951848239485,
+            0.02685319505076454,
+            0.7250000000000001,
+            0.8887499999999999
+          ],
+          [
+            0.75,
+            0.8397804852633646,
+            0.006716967346966034,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.7392375087456431,
+            0.07654339366190624,
+            1.0,
+            0.9183333333333332
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.5,
+            0.7238645027383475,
+            0.012583874469839768,
+            0.3,
+            0.9333333333333333
+          ],
+          [
+            0.875,
+            0.7226868857145994,
+            0.051208209635680034,
+            0.7250000000000001,
+            0.9520833333333336
+          ],
+          [
+            1.0,
+            0.8526164395776229,
+            0.013350003734623228,
+            1.0,
+            0.5763333333333334
+          ],
+          [
+            1.0,
+            0.8573812902979344,
+            0.04168136380046561,
+            1.0,
+            0.609
+          ],
+          [
+            0.75,
+            0.8527248525776729,
+            0.0034151787561004852,
+            0.44999999999999996,
+            0.8638333333333333
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.875,
+            0.7226868857145994,
+            0.051208209635680034,
+            0.7250000000000001,
+            0.9520833333333336
+          ],
+          [
+            1.0,
+            0.8573812902979344,
+            0.04168136380046561,
+            1.0,
+            0.609
+          ],
+          [
+            1.0,
+            0.8526164395776229,
+            0.013350003734623228,
+            1.0,
+            0.5763333333333334
+          ],
+          [
+            0.5,
+            0.7348559832667383,
+            0.004894543333338412,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            0.75,
+            0.8257125317775817,
+            0.006633769500980137,
+            0.6499999999999999,
+            0.9225000000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ]
+        ],
+        "spacing": 0.08126620422911045,
+        "mutation_entropy": 2.1907528438576382,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 5,
+            "hypervolume": 0.7546610440904665,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 9,
+            "hypervolume": 0.7515618200900951,
+            "archive_size": 24,
+            "mutation_entropy": 2.08429531609601,
+            "mutation_probs": {
+              "budget": 0.30027805492146564,
+              "memory": 0.20636893107777204,
+              "planner": 0.1532016391500069,
+              "reflection": 0.12220350377607632,
+              "tool": 0.2179478710746791
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7689550423422731,
+            "archive_size": 48,
+            "mutation_entropy": 2.2160712968472485,
+            "mutation_probs": {
+              "budget": 0.022206595101254036,
+              "memory": 0.12804746171650797,
+              "planner": 0.19333329187397919,
+              "reflection": 0.29757589507306775,
+              "tool": 0.3588367562351912
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 17,
+            "hypervolume": 0.7740362430625966,
+            "archive_size": 72,
+            "mutation_entropy": 2.250470008055698,
+            "mutation_probs": {
+              "budget": 0.027700143289253708,
+              "memory": 0.15575043905124308,
+              "planner": 0.6302286610349705,
+              "reflection": 0.16382276750009006,
+              "tool": 0.022497989124442643
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7874104646459005,
+            "archive_size": 96,
+            "mutation_entropy": 2.2424766386408566,
+            "mutation_probs": {
+              "budget": 0.023229916073002982,
+              "memory": 0.0870692431661409,
+              "planner": 0.40451281457177674,
+              "reflection": 0.4410255523549684,
+              "tool": 0.044162473834111066
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7874104646459005,
+            "archive_size": 120,
+            "mutation_entropy": 2.214756815294492,
+            "mutation_probs": {
+              "budget": 0.02320621094791859,
+              "memory": 0.4523503251915039,
+              "planner": 0.2696662244484588,
+              "reflection": 0.21070710343617682,
+              "tool": 0.04407013597594196
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7683217261090302,
+            "archive_size": 144,
+            "mutation_entropy": 2.1616450507478806,
+            "mutation_probs": {
+              "budget": 0.029778637261239888,
+              "memory": 0.023652336630390774,
+              "planner": 0.41729539870890253,
+              "reflection": 0.4596021176030603,
+              "tool": 0.06967150979640648
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7810475518002771,
+            "archive_size": 168,
+            "mutation_entropy": 2.141005656280712,
+            "mutation_probs": {
+              "budget": 0.032069447329295224,
+              "memory": 0.4705947950277481,
+              "planner": 0.16943812015023418,
+              "reflection": 0.040954308409381024,
+              "tool": 0.28694332908334136
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7858197364344947,
+            "archive_size": 192,
+            "mutation_entropy": 2.1525451430628006,
+            "mutation_probs": {
+              "budget": 0.41546869189941904,
+              "memory": 0.5013001483045053,
+              "planner": 0.02334575299882745,
+              "reflection": 0.036539653798420765,
+              "tool": 0.02334575299882745
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.778555096767568,
+            "archive_size": 216,
+            "mutation_entropy": 2.2113700884290286,
+            "mutation_probs": {
+              "budget": 0.07706233289460822,
+              "memory": 0.5570366122553679,
+              "planner": 0.03018428584376346,
+              "reflection": 0.03018428584376346,
+              "tool": 0.305532483162497
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7944439762934367,
+            "archive_size": 240,
+            "mutation_entropy": 2.1907528438576382,
+            "mutation_probs": {
+              "budget": 0.5184418493942472,
+              "memory": 0.29080815102312796,
+              "planner": 0.02223465623133204,
+              "reflection": 0.02223465623133204,
+              "tool": 0.14628068711996078
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.5184418493942472,
+          "memory": 0.29080815102312796,
+          "planner": 0.02223465623133204,
+          "reflection": 0.02223465623133204,
+          "tool": 0.14628068711996078
+        },
+        "wall_time": 2.793220281600952,
+        "variant": "no_div"
+      },
+      {
+        "mode": "peem",
+        "seed": 3,
+        "final_hv": 0.8016331356666927,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            0.875,
+            0.8722642728084213,
+            0.005157430235801471,
+            0.7250000000000001,
+            0.5607500000000001
+          ],
+          [
+            0.75,
+            0.8431070763380728,
+            0.0032884850200242764,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            1.0,
+            0.8156464250077581,
+            0.013713028570587005,
+            1.0,
+            0.5670000000000001
+          ],
+          [
+            0.5,
+            0.7180260385202223,
+            0.011182188156161281,
+            0.3,
+            0.9380000000000002
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.875,
+            0.8430865515602225,
+            0.02769503697181694,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            0.875,
+            0.7796191606901989,
+            0.03207741129095858,
+            0.7250000000000001,
+            0.9614166666666668
+          ],
+          [
+            0.875,
+            0.8736689412665988,
+            0.009087437487963318,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.75,
+            0.7871144501873919,
+            0.005962858668972149,
+            0.6499999999999999,
+            0.5945000000000001
+          ],
+          [
+            0.75,
+            0.809957188405489,
+            0.007041484693073031,
+            0.6499999999999999,
+            0.7531666666666667
+          ],
+          [
+            0.5,
+            0.7180260385202223,
+            0.011182188156161281,
+            0.3,
+            0.9380000000000002
+          ],
+          [
+            0.875,
+            0.7771135010246712,
+            0.024998937208439445,
+            0.7250000000000001,
+            0.8887499999999998
+          ],
+          [
+            0.75,
+            0.8431070763380728,
+            0.0032884850200242764,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.8099878931572844,
+            0.007652965003437142,
+            0.7250000000000001,
+            0.6007500000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.75,
+            0.8298494660762691,
+            0.006916608384948439,
+            0.44999999999999996,
+            0.8731666666666666
+          ],
+          [
+            0.875,
+            0.8099878931572844,
+            0.007652965003437142,
+            0.7250000000000001,
+            0.6007500000000001
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.75,
+            0.809957188405489,
+            0.007041484693073031,
+            0.6499999999999999,
+            0.7531666666666667
+          ],
+          [
+            0.5,
+            0.7147092566625682,
+            0.01361409782470106,
+            0.3,
+            0.9426666666666667
+          ],
+          [
+            0.875,
+            0.7659951848239485,
+            0.02685319505076454,
+            0.7250000000000001,
+            0.8887499999999999
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ]
+        ],
+        "front_rows": [
+          [
+            0.875,
+            0.8722642728084213,
+            0.005157430235801471,
+            0.7250000000000001,
+            0.5607500000000001
+          ],
+          [
+            0.75,
+            0.8431070763380728,
+            0.0032884850200242764,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            1.0,
+            0.8156464250077581,
+            0.013713028570587005,
+            1.0,
+            0.5670000000000001
+          ],
+          [
+            0.5,
+            0.7180260385202223,
+            0.011182188156161281,
+            0.3,
+            0.9380000000000002
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.875,
+            0.8430865515602225,
+            0.02769503697181694,
+            0.7250000000000001,
+            0.9120833333333332
+          ],
+          [
+            0.875,
+            0.7796191606901989,
+            0.03207741129095858,
+            0.7250000000000001,
+            0.9614166666666668
+          ],
+          [
+            0.875,
+            0.8736689412665988,
+            0.009087437487963318,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.75,
+            0.7871144501873919,
+            0.005962858668972149,
+            0.6499999999999999,
+            0.5945000000000001
+          ],
+          [
+            0.75,
+            0.809957188405489,
+            0.007041484693073031,
+            0.6499999999999999,
+            0.7531666666666667
+          ],
+          [
+            0.5,
+            0.7180260385202223,
+            0.011182188156161281,
+            0.3,
+            0.9380000000000002
+          ],
+          [
+            0.875,
+            0.7771135010246712,
+            0.024998937208439445,
+            0.7250000000000001,
+            0.8887499999999998
+          ],
+          [
+            0.75,
+            0.8431070763380728,
+            0.0032884850200242764,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.8099878931572844,
+            0.007652965003437142,
+            0.7250000000000001,
+            0.6007500000000001
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.75,
+            0.8298494660762691,
+            0.006916608384948439,
+            0.44999999999999996,
+            0.8731666666666666
+          ],
+          [
+            0.875,
+            0.8099878931572844,
+            0.007652965003437142,
+            0.7250000000000001,
+            0.6007500000000001
+          ],
+          [
+            1.0,
+            0.8112034702887143,
+            0.05749645139577502,
+            1.0,
+            0.9089999999999999
+          ],
+          [
+            0.75,
+            0.809957188405489,
+            0.007041484693073031,
+            0.6499999999999999,
+            0.7531666666666667
+          ],
+          [
+            0.5,
+            0.7147092566625682,
+            0.01361409782470106,
+            0.3,
+            0.9426666666666667
+          ],
+          [
+            0.875,
+            0.7659951848239485,
+            0.02685319505076454,
+            0.7250000000000001,
+            0.8887499999999999
+          ],
+          [
+            1.0,
+            0.8411193783003533,
+            0.014563608412277369,
+            1.0,
+            0.8763333333333333
+          ]
+        ],
+        "spacing": 0.07691163896635932,
+        "mutation_entropy": 2.30315350519534,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 5,
+            "hypervolume": 0.7546610440904665,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 9,
+            "hypervolume": 0.7515618200900951,
+            "archive_size": 24,
+            "mutation_entropy": 2.08429531609601,
+            "mutation_probs": {
+              "budget": 0.3901196263044905,
+              "memory": 0.09955643546603779,
+              "planner": 0.22405088364976197,
+              "reflection": 0.1537603162511144,
+              "tool": 0.13251273832859548
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7689550423422731,
+            "archive_size": 48,
+            "mutation_entropy": 2.2862068005497287,
+            "mutation_probs": {
+              "budget": 0.191163366801602,
+              "memory": 0.033760649950204044,
+              "planner": 0.21813752621592775,
+              "reflection": 0.3001568070545296,
+              "tool": 0.25678164997773667
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7724756861209381,
+            "archive_size": 72,
+            "mutation_entropy": 2.316895132832258,
+            "mutation_probs": {
+              "budget": 0.5033067209139062,
+              "memory": 0.04089472942506674,
+              "planner": 0.23212649584129613,
+              "reflection": 0.14809326642362716,
+              "tool": 0.07557878739610376
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7802784708292304,
+            "archive_size": 96,
+            "mutation_entropy": 2.2907805988962924,
+            "mutation_probs": {
+              "budget": 0.1948746610721543,
+              "memory": 0.20619562716504625,
+              "planner": 0.26454063782033654,
+              "reflection": 0.08979887482434189,
+              "tool": 0.24459019911812108
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7800483142912265,
+            "archive_size": 120,
+            "mutation_entropy": 2.2926224574299336,
+            "mutation_probs": {
+              "budget": 0.29636205818418365,
+              "memory": 0.21425347239071713,
+              "planner": 0.10368882343198482,
+              "reflection": 0.13712397872947585,
+              "tool": 0.2485716672636386
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7697359323998126,
+            "archive_size": 144,
+            "mutation_entropy": 2.277521418378557,
+            "mutation_probs": {
+              "budget": 0.09487601581352248,
+              "memory": 0.17465195237676287,
+              "planner": 0.144285898211395,
+              "reflection": 0.3499868284219641,
+              "tool": 0.23619930517635546
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7992361791543087,
+            "archive_size": 168,
+            "mutation_entropy": 2.2761398740874053,
+            "mutation_probs": {
+              "budget": 0.09573297722834573,
+              "memory": 0.12135309561666324,
+              "planner": 0.21257411316347768,
+              "reflection": 0.4107900835397666,
+              "tool": 0.15954973045174675
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.803978154778843,
+            "archive_size": 192,
+            "mutation_entropy": 2.3007452939777155,
+            "mutation_probs": {
+              "budget": 0.19088050087118014,
+              "memory": 0.24470109045469507,
+              "planner": 0.1926841266879633,
+              "reflection": 0.08489244499686614,
+              "tool": 0.28684183698929544
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7914134373537568,
+            "archive_size": 216,
+            "mutation_entropy": 2.2994851257310653,
+            "mutation_probs": {
+              "budget": 0.16725115804417554,
+              "memory": 0.440792503683904,
+              "planner": 0.18851633410172358,
+              "reflection": 0.10530364964164064,
+              "tool": 0.0981363545285562
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8077649546544542,
+            "archive_size": 240,
+            "mutation_entropy": 2.30315350519534,
+            "mutation_probs": {
+              "budget": 0.25498336185618903,
+              "memory": 0.22122500132111078,
+              "planner": 0.22985726724806882,
+              "reflection": 0.08336839015402132,
+              "tool": 0.21056597942061017
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.25498336185618903,
+          "memory": 0.22122500132111078,
+          "planner": 0.22985726724806882,
+          "reflection": 0.08336839015402132,
+          "tool": 0.21056597942061017
+        },
+        "wall_time": 3.7435522079467773,
+        "variant": "no_surv"
+      },
+      {
+        "mode": "peem",
+        "seed": 13,
+        "final_hv": 0.8015023887803024,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            1.0,
+            0.8220400814819158,
+            0.016677008358204553,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            1.0,
+            0.8619231093330141,
+            0.028700250682404727,
+            1.0,
+            0.923
+          ],
+          [
+            0.875,
+            0.8369743485143009,
+            0.02047812860048813,
+            0.7250000000000001,
+            0.9074166666666668
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.5,
+            0.7073451335399316,
+            0.008698945024378221,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.707
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            1.0,
+            0.8179861464369604,
+            0.044422138837649366,
+            1.0,
+            0.9276666666666669
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.5,
+            0.7103642565960919,
+            0.0055848852508260695,
+            0.3,
+            0.8913333333333334
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8145647186773228,
+            0.018175310825106487,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.75,
+            0.8324342693194363,
+            0.004224273660089459,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "front_rows": [
+          [
+            1.0,
+            0.8220400814819158,
+            0.016677008358204553,
+            1.0,
+            0.8763333333333333
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            1.0,
+            0.8619231093330141,
+            0.028700250682404727,
+            1.0,
+            0.923
+          ],
+          [
+            0.875,
+            0.8369743485143009,
+            0.02047812860048813,
+            0.7250000000000001,
+            0.9074166666666668
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.5,
+            0.7073451335399316,
+            0.008698945024378221,
+            0.3,
+            0.9099999999999999
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.707
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            1.0,
+            0.8179861464369604,
+            0.044422138837649366,
+            1.0,
+            0.9276666666666669
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.5,
+            0.7103642565960919,
+            0.0055848852508260695,
+            0.3,
+            0.8913333333333334
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8145647186773228,
+            0.018175310825106487,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.75,
+            0.8324342693194363,
+            0.004224273660089459,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "spacing": 0.04072736209046836,
+        "mutation_entropy": 2.281166661464734,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 7,
+            "hypervolume": 0.7351798678220625,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 11,
+            "hypervolume": 0.7399298352964813,
+            "archive_size": 24,
+            "mutation_entropy": 2.192215752170299,
+            "mutation_probs": {
+              "budget": 0.17001965037891892,
+              "memory": 0.17912690974877665,
+              "planner": 0.19628525148062564,
+              "reflection": 0.17644586719951216,
+              "tool": 0.2781223211921666
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 21,
+            "hypervolume": 0.7496108662195794,
+            "archive_size": 48,
+            "mutation_entropy": 2.3200355658756875,
+            "mutation_probs": {
+              "budget": 0.21732680591444448,
+              "memory": 0.24522021002306765,
+              "planner": 0.17305000427124884,
+              "reflection": 0.13487136845376987,
+              "tool": 0.22953161133746924
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7665736961885845,
+            "archive_size": 72,
+            "mutation_entropy": 2.299780649354764,
+            "mutation_probs": {
+              "budget": 0.24549834658286246,
+              "memory": 0.21913850829487874,
+              "planner": 0.11446430097288075,
+              "reflection": 0.2573319606833958,
+              "tool": 0.16356688346598225
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7783129965764077,
+            "archive_size": 96,
+            "mutation_entropy": 2.282608279739115,
+            "mutation_probs": {
+              "budget": 0.24407820190632118,
+              "memory": 0.2388280212203408,
+              "planner": 0.06697548106171086,
+              "reflection": 0.31658576724533416,
+              "tool": 0.13353252856629308
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 17,
+            "hypervolume": 0.8007196919229395,
+            "archive_size": 120,
+            "mutation_entropy": 2.2693451295803437,
+            "mutation_probs": {
+              "budget": 0.1929537423995497,
+              "memory": 0.1435705716345363,
+              "planner": 0.16022423681719739,
+              "reflection": 0.2599668821006844,
+              "tool": 0.24328456704803209
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7878048581822469,
+            "archive_size": 144,
+            "mutation_entropy": 2.281383884362986,
+            "mutation_probs": {
+              "budget": 0.14440844889608184,
+              "memory": 0.28773132152575415,
+              "planner": 0.13625400149104178,
+              "reflection": 0.23692932961143015,
+              "tool": 0.1946768984756922
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8096196736740925,
+            "archive_size": 168,
+            "mutation_entropy": 2.275019672685812,
+            "mutation_probs": {
+              "budget": 0.2816679199584694,
+              "memory": 0.21811040028326079,
+              "planner": 0.11797313424444153,
+              "reflection": 0.2101027791196879,
+              "tool": 0.17214576639414048
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.804293621802252,
+            "archive_size": 192,
+            "mutation_entropy": 2.269457710573353,
+            "mutation_probs": {
+              "budget": 0.11116381259955914,
+              "memory": 0.19365824579464708,
+              "planner": 0.18737590957830663,
+              "reflection": 0.2767685634692176,
+              "tool": 0.23103346855826967
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8010118122947668,
+            "archive_size": 216,
+            "mutation_entropy": 2.280435938823803,
+            "mutation_probs": {
+              "budget": 0.08440429948517664,
+              "memory": 0.14124278566860377,
+              "planner": 0.17669587250970314,
+              "reflection": 0.2904871264665553,
+              "tool": 0.3071699158699613
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8042621117126498,
+            "archive_size": 240,
+            "mutation_entropy": 2.281166661464734,
+            "mutation_probs": {
+              "budget": 0.0688857046261513,
+              "memory": 0.23170523519979763,
+              "planner": 0.2120348804140882,
+              "reflection": 0.2881295382152876,
+              "tool": 0.1992446415446753
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.0688857046261513,
+          "memory": 0.23170523519979763,
+          "planner": 0.2120348804140882,
+          "reflection": 0.2881295382152876,
+          "tool": 0.1992446415446753
+        },
+        "wall_time": 3.1365418434143066,
+        "variant": "full"
+      },
+      {
+        "mode": "peem",
+        "seed": 13,
+        "final_hv": 0.805883989978716,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            0.875,
+            0.8224648926815945,
+            0.015117527288144424,
+            0.7250000000000001,
+            0.9380833333333336
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.5,
+            0.7184909161046952,
+            0.008424720593153807,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            1.0,
+            0.8619231093330141,
+            0.028700250682404727,
+            1.0,
+            0.923
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.707
+          ],
+          [
+            0.875,
+            0.8369743485143009,
+            0.02047812860048813,
+            0.7250000000000001,
+            0.9074166666666668
+          ],
+          [
+            1.0,
+            0.8179861464369604,
+            0.044422138837649366,
+            1.0,
+            0.9276666666666669
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            1.0,
+            0.8619231093330141,
+            0.028700250682404727,
+            1.0,
+            0.923
+          ],
+          [
+            0.5,
+            0.7222137930732019,
+            0.004512064000913573,
+            0.3,
+            0.8913333333333334
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.875,
+            0.8420407401865708,
+            0.011132327562186848,
+            0.7250000000000001,
+            0.8700833333333333
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "front_rows": [
+          [
+            0.875,
+            0.8224648926815945,
+            0.015117527288144424,
+            0.7250000000000001,
+            0.9380833333333336
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.5,
+            0.7184909161046952,
+            0.008424720593153807,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            1.0,
+            0.8619231093330141,
+            0.028700250682404727,
+            1.0,
+            0.923
+          ],
+          [
+            1.0,
+            0.8327089923877926,
+            0.014275306954551575,
+            1.0,
+            0.707
+          ],
+          [
+            0.875,
+            0.8369743485143009,
+            0.02047812860048813,
+            0.7250000000000001,
+            0.9074166666666668
+          ],
+          [
+            1.0,
+            0.8179861464369604,
+            0.044422138837649366,
+            1.0,
+            0.9276666666666669
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            1.0,
+            0.8619231093330141,
+            0.028700250682404727,
+            1.0,
+            0.923
+          ],
+          [
+            0.5,
+            0.7222137930732019,
+            0.004512064000913573,
+            0.3,
+            0.8913333333333334
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.75,
+            0.8279791866263545,
+            0.010161625755175147,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8311155292847344,
+            0.02484468579648473,
+            0.7250000000000001,
+            0.9167500000000001
+          ],
+          [
+            0.875,
+            0.8420407401865708,
+            0.011132327562186848,
+            0.7250000000000001,
+            0.8700833333333333
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "spacing": 0.0499080629649808,
+        "mutation_entropy": 2.281852704069397,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 7,
+            "hypervolume": 0.7351798678220625,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 11,
+            "hypervolume": 0.7399298352964813,
+            "archive_size": 24,
+            "mutation_entropy": 2.192215752170299,
+            "mutation_probs": {
+              "budget": 0.17832751187268134,
+              "memory": 0.18737744552226007,
+              "planner": 0.1873716918641418,
+              "reflection": 0.1844807188453427,
+              "tool": 0.2624426318955741
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 21,
+            "hypervolume": 0.7496108662195794,
+            "archive_size": 48,
+            "mutation_entropy": 2.313678444143274,
+            "mutation_probs": {
+              "budget": 0.216651825052516,
+              "memory": 0.25082481775011517,
+              "planner": 0.17014177395713598,
+              "reflection": 0.13926170764910398,
+              "tool": 0.223119875591129
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7665736961885845,
+            "archive_size": 72,
+            "mutation_entropy": 2.301033805401758,
+            "mutation_probs": {
+              "budget": 0.2417249942184755,
+              "memory": 0.22797999242759648,
+              "planner": 0.10871070319588798,
+              "reflection": 0.256607247614141,
+              "tool": 0.16497706254389916
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7783129965764077,
+            "archive_size": 96,
+            "mutation_entropy": 2.2793454080792093,
+            "mutation_probs": {
+              "budget": 0.2404073762985179,
+              "memory": 0.238454448759542,
+              "planner": 0.06446255572975393,
+              "reflection": 0.32086853782708613,
+              "tool": 0.13580708138510014
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 17,
+            "hypervolume": 0.8007196919229395,
+            "archive_size": 120,
+            "mutation_entropy": 2.270454071787961,
+            "mutation_probs": {
+              "budget": 0.18817805570527485,
+              "memory": 0.16806798084335905,
+              "planner": 0.1375639234628156,
+              "reflection": 0.2619170590876844,
+              "tool": 0.24427298090086608
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7878048581822469,
+            "archive_size": 144,
+            "mutation_entropy": 2.2692184291158313,
+            "mutation_probs": {
+              "budget": 0.13486640572093617,
+              "memory": 0.28410990812956144,
+              "planner": 0.199466833354918,
+              "reflection": 0.18414518529242746,
+              "tool": 0.19741166750215694
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8096196736740925,
+            "archive_size": 168,
+            "mutation_entropy": 2.263916050214528,
+            "mutation_probs": {
+              "budget": 0.27812476988767837,
+              "memory": 0.2154340120196826,
+              "planner": 0.15409838490290229,
+              "reflection": 0.22126808156336986,
+              "tool": 0.1310747516263669
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8048428781455128,
+            "archive_size": 192,
+            "mutation_entropy": 2.2628546371904115,
+            "mutation_probs": {
+              "budget": 0.10769395212351167,
+              "memory": 0.16509111773721705,
+              "planner": 0.24441798825307257,
+              "reflection": 0.34004780443415455,
+              "tool": 0.14274913745204423
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7979541735815702,
+            "archive_size": 216,
+            "mutation_entropy": 2.2790778880708573,
+            "mutation_probs": {
+              "budget": 0.12408659599379991,
+              "memory": 0.21471548534046225,
+              "planner": 0.13601429432491577,
+              "reflection": 0.27852045412457,
+              "tool": 0.24666317021625206
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8050868742616253,
+            "archive_size": 240,
+            "mutation_entropy": 2.281852704069397,
+            "mutation_probs": {
+              "budget": 0.1736381724109463,
+              "memory": 0.18974209747924692,
+              "planner": 0.19125708740918357,
+              "reflection": 0.2606109665067666,
+              "tool": 0.18475167619385663
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.1736381724109463,
+          "memory": 0.18974209747924692,
+          "planner": 0.19125708740918357,
+          "reflection": 0.2606109665067666,
+          "tool": 0.18475167619385663
+        },
+        "wall_time": 2.9038357734680176,
+        "variant": "no_hv"
+      },
+      {
+        "mode": "peem",
+        "seed": 13,
+        "final_hv": 0.8166107440172474,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            1.0,
+            0.845687429731725,
+            0.016453864493179527,
+            1.0,
+            0.7163333333333333
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.75,
+            0.7694706473849484,
+            0.007146805557697144,
+            0.6499999999999999,
+            0.5945000000000001
+          ],
+          [
+            1.0,
+            0.8426933227247565,
+            0.033274621968722995,
+            1.0,
+            0.923
+          ],
+          [
+            0.875,
+            0.8173254734646009,
+            0.021034275923783867,
+            0.7250000000000001,
+            0.9567500000000001
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            1.0,
+            0.845687429731725,
+            0.016453864493179527,
+            1.0,
+            0.7163333333333333
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.875,
+            0.8173254734646009,
+            0.021034275923783867,
+            0.7250000000000001,
+            0.9567500000000001
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8145647186773228,
+            0.018175310825106487,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.8459155682473711,
+            0.009151709880548715,
+            0.7250000000000001,
+            0.8700833333333333
+          ],
+          [
+            0.75,
+            0.8356796382656095,
+            0.008472969631645257,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.5,
+            0.7368506131317757,
+            0.006571484701661895,
+            0.3,
+            0.9286666666666669
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "front_rows": [
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            1.0,
+            0.845687429731725,
+            0.016453864493179527,
+            1.0,
+            0.7163333333333333
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.75,
+            0.7694706473849484,
+            0.007146805557697144,
+            0.6499999999999999,
+            0.5945000000000001
+          ],
+          [
+            1.0,
+            0.8426933227247565,
+            0.033274621968722995,
+            1.0,
+            0.923
+          ],
+          [
+            0.875,
+            0.8173254734646009,
+            0.021034275923783867,
+            0.7250000000000001,
+            0.9567500000000001
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            1.0,
+            0.845687429731725,
+            0.016453864493179527,
+            1.0,
+            0.7163333333333333
+          ],
+          [
+            1.0,
+            0.8740653571419681,
+            0.019511086959728478,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.875,
+            0.8173254734646009,
+            0.021034275923783867,
+            0.7250000000000001,
+            0.9567500000000001
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.875,
+            0.8145647186773228,
+            0.018175310825106487,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.5,
+            0.7415975862845962,
+            0.005053185083427856,
+            0.3,
+            0.9193333333333336
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.875,
+            0.8459155682473711,
+            0.009151709880548715,
+            0.7250000000000001,
+            0.8700833333333333
+          ],
+          [
+            0.75,
+            0.8356796382656095,
+            0.008472969631645257,
+            0.44999999999999996,
+            0.8824999999999998
+          ],
+          [
+            0.5,
+            0.7368506131317757,
+            0.006571484701661895,
+            0.3,
+            0.9286666666666669
+          ],
+          [
+            0.625,
+            0.7533928380334549,
+            0.010935857673510643,
+            0.375,
+            0.9255833333333336
+          ]
+        ],
+        "spacing": 0.11442755603031697,
+        "mutation_entropy": 2.281490369280924,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 7,
+            "hypervolume": 0.7351798678220625,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 11,
+            "hypervolume": 0.7399298352964813,
+            "archive_size": 24,
+            "mutation_entropy": 2.192215752170299,
+            "mutation_probs": {
+              "budget": 0.15682894957754498,
+              "memory": 0.1367702713344914,
+              "planner": 0.23318687840054117,
+              "reflection": 0.16619445106486305,
+              "tool": 0.3070194496225595
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 21,
+            "hypervolume": 0.7496108662195794,
+            "archive_size": 48,
+            "mutation_entropy": 2.316689088315021,
+            "mutation_probs": {
+              "budget": 0.24585727781794842,
+              "memory": 0.3046264591732169,
+              "planner": 0.11500803257575766,
+              "reflection": 0.09739337413068654,
+              "tool": 0.23711485630239043
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 17,
+            "hypervolume": 0.7743111354601155,
+            "archive_size": 72,
+            "mutation_entropy": 2.309103363003535,
+            "mutation_probs": {
+              "budget": 0.3243391025786563,
+              "memory": 0.15741253855508947,
+              "planner": 0.17557468042932883,
+              "reflection": 0.17629846553670364,
+              "tool": 0.16637521290022178
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 18,
+            "hypervolume": 0.8103827030313114,
+            "archive_size": 96,
+            "mutation_entropy": 2.2871182790614464,
+            "mutation_probs": {
+              "budget": 0.3226595934618009,
+              "memory": 0.13079938077841102,
+              "planner": 0.11271899192072618,
+              "reflection": 0.1651928316984556,
+              "tool": 0.26862920214060626
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 20,
+            "hypervolume": 0.8231358387342348,
+            "archive_size": 120,
+            "mutation_entropy": 2.2934401372785813,
+            "mutation_probs": {
+              "budget": 0.1947355428662672,
+              "memory": 0.199142373539476,
+              "planner": 0.40036368375559,
+              "reflection": 0.1035608051528694,
+              "tool": 0.10219759468579748
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 22,
+            "hypervolume": 0.7927084561863865,
+            "archive_size": 144,
+            "mutation_entropy": 2.3026774053655195,
+            "mutation_probs": {
+              "budget": 0.0664774567744697,
+              "memory": 0.024339421876551956,
+              "planner": 0.024339421876551956,
+              "reflection": 0.0796594910195987,
+              "tool": 0.8051842084528277
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 22,
+            "hypervolume": 0.8090193297704685,
+            "archive_size": 168,
+            "mutation_entropy": 2.285690304551194,
+            "mutation_probs": {
+              "budget": 0.02394355592824665,
+              "memory": 0.27249013100035285,
+              "planner": 0.4123139780041525,
+              "reflection": 0.26730877913900136,
+              "tool": 0.02394355592824665
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8139125918456931,
+            "archive_size": 192,
+            "mutation_entropy": 2.307289012656664,
+            "mutation_probs": {
+              "budget": 0.024910299916875232,
+              "memory": 0.13774622418818702,
+              "planner": 0.4464518986622263,
+              "reflection": 0.259539036515033,
+              "tool": 0.1313525407176784
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8125399028207507,
+            "archive_size": 216,
+            "mutation_entropy": 2.2998512207483603,
+            "mutation_probs": {
+              "budget": 0.03281314435534248,
+              "memory": 0.10028276455154907,
+              "planner": 0.5854208078742765,
+              "reflection": 0.03281314435534248,
+              "tool": 0.24867013886348954
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.8190532487351455,
+            "archive_size": 240,
+            "mutation_entropy": 2.281490369280924,
+            "mutation_probs": {
+              "budget": 0.02337826079335581,
+              "memory": 0.37455175035158955,
+              "planner": 0.02422463409478654,
+              "reflection": 0.02337826079335581,
+              "tool": 0.5544670939669123
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.02337826079335581,
+          "memory": 0.37455175035158955,
+          "planner": 0.02422463409478654,
+          "reflection": 0.02337826079335581,
+          "tool": 0.5544670939669123
+        },
+        "wall_time": 2.371965169906616,
+        "variant": "no_div"
+      },
+      {
+        "mode": "peem",
+        "seed": 13,
+        "final_hv": 0.7843005466010341,
+        "final_pareto": 24,
+        "population_rows": [
+          [
+            0.875,
+            0.8630488794823212,
+            0.008734719525633585,
+            0.7250000000000001,
+            0.8700833333333333
+          ],
+          [
+            0.375,
+            0.6976462023780634,
+            0.0013695503309746635,
+            0.22499999999999998,
+            0.8757500000000001
+          ],
+          [
+            0.75,
+            0.7463149443020329,
+            0.019615644678441447,
+            0.6499999999999999,
+            0.9318333333333335
+          ],
+          [
+            0.625,
+            0.7709792223943494,
+            0.006988754455297832,
+            0.575,
+            0.61625
+          ],
+          [
+            1.0,
+            0.8700170347829292,
+            0.011528103955672215,
+            1.0,
+            0.5763333333333334
+          ],
+          [
+            1.0,
+            0.8570702651132571,
+            0.02235798238228869,
+            1.0,
+            0.5949999999999999
+          ],
+          [
+            0.75,
+            0.7956143732524859,
+            0.0068959893408366245,
+            0.6499999999999999,
+            0.6038333333333334
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.875,
+            0.8505808307164504,
+            0.017618078781411813,
+            0.7250000000000001,
+            0.8980833333333336
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.75,
+            0.7463149443020329,
+            0.019615644678441447,
+            0.6499999999999999,
+            0.9318333333333335
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.375,
+            0.6976462023780634,
+            0.0013695503309746635,
+            0.22499999999999998,
+            0.8757500000000001
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            1.0,
+            0.8570702651132571,
+            0.02235798238228869,
+            1.0,
+            0.5949999999999999
+          ],
+          [
+            0.875,
+            0.8505808307164504,
+            0.017618078781411813,
+            0.7250000000000001,
+            0.8980833333333336
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.75,
+            0.7463149443020329,
+            0.019615644678441447,
+            0.6499999999999999,
+            0.9318333333333335
+          ],
+          [
+            0.875,
+            0.8332352130142515,
+            0.01505533349729421,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.375,
+            0.6976462023780634,
+            0.0013695503309746635,
+            0.22499999999999998,
+            0.8757500000000001
+          ],
+          [
+            0.75,
+            0.8229661815408744,
+            0.012957771842362412,
+            0.44999999999999996,
+            0.8918333333333335
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ]
+        ],
+        "front_rows": [
+          [
+            0.875,
+            0.8630488794823212,
+            0.008734719525633585,
+            0.7250000000000001,
+            0.8700833333333333
+          ],
+          [
+            0.375,
+            0.6976462023780634,
+            0.0013695503309746635,
+            0.22499999999999998,
+            0.8757500000000001
+          ],
+          [
+            0.75,
+            0.7463149443020329,
+            0.019615644678441447,
+            0.6499999999999999,
+            0.9318333333333335
+          ],
+          [
+            0.625,
+            0.7709792223943494,
+            0.006988754455297832,
+            0.575,
+            0.61625
+          ],
+          [
+            1.0,
+            0.8700170347829292,
+            0.011528103955672215,
+            1.0,
+            0.5763333333333334
+          ],
+          [
+            1.0,
+            0.8570702651132571,
+            0.02235798238228869,
+            1.0,
+            0.5949999999999999
+          ],
+          [
+            0.75,
+            0.7956143732524859,
+            0.0068959893408366245,
+            0.6499999999999999,
+            0.6038333333333334
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.875,
+            0.8505808307164504,
+            0.017618078781411813,
+            0.7250000000000001,
+            0.8980833333333336
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            0.75,
+            0.7463149443020329,
+            0.019615644678441447,
+            0.6499999999999999,
+            0.9318333333333335
+          ],
+          [
+            0.875,
+            0.8474560733964641,
+            0.008285761576254025,
+            0.7250000000000001,
+            0.8607500000000001
+          ],
+          [
+            0.375,
+            0.6976462023780634,
+            0.0013695503309746635,
+            0.22499999999999998,
+            0.8757500000000001
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            1.0,
+            0.8570702651132571,
+            0.02235798238228869,
+            1.0,
+            0.5949999999999999
+          ],
+          [
+            0.875,
+            0.8505808307164504,
+            0.017618078781411813,
+            0.7250000000000001,
+            0.8980833333333336
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.75,
+            0.7463149443020329,
+            0.019615644678441447,
+            0.6499999999999999,
+            0.9318333333333335
+          ],
+          [
+            0.875,
+            0.8332352130142515,
+            0.01505533349729421,
+            0.7250000000000001,
+            0.8794166666666666
+          ],
+          [
+            0.375,
+            0.6976462023780634,
+            0.0013695503309746635,
+            0.22499999999999998,
+            0.8757500000000001
+          ],
+          [
+            0.75,
+            0.8229661815408744,
+            0.012957771842362412,
+            0.44999999999999996,
+            0.8918333333333335
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ],
+          [
+            0.75,
+            0.853382706713355,
+            0.0030537717964829276,
+            0.44999999999999996,
+            0.8545000000000001
+          ],
+          [
+            1.0,
+            0.8519894498906616,
+            0.02345828855471333,
+            1.0,
+            0.9043333333333335
+          ]
+        ],
+        "spacing": 0.06570290593378401,
+        "mutation_entropy": 2.289539802292894,
+        "evals": 264,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 24,
+            "n_non_dominated": 7,
+            "hypervolume": 0.7351798678220625,
+            "archive_size": 0,
+            "mutation_entropy": 0.0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 24,
+            "n_non_dominated": 11,
+            "hypervolume": 0.7399298352964813,
+            "archive_size": 24,
+            "mutation_entropy": 2.192215752170299,
+            "mutation_probs": {
+              "budget": 0.1658069385414358,
+              "memory": 0.15656200478652055,
+              "planner": 0.19454125762016633,
+              "reflection": 0.14754547025702075,
+              "tool": 0.3355443287948566
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 24,
+            "n_non_dominated": 21,
+            "hypervolume": 0.7496108662195794,
+            "archive_size": 48,
+            "mutation_entropy": 2.3200355658756875,
+            "mutation_probs": {
+              "budget": 0.21394744815854422,
+              "memory": 0.19471165368822985,
+              "planner": 0.32138751873509036,
+              "reflection": 0.13938105747980667,
+              "tool": 0.13057232193832896
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 24,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7574643903583732,
+            "archive_size": 72,
+            "mutation_entropy": 2.307560498478647,
+            "mutation_probs": {
+              "budget": 0.1769681502128241,
+              "memory": 0.19467943667889864,
+              "planner": 0.32112023765637365,
+              "reflection": 0.14898084650006257,
+              "tool": 0.15825132895184105
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 24,
+            "n_non_dominated": 20,
+            "hypervolume": 0.771320446279563,
+            "archive_size": 96,
+            "mutation_entropy": 2.3094757054481234,
+            "mutation_probs": {
+              "budget": 0.19176418658291322,
+              "memory": 0.1759961193081259,
+              "planner": 0.26349957748934766,
+              "reflection": 0.24903631430287543,
+              "tool": 0.11970380231673777
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7850910919048615,
+            "archive_size": 120,
+            "mutation_entropy": 2.2967060593147415,
+            "mutation_probs": {
+              "budget": 0.27178412960136417,
+              "memory": 0.10356993067038468,
+              "planner": 0.1799219185884798,
+              "reflection": 0.3310232163510827,
+              "tool": 0.1137008047886885
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7570521243368307,
+            "archive_size": 144,
+            "mutation_entropy": 2.2997249512670788,
+            "mutation_probs": {
+              "budget": 0.06968345604649531,
+              "memory": 0.23738460912903153,
+              "planner": 0.27340787215927564,
+              "reflection": 0.12591814984892338,
+              "tool": 0.2936059128162742
+            }
+          },
+          {
+            "generation": 7,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7741870489617384,
+            "archive_size": 168,
+            "mutation_entropy": 2.3078572123445555,
+            "mutation_probs": {
+              "budget": 0.05069105976296897,
+              "memory": 0.09033703163806232,
+              "planner": 0.2294928213373813,
+              "reflection": 0.1438878478833396,
+              "tool": 0.4855912393782478
+            }
+          },
+          {
+            "generation": 8,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7811380443969976,
+            "archive_size": 192,
+            "mutation_entropy": 2.309129644877214,
+            "mutation_probs": {
+              "budget": 0.03540517426682997,
+              "memory": 0.06605841173002275,
+              "planner": 0.2408406833366517,
+              "reflection": 0.38020655219522126,
+              "tool": 0.27748917847127424
+            }
+          },
+          {
+            "generation": 9,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7684880355808519,
+            "archive_size": 216,
+            "mutation_entropy": 2.302522095133132,
+            "mutation_probs": {
+              "budget": 0.03304221685033161,
+              "memory": 0.10267555419490344,
+              "planner": 0.333419792344674,
+              "reflection": 0.31159824413635856,
+              "tool": 0.21926419247373236
+            }
+          },
+          {
+            "generation": 10,
+            "n_individuals": 24,
+            "n_non_dominated": 24,
+            "hypervolume": 0.7937880532131434,
+            "archive_size": 240,
+            "mutation_entropy": 2.289539802292894,
+            "mutation_probs": {
+              "budget": 0.028681443952098963,
+              "memory": 0.10501539519316806,
+              "planner": 0.32060201978873565,
+              "reflection": 0.34217689410511504,
+              "tool": 0.20352424696088223
+            }
+          }
+        ],
+        "mutation_probs": {
+          "budget": 0.028681443952098963,
+          "memory": 0.10501539519316806,
+          "planner": 0.32060201978873565,
+          "reflection": 0.34217689410511504,
+          "tool": 0.20352424696088223
+        },
+        "wall_time": 2.508488655090332,
+        "variant": "no_surv"
+      }
+    ],
+    "mean_final_hv": {
+      "full": 0.7885657565889173,
+      "no_hv": 0.8177391565226204,
+      "no_div": 0.7997676413272146,
+      "no_surv": 0.7929668411338634
+    }
+  }
+}

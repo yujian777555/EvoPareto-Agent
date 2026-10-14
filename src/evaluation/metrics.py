@@ -6,6 +6,7 @@ Paper-semantics vectors (mixed max/min) are converted internally.
 
 from __future__ import annotations
 
+import math
 import random
 from typing import List, Optional, Sequence
 
@@ -154,3 +155,77 @@ def hypervolume_2d_max(
         area += (x - ref[0]) * (y - prev_y)
         prev_y = y
     return area
+
+
+# ====================================================================== #
+# Phase 2.5: IGD / Spacing / Mutation entropy
+# ====================================================================== #
+def igd(
+    front: Sequence[Sequence[float]],
+    reference_front: Sequence[Sequence[float]],
+    *,
+    maximize_input: bool = True,
+) -> float:
+    """Inverted Generational Distance (smaller is better).
+
+    Mean distance from each reference point to the nearest front point.
+    """
+    if not reference_front:
+        return 0.0
+    if not front:
+        return float("inf")
+
+    def to_min(rows):
+        return [to_minimization(r) for r in rows] if maximize_input else [list(map(float, r)) for r in rows]
+
+    f = to_min(front)
+    r = to_min(reference_front)
+    dim = len(r[0])
+    total = 0.0
+    for rp in r:
+        best = min(sum((rp[k] - fp[k]) ** 2 for k in range(dim)) ** 0.5 for fp in f)
+        total += best
+    return total / len(r)
+
+
+def spacing(
+    front: Sequence[Sequence[float]],
+    *,
+    maximize_input: bool = True,
+) -> float:
+    """Schott spacing (smaller = more uniform). Re-exported convenience."""
+    from src.evolution.diversity import spacing as _spacing
+
+    return _spacing(front, maximize_input=maximize_input)
+
+
+def mutation_entropy(counts: Sequence[int]) -> float:
+    """Shannon entropy of mutation-type usage in bits (higher = more diverse)."""
+    total = sum(int(c) for c in counts)
+    if total <= 0:
+        return 0.0
+    h = 0.0
+    for c in counts:
+        if c <= 0:
+            continue
+        p = c / total
+        h -= p * math.log2(p)
+    return float(h)
+
+
+def normalized_mutation_entropy(counts: Sequence[int]) -> float:
+    """Entropy / log2(n), in [0, 1] for n>1 types."""
+    n = sum(1 for c in counts if c > 0)
+    if n <= 1:
+        return 0.0
+    return mutation_entropy(counts) / math.log2(n)
+
+
+def reference_front_from_population(
+    rows: Sequence[Sequence[float]],
+    *,
+    maximize_input: bool = True,
+) -> List[List[float]]:
+    """Empirical reference front = mixed non-dominated set of `rows`."""
+    mask = pareto_mask_mixed(rows) if maximize_input else [True] * len(rows)
+    return [list(rows[i]) for i in range(len(rows)) if mask[i]]

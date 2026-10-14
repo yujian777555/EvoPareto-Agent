@@ -1,5 +1,9 @@
 # Phase 2 — Evolution Experience Memory
 
+> **Phase 2.5 upgrade:** Pareto-aware PEEM is documented in
+> [`PHASE2_5_PEEM.md`](PHASE2_5_PEEM.md). This file keeps the Phase 2
+> success-rate baseline and architecture.
+
 **Status:** complete (built on frozen Phase 0 `3dd75be` / Phase 1 `29536e6`)  
 **Scope:** **Optimizer memory only** — not agent memory, not RAG, not vector DB.
 

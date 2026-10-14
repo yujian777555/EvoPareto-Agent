@@ -34,8 +34,11 @@ src/
     operators.py     # Agent-specific mutation / crossover
     archive.py       # Phase 2: EvolutionRecord / EvolutionArchive (optimizer memory)
     experience.py    # Phase 2: MutationExperience statistics
-    adaptive_mutation.py  # Phase 2: AdaptiveMutationController + operator registry
-    memory_evolution.py   # Phase 2: memory-aware evolutionary loop
+    credit_assignment.py  # Phase 2.5: composite mutation value
+    diversity.py     # Phase 2.5: crowding / spacing / diversity contribution
+    pareto_experience.py  # Phase 2.5: PEEM (decay + Pareto-aware utility)
+    adaptive_mutation.py  # Phase 2/2.5: AdaptiveMutationController + registry
+    memory_evolution.py   # Phase 2/2.5: memory-aware / PEEM evolutionary loop
   runtime/           # Phase 1: genome -> agent -> task results
     task.py          # TaskSpec / TaskSuite
     result.py        # TaskResult / EpisodeResult
@@ -48,7 +51,7 @@ src/
   evaluation/
     evaluator.py     # Toy multi-objective environment (Phase 0)
     objective_evaluator.py  # TaskResult -> paper objective vector (Phase 1)
-    metrics.py       # Phase 2: hypervolume / front-size metrics
+    metrics.py       # Phase 2/2.5: hypervolume, IGD, spacing, mutation entropy
     objectives.py    # Objective conventions (max/min semantics)
   utils/
     pareto.py        # Pareto dominance / filter helpers
@@ -56,6 +59,7 @@ experiments/
   run_nsga3_demo.py              # Phase 0 demo
   run_agent_evolution_demo.py    # Phase 1 demo
   run_evolution_memory_demo.py   # Phase 2: memory vs random mutation
+  run_peem_demo.py               # Phase 2.5: PEEM vs baselines (E1-E4)
 tests/               # pytest suite
 results/             # generated artifacts
 paper/               # reserved for later paper writing
@@ -122,6 +126,9 @@ python experiments/run_agent_evolution_demo.py
 
 # Phase 2: evolution experience memory vs random mutation
 python experiments/run_evolution_memory_demo.py
+
+# Phase 2.5: PEEM (Pareto-aware) vs baselines
+python experiments/run_peem_demo.py
 ```
 
 Artifacts land in `results/`:
@@ -129,6 +136,7 @@ Artifacts land in `results/`:
 - Phase 0: `population_history.json`, `pareto_front.json`, `objective_scatter.png`
 - Phase 1: `agent_population_history.json`, `agent_pareto_front.json`, `agent_evolution_summary.json`
 - Phase 2: `evolution_memory_results.json`, `evolution_memory_summary.json`
+- Phase 2.5: `peem_results.json`, `peem_summary.json`
 
 ## Tests
 
@@ -158,18 +166,27 @@ Artifacts land in `results/`:
 14. Archive & experience updates after evolution
 15. End-to-end memory-aware pipeline
 
+**Phase 2.5 (PEEM)**
+
+16. Credit calculation (improvement / HV / diversity / survival)
+17. Hypervolume contribution
+18. Diversity calculation (crowding / spacing)
+19. Experience decay (configurable λ)
+20. PEEM-aware adaptive probability
+
 ## Phase roadmap
 
 | phase | goal | status |
 |-------|------|--------|
 | **Phase 0** | NSGA-III + AgentGenome + toy evaluation | ✅ frozen (`3dd75be`) |
 | **Phase 1** | Agent runtime + benchmark adapter + objective evaluator | ✅ frozen (`29536e6`) |
-| **Phase 2** | Evolution Experience Memory (optimizer memory) | ✅ current |
+| **Phase 2** | Evolution Experience Memory (optimizer memory) | ✅ frozen (`a7e6420`) |
+| **Phase 2.5** | **PEEM**: Pareto-aware mutation utility | ✅ current |
 | Phase 3 | Preference-aware adaptation | |
 | Phase 4 | Benchmark + paper | |
 
 See `docs/PHASE0_FINAL_AUDIT.md`, `docs/PHASE1_AGENT_RUNTIME.md`,
-`docs/PHASE2_EVOLUTION_MEMORY.md`.
+`docs/PHASE2_EVOLUTION_MEMORY.md`, `docs/PHASE2_5_PEEM.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 

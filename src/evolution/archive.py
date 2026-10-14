@@ -15,7 +15,11 @@ from src.evaluation.metrics import hypervolume
 
 @dataclass
 class EvolutionRecord:
-    """One parent -> child mutation transition."""
+    """One parent -> child mutation transition.
+
+    Phase 2 fields retained for compatibility. Phase 2.5 adds Pareto-aware
+    credit fields (optional; default 0 / False).
+    """
 
     generation: int
     parent_genome_id: str
@@ -27,12 +31,22 @@ class EvolutionRecord:
     hypervolume_delta: float
     success: bool
     metadata: Dict[str, Any] = field(default_factory=dict)
+    # Phase 2.5 Pareto-aware credits
+    pareto_rank_change: int = 0
+    hypervolume_contribution: float = 0.0
+    diversity_contribution: float = 0.0
+    survived_next_generation: bool = False
+    mutation_value: float = 0.0
 
     def __post_init__(self) -> None:
         self.parent_objectives = [float(x) for x in self.parent_objectives]
         self.child_objectives = [float(x) for x in self.child_objectives]
         self.objective_delta = [float(x) for x in self.objective_delta]
         self.hypervolume_delta = float(self.hypervolume_delta)
+        self.hypervolume_contribution = float(self.hypervolume_contribution)
+        self.diversity_contribution = float(self.diversity_contribution)
+        self.mutation_value = float(self.mutation_value)
+        self.pareto_rank_change = int(self.pareto_rank_change)
         if len(self.parent_objectives) != len(self.child_objectives):
             raise ValueError("parent/child objective dimension mismatch")
         if len(self.objective_delta) != len(self.parent_objectives):
@@ -55,6 +69,11 @@ class EvolutionRecord:
             hypervolume_delta=float(data["hypervolume_delta"]),
             success=bool(data["success"]),
             metadata=dict(data.get("metadata", {})),
+            pareto_rank_change=int(data.get("pareto_rank_change", 0)),
+            hypervolume_contribution=float(data.get("hypervolume_contribution", 0.0)),
+            diversity_contribution=float(data.get("diversity_contribution", 0.0)),
+            survived_next_generation=bool(data.get("survived_next_generation", False)),
+            mutation_value=float(data.get("mutation_value", 0.0)),
         )
 
 
