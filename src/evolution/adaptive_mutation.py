@@ -6,6 +6,7 @@ Phase 2.5: probability from Pareto-aware Mutation Value (PEEM) when provided.
 
 from __future__ import annotations
 
+import math
 import random
 from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Mapping, Optional, Protocol, Sequence, Tuple
@@ -90,8 +91,9 @@ def default_registry() -> MutationOperatorRegistry:
 class AdaptiveMutationController:
     """Maps mutation utility -> probability distribution.
 
-    If `experience` implements PEEM `get_score` (composite MV), the controller
-    becomes Pareto-aware. Otherwise it falls back to Phase 2 success-rate.
+    Phase 2.5-R1: temperature-softmax selection
+        p_i = exp(score_i / T) / sum_j exp(score_j / T)
+    with optional linear annealing T: T0 → T_min over `total_steps`.
     """
 
     experience: ScoreSource
@@ -100,20 +102,45 @@ class AdaptiveMutationController:
     min_prob: float = 0.02
     # Phase 2.5: if True, treat low MV as more strongly suppressed.
     sharpness: float = 1.0
+    # Phase 2.5-R1 temperature annealing
+    temperature: float = 1.0
+    temperature_min: float = 0.2
+    temperature_step: float = 0.0  # linear decay per select_mutation call
+    use_softmax: bool = True
+    _steps: int = 0
+
+    def current_temperature(self) -> float:
+        if self.temperature_step <= 0:
+            return self.temperature
+        t = self.temperature - self.temperature_step * self._steps
+        return max(self.temperature_min, t)
+
+    def _softmax(self, scores: Sequence[float]) -> List[float]:
+        t = max(1e-6, self.current_temperature())
+        xs = [float(s) / t for s in scores]
+        m = max(xs)
+        exps = [math.exp(x - m) for x in xs]
+        s = sum(exps)
+        return [e / s for e in exps]
 
     def probability_distribution(self) -> Dict[str, float]:
         names = self.registry.names()
         if not names:
             return {}
-        raw = [max(1e-9, self.experience.get_score(n)) for n in names]
-        # PEEM values can be negative → shift to positive scale.
+        raw = [max(1e-9, float(self.experience.get_score(n))) for n in names]
         min_raw = min(raw)
         if min_raw <= 0:
             raw = [r - min_raw + 1e-3 for r in raw]
         if self.sharpness != 1.0:
             raw = [r ** self.sharpness for r in raw]
-        total = sum(raw)
-        probs = {n: raw[i] / total for i, n in enumerate(names)}
+
+        if self.use_softmax:
+            probs_list = self._softmax(raw)
+        else:
+            total = sum(raw)
+            probs_list = [r / total for r in raw]
+
+        probs = {n: probs_list[i] for i, n in enumerate(names)}
         uniform = 1.0 / len(names)
         mixed = {n: (1.0 - self.epsilon) * probs[n] + self.epsilon * uniform for n in names}
         floored = {n: max(self.min_prob, mixed[n]) for n in names}
@@ -121,6 +148,7 @@ class AdaptiveMutationController:
         return {n: floored[n] / s for n in names}
 
     def select_mutation(self, rng: random.Random) -> str:
+        self._steps += 1
         dist = self.probability_distribution()
         names = list(dist.keys())
         weights = [dist[n] for n in names]

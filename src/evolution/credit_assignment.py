@@ -105,7 +105,7 @@ def hypervolume_contribution(
     child: Sequence[float],
     front: Sequence[Sequence[float]],
     *,
-    n_samples: int = 512,
+    n_samples: int = 64,
     seed: int = 0,
 ) -> float:
     """Marginal HV of adding `child` to `front`."""
@@ -170,3 +170,111 @@ def compute_credit(
         survived_next_generation=bool(survived),
         mutation_value=float(mv),
     )
+
+
+# ====================================================================== #
+# Phase 2.5-R1: robust rank-based + z-normalized composite value
+# ====================================================================== #
+@dataclass
+class RobustCreditBreakdown:
+    improvement: float
+    pareto_score: float
+    diversity_score: float
+    survival_score: float
+    improvement_norm: float = 0.0
+    pareto_norm: float = 0.0
+    diversity_norm: float = 0.0
+    survival_norm: float = 0.0
+    mutation_value: float = 0.0
+    pareto_rank: int = 0
+
+    def raw_row(self) -> dict:
+        return {
+            "improvement": self.improvement,
+            "pareto": self.pareto_score,
+            "diversity": self.diversity_score,
+            "survival": self.survival_score,
+        }
+
+    def to_dict(self) -> dict:
+        return {
+            "improvement": self.improvement,
+            "pareto_score": self.pareto_score,
+            "diversity_score": self.diversity_score,
+            "survival_score": self.survival_score,
+            "improvement_norm": self.improvement_norm,
+            "pareto_norm": self.pareto_norm,
+            "diversity_norm": self.diversity_norm,
+            "survival_norm": self.survival_norm,
+            "mutation_value": self.mutation_value,
+            "pareto_rank": self.pareto_rank,
+        }
+
+
+def robust_raw_components(
+    parent: Sequence[float],
+    child: Sequence[float],
+    *,
+    population: Optional[Sequence[Sequence[float]]] = None,
+    survived: bool = False,
+    pareto_score: Optional[float] = None,
+) -> RobustCreditBreakdown:
+    """Compute raw (un-normalized) components for robust PEEM."""
+    from src.evolution.diversity import diversity_contribution
+    from src.evolution.pareto_credit import ParetoContributionEstimator
+
+    imp = objective_improvement(parent, child)
+    if pareto_score is None:
+        est = ParetoContributionEstimator()
+        pareto_score = est.score_one(parent, child, list(population or []))
+    div = diversity_contribution(child, list(population or []) or [list(parent)])
+    div_n = max(0.0, min(2.0, div)) / 2.0
+    surv = survival_credit(survived)
+    return RobustCreditBreakdown(
+        improvement=imp,
+        pareto_score=float(pareto_score),
+        diversity_score=float(div_n),
+        survival_score=surv,
+    )
+
+
+def apply_normalized_mv(
+    raw: RobustCreditBreakdown,
+    *,
+    weights: Optional[CreditWeights] = None,
+    delayed_bonus: float = 0.0,
+) -> RobustCreditBreakdown:
+    """MV = α·imp_n + β·pareto_n + γ·div_n + δ·surv_n  (higher = better)."""
+    w = (weights or CreditWeights()).normalized()
+    raw.improvement_norm = max(-3.0, min(3.0, raw.improvement))
+    raw.pareto_norm = raw.pareto_score  # already in {0, 0.5, 1.0}
+    raw.diversity_norm = raw.diversity_score
+    raw.survival_norm = raw.survival_score
+    raw.mutation_value = (
+        w.alpha * raw.improvement_norm
+        + w.beta * raw.pareto_norm
+        + w.gamma * raw.diversity_norm
+        + w.delta * raw.survival_norm
+        + delayed_bonus
+    )
+    return raw
+
+
+def compute_robust_credit(
+    parent: Sequence[float],
+    child: Sequence[float],
+    *,
+    population: Optional[Sequence[Sequence[float]]] = None,
+    survived: bool = False,
+    pareto_score: Optional[float] = None,
+    weights: Optional[CreditWeights] = None,
+    delayed_bonus: float = 0.0,
+) -> RobustCreditBreakdown:
+    raw = robust_raw_components(
+        parent,
+        child,
+        population=population,
+        survived=survived,
+        pareto_score=pareto_score,
+    )
+    return apply_normalized_mv(raw, weights=weights, delayed_bonus=delayed_bonus)

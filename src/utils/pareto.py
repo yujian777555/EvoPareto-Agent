@@ -29,8 +29,24 @@ def dominates_min(a: Sequence[float], b: Sequence[float]) -> bool:
 
 
 def dominates_mixed(a: Sequence[float], b: Sequence[float]) -> bool:
-    """Dominance under paper semantics (max except cost)."""
-    return dominates_min(to_minimization(a), to_minimization(b))
+    """Dominance under paper semantics (max except cost).
+
+    Fast path avoids allocation-heavy to_minimization for the common case.
+    """
+    strictly_better = False
+    # maximize: a[i] >= b[i]; cost (i==2): a[i] <= b[i]
+    for i, (x, y) in enumerate(zip(a, b)):
+        if i == 2:
+            if x > y:
+                return False
+            if x < y:
+                strictly_better = True
+        else:
+            if x < y:
+                return False
+            if x > y:
+                strictly_better = True
+    return strictly_better
 
 
 def pareto_mask_max(rows: Sequence[Sequence[float]]) -> List[bool]:

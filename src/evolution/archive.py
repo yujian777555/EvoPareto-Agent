@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 from src.evaluation.metrics import hypervolume
+from src.utils.pareto import dominates_mixed
 
 
 @dataclass
@@ -163,11 +164,21 @@ class EvolutionArchive:
         return rec
 
     def _refresh_front(self, candidate: Sequence[float]) -> None:
-        from src.utils.pareto import pareto_mask_mixed
-
-        pool = self._front + [[float(x) for x in candidate]]
-        mask = pareto_mask_mixed(pool)
-        self._front = [pool[i] for i in range(len(pool)) if mask[i]]
+        cand = [float(x) for x in candidate]
+        # Incremental: drop front points dominated by candidate; add if not dominated.
+        new_front = []
+        dominated_by_cand = False
+        for p in self._front:
+            if dominates_mixed(cand, p):
+                continue  # p is dominated by the new point
+            if dominates_mixed(p, cand):
+                dominated_by_cand = True
+                new_front.append(p)
+            else:
+                new_front.append(p)
+        if not dominated_by_cand:
+            new_front.append(cand)
+        self._front = new_front
 
     # ------------------------------------------------------------------ #
     # Read

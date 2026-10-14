@@ -37,8 +37,11 @@ src/
     credit_assignment.py  # Phase 2.5: composite mutation value
     diversity.py     # Phase 2.5: crowding / spacing / diversity contribution
     pareto_experience.py  # Phase 2.5: PEEM (decay + Pareto-aware utility)
-    adaptive_mutation.py  # Phase 2/2.5: AdaptiveMutationController + registry
-    memory_evolution.py   # Phase 2/2.5: memory-aware / PEEM evolutionary loop
+    pareto_credit.py # Phase 2.5-R1: rank-based Pareto contribution
+    normalization.py # Phase 2.5-R1: per-generation z-score
+    delayed_credit.py # Phase 2.5-R1: delayed survival / Pareto gain
+    adaptive_mutation.py  # Phase 2/2.5-R1: controller + temperature softmax
+    memory_evolution.py   # Phase 2/2.5-R1: memory-aware / robust PEEM loop
   runtime/           # Phase 1: genome -> agent -> task results
     task.py          # TaskSpec / TaskSuite
     result.py        # TaskResult / EpisodeResult
@@ -129,6 +132,9 @@ python experiments/run_evolution_memory_demo.py
 
 # Phase 2.5: PEEM (Pareto-aware) vs baselines
 python experiments/run_peem_demo.py
+
+# Phase 2.5-R1: Robust PEEM (rank credit + delayed + temperature)
+python experiments/run_robust_peem_demo.py
 ```
 
 Artifacts land in `results/`:
@@ -137,6 +143,7 @@ Artifacts land in `results/`:
 - Phase 1: `agent_population_history.json`, `agent_pareto_front.json`, `agent_evolution_summary.json`
 - Phase 2: `evolution_memory_results.json`, `evolution_memory_summary.json`
 - Phase 2.5: `peem_results.json`, `peem_summary.json`
+- Phase 2.5-R1: `robust_peem_results.json`, `robust_peem_summary.json`
 
 ## Tests
 
@@ -174,6 +181,14 @@ Artifacts land in `results/`:
 19. Experience decay (configurable λ)
 20. PEEM-aware adaptive probability
 
+**Phase 2.5-R1 (Robust PEEM)**
+
+21. Rank-based Pareto contribution estimator
+22. Per-generation z-normalization
+23. Delayed credit (future survival / Pareto gain)
+24. Temperature-softmax mutation sampling
+25. Long-horizon robust evolution loop
+
 ## Phase roadmap
 
 | phase | goal | status |
@@ -181,12 +196,13 @@ Artifacts land in `results/`:
 | **Phase 0** | NSGA-III + AgentGenome + toy evaluation | ✅ frozen (`3dd75be`) |
 | **Phase 1** | Agent runtime + benchmark adapter + objective evaluator | ✅ frozen (`29536e6`) |
 | **Phase 2** | Evolution Experience Memory (optimizer memory) | ✅ frozen (`a7e6420`) |
-| **Phase 2.5** | **PEEM**: Pareto-aware mutation utility | ✅ current |
+| **Phase 2.5** | **PEEM**: Pareto-aware mutation utility | ✅ frozen (`0b770ac`) |
+| **Phase 2.5-R1** | **Robust PEEM**: rank credit + delayed + temperature | ✅ current |
 | Phase 3 | Preference-aware adaptation | |
 | Phase 4 | Benchmark + paper | |
 
 See `docs/PHASE0_FINAL_AUDIT.md`, `docs/PHASE1_AGENT_RUNTIME.md`,
-`docs/PHASE2_EVOLUTION_MEMORY.md`, `docs/PHASE2_5_PEEM.md`.
+`docs/PHASE2_EVOLUTION_MEMORY.md` (incl. Robust PEEM), `docs/PHASE2_5_PEEM.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 
