@@ -168,6 +168,10 @@ python experiments/run_benchmark_extension.py
 
 # Phase 5-R1: real-world tool-use agent validation
 python experiments/run_real_world_validation.py
+
+# Phase 5-R2: operator utility mechanism analysis + paper figures
+python experiments/analysis/run_operator_utility_analysis.py
+python experiments/analysis/plot_operator_utility.py
 ```
 
 Artifacts land in `results/`:

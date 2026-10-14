@@ -1,0 +1,563 @@
+{
+  "benchmark": "webshop",
+  "seed": 33,
+  "operators": [
+    "planner",
+    "memory",
+    "reflection",
+    "tool",
+    "budget"
+  ],
+  "generations": [
+    {
+      "generation": 0,
+      "operators": {
+        "planner": {
+          "utility": 0.315,
+          "probability": 0.2,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.315,
+          "probability": 0.2,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.315,
+          "probability": 0.2,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "tool": {
+          "utility": 0.315,
+          "probability": 0.2,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "budget": {
+          "utility": 0.315,
+          "probability": 0.2,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.13566711467192813,
+        "mean_performance": 0.3359375,
+        "mean_cost": 0.004432998290424315
+      }
+    },
+    {
+      "generation": 1,
+      "operators": {
+        "planner": {
+          "utility": 0.21769915062433412,
+          "probability": 0.17734187733368112,
+          "count": 4.0,
+          "accepted": 1.0,
+          "avg_credit": 0.33913367532005445,
+          "survival_rate": 0.25
+        },
+        "memory": {
+          "utility": 0.315,
+          "probability": 0.20216158994499933,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.29191597894884214,
+          "probability": 0.19594800893551234,
+          "count": 1.0,
+          "accepted": 1.0,
+          "avg_credit": 0.27690279699669174,
+          "survival_rate": 1.0
+        },
+        "tool": {
+          "utility": 0.508159274313471,
+          "probability": 0.2633174702644697,
+          "count": 5.0,
+          "accepted": 5.0,
+          "avg_credit": 0.6623740183470377,
+          "survival_rate": 1.0
+        },
+        "budget": {
+          "utility": 0.1461634031934022,
+          "probability": 0.1612310535213375,
+          "count": 6.0,
+          "accepted": 1.0,
+          "avg_credit": 0.1285331885031669,
+          "survival_rate": 0.16666666666666666
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.16796589986072333,
+        "mean_performance": 0.40625,
+        "mean_cost": 0.004391466713793955
+      }
+    },
+    {
+      "generation": 2,
+      "operators": {
+        "planner": {
+          "utility": 0.5062068785070457,
+          "probability": 0.2465802833738766,
+          "count": 1.0,
+          "accepted": 1.0,
+          "avg_credit": 1.042006944574939,
+          "survival_rate": 1.0
+        },
+        "memory": {
+          "utility": 0.053569995244977575,
+          "probability": 0.08158023973605005,
+          "count": 7.0,
+          "accepted": 2.0,
+          "avg_credit": 0.1319552850108942,
+          "survival_rate": 0.2857142857142857
+        },
+        "reflection": {
+          "utility": 0.23328960210668526,
+          "probability": 0.12403935481776159,
+          "count": 3.0,
+          "accepted": 1.0,
+          "avg_credit": 0.17806438834667934,
+          "survival_rate": 0.3333333333333333
+        },
+        "tool": {
+          "utility": 0.6140892801794762,
+          "probability": 0.32714916914629166,
+          "count": 4.0,
+          "accepted": 3.0,
+          "avg_credit": 0.6095229961675744,
+          "survival_rate": 0.75
+        },
+        "budget": {
+          "utility": 0.46326131085849875,
+          "probability": 0.22065095292602,
+          "count": 1.0,
+          "accepted": 1.0,
+          "avg_credit": 1.052157425093678,
+          "survival_rate": 1.0
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.192769154503369,
+        "mean_performance": 0.46875,
+        "mean_cost": 0.004621578061041415
+      }
+    },
+    {
+      "generation": 3,
+      "operators": {
+        "planner": {
+          "utility": 0.29334021305873986,
+          "probability": 0.18689245972058735,
+          "count": 4.0,
+          "accepted": 1.0,
+          "avg_credit": 0.21382325009259556,
+          "survival_rate": 0.25
+        },
+        "memory": {
+          "utility": 0.1962222422487817,
+          "probability": 0.12115596343029131,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": 0.46114784382727514,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.29570152939785854,
+          "probability": 0.1889220733303795,
+          "count": 1.0,
+          "accepted": 1.0,
+          "avg_credit": 0.4116093943671803,
+          "survival_rate": 1.0
+        },
+        "tool": {
+          "utility": 0.31343667608966236,
+          "probability": 0.2049564912061347,
+          "count": 8.0,
+          "accepted": 3.0,
+          "avg_credit": 0.4915034762861447,
+          "survival_rate": 0.375
+        },
+        "budget": {
+          "utility": 0.3935665086970908,
+          "probability": 0.2980730123126072,
+          "count": 2.0,
+          "accepted": 1.0,
+          "avg_credit": 0.35795310262155594,
+          "survival_rate": 0.5
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.2014481032354708,
+        "mean_performance": 0.5078125,
+        "mean_cost": 0.0047987706641440635
+      }
+    },
+    {
+      "generation": 4,
+      "operators": {
+        "planner": {
+          "utility": 0.10716486408144692,
+          "probability": 0.049483321465797675,
+          "count": 2.0,
+          "accepted": 0.0,
+          "avg_credit": -0.08173729345049537,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.37591883495531286,
+          "probability": 0.1443572385298013,
+          "count": 4.0,
+          "accepted": 1.0,
+          "avg_credit": 0.3029157175496754,
+          "survival_rate": 0.25
+        },
+        "reflection": {
+          "utility": 0.6016708649764743,
+          "probability": 0.4128575708193071,
+          "count": 3.0,
+          "accepted": 2.0,
+          "avg_credit": 0.836769999014999,
+          "survival_rate": 0.6666666666666666
+        },
+        "tool": {
+          "utility": 0.2709991040728662,
+          "probability": 0.09196089346004112,
+          "count": 6.0,
+          "accepted": 1.0,
+          "avg_credit": 0.34732035615160045,
+          "survival_rate": 0.16666666666666666
+        },
+        "budget": {
+          "utility": 0.5356923486887335,
+          "probability": 0.30134097572505286,
+          "count": 1.0,
+          "accepted": 1.0,
+          "avg_credit": 0.7996403372446413,
+          "survival_rate": 1.0
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.19501549603056337,
+        "mean_performance": 0.484375,
+        "mean_cost": 0.004448709746066473
+      }
+    },
+    {
+      "generation": 5,
+      "operators": {
+        "planner": {
+          "utility": 0.10716486408144692,
+          "probability": 0.05935252929659617,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.4037879908836025,
+          "probability": 0.20703958950768736,
+          "count": 3.0,
+          "accepted": 0.0,
+          "avg_credit": 0.3538976059621839,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.24249016367500947,
+          "probability": 0.1012843992837184,
+          "count": 11.0,
+          "accepted": 3.0,
+          "avg_credit": 0.3525907598703557,
+          "survival_rate": 0.2727272727272727
+        },
+        "tool": {
+          "utility": 0.2709991040728662,
+          "probability": 0.1143503641502789,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "budget": {
+          "utility": 0.5970011681845806,
+          "probability": 0.5179731177617193,
+          "count": 2.0,
+          "accepted": 1.0,
+          "avg_credit": 0.6186938524070089,
+          "survival_rate": 0.5
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.19579189299343813,
+        "mean_performance": 0.53125,
+        "mean_cost": 0.004806452949391244
+      }
+    },
+    {
+      "generation": 6,
+      "operators": {
+        "planner": {
+          "utility": 0.001,
+          "probability": 0.053720095018446386,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": -0.7,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.1584916248254519,
+          "probability": 0.09890132962676192,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": -0.2970587692825421,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.32239033328736777,
+          "probability": 0.20413215034246218,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": 0.4707763625674617,
+          "survival_rate": 0.0
+        },
+        "tool": {
+          "utility": 0.2709991040728662,
+          "probability": 0.16150180574793208,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "budget": {
+          "utility": 0.50368889595305,
+          "probability": 0.4817446192643973,
+          "count": 13.0,
+          "accepted": 4.0,
+          "avg_credit": 0.4957275143641558,
+          "survival_rate": 0.3076923076923077
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.19492170680235618,
+        "mean_performance": 0.53125,
+        "mean_cost": 0.004803534352367578
+      }
+    },
+    {
+      "generation": 7,
+      "operators": {
+        "planner": {
+          "utility": 0.005937904145033909,
+          "probability": 0.03754763937445044,
+          "count": 2.0,
+          "accepted": 0.0,
+          "avg_credit": 0.1302511706958267,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.28580722269018227,
+          "probability": 0.10332291040705413,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": 0.5222504758675387,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.3240887358520128,
+          "probability": 0.12174393111495173,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": 0.32724291204349637,
+          "survival_rate": 0.0
+        },
+        "tool": {
+          "utility": 0.37931287801348285,
+          "probability": 0.15537123635279576,
+          "count": 5.0,
+          "accepted": 2.0,
+          "avg_credit": 0.29626029996547254,
+          "survival_rate": 0.4
+        },
+        "budget": {
+          "utility": 0.6596085128782301,
+          "probability": 0.5820142827507481,
+          "count": 7.0,
+          "accepted": 2.0,
+          "avg_credit": 0.6606035296771271,
+          "survival_rate": 0.2857142857142857
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.2014481032354708,
+        "mean_performance": 0.5,
+        "mean_cost": 0.004509635569959499
+      }
+    },
+    {
+      "generation": 8,
+      "operators": {
+        "planner": {
+          "utility": 0.17765100231957368,
+          "probability": 0.09197774325997941,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": 0.49654675607229043,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.15563597250946082,
+          "probability": 0.0840583412231789,
+          "count": 1.0,
+          "accepted": 0.0,
+          "avg_credit": -0.08611063496902197,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.40463328776984026,
+          "probability": 0.25235900878584466,
+          "count": 3.0,
+          "accepted": 2.0,
+          "avg_credit": 0.41794928298924666,
+          "survival_rate": 0.6666666666666666
+        },
+        "tool": {
+          "utility": 0.32266651320985384,
+          "probability": 0.17288577613265144,
+          "count": 2.0,
+          "accepted": 1.0,
+          "avg_credit": 0.3415219431949417,
+          "survival_rate": 0.5
+        },
+        "budget": {
+          "utility": 0.5010231891448165,
+          "probability": 0.3987191305983457,
+          "count": 9.0,
+          "accepted": 3.0,
+          "avg_credit": 0.4537956159871778,
+          "survival_rate": 0.3333333333333333
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.1982676266532867,
+        "mean_performance": 0.5546875,
+        "mean_cost": 0.005233859187097784
+      }
+    },
+    {
+      "generation": 9,
+      "operators": {
+        "planner": {
+          "utility": 0.17765100231957368,
+          "probability": 0.10592023721075056,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.15563597250946082,
+          "probability": 0.0965475646468959,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "reflection": {
+          "utility": 0.3723374760318018,
+          "probability": 0.2540201639883771,
+          "count": 3.0,
+          "accepted": 0.0,
+          "avg_credit": 0.33053481610868424,
+          "survival_rate": 0.0
+        },
+        "tool": {
+          "utility": 0.40907756779244486,
+          "probability": 0.30201831622849257,
+          "count": 7.0,
+          "accepted": 1.0,
+          "avg_credit": 0.539759395966996,
+          "survival_rate": 0.14285714285714285
+        },
+        "budget": {
+          "utility": 0.36152485751343194,
+          "probability": 0.2414937179254839,
+          "count": 6.0,
+          "accepted": 1.0,
+          "avg_credit": 0.3447017687362192,
+          "survival_rate": 0.16666666666666666
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.20002609784311629,
+        "mean_performance": 0.53125,
+        "mean_cost": 0.005002866128952058
+      }
+    },
+    {
+      "generation": 10,
+      "operators": {
+        "planner": {
+          "utility": 0.17765100231957368,
+          "probability": 0.09508626965560277,
+          "count": 0.0,
+          "accepted": 0.0,
+          "avg_credit": 0.0,
+          "survival_rate": 0.0
+        },
+        "memory": {
+          "utility": 0.001,
+          "probability": 0.048697030585759436,
+          "count": 2.0,
+          "accepted": 1.0,
+          "avg_credit": -0.0034173452020472284,
+          "survival_rate": 0.5
+        },
+        "reflection": {
+          "utility": 0.3932425912032958,
+          "probability": 0.2484086447537378,
+          "count": 6.0,
+          "accepted": 2.0,
+          "avg_credit": 0.44255710276517285,
+          "survival_rate": 0.3333333333333333
+        },
+        "tool": {
+          "utility": 0.3927649063434837,
+          "probability": 0.2478542166676173,
+          "count": 4.0,
+          "accepted": 0.0,
+          "avg_credit": 0.43393649738809714,
+          "survival_rate": 0.0
+        },
+        "budget": {
+          "utility": 0.47164463829680253,
+          "probability": 0.35995383833728256,
+          "count": 4.0,
+          "accepted": 0.0,
+          "avg_credit": 0.49658995170133835,
+          "survival_rate": 0.0
+        }
+      },
+      "global_metrics": {
+        "hypervolume": 0.2017845690329459,
+        "mean_performance": 0.5390625,
+        "mean_cost": 0.005016910511030529
+      }
+    }
+  ]
+}
