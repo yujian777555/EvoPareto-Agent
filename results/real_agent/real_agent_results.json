@@ -1,0 +1,537 @@
+{
+  "phase": "Phase 4 — Real Agent Benchmark Validation",
+  "claim": "PEEM-PPEC improves real-world many-objective optimization of adaptive LLM agents",
+  "offline_default": true,
+  "note": "MockLLMBackend + simulated ALFWorld/WebShop unless OPENAI_API_KEY/DEEPSEEK_API_KEY set",
+  "E1_alfworld": {
+    "name": "E1_baseline_comparison_alfworld",
+    "runs": [
+      {
+        "variant": "B1_react_baseline",
+        "seed": 11,
+        "success_rate": 0.625,
+        "mean_tokens": 157.625,
+        "mean_latency": 0.4475,
+        "mean_cost": 0.000875,
+        "objectives": [
+          0.625,
+          0.6934846355887047,
+          0.002491969013467964,
+          0.375,
+          0.8949166666666668
+        ]
+      },
+      {
+        "variant": "B2_random_evolution",
+        "seed": 11,
+        "success_rate": 0.890625,
+        "mean_cost": 0.0024640976524195673,
+        "final_hv": 0.7851178225447217,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B3_nsga3",
+        "seed": 11,
+        "success_rate": 0.890625,
+        "mean_cost": 0.0024640976524195673,
+        "final_hv": 0.7851178225447217,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B4_nsga3_peem",
+        "seed": 11,
+        "success_rate": 0.7954545454545454,
+        "mean_cost": 0.0022208496680912763,
+        "final_hv": 0.7157617126892365,
+        "final_pareto": 11,
+        "history_len": 9
+      },
+      {
+        "variant": "B5_peem_ppec",
+        "seed": 11,
+        "success_rate": 0.7954545454545454,
+        "mean_cost": 0.0022208496680912763,
+        "final_hv": 0.7157617126892365,
+        "final_pareto": 11,
+        "history_len": 9
+      },
+      {
+        "variant": "B2_random_evolution",
+        "seed": 22,
+        "success_rate": 0.84375,
+        "mean_cost": 0.0021725324949771244,
+        "final_hv": 0.7375903809278579,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B3_nsga3",
+        "seed": 22,
+        "success_rate": 0.84375,
+        "mean_cost": 0.0021725324949771244,
+        "final_hv": 0.7375903809278579,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B4_nsga3_peem",
+        "seed": 22,
+        "success_rate": 0.7678571428571429,
+        "mean_cost": 0.0021850990814554347,
+        "final_hv": 0.7164101458168257,
+        "final_pareto": 14,
+        "history_len": 9
+      },
+      {
+        "variant": "B5_peem_ppec",
+        "seed": 22,
+        "success_rate": 0.7678571428571429,
+        "mean_cost": 0.0021850990814554347,
+        "final_hv": 0.7164101458168257,
+        "final_pareto": 14,
+        "history_len": 9
+      }
+    ],
+    "summary": {
+      "B1_react_baseline": {
+        "success_proxy": {
+          "mean": 0.625,
+          "std": 0.0
+        },
+        "mean_cost": {
+          "mean": 0.000875,
+          "std": 0.0
+        }
+      },
+      "B2_random_evolution": {
+        "success_proxy": {
+          "mean": 0.8671875,
+          "std": 0.0234375
+        },
+        "mean_cost": {
+          "mean": 0.0023183150736983456,
+          "std": 0.00014578257872122145
+        },
+        "final_hv": {
+          "mean": 0.7613541017362898,
+          "std": 0.02376372080843192
+        }
+      },
+      "B3_nsga3": {
+        "success_proxy": {
+          "mean": 0.8671875,
+          "std": 0.0234375
+        },
+        "mean_cost": {
+          "mean": 0.0023183150736983456,
+          "std": 0.00014578257872122145
+        },
+        "final_hv": {
+          "mean": 0.7613541017362898,
+          "std": 0.02376372080843192
+        }
+      },
+      "B4_nsga3_peem": {
+        "success_proxy": {
+          "mean": 0.7816558441558441,
+          "std": 0.013798701298701255
+        },
+        "mean_cost": {
+          "mean": 0.0022029743747733555,
+          "std": 1.787529331792083e-05
+        },
+        "final_hv": {
+          "mean": 0.716085929253031,
+          "std": 0.0003242165637946104
+        }
+      },
+      "B5_peem_ppec": {
+        "success_proxy": {
+          "mean": 0.7816558441558441,
+          "std": 0.013798701298701255
+        },
+        "mean_cost": {
+          "mean": 0.0022029743747733555,
+          "std": 1.787529331792083e-05
+        },
+        "final_hv": {
+          "mean": 0.716085929253031,
+          "std": 0.0003242165637946104
+        }
+      }
+    }
+  },
+  "E1_webshop": {
+    "name": "E1_baseline_comparison_webshop",
+    "runs": [
+      {
+        "variant": "B1_react_baseline",
+        "seed": 11,
+        "success_rate": 0.75,
+        "mean_tokens": 114.75,
+        "mean_latency": 0.36,
+        "mean_cost": 0.0014437500000000002,
+        "objectives": [
+          0.75,
+          0.7416386927708138,
+          0.004105546172733234,
+          0.44999999999999996,
+          0.9011666666666668
+        ]
+      },
+      {
+        "variant": "B2_random_evolution",
+        "seed": 11,
+        "success_rate": 0.7109375,
+        "mean_cost": 0.0032911712983268735,
+        "final_hv": 0.46496120518181183,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B3_nsga3",
+        "seed": 11,
+        "success_rate": 0.7109375,
+        "mean_cost": 0.0032911712983268735,
+        "final_hv": 0.46496120518181183,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B4_nsga3_peem",
+        "seed": 11,
+        "success_rate": 0.7734375,
+        "mean_cost": 0.00446678367719609,
+        "final_hv": 0.6180316045026661,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B5_peem_ppec",
+        "seed": 11,
+        "success_rate": 0.7734375,
+        "mean_cost": 0.00446678367719609,
+        "final_hv": 0.6180316045026661,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B2_random_evolution",
+        "seed": 22,
+        "success_rate": 0.65625,
+        "mean_cost": 0.0030522770011575527,
+        "final_hv": 0.6931054703219209,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B3_nsga3",
+        "seed": 22,
+        "success_rate": 0.65625,
+        "mean_cost": 0.0030522770011575527,
+        "final_hv": 0.6931054703219209,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B4_nsga3_peem",
+        "seed": 22,
+        "success_rate": 0.734375,
+        "mean_cost": 0.003847805620972179,
+        "final_hv": 0.686704037908161,
+        "final_pareto": 16,
+        "history_len": 9
+      },
+      {
+        "variant": "B5_peem_ppec",
+        "seed": 22,
+        "success_rate": 0.734375,
+        "mean_cost": 0.003847805620972179,
+        "final_hv": 0.686704037908161,
+        "final_pareto": 16,
+        "history_len": 9
+      }
+    ],
+    "summary": {
+      "B1_react_baseline": {
+        "success_proxy": {
+          "mean": 0.75,
+          "std": 0.0
+        },
+        "mean_cost": {
+          "mean": 0.0014437500000000002,
+          "std": 0.0
+        }
+      },
+      "B2_random_evolution": {
+        "success_proxy": {
+          "mean": 0.68359375,
+          "std": 0.02734375
+        },
+        "mean_cost": {
+          "mean": 0.0031717241497422133,
+          "std": 0.00011944714858466037
+        },
+        "final_hv": {
+          "mean": 0.5790333377518664,
+          "std": 0.11407213257005455
+        }
+      },
+      "B3_nsga3": {
+        "success_proxy": {
+          "mean": 0.68359375,
+          "std": 0.02734375
+        },
+        "mean_cost": {
+          "mean": 0.0031717241497422133,
+          "std": 0.00011944714858466037
+        },
+        "final_hv": {
+          "mean": 0.5790333377518664,
+          "std": 0.11407213257005455
+        }
+      },
+      "B4_nsga3_peem": {
+        "success_proxy": {
+          "mean": 0.75390625,
+          "std": 0.01953125
+        },
+        "mean_cost": {
+          "mean": 0.004157294649084134,
+          "std": 0.0003094890281119555
+        },
+        "final_hv": {
+          "mean": 0.6523678212054136,
+          "std": 0.034336216702747446
+        }
+      },
+      "B5_peem_ppec": {
+        "success_proxy": {
+          "mean": 0.75390625,
+          "std": 0.01953125
+        },
+        "mean_cost": {
+          "mean": 0.004157294649084134,
+          "std": 0.0003094890281119555
+        },
+        "final_hv": {
+          "mean": 0.6523678212054136,
+          "std": 0.034336216702747446
+        }
+      }
+    }
+  },
+  "E2_ablation": {
+    "name": "E2_ablation_alfworld",
+    "runs": [
+      {
+        "variant": "nsga3",
+        "seed": 7,
+        "final_hv": 0.7291667012095077,
+        "pref_sat_accuracy": 0.8341919982500806
+      },
+      {
+        "variant": "nsga3_peem",
+        "seed": 7,
+        "final_hv": 0.7818861475310805,
+        "pref_sat_accuracy": 0.8812741939836104
+      },
+      {
+        "variant": "nsga3_peem_ppec",
+        "seed": 7,
+        "final_hv": 0.7711561592990676,
+        "pref_sat_accuracy": 0.8219441581105934
+      },
+      {
+        "variant": "nsga3",
+        "seed": 17,
+        "final_hv": 0.7586065215094121,
+        "pref_sat_accuracy": 0.8637032186827092
+      },
+      {
+        "variant": "nsga3_peem",
+        "seed": 17,
+        "final_hv": 0.7480345523061169,
+        "pref_sat_accuracy": 0.8716916542588948
+      },
+      {
+        "variant": "nsga3_peem_ppec",
+        "seed": 17,
+        "final_hv": 0.7532030784814676,
+        "pref_sat_accuracy": 0.7870567208502837
+      }
+    ],
+    "summary": {
+      "nsga3": {
+        "final_hv": {
+          "mean": 0.7438866113594599,
+          "std": 0.01471991014995222
+        },
+        "pref_sat_accuracy": {
+          "mean": 0.8489476084663949,
+          "std": 0.014755610216314274
+        }
+      },
+      "nsga3_peem": {
+        "final_hv": {
+          "mean": 0.7649603499185987,
+          "std": 0.016925797612481808
+        },
+        "pref_sat_accuracy": {
+          "mean": 0.8764829241212526,
+          "std": 0.004791269862357783
+        }
+      },
+      "nsga3_peem_ppec": {
+        "final_hv": {
+          "mean": 0.7621796188902676,
+          "std": 0.008976540408799971
+        },
+        "pref_sat_accuracy": {
+          "mean": 0.8045004394804385,
+          "std": 0.01744371863015487
+        }
+      }
+    }
+  },
+  "E3_preference": {
+    "name": "E3_preference_scenarios_webshop",
+    "runs": [
+      {
+        "seed": 5,
+        "preference": "accuracy_first",
+        "mean_performance": 0.859375,
+        "mean_cost": 0.004845926166450512,
+        "mean_efficiency": 0.7765279422005484,
+        "final_hv": 0.679243077019838,
+        "pref_sat": 0.804295767565509
+      },
+      {
+        "seed": 5,
+        "preference": "cost_first",
+        "mean_performance": 0.734375,
+        "mean_cost": 0.003964866281556968,
+        "mean_efficiency": 0.7454361368498968,
+        "final_hv": 0.4363613234298299,
+        "pref_sat": 0.8031556479536519
+      },
+      {
+        "seed": 5,
+        "preference": "balanced",
+        "mean_performance": 0.7421875,
+        "mean_cost": 0.00387298841876189,
+        "mean_efficiency": 0.7487042387570885,
+        "final_hv": 0.4341139412681393,
+        "pref_sat": 0.759554791734332
+      },
+      {
+        "seed": 15,
+        "preference": "accuracy_first",
+        "mean_performance": 0.6875,
+        "mean_cost": 0.0030817849466531753,
+        "mean_efficiency": 0.7196876508604791,
+        "final_hv": 0.7223741702470468,
+        "pref_sat": 0.6844052240501778
+      },
+      {
+        "seed": 15,
+        "preference": "cost_first",
+        "mean_performance": 0.703125,
+        "mean_cost": 0.0031144518550177054,
+        "mean_efficiency": 0.7110433178137717,
+        "final_hv": 0.726489917259457,
+        "pref_sat": 0.8028064132593051
+      },
+      {
+        "seed": 15,
+        "preference": "balanced",
+        "mean_performance": 0.703125,
+        "mean_cost": 0.0034669436975496267,
+        "mean_efficiency": 0.7219411530729722,
+        "final_hv": 0.7183648181470363,
+        "pref_sat": 0.7648344252084179
+      }
+    ],
+    "summary": {
+      "accuracy_first": {
+        "pref_sat": {
+          "mean": 0.7443504958078434,
+          "std": 0.05994527175766562
+        },
+        "mean_performance": {
+          "mean": 0.7734375,
+          "std": 0.0859375
+        },
+        "mean_cost": {
+          "mean": 0.003963855556551843,
+          "std": 0.0008820706098986682
+        }
+      },
+      "cost_first": {
+        "pref_sat": {
+          "mean": 0.8029810306064785,
+          "std": 0.00017461734717338917
+        },
+        "mean_performance": {
+          "mean": 0.71875,
+          "std": 0.015625
+        },
+        "mean_cost": {
+          "mean": 0.0035396590682873364,
+          "std": 0.00042520721326963127
+        }
+      },
+      "balanced": {
+        "pref_sat": {
+          "mean": 0.762194608471375,
+          "std": 0.0026398167370429437
+        },
+        "mean_performance": {
+          "mean": 0.72265625,
+          "std": 0.01953125
+        },
+        "mean_cost": {
+          "mean": 0.003669966058155758,
+          "std": 0.00020302236060613173
+        }
+      }
+    }
+  },
+  "E4_trajectory": {
+    "name": "E4_evolution_trajectory_alfworld",
+    "marks": [
+      {
+        "generation": 0,
+        "hypervolume": 0.6528290288031661,
+        "n_non_dominated": 6,
+        "mutation_entropy": 0.0,
+        "temperature": 1.0
+      },
+      {
+        "generation": 5,
+        "hypervolume": 0.7023761927581771,
+        "n_non_dominated": 17,
+        "mutation_entropy": 2.294833668654683,
+        "temperature": 0.2
+      },
+      {
+        "generation": 10,
+        "hypervolume": 0.7346961991555109,
+        "n_non_dominated": 19,
+        "mutation_entropy": 2.2361717385740523,
+        "temperature": 0.2
+      },
+      {
+        "generation": 20,
+        "hypervolume": 0.7800699909081333,
+        "n_non_dominated": 20,
+        "mutation_entropy": 2.184501356199464,
+        "temperature": 0.2
+      }
+    ],
+    "final_hv": 0.7816116312063707,
+    "final_pareto": 20
+  }
+}

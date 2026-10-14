@@ -1,0 +1,35 @@
+{
+  "name": "E4_evolution_trajectory_alfworld",
+  "marks": [
+    {
+      "generation": 0,
+      "hypervolume": 0.6528290288031661,
+      "n_non_dominated": 6,
+      "mutation_entropy": 0.0,
+      "temperature": 1.0
+    },
+    {
+      "generation": 5,
+      "hypervolume": 0.7023761927581771,
+      "n_non_dominated": 17,
+      "mutation_entropy": 2.294833668654683,
+      "temperature": 0.2
+    },
+    {
+      "generation": 10,
+      "hypervolume": 0.7346961991555109,
+      "n_non_dominated": 19,
+      "mutation_entropy": 2.2361717385740523,
+      "temperature": 0.2
+    },
+    {
+      "generation": 20,
+      "hypervolume": 0.7800699909081333,
+      "n_non_dominated": 20,
+      "mutation_entropy": 2.184501356199464,
+      "temperature": 0.2
+    }
+  ],
+  "final_hv": 0.7816116312063707,
+  "final_pareto": 20
+}

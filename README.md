@@ -51,9 +51,18 @@ src/
     agent_builder.py # AgentBuilder + Agent + LLMBackend protocol
     agent_runner.py  # unified agent.run(task) runner
     pipeline.py      # genome -> objectives + run_agent_evolution
+    real_pipeline.py # Phase 4: real benchmark evaluation pipeline
+  backend/
+    base.py          # Phase 4: LLMBackend + Mock/OpenAI/DeepSeek
+    mock.py
+    openai_backend.py
+    deepseek_backend.py
   benchmark/
     base.py          # Benchmark ABC
     mock_benchmark.py
+    base_adapter.py  # Phase 4: BenchmarkAdapter + EpisodeRecord
+    alfworld.py      # Phase 4: ALFWorld adapter
+    webshop.py       # Phase 4: WebShop adapter
   evaluation/
     evaluator.py     # Toy multi-objective environment (Phase 0)
     objective_evaluator.py  # TaskResult -> paper objective vector (Phase 1)
@@ -141,6 +150,9 @@ python experiments/run_robust_peem_demo.py
 
 # Phase 3: preference-aware Pareto evolution controller
 python experiments/run_preference_demo.py
+
+# Phase 4: real agent benchmark validation (ALFWorld / WebShop)
+python experiments/run_real_agent_evolution.py
 ```
 
 Artifacts land in `results/`:
@@ -151,6 +163,10 @@ Artifacts land in `results/`:
 - Phase 2.5: `peem_results.json`, `peem_summary.json`
 - Phase 2.5-R1: `robust_peem_results.json`, `robust_peem_summary.json`
 - Phase 3: `preference_results.json`, `preference_summary.json`
+- Phase 4: `real_agent/` (alfworld, webshop, evolution_history, pareto_fronts)
+
+Phase 4 LLM backends: `MockLLMBackend` (offline default) or set
+`OPENAI_API_KEY` / `DEEPSEEK_API_KEY` for real LLMs.
 
 ## Tests
 
@@ -204,6 +220,14 @@ Artifacts land in `results/`:
 29. PreferenceController API
 30. End-to-end preference-guided evolution
 
+**Phase 4 (Real benchmark validation)**
+
+31. LLM backend abstraction (mock / OpenAI / DeepSeek, env-var keys)
+32. ALFWorld / WebShop adapters (reset / run / evaluate)
+33. Episode records + cost / token / latency tracking
+34. Real benchmark evolution pipeline
+35. Baseline / ablation / preference / trajectory experiments
+
 ## Phase roadmap
 
 | phase | goal | status |
@@ -213,18 +237,17 @@ Artifacts land in `results/`:
 | **Phase 2** | Evolution Experience Memory (optimizer memory) | ✅ frozen (`a7e6420`) |
 | **Phase 2.5** | **PEEM**: Pareto-aware mutation utility | ✅ frozen (`0b770ac`) |
 | **Phase 2.5-R1** | **Robust PEEM**: rank credit + delayed + temperature | ✅ frozen (`4cb0d3a`) |
-| **Phase 3** | **PPEC**: preference-aware Pareto search | ✅ current |
-| Phase 4 | Benchmark + paper | |
+| **Phase 3** | **PPEC**: preference-aware Pareto search | ✅ frozen (`94983aa`) |
+| **Phase 4** | **Real benchmark validation** (ALFWorld / WebShop) | ✅ current |
+| Phase 5 | Paper writing + CCF-B submission package | |
 
-See `docs/PHASE0_FINAL_AUDIT.md`, `docs/PHASE1_AGENT_RUNTIME.md`,
-`docs/PHASE2_EVOLUTION_MEMORY.md`, `docs/PHASE2_5_PEEM.md`,
-`docs/PHASE3_PREFERENCE_EVOLUTION.md`.
+See `docs/PHASE0_FINAL_AUDIT.md` … `docs/PHASE4_REAL_AGENT_BENCHMARK.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 
 ## Notes
 
-- **No real LLM API** is called in Phase 0.
-- **No benchmark suite** yet — that is Phase 4.
-- **No paper prose** yet — keep this README as the technical contract.
-- Algorithm correctness first; engineering demos come later.
+- Phase 0–2 use offline mock evaluation only; Phase 4 adds real LLM backends
+  (mock default; OpenAI / DeepSeek via env-var API keys).
+- ALFWorld / WebShop adapters default to offline simulators with the real
+  episode schema; full environments plug into the same API.
