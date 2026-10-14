@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import List, Sequence, Tuple
 
+from src.evaluation.objectives import MAXIMIZE, to_minimization
+
 
 def dominates_max(a: Sequence[float], b: Sequence[float]) -> bool:
     """True if a dominates b under maximization (all objectives)."""
@@ -26,8 +28,13 @@ def dominates_min(a: Sequence[float], b: Sequence[float]) -> bool:
     return strictly_better
 
 
+def dominates_mixed(a: Sequence[float], b: Sequence[float]) -> bool:
+    """Dominance under paper semantics (max except cost)."""
+    return dominates_min(to_minimization(a), to_minimization(b))
+
+
 def pareto_mask_max(rows: Sequence[Sequence[float]]) -> List[bool]:
-    """Boolean mask of non-dominated rows under maximization."""
+    """Boolean mask of non-dominated rows under maximization (all objectives)."""
     n = len(rows)
     mask = [True] * n
     for i in range(n):
@@ -44,8 +51,31 @@ def pareto_mask_max(rows: Sequence[Sequence[float]]) -> List[bool]:
     return mask
 
 
+def pareto_mask_mixed(rows: Sequence[Sequence[float]]) -> List[bool]:
+    """Boolean mask of non-dominated rows under paper max/min semantics."""
+    n = len(rows)
+    mask = [True] * n
+    for i in range(n):
+        if not mask[i]:
+            continue
+        for j in range(n):
+            if i == j or not mask[j]:
+                continue
+            if dominates_mixed(rows[j], rows[i]):
+                mask[i] = False
+                break
+            if dominates_mixed(rows[i], rows[j]):
+                mask[j] = False
+    return mask
+
+
 def filter_pareto_max(rows: Sequence[Sequence[float]]) -> List[List[float]]:
     mask = pareto_mask_max(rows)
+    return [list(rows[i]) for i in range(len(rows)) if mask[i]]
+
+
+def filter_pareto_mixed(rows: Sequence[Sequence[float]]) -> List[List[float]]:
+    mask = pareto_mask_mixed(rows)
     return [list(rows[i]) for i in range(len(rows)) if mask[i]]
 
 

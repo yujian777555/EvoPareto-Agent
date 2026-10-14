@@ -5,8 +5,12 @@ configuration search. Supports >= 5 objectives.
 
 Internal convention
 -------------------
-All comparisons are **minimization**. Callers pass already-signed objective
-vectors (see `src/evaluation/objectives.py`).
+`non_dominated_sort` / `dominates` compare **minimization** vectors.
+
+`NSGA3.select` and friends accept **paper-semantics** fitness
+(`[performance, efficiency, cost, robustness, autonomy]`, mixed max/min) and
+convert via `to_minimization` before ranking. Individual.fitness_vector stays
+in paper semantics for reporting.
 """
 
 from __future__ import annotations
@@ -17,6 +21,15 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Sequence, Tuple
 
 from src.agent.individual import Individual
+from src.evaluation.objectives import to_minimization
+
+
+def to_min_matrix(
+    fitness_rows: Sequence[Sequence[float]],
+    maximize: Optional[Sequence[bool]] = None,
+) -> List[List[float]]:
+    """Convert paper-semantics fitness rows to NSGA-III minimization space."""
+    return [to_minimization(row, maximize=maximize) for row in fitness_rows]
 
 
 # ====================================================================== #
@@ -314,14 +327,11 @@ def niching_select(
             niche_counts[chosen_ref] = niche_counts.get(chosen_ref, 0) + 1
         else:
             # Tie-breaking: randomly pick among min-count refs (Jain rule).
-            rng = random.Random(0)  # deterministic per call site via outer seed
-            # Use non-deterministic global RNG for true diversity:
             chosen_ref = random.choice(min_refs)
             members = ref_to_members[chosen_ref]
             if members:
                 member = members.pop(0)
             else:
-                # Should not happen; skip.
                 continue
             if member not in selected_set:
                 selected.append(member)
@@ -339,6 +349,7 @@ class NSGA3Config:
     n_objectives: int = 5
     divisions: int = 3  # Das-Dennis H
     seed: Optional[int] = 42
+    maximize: Optional[Tuple[bool, ...]] = None
 
 
 class NSGA3:
@@ -349,8 +360,14 @@ class NSGA3:
         n_objectives: int = 5,
         divisions: int = 3,
         seed: Optional[int] = 42,
+        maximize: Optional[Sequence[bool]] = None,
     ) -> None:
-        self.config = NSGA3Config(n_objectives, divisions, seed)
+        self.config = NSGA3Config(
+            n_objectives,
+            divisions,
+            seed,
+            None if maximize is None else tuple(maximize),
+        )
         if seed is not None:
             random.seed(seed)
         self.directions = generate_reference_directions(n_objectives, divisions)
@@ -359,12 +376,18 @@ class NSGA3:
     def reference_directions(self) -> List[List[float]]:
         return [list(d) for d in self.directions]
 
+    def _to_min(self, fitness_rows: Sequence[Sequence[float]]) -> List[List[float]]:
+        return to_min_matrix(fitness_rows, maximize=self.config.maximize)
+
     def select(
         self,
         population: List[Individual],
         pop_size: int,
     ) -> List[Individual]:
-        """Return `pop_size` individuals chosen from `population` by NSGA-III."""
+        """Return `pop_size` individuals chosen from `population` by NSGA-III.
+
+        `Individual.fitness_vector` is paper semantics (mixed max/min).
+        """
         if pop_size <= 0:
             raise ValueError("pop_size must be positive")
         if not population:
@@ -376,7 +399,8 @@ class NSGA3:
             if not ind.has_fitness():
                 raise ValueError("all individuals must have fitness_vector set")
 
-        fitness_rows = [list(ind.fitness_vector or []) for ind in population]
+        # Paper semantics -> minimization space for ranking/niching.
+        fitness_rows = self._to_min([ind.fitness_vector or [] for ind in population])
         fronts = non_dominated_sort(fitness_rows)
 
         selected_idx: List[int] = []
@@ -408,7 +432,7 @@ class NSGA3:
         return [population[i] for i in selected_idx]
 
     def sort_fronts(self, population: List[Individual]) -> List[List[int]]:
-        fitness_rows = [list(ind.fitness_vector or []) for ind in population]
+        fitness_rows = self._to_min([ind.fitness_vector or [] for ind in population])
         return non_dominated_sort(fitness_rows)
 
     def pareto_front(self, population: List[Individual]) -> List[Individual]:

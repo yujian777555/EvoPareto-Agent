@@ -1,4 +1,4 @@
-"""Pareto-front correctness tests (maximization semantics of raw fitness)."""
+"""Pareto-front correctness tests (paper semantics: max except cost)."""
 
 import random
 
@@ -9,8 +9,11 @@ from src.evaluation.objectives import OBJECTIVE_NAMES, to_maximization, to_minim
 from src.evolution.population import Population, PopulationConfig
 from src.utils.pareto import (
     dominates_max,
+    dominates_mixed,
     filter_pareto_max,
+    filter_pareto_mixed,
     pareto_mask_max,
+    pareto_mask_mixed,
     hypervolume_2d_max,
 )
 
@@ -45,6 +48,39 @@ def test_pareto_mask_simple():
     assert len(front) == 3
 
 
+def test_dominates_mixed_respects_cost_direction():
+    # A better on performance AND cost; other objectives equal -> A dominates B.
+    a = [0.9, 0.5, 0.2, 0.5, 0.5]
+    b = [0.5, 0.5, 0.5, 0.5, 0.5]
+    assert dominates_mixed(a, b)
+    assert not dominates_mixed(b, a)
+    # Wrong all-max interpretation would disagree on cost.
+    assert not dominates_max(a, b)
+
+
+def test_nsga3_prefers_higher_performance_same_else():
+    """Regression: selection must use max/min signs, not raw minimization."""
+    from src.evolution.nsga3 import NSGA3
+
+    a = Individual(
+        genome=AgentGenome.random(random.Random(1)),
+        fitness_vector=[0.9, 0.5, 0.2, 0.5, 0.5],
+        generation=0,
+    )
+    b = Individual(
+        genome=AgentGenome.random(random.Random(2)),
+        fitness_vector=[0.5, 0.5, 0.5, 0.5, 0.5],
+        generation=0,
+    )
+    nsga = NSGA3(n_objectives=5, divisions=2, seed=0)
+    chosen = nsga.select([a, b], pop_size=1)
+    assert len(chosen) == 1
+    assert chosen[0].fitness_vector[0] == 0.9
+    front = nsga.pareto_front([a, b])
+    assert len(front) == 1
+    assert front[0].fitness_vector[0] == 0.9
+
+
 def test_evaluator_deterministic_and_bounds():
     ev = ToyEvaluator(noise_scale=1.0)
     g = AgentGenome.random(random.Random(0))
@@ -77,15 +113,9 @@ def test_evaluator_tradeoffs_exist():
     # strong should have higher performance, cheap should have lower cost
     assert s[0] > c[0]
     assert c[2] < s[2]
-    # Neither dominates the other under maximization (cost is maximize-better=lower).
-    # Convert cost to "cost_score = 1 - cost" for pure max comparison of usefulness,
-    # or use minimization dominance on to_minimization vectors.
-    from src.evolution.nsga3 import dominates
-
-    cm = to_minimization(c)
-    sm = to_minimization(s)
-    assert not dominates(cm, sm)
-    assert not dominates(sm, cm)
+    # Neither dominates the other under paper max/min semantics.
+    assert not dominates_mixed(c, s)
+    assert not dominates_mixed(s, c)
 
 
 def test_population_front_matches_manual_pareto():
@@ -96,12 +126,12 @@ def test_population_front_matches_manual_pareto():
     pop.run(3)
 
     all_rows = [list(ind.fitness_vector) for ind in pop.individuals]
-    manual = filter_pareto_max(all_rows)
+    manual = filter_pareto_mixed(all_rows)
     algo_front = pop.pareto_front()
     algo_rows = [list(ind.fitness_vector) for ind in algo_front]
 
     # Every algorithm-front point must be non-dominated among the full population.
-    mask = pareto_mask_max(all_rows)
+    mask = pareto_mask_mixed(all_rows)
     for row in algo_rows:
         # find at least one matching population member that is non-dominated
         assert any(

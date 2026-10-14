@@ -11,7 +11,7 @@ NSGA-III internally minimizes, so we convert with `to_minimization`:
 
 from __future__ import annotations
 
-from typing import List, Sequence
+from typing import List, Optional, Sequence, Tuple
 
 OBJECTIVE_NAMES = (
     "performance",
@@ -27,21 +27,31 @@ MAXIMIZE = (True, True, False, True, True)
 N_OBJECTIVES = len(OBJECTIVE_NAMES)
 
 
-def to_minimization(fitness: Sequence[float]) -> List[float]:
+def _maximize_flags(
+    n: int, maximize: Optional[Sequence[bool]] = None
+) -> Tuple[bool, ...]:
+    if maximize is not None:
+        flags = tuple(bool(x) for x in maximize)
+        if len(flags) != n:
+            raise ValueError(f"maximize length {len(flags)} != {n}")
+        return flags
+    if n == N_OBJECTIVES:
+        return MAXIMIZE
+    # Algorithmic tests with other dimensions default to all-maximize.
+    return tuple(True for _ in range(n))
+
+
+def to_minimization(
+    fitness: Sequence[float], maximize: Optional[Sequence[bool]] = None
+) -> List[float]:
     """Convert raw fitness (paper semantics) to NSGA-III minimization space."""
-    if len(fitness) != N_OBJECTIVES:
-        raise ValueError(f"expected {N_OBJECTIVES} objectives, got {len(fitness)}")
-    return [
-        -float(v) if maximize else float(v)
-        for v, maximize in zip(fitness, MAXIMIZE)
-    ]
+    flags = _maximize_flags(len(fitness), maximize)
+    return [-float(v) if flag else float(v) for v, flag in zip(fitness, flags)]
 
 
-def to_maximization(minimized: Sequence[float]) -> List[float]:
+def to_maximization(
+    minimized: Sequence[float], maximize: Optional[Sequence[bool]] = None
+) -> List[float]:
     """Inverse of `to_minimization`."""
-    if len(minimized) != N_OBJECTIVES:
-        raise ValueError(f"expected {N_OBJECTIVES} objectives, got {len(minimized)}")
-    return [
-        -float(v) if maximize else float(v)
-        for v, maximize in zip(minimized, MAXIMIZE)
-    ]
+    flags = _maximize_flags(len(minimized), maximize)
+    return [-float(v) if flag else float(v) for v, flag in zip(minimized, flags)]

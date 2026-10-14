@@ -70,21 +70,19 @@ def test_non_dominated_sort_simple():
 
 
 def test_nsga3_select_keeps_size_and_best():
-    # Two clear fronts under minimization.
+    # Paper semantics: high perf/eff/rob/auto good, low cost good.
     rows = [
-        [0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1],
-        [2, 2, 2, 2, 2],
-        [3, 3, 3, 3, 3],
+        [1.0, 1.0, 0.0, 1.0, 1.0],  # elite
+        [0.5, 0.5, 0.5, 0.5, 0.5],  # mid
+        [0.2, 0.2, 0.8, 0.2, 0.2],  # bad
+        [0.0, 0.0, 1.0, 0.0, 0.0],  # worst
     ]
     pop = [ind_with_fitness(r) for r in rows]
     nsga = NSGA3(n_objectives=5, divisions=2, seed=0)
     selected = nsga.select(pop, pop_size=2)
     assert len(selected) == 2
-    # Best two should be selected (front 0 then front 1).
-    fits = sorted(tuple(s.fitness_vector) for s in selected)
-    assert fits[0] == (0, 0, 0, 0, 0)
-    assert fits[1] == (1, 1, 1, 1, 1)
+    chosen_ids = {id(s) for s in selected}
+    assert id(pop[0]) in chosen_ids and id(pop[1]) in chosen_ids
 
 
 def test_nsga3_select_from_larger_pool():
@@ -106,7 +104,12 @@ def test_nsga3_select_supports_5_plus_objectives():
         pop = [
             ind_with_fitness([rng.random() for _ in range(n_obj)]) for _ in range(25)
         ]
-        nsga = NSGA3(n_objectives=n_obj, divisions=2, seed=3)
+        nsga = NSGA3(
+            n_objectives=n_obj,
+            divisions=2,
+            seed=3,
+            maximize=tuple([True] * n_obj),
+        )
         selected = nsga.select(pop, pop_size=12)
         assert len(selected) == 12
 

@@ -6,7 +6,7 @@ from src.agent.genome import AgentGenome
 from src.agent.individual import Individual
 from src.evaluation.evaluator import ToyEvaluator
 from src.evolution.population import Population, PopulationConfig
-from src.utils.pareto import dominates_max, pareto_mask_max
+from src.utils.pareto import dominates_mixed, pareto_mask_mixed
 
 
 def test_population_initialize_and_size():
@@ -63,13 +63,13 @@ def test_population_pareto_front_non_dominated():
     front = pop.pareto_front()
     assert len(front) >= 1
     rows = [ind.fitness_vector for ind in front]
-    # No member of the front dominates another under maximization semantics.
+    # No member of the front dominates another under paper max/min semantics.
     for i in range(len(rows)):
         for j in range(len(rows)):
             if i == j:
                 continue
-            assert not dominates_max(rows[i], rows[j])
-    mask = pareto_mask_max(rows)
+            assert not dominates_mixed(rows[i], rows[j])
+    mask = pareto_mask_mixed(rows)
     assert all(mask)
 
 

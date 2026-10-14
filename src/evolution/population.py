@@ -8,7 +8,7 @@ from typing import Callable, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from src.agent.genome import AgentGenome
 from src.agent.individual import Individual
-from src.evolution.nsga3 import NSGA3, non_dominated_sort
+from src.evolution.nsga3 import NSGA3, to_min_matrix
 from src.evolution.operators import crossover, evolve_individual
 
 
@@ -182,7 +182,7 @@ class Population:
         return [list(ind.fitness_vector or []) for ind in self.individuals]
 
     def _record_history(self) -> None:
-        fronts = non_dominated_sort(self.fitness_matrix())
+        fronts = self.nsga3.sort_fronts(self.individuals)
         n_nd = len(fronts[0]) if fronts else 0
         self.history.append(
             {
