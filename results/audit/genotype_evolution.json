@@ -1,0 +1,845 @@
+{
+  "phase": "Phase5-Audit-4 genotype evolution",
+  "note": "Search is over behavioral genotype planner/memory/reflection/tool/budget, not a single scalar.",
+  "genotype_frequency": [
+    {
+      "generation": 0,
+      "unique_genotypes": 16,
+      "entropy": 4.0,
+      "top": [
+        [
+          "cot|semantic|critic_model|aggressive|b128",
+          1
+        ],
+        [
+          "cot|semantic|iterative|balanced|b64",
+          1
+        ],
+        [
+          "direct|none|pairwise|no_tools|b112",
+          1
+        ],
+        [
+          "direct|short_term|self_critique|balanced|b16",
+          1
+        ],
+        [
+          "tree_search|semantic|iterative|tool_first|b16",
+          1
+        ]
+      ]
+    },
+    {
+      "generation": 1,
+      "unique_genotypes": 13,
+      "entropy": 3.577819531114783,
+      "top": [
+        [
+          "cot|episodic|self_critique|no_tools|b112",
+          3
+        ],
+        [
+          "plan_and_solve|semantic|critic_model|aggressive|b8",
+          2
+        ],
+        [
+          "cot|semantic|iterative|balanced|b64",
+          1
+        ],
+        [
+          "direct|short_term|none|conservative|b8",
+          1
+        ],
+        [
+          "cot|none|self_critique|balanced|b24",
+          1
+        ]
+      ]
+    },
+    {
+      "generation": 2,
+      "unique_genotypes": 13,
+      "entropy": 3.577819531114783,
+      "top": [
+        [
+          "cot|episodic|self_critique|no_tools|b112",
+          3
+        ],
+        [
+          "plan_and_solve|semantic|critic_model|aggressive|b8",
+          2
+        ],
+        [
+          "cot|semantic|iterative|balanced|b64",
+          1
+        ],
+        [
+          "direct|short_term|none|conservative|b8",
+          1
+        ],
+        [
+          "cot|none|self_critique|balanced|b24",
+          1
+        ]
+      ]
+    },
+    {
+      "generation": 3,
+      "unique_genotypes": 12,
+      "entropy": 3.452819531114783,
+      "top": [
+        [
+          "cot|episodic|self_critique|no_tools|b112",
+          3
+        ],
+        [
+          "tree_search|semantic|critic_model|conservative|b8",
+          2
+        ],
+        [
+          "cot|hybrid|iterative|no_tools|b64",
+          2
+        ],
+        [
+          "cot|none|self_critique|balanced|b24",
+          1
+        ],
+        [
+          "cot|none|self_critique|balanced|b32",
+          1
+        ]
+      ]
+    },
+    {
+      "generation": 4,
+      "unique_genotypes": 13,
+      "entropy": 3.577819531114783,
+      "top": [
+        [
+          "cot|episodic|self_critique|no_tools|b112",
+          3
+        ],
+        [
+          "cot|hybrid|iterative|no_tools|b64",
+          2
+        ],
+        [
+          "cot|none|self_critique|balanced|b32",
+          1
+        ],
+        [
+          "tree_search|semantic|iterative|no_tools|b16",
+          1
+        ],
+        [
+          "direct|hybrid|self_critique|no_tools|b64",
+          1
+        ]
+      ]
+    },
+    {
+      "generation": 5,
+      "unique_genotypes": 14,
+      "entropy": 3.75,
+      "top": [
+        [
+          "cot|hybrid|iterative|no_tools|b64",
+          2
+        ],
+        [
+          "cot|hybrid|self_critique|no_tools|b64",
+          2
+        ],
+        [
+          "cot|none|self_critique|balanced|b32",
+          1
+        ],
+        [
+          "tree_search|semantic|iterative|conservative|b8",
+          1
+        ],
+        [
+          "reflexion|semantic|none|balanced|b64",
+          1
+        ]
+      ]
+    },
+    {
+      "generation": 6,
+      "unique_genotypes": 12,
+      "entropy": 3.452819531114783,
+      "top": [
+        [
+          "cot|hybrid|iterative|no_tools|b64",
+          3
+        ],
+        [
+          "reflexion|semantic|none|balanced|b64",
+          2
+        ],
+        [
+          "cot|hybrid|self_critique|no_tools|b64",
+          2
+        ],
+        [
+          "tree_search|semantic|iterative|conservative|b8",
+          1
+        ],
+        [
+          "reflexion|semantic|iterative|no_tools|b16",
+          1
+        ]
+      ]
+    }
+  ],
+  "mutation_trajectory": [
+    {
+      "generation": 0,
+      "mutation_counts": {}
+    },
+    {
+      "generation": 1,
+      "mutation_counts": {
+        "planner": 3,
+        "reflection": 4,
+        "budget": 4,
+        "memory": 1,
+        "tool": 4
+      }
+    },
+    {
+      "generation": 2,
+      "mutation_counts": {
+        "planner": 6,
+        "reflection": 9,
+        "budget": 6,
+        "memory": 4,
+        "tool": 7
+      }
+    },
+    {
+      "generation": 3,
+      "mutation_counts": {
+        "planner": 15,
+        "reflection": 12,
+        "budget": 7,
+        "memory": 5,
+        "tool": 9
+      }
+    },
+    {
+      "generation": 4,
+      "mutation_counts": {
+        "planner": 21,
+        "reflection": 15,
+        "budget": 10,
+        "memory": 5,
+        "tool": 13
+      }
+    },
+    {
+      "generation": 5,
+      "mutation_counts": {
+        "planner": 29,
+        "reflection": 17,
+        "budget": 13,
+        "memory": 7,
+        "tool": 14
+      }
+    },
+    {
+      "generation": 6,
+      "mutation_counts": {
+        "planner": 32,
+        "reflection": 20,
+        "budget": 17,
+        "memory": 9,
+        "tool": 18
+      }
+    }
+  ],
+  "pareto_front_evolution": [
+    {
+      "generation": 0,
+      "n_front": 7,
+      "front_genotypes": [
+        "cot|semantic|iterative|balanced|b64",
+        "tree_search|semantic|iterative|tool_first|b16",
+        "direct|short_term|none|conservative|b8",
+        "cot|none|self_critique|balanced|b24",
+        "cot|episodic|self_critique|no_tools|b112",
+        "plan_and_solve|semantic|critic_model|aggressive|b8",
+        "direct|hybrid|iterative|no_tools|b64"
+      ],
+      "front_performance": [
+        1.0,
+        1.0,
+        0.25,
+        0.5,
+        0.875,
+        1.0,
+        0.75
+      ]
+    },
+    {
+      "generation": 1,
+      "n_front": 12,
+      "front_genotypes": [
+        "cot|semantic|iterative|balanced|b64",
+        "direct|short_term|none|conservative|b8",
+        "cot|none|self_critique|balanced|b24",
+        "cot|episodic|self_critique|no_tools|b112",
+        "plan_and_solve|semantic|critic_model|aggressive|b8",
+        "direct|hybrid|iterative|no_tools|b64",
+        "cot|episodic|self_critique|no_tools|b112",
+        "plan_and_solve|semantic|critic_model|conservative|b8",
+        "cot|none|self_critique|balanced|b32",
+        "tree_search|semantic|iterative|no_tools|b16",
+        "cot|episodic|self_critique|no_tools|b112",
+        "plan_and_solve|semantic|critic_model|aggressive|b8"
+      ],
+      "front_performance": [
+        1.0,
+        0.25,
+        0.5,
+        0.875,
+        1.0,
+        0.75,
+        0.875,
+        0.875,
+        0.5,
+        1.0,
+        0.875,
+        1.0
+      ]
+    },
+    {
+      "generation": 2,
+      "n_front": 11,
+      "front_genotypes": [
+        "cot|semantic|iterative|balanced|b64",
+        "direct|short_term|none|conservative|b8",
+        "cot|none|self_critique|balanced|b24",
+        "cot|episodic|self_critique|no_tools|b112",
+        "cot|episodic|self_critique|no_tools|b112",
+        "cot|none|self_critique|balanced|b32",
+        "tree_search|semantic|iterative|no_tools|b16",
+        "cot|episodic|self_critique|no_tools|b112",
+        "plan_and_solve|semantic|self_critique|aggressive|b8",
+        "cot|semantic|none|balanced|b64",
+        "tree_search|semantic|critic_model|conservative|b8"
+      ],
+      "front_performance": [
+        1.0,
+        0.25,
+        0.5,
+        0.875,
+        0.875,
+        0.5,
+        1.0,
+        0.875,
+        0.875,
+        0.75,
+        1.0
+      ]
+    },
+    {
+      "generation": 3,
+      "n_front": 16,
+      "front_genotypes": [
+        "cot|none|self_critique|balanced|b24",
+        "cot|episodic|self_critique|no_tools|b112",
+        "cot|episodic|self_critique|no_tools|b112",
+        "cot|none|self_critique|balanced|b32",
+        "tree_search|semantic|iterative|no_tools|b16",
+        "cot|episodic|self_critique|no_tools|b112",
+        "plan_and_solve|semantic|self_critique|aggressive|b8",
+        "cot|semantic|none|balanced|b64",
+        "tree_search|semantic|critic_model|conservative|b8",
+        "tree_search|short_term|none|conservative|b8",
+        "direct|hybrid|self_critique|no_tools|b64",
+        "cot|hybrid|iterative|no_tools|b64",
+        "tree_search|semantic|critic_model|aggressive|b8",
+        "cot|semantic|self_critique|no_tools|b112",
+        "cot|hybrid|iterative|no_tools|b64",
+        "tree_search|semantic|critic_model|conservative|b8"
+      ],
+      "front_performance": [
+        0.5,
+        0.875,
+        0.875,
+        0.5,
+        1.0,
+        0.875,
+        0.875,
+        0.75,
+        1.0,
+        0.5,
+        0.5,
+        1.0,
+        1.0,
+        0.875,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "generation": 4,
+      "n_front": 8,
+      "front_genotypes": [
+        "cot|none|self_critique|balanced|b32",
+        "tree_search|semantic|iterative|no_tools|b16",
+        "direct|hybrid|self_critique|no_tools|b64",
+        "cot|hybrid|iterative|no_tools|b64",
+        "cot|hybrid|iterative|no_tools|b64",
+        "tree_search|semantic|iterative|conservative|b8",
+        "reflexion|semantic|none|balanced|b64",
+        "tree_search|semantic|self_critique|conservative|b8"
+      ],
+      "front_performance": [
+        0.5,
+        1.0,
+        0.5,
+        1.0,
+        1.0,
+        1.0,
+        0.875,
+        0.875
+      ]
+    },
+    {
+      "generation": 5,
+      "n_front": 11,
+      "front_genotypes": [
+        "cot|none|self_critique|balanced|b32",
+        "cot|hybrid|iterative|no_tools|b64",
+        "cot|hybrid|iterative|no_tools|b64",
+        "tree_search|semantic|iterative|conservative|b8",
+        "reflexion|semantic|none|balanced|b64",
+        "tree_search|semantic|self_critique|conservative|b8",
+        "cot|hybrid|self_critique|no_tools|b64",
+        "reflexion|semantic|iterative|no_tools|b16",
+        "cot|hybrid|self_critique|no_tools|b64",
+        "tree_search|semantic|iterative|no_tools|b8",
+        "reflexion|episodic|none|balanced|b64"
+      ],
+      "front_performance": [
+        0.5,
+        1.0,
+        1.0,
+        1.0,
+        0.875,
+        0.875,
+        0.875,
+        1.0,
+        0.875,
+        0.875,
+        0.875
+      ]
+    },
+    {
+      "generation": 6,
+      "n_front": 16,
+      "front_genotypes": [
+        "cot|hybrid|iterative|no_tools|b64",
+        "cot|hybrid|iterative|no_tools|b64",
+        "tree_search|semantic|iterative|conservative|b8",
+        "reflexion|semantic|none|balanced|b64",
+        "cot|hybrid|self_critique|no_tools|b64",
+        "reflexion|semantic|iterative|no_tools|b16",
+        "cot|hybrid|self_critique|no_tools|b64",
+        "tree_search|semantic|iterative|no_tools|b8",
+        "reflexion|episodic|none|balanced|b64",
+        "plan_and_solve|semantic|self_critique|balanced|b24",
+        "tree_search|semantic|self_critique|aggressive|b24",
+        "reflexion|semantic|none|balanced|b64",
+        "reflexion|semantic|self_critique|conservative|b8",
+        "tree_search|hybrid|iterative|no_tools|b16",
+        "tree_search|semantic|self_critique|no_tools|b8",
+        "cot|hybrid|iterative|no_tools|b64"
+      ],
+      "front_performance": [
+        1.0,
+        1.0,
+        1.0,
+        0.875,
+        0.875,
+        1.0,
+        0.875,
+        0.875,
+        0.875,
+        0.875,
+        1.0,
+        0.875,
+        0.875,
+        1.0,
+        0.75,
+        1.0
+      ]
+    }
+  ],
+  "operator_stats": {
+    "planner": {
+      "name": "planner",
+      "n": 32,
+      "mean_improvement": 0.042486184122894614,
+      "std_improvement": 0.07389568417252203,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.4375,
+      "ci_low": 0.019128259542601157,
+      "ci_high": 0.06834525609841162,
+      "kind": "observational"
+    },
+    "reflection": {
+      "name": "reflection",
+      "n": 20,
+      "mean_improvement": -0.01635325518751555,
+      "std_improvement": 0.028351194841250635,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.1,
+      "ci_low": -0.02879785844791079,
+      "ci_high": -0.0046613215967271394,
+      "kind": "observational"
+    },
+    "budget": {
+      "name": "budget",
+      "n": 17,
+      "mean_improvement": -0.0027501576012935146,
+      "std_improvement": 0.029522610333180495,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.058823529411764705,
+      "ci_low": -0.01591558810219399,
+      "ci_high": 0.013720140713004318,
+      "kind": "observational"
+    },
+    "memory": {
+      "name": "memory",
+      "n": 9,
+      "mean_improvement": -0.047233693708190985,
+      "std_improvement": 0.05866204610320746,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.2222222222222222,
+      "ci_low": -0.08883842614340726,
+      "ci_high": -0.01005551708021315,
+      "kind": "observational"
+    },
+    "tool": {
+      "name": "tool",
+      "n": 18,
+      "mean_improvement": 0.0054967187792008855,
+      "std_improvement": 0.033303288835565756,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.1111111111111111,
+      "ci_low": -0.008554297591652518,
+      "ci_high": 0.021626396060095913,
+      "kind": "observational"
+    }
+  },
+  "lineage_records_sample": [
+    {
+      "mutation_type": "planner",
+      "generation": 1,
+      "success": true,
+      "mutation_value": 1.324672339138612
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 1,
+      "success": true,
+      "mutation_value": 0.37669393552415575
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.4092339970733877
+    },
+    {
+      "mutation_type": "budget",
+      "generation": 1,
+      "success": true,
+      "mutation_value": 0.4196857982252812
+    },
+    {
+      "mutation_type": "memory",
+      "generation": 1,
+      "success": false,
+      "mutation_value": -0.48218719973342217
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.24194493357466187
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.4087836863193939
+    },
+    {
+      "mutation_type": "budget",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.2897499966573991
+    },
+    {
+      "mutation_type": "budget",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.4016583858635343
+    },
+    {
+      "mutation_type": "budget",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.41950915003494543
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.6991354247045168
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.33117982220190617
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 1,
+      "success": true,
+      "mutation_value": 0.5431909698656632
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.20864033206879012
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.4092339970733877
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 1,
+      "success": false,
+      "mutation_value": 0.4092339970733877
+    },
+    {
+      "mutation_type": "memory",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.4545067021969841
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.7278574520056128
+    },
+    {
+      "mutation_type": "memory",
+      "generation": 2,
+      "success": false,
+      "mutation_value": -0.44467479986271896
+    },
+    {
+      "mutation_type": "memory",
+      "generation": 2,
+      "success": false,
+      "mutation_value": -0.022517226462745177
+    },
+    {
+      "mutation_type": "budget",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.4802854793979533
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.0720872541708254
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.1174406378585546
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.031200698992001535
+    },
+    {
+      "mutation_type": "budget",
+      "generation": 2,
+      "success": false,
+      "mutation_value": -0.02594006504842397
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.5109092621192077
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.45366221974552373
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.45349055275812855
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 2,
+      "success": true,
+      "mutation_value": 1.409547458745684
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.4744387111221935
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.47466684571457135
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 2,
+      "success": false,
+      "mutation_value": 0.23758026243038655
+    },
+    {
+      "mutation_type": "budget",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.5452032784727692
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 3,
+      "success": false,
+      "mutation_value": -0.08566931354065657
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.12260302718190688
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.5574316090159476
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": true,
+      "mutation_value": 0.7257843581168392
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.08891765468379004
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": true,
+      "mutation_value": 1.136127401821398
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": true,
+      "mutation_value": 0.5758909821342486
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": true,
+      "mutation_value": 0.19366274660902477
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": false,
+      "mutation_value": -0.10546576971572268
+    },
+    {
+      "mutation_type": "reflection",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.24350281828249873
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.090007421833563
+    },
+    {
+      "mutation_type": "memory",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.1935028182824987
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": true,
+      "mutation_value": 1.136127401821398
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": false,
+      "mutation_value": 0.04440580221708201
+    },
+    {
+      "mutation_type": "planner",
+      "generation": 3,
+      "success": true,
+      "mutation_value": 0.6654659025903065
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 4,
+      "success": false,
+      "mutation_value": 0.0919732007870369
+    },
+    {
+      "mutation_type": "tool",
+      "generation": 4,
+      "success": false,
+      "mutation_value": 0.3651743449394657
+    }
+  ],
+  "figure": {
+    "fig_genotype": "unique_genotypes and entropy vs generation",
+    "fig_mutation": "operator counts vs generation",
+    "fig_front": "front size and performance range vs generation"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "phase": "Phase5-Audit-3 PEEM memory transfer",
+  "train_benchmark": "alfworld",
+  "test_benchmark": "webshop",
+  "config": {
+    "pop": 12,
+    "gens": 6,
+    "tasks": 8,
+    "seeds": [
+      11,
+      22,
+      33
+    ]
+  },
+  "summary": {
+    "random": {
+      "success": {
+        "mean": 0.375,
+        "std": 0.030665836341416147
+      },
+      "cost": {
+        "mean": 0.0036144085291911765,
+        "std": 0.00027555362067084306
+      },
+      "final_hv": {
+        "mean": 0.12502632556342297,
+        "std": 0.00977814635872005
+      }
+    },
+    "fresh_peem": {
+      "success": {
+        "mean": 0.42013888888888884,
+        "std": 0.040193878134688284
+      },
+      "cost": {
+        "mean": 0.003999302837429025,
+        "std": 0.0005680179533068482
+      },
+      "final_hv": {
+        "mean": 0.17055898984424758,
+        "std": 0.0172936338443367
+      }
+    },
+    "transfer_peem": {
+      "success": {
+        "mean": 0.42013888888888884,
+        "std": 0.034373246307679385
+      },
+      "cost": {
+        "mean": 0.004360209003079118,
+        "std": 0.00037087487656695567
+      },
+      "final_hv": {
+        "mean": 0.13965274446462742,
+        "std": 0.03272302773745882
+      }
+    }
+  },
+  "verdict": {
+    "transfer_beats_random_success": true,
+    "transfer_vs_fresh_hv": -0.030906245379620167,
+    "interpretation": "If transferred PEEM ≥ random and ≈ fresh PEEM, memory is reusable across benchmarks (algorithmic prior). If transfer < fresh, knowledge is partially benchmark-specific."
+  },
+  "runs": [
+    {
+      "mode": "random",
+      "benchmark": "webshop",
+      "seed": 11,
+      "success": 0.40625,
+      "cost": 0.003340043172545835,
+      "final_hv": 0.13864316509176874
+    },
+    {
+      "mode": "fresh_peem",
+      "benchmark": "webshop",
+      "seed": 11,
+      "success": 0.4375,
+      "cost": 0.004427415615000629,
+      "final_hv": 0.1823576102269354
+    },
+    {
+      "mode": "transfer_peem",
+      "benchmark": "webshop",
+      "seed": 11,
+      "success": 0.4583333333333333,
+      "cost": 0.004865513840373818,
+      "final_hv": 0.1136191194144908
+    },
+    {
+      "mode": "random",
+      "benchmark": "webshop",
+      "seed": 22,
+      "success": 0.3333333333333333,
+      "cost": 0.0035119301236853045,
+      "final_hv": 0.12030464494521095
+    },
+    {
+      "mode": "fresh_peem",
+      "benchmark": "webshop",
+      "seed": 22,
+      "success": 0.3645833333333333,
+      "cost": 0.003196598693038655,
+      "final_hv": 0.1461070767327768
+    },
+    {
+      "mode": "transfer_peem",
+      "benchmark": "webshop",
+      "seed": 22,
+      "success": 0.375,
+      "cost": 0.004229304385881173,
+      "final_hv": 0.11953524559619574
+    },
+    {
+      "mode": "random",
+      "benchmark": "webshop",
+      "seed": 33,
+      "success": 0.3854166666666667,
+      "cost": 0.003991252291342391,
+      "final_hv": 0.11613116665328924
+    },
+    {
+      "mode": "fresh_peem",
+      "benchmark": "webshop",
+      "seed": 33,
+      "success": 0.4583333333333333,
+      "cost": 0.004373894204247792,
+      "final_hv": 0.18321228257303052
+    },
+    {
+      "mode": "transfer_peem",
+      "benchmark": "webshop",
+      "seed": 33,
+      "success": 0.4270833333333333,
+      "cost": 0.003985808782982362,
+      "final_hv": 0.1858038683831957
+    }
+  ]
+}

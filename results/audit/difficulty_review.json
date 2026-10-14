@@ -1,0 +1,40 @@
+{
+  "phase": "Phase5-Audit-5 benchmark difficulty",
+  "saturation_check": {
+    "n_tasks": 50,
+    "difficulty_mean": 0.6534,
+    "difficulty_max": 0.84,
+    "react_success": 1.0,
+    "saturated": true
+  },
+  "hard_profile": {
+    "description": "difficulty +0.08, no_tools penalized on tool tasks, environment-only hardening",
+    "runs": [
+      {
+        "seed": 11,
+        "react_success": 1.0,
+        "peem_success": 0.9666666666666668,
+        "peem_final_hv": 0.8133289881215793,
+        "n_front": 10
+      },
+      {
+        "seed": 22,
+        "react_success": 1.0,
+        "peem_success": 0.8633333333333333,
+        "peem_final_hv": 0.7872295375349643,
+        "n_front": 7
+      },
+      {
+        "seed": 33,
+        "react_success": 1.0,
+        "peem_success": 0.9133333333333334,
+        "peem_final_hv": 0.8162683226472082,
+        "n_front": 10
+      }
+    ],
+    "mean_react_success": 1.0,
+    "mean_peem_success": 0.9144444444444445,
+    "still_saturated": false
+  },
+  "recommendation": "If still saturated, paper should report ceiling effects on mock real-world tasks and rely on ALFWorld/WebShop/DeepSeek for discriminative power; do not silently retune tasks to inflate PEEM."
+}
