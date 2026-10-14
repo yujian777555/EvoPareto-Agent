@@ -1,0 +1,18 @@
+{
+  "pop_size": 60,
+  "n_generations": 25,
+  "n_seeds": 1,
+  "divisions": 3,
+  "seed": 42,
+  "pareto_size": 60,
+  "objective_names": [
+    "performance",
+    "efficiency",
+    "cost",
+    "robustness",
+    "autonomy"
+  ],
+  "generation_history_path": "D:\\新建文件夹\\results\\population_history.json",
+  "pareto_front_path": "D:\\新建文件夹\\results\\pareto_front.json",
+  "objective_viz_path": "D:\\新建文件夹\\results\\objective_scatter.png"
+}

@@ -1,0 +1,1032 @@
+{
+  "objective_names": [
+    "performance",
+    "efficiency",
+    "cost",
+    "robustness",
+    "autonomy"
+  ],
+  "n_points": 60,
+  "points": [
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        0.4795126438245012,
+        0.8156459570398196,
+        0.30381037842512837,
+        0.41880264482343943,
+        0.36853030479595306
+      ],
+      "generation": 2
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 128
+      },
+      "fitness_vector": [
+        0.6309254206003214,
+        0.5671076579885808,
+        0.6427641682048012,
+        0.5673705813142867,
+        0.48895391164556
+      ],
+      "generation": 0
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 48
+      },
+      "fitness_vector": [
+        0.48465796128532174,
+        0.8466133384713003,
+        0.25667336120600187,
+        0.40184137302993517,
+        0.3399436831043436
+      ],
+      "generation": 20
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.5301636492808433,
+        0.4935569667184158,
+        0.7135083018676397,
+        0.5922082269965823,
+        0.5199297321546893
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.42682886022243854,
+        0.6904337388051054,
+        0.3050085941329619,
+        0.5092694601176235,
+        0.47995324594549676
+      ],
+      "generation": 19
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 96
+      },
+      "fitness_vector": [
+        0.5327410594619795,
+        0.7499140695330953,
+        0.43886816498273234,
+        0.4469180149708874,
+        0.3789377137957927
+      ],
+      "generation": 22
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 24
+      },
+      "fitness_vector": [
+        0.5359834521706979,
+        0.7750922505720733,
+        0.27059025243345886,
+        0.5020092362653196,
+        0.397551017985109
+      ],
+      "generation": 12
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.6093676305974061,
+        0.677065518326607,
+        0.3786122185698739,
+        0.5834004546337296,
+        0.5250281185208652
+      ],
+      "generation": 23
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.6786767829530287,
+        0.5427690097585481,
+        0.7059837811547294,
+        0.4987330582130212,
+        0.5747345955453893
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.3933831849661384,
+        0.9078872191819566,
+        0.09764576179502665,
+        0.40779749013839695,
+        0.39209775547429404
+      ],
+      "generation": 23
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.35327567056654385,
+        0.9907476484113718,
+        0.0337717918262984,
+        0.3487060830506277,
+        0.3088179524251767
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.5395979077542662,
+        0.7804518019624408,
+        0.3061888278895497,
+        0.36083775740252755,
+        0.47004752641603054
+      ],
+      "generation": 12
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.42909632090525734,
+        0.9106369693567131,
+        0.14217472206735393,
+        0.4544471139624415,
+        0.3889245097464706
+      ],
+      "generation": 13
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.42682886022243854,
+        0.6904337388051054,
+        0.3050085941329619,
+        0.5092694601176235,
+        0.47995324594549676
+      ],
+      "generation": 21
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.3933831849661384,
+        0.9078872191819566,
+        0.09764576179502665,
+        0.40779749013839695,
+        0.39209775547429404
+      ],
+      "generation": 24
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.6786767829530287,
+        0.5427690097585481,
+        0.7059837811547294,
+        0.4987330582130212,
+        0.5747345955453893
+      ],
+      "generation": 12
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 48
+      },
+      "fitness_vector": [
+        0.48465796128532174,
+        0.8466133384713003,
+        0.25667336120600187,
+        0.40184137302993517,
+        0.3399436831043436
+      ],
+      "generation": 20
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        0.4795126438245012,
+        0.8156459570398196,
+        0.30381037842512837,
+        0.41880264482343943,
+        0.36853030479595306
+      ],
+      "generation": 5
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.42909632090525734,
+        0.9106369693567131,
+        0.14217472206735393,
+        0.4544471139624415,
+        0.3889245097464706
+      ],
+      "generation": 14
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.35327567056654385,
+        0.9907476484113718,
+        0.0337717918262984,
+        0.3487060830506277,
+        0.3088179524251767
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 128
+      },
+      "fitness_vector": [
+        0.6309254206003214,
+        0.5671076579885808,
+        0.6427641682048012,
+        0.5673705813142867,
+        0.48895391164556
+      ],
+      "generation": 2
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 96
+      },
+      "fitness_vector": [
+        0.5327410594619795,
+        0.7499140695330953,
+        0.43886816498273234,
+        0.4469180149708874,
+        0.3789377137957927
+      ],
+      "generation": 24
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.5395979077542662,
+        0.7804518019624408,
+        0.3061888278895497,
+        0.36083775740252755,
+        0.47004752641603054
+      ],
+      "generation": 13
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.6093676305974061,
+        0.677065518326607,
+        0.3786122185698739,
+        0.5834004546337296,
+        0.5250281185208652
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 24
+      },
+      "fitness_vector": [
+        0.5359834521706979,
+        0.7750922505720733,
+        0.27059025243345886,
+        0.5020092362653196,
+        0.397551017985109
+      ],
+      "generation": 15
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.5301636492808433,
+        0.4935569667184158,
+        0.7135083018676397,
+        0.5922082269965823,
+        0.5199297321546893
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.6786767829530287,
+        0.5427690097585481,
+        0.7059837811547294,
+        0.4987330582130212,
+        0.5747345955453893
+      ],
+      "generation": 16
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.5395979077542662,
+        0.7804518019624408,
+        0.3061888278895497,
+        0.36083775740252755,
+        0.47004752641603054
+      ],
+      "generation": 17
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 104
+      },
+      "fitness_vector": [
+        0.5398261069734184,
+        0.717261396211633,
+        0.4675958598533403,
+        0.4402617726667469,
+        0.42488823160526534
+      ],
+      "generation": 21
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.6093676305974061,
+        0.677065518326607,
+        0.3786122185698739,
+        0.5834004546337296,
+        0.5250281185208652
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.42682886022243854,
+        0.6904337388051054,
+        0.3050085941329619,
+        0.5092694601176235,
+        0.47995324594549676
+      ],
+      "generation": 23
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.3933831849661384,
+        0.9078872191819566,
+        0.09764576179502665,
+        0.40779749013839695,
+        0.39209775547429404
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 40
+      },
+      "fitness_vector": [
+        0.47034764231733456,
+        0.8396083401643225,
+        0.21403578734061116,
+        0.41578326059096293,
+        0.3508888874402942
+      ],
+      "generation": 4
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 24
+      },
+      "fitness_vector": [
+        0.5359834521706979,
+        0.7750922505720733,
+        0.27059025243345886,
+        0.5020092362653196,
+        0.397551017985109
+      ],
+      "generation": 17
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 128
+      },
+      "fitness_vector": [
+        0.6309254206003214,
+        0.5671076579885808,
+        0.6427641682048012,
+        0.5673705813142867,
+        0.48895391164556
+      ],
+      "generation": 7
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.42909632090525734,
+        0.9106369693567131,
+        0.14217472206735393,
+        0.4544471139624415,
+        0.3889245097464706
+      ],
+      "generation": 15
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        0.4795126438245012,
+        0.8156459570398196,
+        0.30381037842512837,
+        0.41880264482343943,
+        0.36853030479595306
+      ],
+      "generation": 7
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.35327567056654385,
+        0.9907476484113718,
+        0.0337717918262984,
+        0.3487060830506277,
+        0.3088179524251767
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.5301636492808433,
+        0.4935569667184158,
+        0.7135083018676397,
+        0.5922082269965823,
+        0.5199297321546893
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.42909632090525734,
+        0.9106369693567131,
+        0.14217472206735393,
+        0.4544471139624415,
+        0.3889245097464706
+      ],
+      "generation": 16
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.6786767829530287,
+        0.5427690097585481,
+        0.7059837811547294,
+        0.4987330582130212,
+        0.5747345955453893
+      ],
+      "generation": 16
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.6604211670616237,
+        0.6731811301091641,
+        0.38264365310376597,
+        0.6117367474327471,
+        0.543734815147178
+      ],
+      "generation": 24
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 24
+      },
+      "fitness_vector": [
+        0.5359834521706979,
+        0.7750922505720733,
+        0.27059025243345886,
+        0.5020092362653196,
+        0.397551017985109
+      ],
+      "generation": 23
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.5395979077542662,
+        0.7804518019624408,
+        0.3061888278895497,
+        0.36083775740252755,
+        0.47004752641603054
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 56
+      },
+      "fitness_vector": [
+        0.4956579373618884,
+        0.8136817202085355,
+        0.2920351603393292,
+        0.42869054288926206,
+        0.3847001747320639
+      ],
+      "generation": 23
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 128
+      },
+      "fitness_vector": [
+        0.6309254206003214,
+        0.5671076579885808,
+        0.6427641682048012,
+        0.5673705813142867,
+        0.48895391164556
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.5301636492808433,
+        0.4935569667184158,
+        0.7135083018676397,
+        0.5922082269965823,
+        0.5199297321546893
+      ],
+      "generation": 15
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        0.4795126438245012,
+        0.8156459570398196,
+        0.30381037842512837,
+        0.41880264482343943,
+        0.36853030479595306
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 40
+      },
+      "fitness_vector": [
+        0.47034764231733456,
+        0.8396083401643225,
+        0.21403578734061116,
+        0.41578326059096293,
+        0.3508888874402942
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.4138562546068235,
+        0.8891203050831382,
+        0.13956465971063933,
+        0.4247398549148906,
+        0.4130178565143184
+      ],
+      "generation": 13
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.35327567056654385,
+        0.9907476484113718,
+        0.0337717918262984,
+        0.3487060830506277,
+        0.3088179524251767
+      ],
+      "generation": 14
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.4290565929525676,
+        0.7075732464326016,
+        0.2987740910521881,
+        0.5065677752671511,
+        0.45082051667694945
+      ],
+      "generation": 7
+    },
+    {
+      "genome": {
+        "planner_strategy": "reflexion",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "aggressive",
+        "reasoning_budget": 24
+      },
+      "fitness_vector": [
+        0.6895060661420809,
+        0.6369012590473055,
+        0.4479697522073913,
+        0.5929319629475726,
+        0.5781693604700662
+      ],
+      "generation": 23
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.4138562546068235,
+        0.8891203050831382,
+        0.13956465971063933,
+        0.4247398549148906,
+        0.4130178565143184
+      ],
+      "generation": 15
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 24
+      },
+      "fitness_vector": [
+        0.5359834521706979,
+        0.7750922505720733,
+        0.27059025243345886,
+        0.5020092362653196,
+        0.397551017985109
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.4947140185797165,
+        0.8384483334232234,
+        0.2104998762016184,
+        0.5016497137123891,
+        0.47010884387886825
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.5301636492808433,
+        0.4935569667184158,
+        0.7135083018676397,
+        0.5922082269965823,
+        0.5199297321546893
+      ],
+      "generation": 22
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.42909632090525734,
+        0.9106369693567131,
+        0.14217472206735393,
+        0.4544471139624415,
+        0.3889245097464706
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.35327567056654385,
+        0.9907476484113718,
+        0.0337717918262984,
+        0.3487060830506277,
+        0.3088179524251767
+      ],
+      "generation": 25
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 120
+      },
+      "fitness_vector": [
+        0.5146646361311981,
+        0.7087368227503581,
+        0.5515114369520479,
+        0.4506118045085736,
+        0.418333648572055
+      ],
+      "generation": 20
+    }
+  ]
+}

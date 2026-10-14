@@ -1,0 +1,3 @@
+# Phase 0 core is stdlib-only. Optional visualization extras:
+# matplotlib>=3.5
+# numpy>=1.21
