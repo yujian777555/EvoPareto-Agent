@@ -142,7 +142,11 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
 
     def _run_one(self, agent: Agent, task: Dict[str, Any]) -> TaskResult:
         g = agent.genome
-        key = make_key(g, task_id=task["task_id"], benchmark=self.name, seed=self.seed)
+        key = make_key(
+            g, task_id=task["task_id"], benchmark=self.name, seed=self.seed,
+            backend=getattr(self.backend, "name", ""),
+            model=getattr(self.backend, "model", ""),
+        )
         cached = self.cache.get(key)
         if cached is not None:
             self.cache_used += 1
@@ -207,7 +211,11 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
             steps=steps,
             extra=extra,
         )
-        self.cache.store_genome_task(g, task["task_id"], entry, benchmark=self.name, seed=self.seed)
+        self.cache.store_genome_task(
+            g, task["task_id"], entry, benchmark=self.name, seed=self.seed,
+            backend=getattr(self.backend, "name", ""),
+            model=getattr(self.backend, "model", ""),
+        )
 
         return TaskResult(
             task_id=task["task_id"],

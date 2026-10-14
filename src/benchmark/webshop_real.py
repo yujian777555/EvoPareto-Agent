@@ -130,7 +130,11 @@ class WebShopRealAdapter(BenchmarkAdapter):
 
     def _run_one(self, agent: Agent, task: Dict[str, Any]) -> TaskResult:
         g = agent.genome
-        key = make_key(g, task_id=task["task_id"], benchmark=self.name, seed=self.seed)
+        key = make_key(
+            g, task_id=task["task_id"], benchmark=self.name, seed=self.seed,
+            backend=getattr(self.backend, "name", ""),
+            model=getattr(self.backend, "model", ""),
+        )
         cached = self.cache.get(key)
         if cached is not None:
             self.cache_used += 1
@@ -185,6 +189,8 @@ class WebShopRealAdapter(BenchmarkAdapter):
             CacheEntry(genome_hash(g), task["task_id"], [], int(tokens), float(cost),
                        float(latency), success, steps, extra),
             benchmark=self.name, seed=self.seed,
+            backend=getattr(self.backend, "name", ""),
+            model=getattr(self.backend, "model", ""),
         )
         return TaskResult(
             task_id=task["task_id"], success=success, steps=steps,

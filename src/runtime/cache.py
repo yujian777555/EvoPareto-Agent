@@ -31,9 +31,24 @@ def make_key(
     task_id: str,
     benchmark: str = "",
     seed: int = 0,
+    backend: str = "",
+    model: str = "",
+    preference: str = "",
 ) -> str:
+    """Cache key must isolate every evaluation context (Phase5-Audit).
+
+    Components: genome | benchmark | task_id | seed | backend | model | preference.
+    """
     g = genome_hash(genome)
-    raw = f"{g}|{benchmark}|{task_id}|{seed}"
+    raw = "|".join([
+        g,
+        str(benchmark),
+        str(task_id),
+        str(seed),
+        str(backend),
+        str(model),
+        str(preference),
+    ])
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
 
 
@@ -103,8 +118,14 @@ class EvaluationCache:
         *,
         benchmark: str = "",
         seed: int = 0,
+        backend: str = "",
+        model: str = "",
+        preference: str = "",
     ) -> Optional[CacheEntry]:
-        return self.get(make_key(genome, task_id=task_id, benchmark=benchmark, seed=seed))
+        return self.get(make_key(
+            genome, task_id=task_id, benchmark=benchmark, seed=seed,
+            backend=backend, model=model, preference=preference,
+        ))
 
     def store_genome_task(
         self,
@@ -114,8 +135,14 @@ class EvaluationCache:
         *,
         benchmark: str = "",
         seed: int = 0,
+        backend: str = "",
+        model: str = "",
+        preference: str = "",
     ) -> None:
-        key = make_key(genome, task_id=task_id, benchmark=benchmark, seed=seed)
+        key = make_key(
+            genome, task_id=task_id, benchmark=benchmark, seed=seed,
+            backend=backend, model=model, preference=preference,
+        )
         if not entry.genome_id:
             entry.genome_id = genome_hash(genome)
         self.put(key, entry)

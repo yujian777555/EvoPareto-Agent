@@ -170,7 +170,11 @@ class RealWorldAgentBenchmark(BenchmarkAdapter):
 
     def _run_one(self, agent: Agent, task: Dict[str, Any]) -> TaskResult:
         g = agent.genome
-        key = make_key(g, task_id=task["task_id"], benchmark=f"{self.name}:{self.split}", seed=self.seed)
+        key = make_key(
+            g, task_id=task["task_id"], benchmark=f"{self.name}:{self.split}", seed=self.seed,
+            backend=getattr(self.backend, "name", ""),
+            model=getattr(self.backend, "model", ""),
+        )
         cached = self.cache.get(key)
         if cached is not None:
             self.cache_used += 1
@@ -242,6 +246,8 @@ class RealWorldAgentBenchmark(BenchmarkAdapter):
             CacheEntry(genome_hash(g), task["task_id"], [], int(tokens), float(cost),
                        float(latency), success, steps, extra),
             benchmark=f"{self.name}:{self.split}", seed=self.seed,
+            backend=getattr(self.backend, "name", ""),
+            model=getattr(self.backend, "model", ""),
         )
         return TaskResult(
             task_id=task["task_id"], success=success, steps=steps,
