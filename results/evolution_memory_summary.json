@@ -1,0 +1,9 @@
+{
+  "results_path": "D:\\新建文件夹\\results\\evolution_memory_results.json",
+  "E1_mean_final_hv_random": 0.7635792875451879,
+  "E1_mean_final_hv_adaptive": 0.7813242097467286,
+  "E2_mean_evals_random_to_target": 150.0,
+  "E2_mean_evals_adaptive_to_target": 180.0,
+  "E3_mean_final_hv_nsga3": 0.7795171386710992,
+  "E3_mean_final_hv_nsga3_memory": 0.7610659872197599
+}

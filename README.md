@@ -32,6 +32,10 @@ src/
     population.py    # Population manager: initialize / add / select / next_generation
     nsga3.py         # NSGA-III: non-dominated sorting + reference dirs + niching
     operators.py     # Agent-specific mutation / crossover
+    archive.py       # Phase 2: EvolutionRecord / EvolutionArchive (optimizer memory)
+    experience.py    # Phase 2: MutationExperience statistics
+    adaptive_mutation.py  # Phase 2: AdaptiveMutationController + operator registry
+    memory_evolution.py   # Phase 2: memory-aware evolutionary loop
   runtime/           # Phase 1: genome -> agent -> task results
     task.py          # TaskSpec / TaskSuite
     result.py        # TaskResult / EpisodeResult
@@ -44,12 +48,14 @@ src/
   evaluation/
     evaluator.py     # Toy multi-objective environment (Phase 0)
     objective_evaluator.py  # TaskResult -> paper objective vector (Phase 1)
+    metrics.py       # Phase 2: hypervolume / front-size metrics
     objectives.py    # Objective conventions (max/min semantics)
   utils/
     pareto.py        # Pareto dominance / filter helpers
 experiments/
   run_nsga3_demo.py              # Phase 0 demo
   run_agent_evolution_demo.py    # Phase 1 demo
+  run_evolution_memory_demo.py   # Phase 2: memory vs random mutation
 tests/               # pytest suite
 results/             # generated artifacts
 paper/               # reserved for later paper writing
@@ -113,12 +119,16 @@ python experiments/run_nsga3_demo.py
 
 # Phase 1: agent genome -> runtime -> benchmark -> evolution
 python experiments/run_agent_evolution_demo.py
+
+# Phase 2: evolution experience memory vs random mutation
+python experiments/run_evolution_memory_demo.py
 ```
 
 Artifacts land in `results/`:
 
 - Phase 0: `population_history.json`, `pareto_front.json`, `objective_scatter.png`
 - Phase 1: `agent_population_history.json`, `agent_pareto_front.json`, `agent_evolution_summary.json`
+- Phase 2: `evolution_memory_results.json`, `evolution_memory_summary.json`
 
 ## Tests
 
@@ -140,17 +150,26 @@ Artifacts land in `results/`:
 9. Objective vector correctness (mixed max/min)
 10. End-to-end evolution pipeline
 
+**Phase 2**
+
+11. Evolution archive (record / serialize / persist)
+12. Mutation experience statistics & scores
+13. Adaptive mutation probability (normalize / deterministic)
+14. Archive & experience updates after evolution
+15. End-to-end memory-aware pipeline
+
 ## Phase roadmap
 
 | phase | goal | status |
 |-------|------|--------|
 | **Phase 0** | NSGA-III + AgentGenome + toy evaluation | ✅ frozen (`3dd75be`) |
-| **Phase 1** | Agent runtime + benchmark adapter + objective evaluator | ✅ current |
-| Phase 2 | Evolution Memory | |
+| **Phase 1** | Agent runtime + benchmark adapter + objective evaluator | ✅ frozen (`29536e6`) |
+| **Phase 2** | Evolution Experience Memory (optimizer memory) | ✅ current |
 | Phase 3 | Preference-aware adaptation | |
 | Phase 4 | Benchmark + paper | |
 
-See `docs/PHASE0_FINAL_AUDIT.md` and `docs/PHASE1_AGENT_RUNTIME.md`.
+See `docs/PHASE0_FINAL_AUDIT.md`, `docs/PHASE1_AGENT_RUNTIME.md`,
+`docs/PHASE2_EVOLUTION_MEMORY.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 

@@ -1,0 +1,1023 @@
+{
+  "phase": "Phase 2 — Evolution Experience Memory",
+  "objective": "optimizer memory (NOT agent memory / RAG / vector DB)",
+  "E1": {
+    "name": "E1_random_vs_adaptive",
+    "runs": [
+      {
+        "use_adaptive": false,
+        "seed": 11,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 20,
+            "n_non_dominated": 10,
+            "hypervolume": 0.6965598814171916,
+            "archive_size": 0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 1,
+            "n_individuals": 20,
+            "n_non_dominated": 14,
+            "hypervolume": 0.7101286923615403,
+            "archive_size": 18,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 2,
+            "n_individuals": 20,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7231839830846216,
+            "archive_size": 32,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 3,
+            "n_individuals": 20,
+            "n_non_dominated": 15,
+            "hypervolume": 0.7318875102333424,
+            "archive_size": 49,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 4,
+            "n_individuals": 20,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7585734498952352,
+            "archive_size": 68,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 5,
+            "n_individuals": 20,
+            "n_non_dominated": 19,
+            "hypervolume": 0.7743181888765627,
+            "archive_size": 88,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 6,
+            "n_individuals": 20,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7721297735153066,
+            "archive_size": 108,
+            "mutation_probs": {}
+          }
+        ],
+        "final_hv": 0.7677107165388923,
+        "final_pareto": 20,
+        "evals": 140,
+        "archive_size": 108,
+        "mutation_probs": {
+          "budget": 0.2,
+          "memory": 0.2,
+          "planner": 0.2,
+          "reflection": 0.2,
+          "tool": 0.2
+        },
+        "experience": {
+          "random": {
+            "count": 108,
+            "success": 31,
+            "success_rate": 0.28703703703703703,
+            "average_improvement": 0.005118105123477103,
+            "average_gain": 0.11817115717067322
+          }
+        }
+      },
+      {
+        "use_adaptive": true,
+        "seed": 11,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 20,
+            "n_non_dominated": 10,
+            "hypervolume": 0.6965598814171916,
+            "archive_size": 0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 20,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7366412600685719,
+            "archive_size": 20,
+            "mutation_probs": {
+              "budget": 0.20363153957562735,
+              "memory": 0.23371803476441283,
+              "planner": 0.06726813504431584,
+              "reflection": 0.21315748549820634,
+              "tool": 0.2822248051174377
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 20,
+            "n_non_dominated": 8,
+            "hypervolume": 0.7554275818949091,
+            "archive_size": 40,
+            "mutation_probs": {
+              "budget": 0.1629244928620402,
+              "memory": 0.2054675173545613,
+              "planner": 0.09302196512445025,
+              "reflection": 0.2657451239125758,
+              "tool": 0.27284090074637246
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 20,
+            "n_non_dominated": 10,
+            "hypervolume": 0.7772998013716289,
+            "archive_size": 60,
+            "mutation_probs": {
+              "budget": 0.1986440055611367,
+              "memory": 0.21541711480383702,
+              "planner": 0.08233633287165293,
+              "reflection": 0.1984773370599418,
+              "tool": 0.30512520970343154
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 20,
+            "n_non_dominated": 15,
+            "hypervolume": 0.78297660364382,
+            "archive_size": 80,
+            "mutation_probs": {
+              "budget": 0.19782146583268911,
+              "memory": 0.23575725285210375,
+              "planner": 0.13692609767939626,
+              "reflection": 0.17181902852297926,
+              "tool": 0.25767615511283165
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 20,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7907907414047365,
+            "archive_size": 100,
+            "mutation_probs": {
+              "budget": 0.20628179378949413,
+              "memory": 0.23349641496246576,
+              "planner": 0.13114414735695412,
+              "reflection": 0.17175972731182465,
+              "tool": 0.25731791657926123
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 20,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7918239701010774,
+            "archive_size": 120,
+            "mutation_probs": {
+              "budget": 0.20351593993040562,
+              "memory": 0.22207381806414483,
+              "planner": 0.1208513349668651,
+              "reflection": 0.17357539823908374,
+              "tool": 0.2799835087995008
+            }
+          }
+        ],
+        "final_hv": 0.7930075634794048,
+        "final_pareto": 20,
+        "evals": 140,
+        "archive_size": 120,
+        "mutation_probs": {
+          "budget": 0.20351593993040562,
+          "memory": 0.22207381806414483,
+          "planner": 0.1208513349668651,
+          "reflection": 0.17357539823908374,
+          "tool": 0.2799835087995008
+        },
+        "experience": {
+          "budget": {
+            "count": 29,
+            "success": 8,
+            "success_rate": 0.27586206896551724,
+            "average_improvement": 0.00674680512984688,
+            "average_gain": 0.06850664059077528
+          },
+          "memory": {
+            "count": 23,
+            "success": 7,
+            "success_rate": 0.30434782608695654,
+            "average_improvement": 0.005527632874434673,
+            "average_gain": 0.15942333121747673
+          },
+          "planner": {
+            "count": 14,
+            "success": 2,
+            "success_rate": 0.14285714285714285,
+            "average_improvement": 0.00010281739370460967,
+            "average_gain": 0.13513180520620743
+          },
+          "reflection": {
+            "count": 26,
+            "success": 6,
+            "success_rate": 0.23076923076923078,
+            "average_improvement": 0.0012112985609666765,
+            "average_gain": 0.11535514877312938
+          },
+          "tool": {
+            "count": 28,
+            "success": 11,
+            "success_rate": 0.39285714285714285,
+            "average_improvement": 0.007920371823629367,
+            "average_gain": 0.20212365938796464
+          }
+        }
+      },
+      {
+        "use_adaptive": false,
+        "seed": 22,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 20,
+            "n_non_dominated": 9,
+            "hypervolume": 0.6604391109108867,
+            "archive_size": 0,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 1,
+            "n_individuals": 20,
+            "n_non_dominated": 11,
+            "hypervolume": 0.711557258063114,
+            "archive_size": 18,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 2,
+            "n_individuals": 20,
+            "n_non_dominated": 12,
+            "hypervolume": 0.7515548510737919,
+            "archive_size": 36,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 3,
+            "n_individuals": 20,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7577674858603074,
+            "archive_size": 55,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 4,
+            "n_individuals": 20,
+            "n_non_dominated": 18,
+            "hypervolume": 0.7639596614342424,
+            "archive_size": 75,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 5,
+            "n_individuals": 20,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7616375955940168,
+            "archive_size": 94,
+            "mutation_probs": {}
+          },
+          {
+            "generation": 6,
+            "n_individuals": 20,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7544132730536919,
+            "archive_size": 111,
+            "mutation_probs": {}
+          }
+        ],
+        "final_hv": 0.7594478585514834,
+        "final_pareto": 20,
+        "evals": 140,
+        "archive_size": 111,
+        "mutation_probs": {
+          "budget": 0.2,
+          "memory": 0.2,
+          "planner": 0.2,
+          "reflection": 0.2,
+          "tool": 0.2
+        },
+        "experience": {
+          "random": {
+            "count": 111,
+            "success": 27,
+            "success_rate": 0.24324324324324326,
+            "average_improvement": 0.0037462534875232706,
+            "average_gain": 0.1849243306249583
+          }
+        }
+      },
+      {
+        "use_adaptive": true,
+        "seed": 22,
+        "history": [
+          {
+            "generation": 0,
+            "n_individuals": 20,
+            "n_non_dominated": 9,
+            "hypervolume": 0.6604391109108867,
+            "archive_size": 0,
+            "mutation_probs": {
+              "budget": 0.2,
+              "memory": 0.2,
+              "planner": 0.2,
+              "reflection": 0.2,
+              "tool": 0.2
+            }
+          },
+          {
+            "generation": 1,
+            "n_individuals": 20,
+            "n_non_dominated": 8,
+            "hypervolume": 0.6833610757147353,
+            "archive_size": 20,
+            "mutation_probs": {
+              "budget": 0.25958882594093097,
+              "memory": 0.2596690242119257,
+              "planner": 0.0921821918390201,
+              "reflection": 0.16295544538870438,
+              "tool": 0.22560451261941888
+            }
+          },
+          {
+            "generation": 2,
+            "n_individuals": 20,
+            "n_non_dominated": 16,
+            "hypervolume": 0.693308399151281,
+            "archive_size": 40,
+            "mutation_probs": {
+              "budget": 0.28233274115599444,
+              "memory": 0.19737685996191728,
+              "planner": 0.2207063295240514,
+              "reflection": 0.09956130081874445,
+              "tool": 0.20002276853929252
+            }
+          },
+          {
+            "generation": 3,
+            "n_individuals": 20,
+            "n_non_dominated": 17,
+            "hypervolume": 0.7427053216388567,
+            "archive_size": 60,
+            "mutation_probs": {
+              "budget": 0.19095208725291457,
+              "memory": 0.2176205393363339,
+              "planner": 0.2097708927763438,
+              "reflection": 0.17027820423237108,
+              "tool": 0.21137827640203655
+            }
+          },
+          {
+            "generation": 4,
+            "n_individuals": 20,
+            "n_non_dominated": 19,
+            "hypervolume": 0.766243240049827,
+            "archive_size": 80,
+            "mutation_probs": {
+              "budget": 0.19867005460332143,
+              "memory": 0.22726483203393744,
+              "planner": 0.26645039307879914,
+              "reflection": 0.14773245438066684,
+              "tool": 0.1598822659032752
+            }
+          },
+          {
+            "generation": 5,
+            "n_individuals": 20,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7699227176545735,
+            "archive_size": 100,
+            "mutation_probs": {
+              "budget": 0.18939377562766502,
+              "memory": 0.2173143442544631,
+              "planner": 0.2859105451612449,
+              "reflection": 0.1310299781597845,
+              "tool": 0.1763513567968425
+            }
+          },
+          {
+            "generation": 6,
+            "n_individuals": 20,
+            "n_non_dominated": 20,
+            "hypervolume": 0.7704024996122849,
+            "archive_size": 120,
+            "mutation_probs": {
+              "budget": 0.21215744051139745,
+              "memory": 0.20124328025332522,
+              "planner": 0.2549649494278848,
+              "reflection": 0.17378684821394405,
+              "tool": 0.15784748159344844
+            }
+          }
+        ],
+        "final_hv": 0.7696408560140523,
+        "final_pareto": 20,
+        "evals": 140,
+        "archive_size": 120,
+        "mutation_probs": {
+          "budget": 0.21215744051139745,
+          "memory": 0.20124328025332522,
+          "planner": 0.2549649494278848,
+          "reflection": 0.17378684821394405,
+          "tool": 0.15784748159344844
+        },
+        "experience": {
+          "budget": {
+            "count": 41,
+            "success": 13,
+            "success_rate": 0.3170731707317073,
+            "average_improvement": 0.0016286109198371528,
+            "average_gain": 0.0768149361319995
+          },
+          "memory": {
+            "count": 27,
+            "success": 8,
+            "success_rate": 0.2962962962962963,
+            "average_improvement": 0.008202869606906178,
+            "average_gain": 0.0440088072407082
+          },
+          "planner": {
+            "count": 18,
+            "success": 7,
+            "success_rate": 0.3888888888888889,
+            "average_improvement": 0.0026154142842671232,
+            "average_gain": 0.16983598902400773
+          },
+          "reflection": {
+            "count": 16,
+            "success": 4,
+            "success_rate": 0.25,
+            "average_improvement": 0.0008393593425878171,
+            "average_gain": 0.2812617182090131
+          },
+          "tool": {
+            "count": 18,
+            "success": 4,
+            "success_rate": 0.2222222222222222,
+            "average_improvement": 0.00558754159103501,
+            "average_gain": 0.16813883697889936
+          }
+        }
+      }
+    ],
+    "mean_final_hv_random": 0.7635792875451879,
+    "mean_final_hv_adaptive": 0.7813242097467286,
+    "mean_final_pareto_random": 20.0,
+    "mean_final_pareto_adaptive": 20.0,
+    "mean_hv_curve_random": [
+      0.6784994961640392,
+      0.7108429752123271,
+      0.7373694170792068,
+      0.7448274980468249,
+      0.7612665556647389,
+      0.7679778922352898,
+      0.7632715232844993
+    ],
+    "mean_hv_curve_adaptive": [
+      0.6784994961640392,
+      0.7100011678916536,
+      0.7243679905230951,
+      0.7600025615052428,
+      0.7746099218468235,
+      0.780356729529655,
+      0.7811132348566812
+    ]
+  },
+  "E2": {
+    "name": "E2_mutation_efficiency",
+    "records": [
+      {
+        "seed": 7,
+        "target_hv": 0.7908269956948335,
+        "evals_random_to_target": 180,
+        "evals_adaptive_to_target": 180,
+        "evals_random_total": 180,
+        "evals_adaptive_total": 180
+      },
+      {
+        "seed": 17,
+        "target_hv": 0.7888068003665717,
+        "evals_random_to_target": 120,
+        "evals_adaptive_to_target": 180,
+        "evals_random_total": 180,
+        "evals_adaptive_total": 180
+      }
+    ],
+    "mean_evals_random_to_target": 150.0,
+    "mean_evals_adaptive_to_target": 180.0
+  },
+  "E3": {
+    "name": "E3_ablation",
+    "runs": [
+      {
+        "seed": 5,
+        "nsga3_random": {
+          "use_adaptive": false,
+          "seed": 5,
+          "history": [
+            {
+              "generation": 0,
+              "n_individuals": 20,
+              "n_non_dominated": 8,
+              "hypervolume": 0.7038582038217305,
+              "archive_size": 0,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 1,
+              "n_individuals": 20,
+              "n_non_dominated": 10,
+              "hypervolume": 0.7068565348284258,
+              "archive_size": 19,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 2,
+              "n_individuals": 20,
+              "n_non_dominated": 15,
+              "hypervolume": 0.7238726898525929,
+              "archive_size": 37,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 3,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7326396774495536,
+              "archive_size": 56,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 4,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7436482529138215,
+              "archive_size": 72,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 5,
+              "n_individuals": 20,
+              "n_non_dominated": 18,
+              "hypervolume": 0.7892215853302328,
+              "archive_size": 91,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 6,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.783578051945959,
+              "archive_size": 110,
+              "mutation_probs": {}
+            }
+          ],
+          "final_hv": 0.7887123839395566,
+          "final_pareto": 20,
+          "evals": 140,
+          "archive_size": 110,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          },
+          "experience": {
+            "random": {
+              "count": 110,
+              "success": 41,
+              "success_rate": 0.37272727272727274,
+              "average_improvement": 0.005278278942851292,
+              "average_gain": 0.12979089164227442
+            }
+          }
+        },
+        "nsga3_memory": {
+          "use_adaptive": true,
+          "seed": 5,
+          "history": [
+            {
+              "generation": 0,
+              "n_individuals": 20,
+              "n_non_dominated": 8,
+              "hypervolume": 0.7038582038217305,
+              "archive_size": 0,
+              "mutation_probs": {
+                "budget": 0.2,
+                "memory": 0.2,
+                "planner": 0.2,
+                "reflection": 0.2,
+                "tool": 0.2
+              }
+            },
+            {
+              "generation": 1,
+              "n_individuals": 20,
+              "n_non_dominated": 14,
+              "hypervolume": 0.715101945096838,
+              "archive_size": 20,
+              "mutation_probs": {
+                "budget": 0.28742939863366057,
+                "memory": 0.17157989999528828,
+                "planner": 0.09659855317331388,
+                "reflection": 0.27167947280095744,
+                "tool": 0.17271267539677992
+              }
+            },
+            {
+              "generation": 2,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7146290598430182,
+              "archive_size": 40,
+              "mutation_probs": {
+                "budget": 0.24982670522142103,
+                "memory": 0.227057941995558,
+                "planner": 0.179008243763165,
+                "reflection": 0.25543657230790034,
+                "tool": 0.08867053671195556
+              }
+            },
+            {
+              "generation": 3,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7190741071195381,
+              "archive_size": 60,
+              "mutation_probs": {
+                "budget": 0.2762903714664071,
+                "memory": 0.1788893254481988,
+                "planner": 0.1915887666855604,
+                "reflection": 0.22900125466730248,
+                "tool": 0.12423028173253134
+              }
+            },
+            {
+              "generation": 4,
+              "n_individuals": 20,
+              "n_non_dominated": 17,
+              "hypervolume": 0.7442600183837611,
+              "archive_size": 80,
+              "mutation_probs": {
+                "budget": 0.2349065001961358,
+                "memory": 0.2186039004682579,
+                "planner": 0.22346216300854754,
+                "reflection": 0.20039378536046637,
+                "tool": 0.12263365096659236
+              }
+            },
+            {
+              "generation": 5,
+              "n_individuals": 20,
+              "n_non_dominated": 16,
+              "hypervolume": 0.7502530532575106,
+              "archive_size": 100,
+              "mutation_probs": {
+                "budget": 0.21630743717270368,
+                "memory": 0.22911746642723996,
+                "planner": 0.2428560514739434,
+                "reflection": 0.1941611683484073,
+                "tool": 0.11755787657770578
+              }
+            },
+            {
+              "generation": 6,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7463052333335078,
+              "archive_size": 120,
+              "mutation_probs": {
+                "budget": 0.1731578297335546,
+                "memory": 0.23241503006819675,
+                "planner": 0.25236551587746,
+                "reflection": 0.20845647454791172,
+                "tool": 0.13360514977287696
+              }
+            }
+          ],
+          "final_hv": 0.7500668524531323,
+          "final_pareto": 20,
+          "evals": 140,
+          "archive_size": 120,
+          "mutation_probs": {
+            "budget": 0.1731578297335546,
+            "memory": 0.23241503006819675,
+            "planner": 0.25236551587746,
+            "reflection": 0.20845647454791172,
+            "tool": 0.13360514977287696
+          },
+          "experience": {
+            "budget": {
+              "count": 22,
+              "success": 5,
+              "success_rate": 0.22727272727272727,
+              "average_improvement": 0.0007323913622957125,
+              "average_gain": 0.09085170147334627
+            },
+            "memory": {
+              "count": 22,
+              "success": 7,
+              "success_rate": 0.3181818181818182,
+              "average_improvement": 0.0030805203328688243,
+              "average_gain": 0.08492621999131143
+            },
+            "planner": {
+              "count": 20,
+              "success": 7,
+              "success_rate": 0.35,
+              "average_improvement": 0.00028545115943012236,
+              "average_gain": 0.03134298498091459
+            },
+            "reflection": {
+              "count": 32,
+              "success": 9,
+              "success_rate": 0.28125,
+              "average_improvement": 0.006103675014190402,
+              "average_gain": 0.2191439354159384
+            },
+            "tool": {
+              "count": 24,
+              "success": 4,
+              "success_rate": 0.16666666666666666,
+              "average_improvement": 0.001117311545512455,
+              "average_gain": 0.21705233595608453
+            }
+          }
+        }
+      },
+      {
+        "seed": 15,
+        "nsga3_random": {
+          "use_adaptive": false,
+          "seed": 15,
+          "history": [
+            {
+              "generation": 0,
+              "n_individuals": 20,
+              "n_non_dominated": 4,
+              "hypervolume": 0.7200983786842301,
+              "archive_size": 0,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 1,
+              "n_individuals": 20,
+              "n_non_dominated": 7,
+              "hypervolume": 0.7319910948684298,
+              "archive_size": 16,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 2,
+              "n_individuals": 20,
+              "n_non_dominated": 10,
+              "hypervolume": 0.7413142633285074,
+              "archive_size": 31,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 3,
+              "n_individuals": 20,
+              "n_non_dominated": 13,
+              "hypervolume": 0.7597814995310642,
+              "archive_size": 50,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 4,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7651454061724956,
+              "archive_size": 69,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 5,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7742662618516153,
+              "archive_size": 89,
+              "mutation_probs": {}
+            },
+            {
+              "generation": 6,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7681497475868435,
+              "archive_size": 106,
+              "mutation_probs": {}
+            }
+          ],
+          "final_hv": 0.7703218934026418,
+          "final_pareto": 20,
+          "evals": 140,
+          "archive_size": 106,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          },
+          "experience": {
+            "random": {
+              "count": 106,
+              "success": 23,
+              "success_rate": 0.2169811320754717,
+              "average_improvement": 0.006252448529639788,
+              "average_gain": 0.13443378224009275
+            }
+          }
+        },
+        "nsga3_memory": {
+          "use_adaptive": true,
+          "seed": 15,
+          "history": [
+            {
+              "generation": 0,
+              "n_individuals": 20,
+              "n_non_dominated": 4,
+              "hypervolume": 0.7200983786842301,
+              "archive_size": 0,
+              "mutation_probs": {
+                "budget": 0.2,
+                "memory": 0.2,
+                "planner": 0.2,
+                "reflection": 0.2,
+                "tool": 0.2
+              }
+            },
+            {
+              "generation": 1,
+              "n_individuals": 20,
+              "n_non_dominated": 6,
+              "hypervolume": 0.748599493161696,
+              "archive_size": 20,
+              "mutation_probs": {
+                "budget": 0.3468523858133067,
+                "memory": 0.21548004821255212,
+                "planner": 0.1607516473558031,
+                "reflection": 0.16690340699095202,
+                "tool": 0.11001251162738597
+              }
+            },
+            {
+              "generation": 2,
+              "n_individuals": 20,
+              "n_non_dominated": 8,
+              "hypervolume": 0.7567932727185125,
+              "archive_size": 40,
+              "mutation_probs": {
+                "budget": 0.3539786326544904,
+                "memory": 0.19913674141462756,
+                "planner": 0.17893518898717276,
+                "reflection": 0.16853648048632458,
+                "tool": 0.09941295645738468
+              }
+            },
+            {
+              "generation": 3,
+              "n_individuals": 20,
+              "n_non_dominated": 13,
+              "hypervolume": 0.765603699270773,
+              "archive_size": 60,
+              "mutation_probs": {
+                "budget": 0.26264497453482955,
+                "memory": 0.22423430709926828,
+                "planner": 0.23851579856151034,
+                "reflection": 0.17643652403592772,
+                "tool": 0.09816839576846396
+              }
+            },
+            {
+              "generation": 4,
+              "n_individuals": 20,
+              "n_non_dominated": 13,
+              "hypervolume": 0.7688820321063978,
+              "archive_size": 80,
+              "mutation_probs": {
+                "budget": 0.21602488594446395,
+                "memory": 0.20339007137392623,
+                "planner": 0.2165081061467542,
+                "reflection": 0.16555935372697755,
+                "tool": 0.19851758280787807
+              }
+            },
+            {
+              "generation": 5,
+              "n_individuals": 20,
+              "n_non_dominated": 19,
+              "hypervolume": 0.7799499866821047,
+              "archive_size": 100,
+              "mutation_probs": {
+                "budget": 0.1711176476043605,
+                "memory": 0.30286557315640994,
+                "planner": 0.1781953556688492,
+                "reflection": 0.18872125795465017,
+                "tool": 0.15910016561573037
+              }
+            },
+            {
+              "generation": 6,
+              "n_individuals": 20,
+              "n_non_dominated": 20,
+              "hypervolume": 0.7688026046923859,
+              "archive_size": 120,
+              "mutation_probs": {
+                "budget": 0.17059798713082464,
+                "memory": 0.270185204703143,
+                "planner": 0.18329093224906867,
+                "reflection": 0.1932187704672691,
+                "tool": 0.1827071054496947
+              }
+            }
+          ],
+          "final_hv": 0.7720651219863875,
+          "final_pareto": 20,
+          "evals": 140,
+          "archive_size": 120,
+          "mutation_probs": {
+            "budget": 0.17059798713082464,
+            "memory": 0.270185204703143,
+            "planner": 0.18329093224906867,
+            "reflection": 0.1932187704672691,
+            "tool": 0.1827071054496947
+          },
+          "experience": {
+            "budget": {
+              "count": 26,
+              "success": 4,
+              "success_rate": 0.15384615384615385,
+              "average_improvement": 0.0016105501466340821,
+              "average_gain": 0.029569182240394117
+            },
+            "memory": {
+              "count": 23,
+              "success": 6,
+              "success_rate": 0.2608695652173913,
+              "average_improvement": 0.002786162772815032,
+              "average_gain": 0.023702850103819208
+            },
+            "planner": {
+              "count": 24,
+              "success": 4,
+              "success_rate": 0.16666666666666666,
+              "average_improvement": 0.003560827967764666,
+              "average_gain": 0.1446924795032294
+            },
+            "reflection": {
+              "count": 23,
+              "success": 4,
+              "success_rate": 0.17391304347826086,
+              "average_improvement": 0.020592216716813876,
+              "average_gain": 0.19433968244600522
+            },
+            "tool": {
+              "count": 24,
+              "success": 4,
+              "success_rate": 0.16666666666666666,
+              "average_improvement": 5.85119827164147e-05,
+              "average_gain": 0.04082476654431789
+            }
+          }
+        }
+      }
+    ],
+    "mean_final_hv_nsga3": 0.7795171386710992,
+    "mean_final_hv_nsga3_memory": 0.7610659872197599,
+    "mean_final_pareto_nsga3": 20.0,
+    "mean_final_pareto_nsga3_memory": 20.0,
+    "mean_hv_curve_nsga3": [
+      0.7119782912529803,
+      0.7194238148484278,
+      0.7325934765905502,
+      0.746210588490309,
+      0.7543968295431586,
+      0.781743923590924,
+      0.7758638997664012
+    ],
+    "mean_hv_curve_memory": [
+      0.7119782912529803,
+      0.731850719129267,
+      0.7357111662807654,
+      0.7423389031951555,
+      0.7565710252450795,
+      0.7651015199698077,
+      0.7575539190129469
+    ]
+  }
+}
