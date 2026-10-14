@@ -1,0 +1,2163 @@
+{
+  "benchmark": "alfworld",
+  "config": {
+    "pop": 12,
+    "gens": 8,
+    "tasks": 10,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "budget_evals": 108
+  },
+  "table": [
+    {
+      "Method": "B0_random_search",
+      "Success": {
+        "mean": 0.8222222222222223,
+        "std": 0.054997194092287045
+      },
+      "Cost": {
+        "mean": 0.0011381956195918098,
+        "std": 2.9676175993063034e-05
+      },
+      "Steps": {
+        "mean": 0.22625798173050915,
+        "std": 0.017536860076260593
+      },
+      "HV": {
+        "mean": 0.7483476373377025,
+        "std": 0.0326746373143778
+      },
+      "IGD": {
+        "mean": 0.05473181903353766,
+        "std": 0.021797313413183077
+      },
+      "PSS": {
+        "mean": 0.8263540978633132,
+        "std": 0.022577953029864067
+      }
+    },
+    {
+      "Method": "B1_react",
+      "Success": {
+        "mean": 0.4000000000000001,
+        "std": 5.551115123125783e-17
+      },
+      "Cost": {
+        "mean": 0.0013122890796216015,
+        "std": 2.168404344971009e-19
+      },
+      "Steps": {
+        "mean": 0.39282649229121636,
+        "std": 0.0
+      },
+      "HV": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "IGD": {
+        "mean": 0.8177370415879639,
+        "std": 0.0
+      },
+      "PSS": {
+        "mean": 0.0,
+        "std": 0.0
+      }
+    },
+    {
+      "Method": "B2_nsga2",
+      "Success": {
+        "mean": 0.811111111111111,
+        "std": 0.05152010275275398
+      },
+      "Cost": {
+        "mean": 0.0011302882706584877,
+        "std": 3.1530983533307895e-05
+      },
+      "Steps": {
+        "mean": 0.22928140960919086,
+        "std": 0.022199942524907472
+      },
+      "HV": {
+        "mean": 0.7496400174885056,
+        "std": 0.032361998658246974
+      },
+      "IGD": {
+        "mean": 0.05465551878212375,
+        "std": 0.021361408363718692
+      },
+      "PSS": {
+        "mean": 0.8179102530166227,
+        "std": 0.022995012933305168
+      }
+    },
+    {
+      "Method": "B3_nsga3",
+      "Success": {
+        "mean": 0.8222222222222223,
+        "std": 0.054997194092287045
+      },
+      "Cost": {
+        "mean": 0.0011381956195918098,
+        "std": 2.9676175993063034e-05
+      },
+      "Steps": {
+        "mean": 0.22625798173050915,
+        "std": 0.017536860076260593
+      },
+      "HV": {
+        "mean": 0.7483476373377025,
+        "std": 0.0326746373143778
+      },
+      "IGD": {
+        "mean": 0.05473181903353766,
+        "std": 0.021797313413183077
+      },
+      "PSS": {
+        "mean": 0.8263540978633132,
+        "std": 0.022577953029864067
+      }
+    },
+    {
+      "Method": "B4_nsga3_peem",
+      "Success": {
+        "mean": 0.8833333333333333,
+        "std": 0.06236095644623234
+      },
+      "Cost": {
+        "mean": 0.0011588017396022378,
+        "std": 5.983721976079196e-05
+      },
+      "Steps": {
+        "mean": 0.2077741889210163,
+        "std": 0.02352605713808638
+      },
+      "HV": {
+        "mean": 0.7713623151121235,
+        "std": 0.019893049480491653
+      },
+      "IGD": {
+        "mean": 0.039049899582717214,
+        "std": 0.018813791257299643
+      },
+      "PSS": {
+        "mean": 0.8611985870530615,
+        "std": 0.03448337390448313
+      }
+    },
+    {
+      "Method": "B5_peem_ppec",
+      "Success": {
+        "mean": 0.8833333333333333,
+        "std": 0.06236095644623234
+      },
+      "Cost": {
+        "mean": 0.0011588017396022378,
+        "std": 5.983721976079196e-05
+      },
+      "Steps": {
+        "mean": 0.2077741889210163,
+        "std": 0.02352605713808638
+      },
+      "HV": {
+        "mean": 0.7713623151121235,
+        "std": 0.019893049480491653
+      },
+      "IGD": {
+        "mean": 0.039049899582717214,
+        "std": 0.018813791257299643
+      },
+      "PSS": {
+        "mean": 0.8611985870530615,
+        "std": 0.03448337390448313
+      }
+    }
+  ],
+  "runs": [
+    {
+      "method": "B1_react",
+      "benchmark": "alfworld",
+      "seed": 11,
+      "objectives": [
+        0.4,
+        0.6071735077087836,
+        0.0013122890796216017,
+        0.24,
+        0.8836666666666668
+      ],
+      "success": 0.4,
+      "cost": 0.0013122890796216017,
+      "steps_proxy": 0.39282649229121636,
+      "wall_time": 0.023756027221679688,
+      "curve": [],
+      "igd": 0.8177370415879639
+    },
+    {
+      "method": "B0_random_search",
+      "benchmark": "alfworld",
+      "seed": 11,
+      "final_hv": 0.7933195776798557,
+      "final_pareto": 12,
+      "success": 0.7833333333333333,
+      "cost": 0.001110510438345256,
+      "efficiency": 0.7608720931431329,
+      "steps_proxy": 0.23912790685686716,
+      "pss": 0.8153412054298464,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 6,
+          "hypervolume": 0.6651652002076283,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7353020287088303,
+          "archive_size": 11,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7796699999374883,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7843386825718446,
+          "archive_size": 33,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7972901461367118,
+          "archive_size": 45,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7988783735194542,
+          "archive_size": 56,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7829960996920298,
+          "archive_size": 66,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7957019187539693,
+          "archive_size": 77,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7877607818402571,
+          "archive_size": 89,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.49724650382995605,
+      "evaluations": 108,
+      "igd": 0.024152824190459173
+    },
+    {
+      "method": "B2_nsga2",
+      "benchmark": "alfworld",
+      "seed": 11,
+      "final_hv": 0.7932143069246862,
+      "final_pareto": 12,
+      "success": 0.7833333333333332,
+      "cost": 0.00114374130432159,
+      "efficiency": 0.7597792904529403,
+      "steps_proxy": 0.2402207095470595,
+      "pss": 0.8115937764963904,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 6,
+          "hypervolume": 0.6651652002076283,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7353020287088303,
+          "archive_size": 11,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7796699999374883,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7881596648226139,
+          "archive_size": 33,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7972901461367118,
+          "archive_size": 45,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 5,
+          "hypervolume": 0.7972901461367118,
+          "archive_size": 57,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 7,
+          "hypervolume": 0.7836382790744888,
+          "archive_size": 66,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7916183022829867,
+          "archive_size": 78,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7836382790744888,
+          "archive_size": 90,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.42084479331970215,
+      "evaluations": 108,
+      "igd": 0.02778776796407841
+    },
+    {
+      "method": "B3_nsga3",
+      "benchmark": "alfworld",
+      "seed": 11,
+      "final_hv": 0.7933195776798557,
+      "final_pareto": 12,
+      "success": 0.7833333333333333,
+      "cost": 0.001110510438345256,
+      "efficiency": 0.7608720931431329,
+      "steps_proxy": 0.23912790685686716,
+      "pss": 0.8153412054298464,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 6,
+          "hypervolume": 0.6651652002076283,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7353020287088303,
+          "archive_size": 11,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7796699999374883,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7843386825718446,
+          "archive_size": 33,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7972901461367118,
+          "archive_size": 45,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7988783735194542,
+          "archive_size": 56,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7829960996920298,
+          "archive_size": 66,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7957019187539693,
+          "archive_size": 77,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7877607818402571,
+          "archive_size": 89,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.5502879619598389,
+      "evaluations": 108,
+      "igd": 0.024152824190459173
+    },
+    {
+      "method": "B4_nsga3_peem",
+      "benchmark": "alfworld",
+      "seed": 11,
+      "final_hv": 0.7432759083596318,
+      "final_pareto": 12,
+      "success": 0.7999999999999999,
+      "cost": 0.0011912530765078395,
+      "efficiency": 0.7590332890879788,
+      "steps_proxy": 0.24096671091202113,
+      "pss": 0.8167795183134053,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 6,
+          "hypervolume": 0.6651652002076283,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.6667460478980096,
+          "archive_size": 12,
+          "mutation_entropy": 2.1887218755408666,
+          "temperature": 0.76,
+          "mutation_probs": {
+            "budget": 0.1863204870348675,
+            "memory": 0.15984337885499725,
+            "planner": 0.31985035684527735,
+            "reflection": 0.1784320404298915,
+            "tool": 0.15555373683496646
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.652823276596195,
+          "archive_size": 24,
+          "mutation_entropy": 2.1403360647604432,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.24002247389306075,
+            "memory": 0.1238704882193073,
+            "planner": 0.2766114072571391,
+            "reflection": 0.15895465844215861,
+            "tool": 0.20054097218833433
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.672253008588067,
+          "archive_size": 36,
+          "mutation_entropy": 2.1994889745104373,
+          "temperature": 0.28,
+          "mutation_probs": {
+            "budget": 0.31976854557520074,
+            "memory": 0.11236281914176742,
+            "planner": 0.28249335422431976,
+            "reflection": 0.08094567388762586,
+            "tool": 0.20442960717108627
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.6900730012349423,
+          "archive_size": 48,
+          "mutation_entropy": 2.1420186296362997,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.2016204963558766,
+            "memory": 0.37728289659371583,
+            "planner": 0.16955589640345392,
+            "reflection": 0.05583101856705261,
+            "tool": 0.19570969207990102
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7057209150951451,
+          "archive_size": 60,
+          "mutation_entropy": 2.1487865839462077,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.5412134571974062,
+            "memory": 0.038766275898202356,
+            "planner": 0.038507004137062886,
+            "reflection": 0.08998829075438773,
+            "tool": 0.2915249720129409
+          }
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7307575772714695,
+          "archive_size": 72,
+          "mutation_entropy": 2.1332053688680865,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.0800101336798227,
+            "memory": 0.05413055007071152,
+            "planner": 0.053838876806958876,
+            "reflection": 0.4050818248825498,
+            "tool": 0.4069386145599573
+          }
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7323223686574898,
+          "archive_size": 84,
+          "mutation_entropy": 2.245477385918894,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.09115210458906997,
+            "memory": 0.060767772260662746,
+            "planner": 0.14305385704683765,
+            "reflection": 0.476992773868473,
+            "tool": 0.22803349223495678
+          }
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7510998652897332,
+          "archive_size": 96,
+          "mutation_entropy": 2.269928060333872,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.09482698375352445,
+            "memory": 0.06096912148231832,
+            "planner": 0.09614693765849285,
+            "reflection": 0.5677946660095755,
+            "tool": 0.180262291096089
+          }
+        }
+      ],
+      "wall_time": 0.44260644912719727,
+      "evaluations": 108,
+      "igd": 0.062282701089320075
+    },
+    {
+      "method": "B5_peem_ppec",
+      "benchmark": "alfworld",
+      "seed": 11,
+      "final_hv": 0.7432759083596318,
+      "final_pareto": 12,
+      "success": 0.7999999999999999,
+      "cost": 0.0011912530765078395,
+      "efficiency": 0.7590332890879788,
+      "steps_proxy": 0.24096671091202113,
+      "pss": 0.8167795183134053,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 6,
+          "hypervolume": 0.6651652002076283,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.6667460478980096,
+          "archive_size": 12,
+          "mutation_entropy": 2.1887218755408666,
+          "temperature": 0.76,
+          "mutation_probs": {
+            "budget": 0.1863204870348675,
+            "memory": 0.15984337885499725,
+            "planner": 0.31985035684527735,
+            "reflection": 0.1784320404298915,
+            "tool": 0.15555373683496646
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.652823276596195,
+          "archive_size": 24,
+          "mutation_entropy": 2.1403360647604432,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.24002247389306075,
+            "memory": 0.1238704882193073,
+            "planner": 0.2766114072571391,
+            "reflection": 0.15895465844215861,
+            "tool": 0.20054097218833433
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.672253008588067,
+          "archive_size": 36,
+          "mutation_entropy": 2.1994889745104373,
+          "temperature": 0.28,
+          "mutation_probs": {
+            "budget": 0.31976854557520074,
+            "memory": 0.11236281914176742,
+            "planner": 0.28249335422431976,
+            "reflection": 0.08094567388762586,
+            "tool": 0.20442960717108627
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.6900730012349423,
+          "archive_size": 48,
+          "mutation_entropy": 2.1420186296362997,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.2016204963558766,
+            "memory": 0.37728289659371583,
+            "planner": 0.16955589640345392,
+            "reflection": 0.05583101856705261,
+            "tool": 0.19570969207990102
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7057209150951451,
+          "archive_size": 60,
+          "mutation_entropy": 2.1487865839462077,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.5412134571974062,
+            "memory": 0.038766275898202356,
+            "planner": 0.038507004137062886,
+            "reflection": 0.08998829075438773,
+            "tool": 0.2915249720129409
+          }
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7307575772714695,
+          "archive_size": 72,
+          "mutation_entropy": 2.1332053688680865,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.0800101336798227,
+            "memory": 0.05413055007071152,
+            "planner": 0.053838876806958876,
+            "reflection": 0.4050818248825498,
+            "tool": 0.4069386145599573
+          }
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7323223686574898,
+          "archive_size": 84,
+          "mutation_entropy": 2.245477385918894,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.09115210458906997,
+            "memory": 0.060767772260662746,
+            "planner": 0.14305385704683765,
+            "reflection": 0.476992773868473,
+            "tool": 0.22803349223495678
+          }
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7510998652897332,
+          "archive_size": 96,
+          "mutation_entropy": 2.269928060333872,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.09482698375352445,
+            "memory": 0.06096912148231832,
+            "planner": 0.09614693765849285,
+            "reflection": 0.5677946660095755,
+            "tool": 0.180262291096089
+          }
+        }
+      ],
+      "wall_time": 0.41544651985168457,
+      "evaluations": 108,
+      "igd": 0.062282701089320075
+    },
+    {
+      "method": "B1_react",
+      "benchmark": "alfworld",
+      "seed": 22,
+      "objectives": [
+        0.4,
+        0.6071735077087836,
+        0.0013122890796216017,
+        0.24,
+        0.8836666666666668
+      ],
+      "success": 0.4,
+      "cost": 0.0013122890796216017,
+      "steps_proxy": 0.39282649229121636,
+      "wall_time": 0.002928495407104492,
+      "curve": [],
+      "igd": 0.8177370415879639
+    },
+    {
+      "method": "B0_random_search",
+      "benchmark": "alfworld",
+      "seed": 22,
+      "final_hv": 0.7166643130995287,
+      "final_pareto": 12,
+      "success": 0.7833333333333333,
+      "cost": 0.0011247222590717344,
+      "efficiency": 0.7618170798952201,
+      "steps_proxy": 0.23818292010477993,
+      "pss": 0.8059051381938964,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 5,
+          "hypervolume": 0.6444828126956103,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.6527248113163493,
+          "archive_size": 10,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.664994336385716,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 6,
+          "hypervolume": 0.7190492544726351,
+          "archive_size": 34,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.703911375431106,
+          "archive_size": 45,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7070333893838909,
+          "archive_size": 57,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.704765762879395,
+          "archive_size": 68,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7110164570069284,
+          "archive_size": 78,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7158994632456338,
+          "archive_size": 88,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.6255335807800293,
+      "evaluations": 108,
+      "igd": 0.07339446244050814
+    },
+    {
+      "method": "B2_nsga2",
+      "benchmark": "alfworld",
+      "seed": 22,
+      "final_hv": 0.7157322535274254,
+      "final_pareto": 10,
+      "success": 0.8833333333333334,
+      "cost": 0.0010867437378862155,
+      "efficiency": 0.8016736275417307,
+      "steps_proxy": 0.1983263724582692,
+      "pss": 0.8486951545385467,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 5,
+          "hypervolume": 0.6444828126956103,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.6527248113163493,
+          "archive_size": 10,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.664994336385716,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 5,
+          "hypervolume": 0.7190492544726351,
+          "archive_size": 34,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 7,
+          "hypervolume": 0.703911375431106,
+          "archive_size": 46,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.6978562238144943,
+          "archive_size": 58,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7019681717288211,
+          "archive_size": 69,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7126735686832911,
+          "archive_size": 80,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7157322535274254,
+          "archive_size": 91,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.6146960258483887,
+      "evaluations": 108,
+      "igd": 0.08005006413086528
+    },
+    {
+      "method": "B3_nsga3",
+      "benchmark": "alfworld",
+      "seed": 22,
+      "final_hv": 0.7166643130995287,
+      "final_pareto": 12,
+      "success": 0.7833333333333333,
+      "cost": 0.0011247222590717344,
+      "efficiency": 0.7618170798952201,
+      "steps_proxy": 0.23818292010477993,
+      "pss": 0.8059051381938964,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 5,
+          "hypervolume": 0.6444828126956103,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.6527248113163493,
+          "archive_size": 10,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.664994336385716,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 6,
+          "hypervolume": 0.7190492544726351,
+          "archive_size": 34,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.703911375431106,
+          "archive_size": 45,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7070333893838909,
+          "archive_size": 57,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.704765762879395,
+          "archive_size": 68,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7110164570069284,
+          "archive_size": 78,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7158994632456338,
+          "archive_size": 88,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.6496767997741699,
+      "evaluations": 108,
+      "igd": 0.07339446244050814
+    },
+    {
+      "method": "B4_nsga3_peem",
+      "benchmark": "alfworld",
+      "seed": 22,
+      "final_hv": 0.7868074611584243,
+      "final_pareto": 12,
+      "success": 0.9,
+      "cost": 0.0010748935597241706,
+      "efficiency": 0.8068458611534931,
+      "steps_proxy": 0.19315413884650678,
+      "pss": 0.8659764157409761,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 5,
+          "hypervolume": 0.6444828126956103,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.6527890445794924,
+          "archive_size": 12,
+          "mutation_entropy": 2.1258145836939115,
+          "temperature": 0.76,
+          "mutation_probs": {
+            "budget": 0.17639909877182586,
+            "memory": 0.3058421467037312,
+            "planner": 0.1798890787744689,
+            "reflection": 0.18229062158306691,
+            "tool": 0.1555790541669072
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.678862083798052,
+          "archive_size": 24,
+          "mutation_entropy": 2.035235442391543,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.13419117765872557,
+            "memory": 0.2708286103330926,
+            "planner": 0.1626933898909074,
+            "reflection": 0.3002761843961865,
+            "tool": 0.13201063772108815
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.6875468865758522,
+          "archive_size": 36,
+          "mutation_entropy": 2.016875695766564,
+          "temperature": 0.28,
+          "mutation_probs": {
+            "budget": 0.15401112817694418,
+            "memory": 0.22965121812229017,
+            "planner": 0.07975065768189091,
+            "reflection": 0.3465889511023968,
+            "tool": 0.18999804491647793
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7741488612727738,
+          "archive_size": 48,
+          "mutation_entropy": 2.009478497832169,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.1991250529409601,
+            "memory": 0.10858769018990165,
+            "planner": 0.058958592063032,
+            "reflection": 0.40206254661211893,
+            "tool": 0.23126611819398735
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7716852620915763,
+          "archive_size": 60,
+          "mutation_entropy": 2.053671941582458,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.15424263247659376,
+            "memory": 0.11915381150141235,
+            "planner": 0.05499708894857441,
+            "reflection": 0.4866370207427175,
+            "tool": 0.184969446330702
+          }
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7788076403958968,
+          "archive_size": 72,
+          "mutation_entropy": 2.017315273997499,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.26276843930444743,
+            "memory": 0.1365976304174719,
+            "planner": 0.061591689264075926,
+            "reflection": 0.32549922690874455,
+            "tool": 0.21354301410526016
+          }
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7772805665911989,
+          "archive_size": 84,
+          "mutation_entropy": 1.997564866179221,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.1868730099600103,
+            "memory": 0.13330761151250956,
+            "planner": 0.06034790429857757,
+            "reflection": 0.2771071804740858,
+            "tool": 0.3423642937548167
+          }
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7868074611584243,
+          "archive_size": 96,
+          "mutation_entropy": 2.040156472879387,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.16762244257189413,
+            "memory": 0.19329170001143176,
+            "planner": 0.07672562997861225,
+            "reflection": 0.3735343249474954,
+            "tool": 0.18882590249056663
+          }
+        }
+      ],
+      "wall_time": 0.35946130752563477,
+      "evaluations": 108,
+      "igd": 0.016203369140673957
+    },
+    {
+      "method": "B5_peem_ppec",
+      "benchmark": "alfworld",
+      "seed": 22,
+      "final_hv": 0.7868074611584243,
+      "final_pareto": 12,
+      "success": 0.9,
+      "cost": 0.0010748935597241706,
+      "efficiency": 0.8068458611534931,
+      "steps_proxy": 0.19315413884650678,
+      "pss": 0.8659764157409761,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 5,
+          "hypervolume": 0.6444828126956103,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.6527890445794924,
+          "archive_size": 12,
+          "mutation_entropy": 2.1258145836939115,
+          "temperature": 0.76,
+          "mutation_probs": {
+            "budget": 0.17639909877182586,
+            "memory": 0.3058421467037312,
+            "planner": 0.1798890787744689,
+            "reflection": 0.18229062158306691,
+            "tool": 0.1555790541669072
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.678862083798052,
+          "archive_size": 24,
+          "mutation_entropy": 2.035235442391543,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.13419117765872557,
+            "memory": 0.2708286103330926,
+            "planner": 0.1626933898909074,
+            "reflection": 0.3002761843961865,
+            "tool": 0.13201063772108815
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.6875468865758522,
+          "archive_size": 36,
+          "mutation_entropy": 2.016875695766564,
+          "temperature": 0.28,
+          "mutation_probs": {
+            "budget": 0.15401112817694418,
+            "memory": 0.22965121812229017,
+            "planner": 0.07975065768189091,
+            "reflection": 0.3465889511023968,
+            "tool": 0.18999804491647793
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7741488612727738,
+          "archive_size": 48,
+          "mutation_entropy": 2.009478497832169,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.1991250529409601,
+            "memory": 0.10858769018990165,
+            "planner": 0.058958592063032,
+            "reflection": 0.40206254661211893,
+            "tool": 0.23126611819398735
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7716852620915763,
+          "archive_size": 60,
+          "mutation_entropy": 2.053671941582458,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.15424263247659376,
+            "memory": 0.11915381150141235,
+            "planner": 0.05499708894857441,
+            "reflection": 0.4866370207427175,
+            "tool": 0.184969446330702
+          }
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7788076403958968,
+          "archive_size": 72,
+          "mutation_entropy": 2.017315273997499,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.26276843930444743,
+            "memory": 0.1365976304174719,
+            "planner": 0.061591689264075926,
+            "reflection": 0.32549922690874455,
+            "tool": 0.21354301410526016
+          }
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7772805665911989,
+          "archive_size": 84,
+          "mutation_entropy": 1.997564866179221,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.1868730099600103,
+            "memory": 0.13330761151250956,
+            "planner": 0.06034790429857757,
+            "reflection": 0.2771071804740858,
+            "tool": 0.3423642937548167
+          }
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7868074611584243,
+          "archive_size": 96,
+          "mutation_entropy": 2.040156472879387,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.16762244257189413,
+            "memory": 0.19329170001143176,
+            "planner": 0.07672562997861225,
+            "reflection": 0.3735343249474954,
+            "tool": 0.18882590249056663
+          }
+        }
+      ],
+      "wall_time": 0.37253475189208984,
+      "evaluations": 108,
+      "igd": 0.016203369140673957
+    },
+    {
+      "method": "B1_react",
+      "benchmark": "alfworld",
+      "seed": 33,
+      "objectives": [
+        0.4,
+        0.6071735077087836,
+        0.0013122890796216017,
+        0.24,
+        0.8836666666666668
+      ],
+      "success": 0.4,
+      "cost": 0.0013122890796216017,
+      "steps_proxy": 0.39282649229121636,
+      "wall_time": 0.0038640499114990234,
+      "curve": [],
+      "igd": 0.8177370415879639
+    },
+    {
+      "method": "B0_random_search",
+      "benchmark": "alfworld",
+      "seed": 33,
+      "final_hv": 0.7350590212337227,
+      "final_pareto": 12,
+      "success": 0.9,
+      "cost": 0.0011793541613584382,
+      "efficiency": 0.7985368817701195,
+      "steps_proxy": 0.20146311822988042,
+      "pss": 0.8578159499661965,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 4,
+          "hypervolume": 0.6612962055818865,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 7,
+          "hypervolume": 0.6873194358941367,
+          "archive_size": 10,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.679861098893355,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.703090976987661,
+          "archive_size": 32,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7325154892404485,
+          "archive_size": 42,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7294181721612077,
+          "archive_size": 52,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7249897195729867,
+          "archive_size": 62,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7311862129026704,
+          "archive_size": 73,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.738931829564775,
+          "archive_size": 84,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.5302207469940186,
+      "evaluations": 108,
+      "igd": 0.06664817046964566
+    },
+    {
+      "method": "B2_nsga2",
+      "benchmark": "alfworld",
+      "seed": 33,
+      "final_hv": 0.739973492013405,
+      "final_pareto": 12,
+      "success": 0.7666666666666666,
+      "cost": 0.0011603797697676572,
+      "efficiency": 0.7507028531777564,
+      "steps_proxy": 0.2492971468222438,
+      "pss": 0.793441828014931,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 4,
+          "hypervolume": 0.6612962055818865,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 7,
+          "hypervolume": 0.6873194358941367,
+          "archive_size": 10,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.679861098893355,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.703090976987661,
+          "archive_size": 33,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7356128063196893,
+          "archive_size": 44,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7325154892404485,
+          "archive_size": 54,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7247721965423465,
+          "archive_size": 64,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7279717845187382,
+          "archive_size": 75,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7415379180007483,
+          "archive_size": 86,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.5124738216400146,
+      "evaluations": 108,
+      "igd": 0.056128724251427564
+    },
+    {
+      "method": "B3_nsga3",
+      "benchmark": "alfworld",
+      "seed": 33,
+      "final_hv": 0.7350590212337227,
+      "final_pareto": 12,
+      "success": 0.9,
+      "cost": 0.0011793541613584382,
+      "efficiency": 0.7985368817701195,
+      "steps_proxy": 0.20146311822988042,
+      "pss": 0.8578159499661965,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 4,
+          "hypervolume": 0.6612962055818865,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 7,
+          "hypervolume": 0.6873194358941367,
+          "archive_size": 10,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.679861098893355,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.703090976987661,
+          "archive_size": 32,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7325154892404485,
+          "archive_size": 42,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7294181721612077,
+          "archive_size": 52,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7249897195729867,
+          "archive_size": 62,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7311862129026704,
+          "archive_size": 73,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.738931829564775,
+          "archive_size": 84,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "wall_time": 0.515153169631958,
+      "evaluations": 108,
+      "igd": 0.06664817046964566
+    },
+    {
+      "method": "B4_nsga3_peem",
+      "benchmark": "alfworld",
+      "seed": 33,
+      "final_hv": 0.7840035758183147,
+      "final_pareto": 12,
+      "success": 0.9499999999999998,
+      "cost": 0.0012102585825747034,
+      "efficiency": 0.8107982829954793,
+      "steps_proxy": 0.1892017170045209,
+      "pss": 0.9008398271048031,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 4,
+          "hypervolume": 0.6612962055818865,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 7,
+          "hypervolume": 0.658234649074563,
+          "archive_size": 12,
+          "mutation_entropy": 2.1174924611847548,
+          "temperature": 0.76,
+          "mutation_probs": {
+            "budget": 0.17488440745650682,
+            "memory": 0.1863659560946869,
+            "planner": 0.1765744928276354,
+            "reflection": 0.21424986714783145,
+            "tool": 0.2479252764733394
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7546736790552547,
+          "archive_size": 24,
+          "mutation_entropy": 2.1174924611847548,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.12947518435056093,
+            "memory": 0.1634350095680735,
+            "planner": 0.13606908731605488,
+            "reflection": 0.2820821065484709,
+            "tool": 0.2889386122168399
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7690017415550182,
+          "archive_size": 36,
+          "mutation_entropy": 2.13473122937108,
+          "temperature": 0.28,
+          "mutation_probs": {
+            "budget": 0.39945525161616835,
+            "memory": 0.12623520940999042,
+            "planner": 0.06219064714504668,
+            "reflection": 0.17325963466383143,
+            "tool": 0.23885925716496315
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7751292454717913,
+          "archive_size": 48,
+          "mutation_entropy": 2.0561779753360474,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.11895827295893943,
+            "memory": 0.1721930220575897,
+            "planner": 0.10296193673295666,
+            "reflection": 0.2728486758701558,
+            "tool": 0.3330380923803583
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7751292454717913,
+          "archive_size": 60,
+          "mutation_entropy": 2.049380425042653,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.3193870445461137,
+            "memory": 0.10707991810030873,
+            "planner": 0.06732171390716502,
+            "reflection": 0.22484509021660415,
+            "tool": 0.28136623322980836
+          }
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7721712188221094,
+          "archive_size": 72,
+          "mutation_entropy": 2.0064195457971947,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.29472485164032786,
+            "memory": 0.09864389558248277,
+            "planner": 0.04045332849033806,
+            "reflection": 0.08825750879376194,
+            "tool": 0.4779204154930895
+          }
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7840035758183147,
+          "archive_size": 84,
+          "mutation_entropy": 1.931727374444487,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.40637860935806475,
+            "memory": 0.12765163069780364,
+            "planner": 0.04903636623966224,
+            "reflection": 0.1136196563596457,
+            "tool": 0.3033137373448236
+          }
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7855499339560235,
+          "archive_size": 96,
+          "mutation_entropy": 1.9928900976849477,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.2857060926295047,
+            "memory": 0.031227074484124605,
+            "planner": 0.031227074484124605,
+            "reflection": 0.060994711819073545,
+            "tool": 0.5908450465831725
+          }
+        }
+      ],
+      "wall_time": 0.33007144927978516,
+      "evaluations": 108,
+      "igd": 0.03866362851815762
+    },
+    {
+      "method": "B5_peem_ppec",
+      "benchmark": "alfworld",
+      "seed": 33,
+      "final_hv": 0.7840035758183147,
+      "final_pareto": 12,
+      "success": 0.9499999999999998,
+      "cost": 0.0012102585825747034,
+      "efficiency": 0.8107982829954793,
+      "steps_proxy": 0.1892017170045209,
+      "pss": 0.9008398271048031,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 12,
+          "n_non_dominated": 4,
+          "hypervolume": 0.6612962055818865,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 12,
+          "n_non_dominated": 7,
+          "hypervolume": 0.658234649074563,
+          "archive_size": 12,
+          "mutation_entropy": 2.1174924611847548,
+          "temperature": 0.76,
+          "mutation_probs": {
+            "budget": 0.17488440745650682,
+            "memory": 0.1863659560946869,
+            "planner": 0.1765744928276354,
+            "reflection": 0.21424986714783145,
+            "tool": 0.2479252764733394
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7546736790552547,
+          "archive_size": 24,
+          "mutation_entropy": 2.1174924611847548,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.12947518435056093,
+            "memory": 0.1634350095680735,
+            "planner": 0.13606908731605488,
+            "reflection": 0.2820821065484709,
+            "tool": 0.2889386122168399
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 12,
+          "n_non_dominated": 8,
+          "hypervolume": 0.7690017415550182,
+          "archive_size": 36,
+          "mutation_entropy": 2.13473122937108,
+          "temperature": 0.28,
+          "mutation_probs": {
+            "budget": 0.39945525161616835,
+            "memory": 0.12623520940999042,
+            "planner": 0.06219064714504668,
+            "reflection": 0.17325963466383143,
+            "tool": 0.23885925716496315
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7751292454717913,
+          "archive_size": 48,
+          "mutation_entropy": 2.0561779753360474,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.11895827295893943,
+            "memory": 0.1721930220575897,
+            "planner": 0.10296193673295666,
+            "reflection": 0.2728486758701558,
+            "tool": 0.3330380923803583
+          }
+        },
+        {
+          "generation": 5,
+          "n_individuals": 12,
+          "n_non_dominated": 9,
+          "hypervolume": 0.7751292454717913,
+          "archive_size": 60,
+          "mutation_entropy": 2.049380425042653,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.3193870445461137,
+            "memory": 0.10707991810030873,
+            "planner": 0.06732171390716502,
+            "reflection": 0.22484509021660415,
+            "tool": 0.28136623322980836
+          }
+        },
+        {
+          "generation": 6,
+          "n_individuals": 12,
+          "n_non_dominated": 10,
+          "hypervolume": 0.7721712188221094,
+          "archive_size": 72,
+          "mutation_entropy": 2.0064195457971947,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.29472485164032786,
+            "memory": 0.09864389558248277,
+            "planner": 0.04045332849033806,
+            "reflection": 0.08825750879376194,
+            "tool": 0.4779204154930895
+          }
+        },
+        {
+          "generation": 7,
+          "n_individuals": 12,
+          "n_non_dominated": 11,
+          "hypervolume": 0.7840035758183147,
+          "archive_size": 84,
+          "mutation_entropy": 1.931727374444487,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.40637860935806475,
+            "memory": 0.12765163069780364,
+            "planner": 0.04903636623966224,
+            "reflection": 0.1136196563596457,
+            "tool": 0.3033137373448236
+          }
+        },
+        {
+          "generation": 8,
+          "n_individuals": 12,
+          "n_non_dominated": 12,
+          "hypervolume": 0.7855499339560235,
+          "archive_size": 96,
+          "mutation_entropy": 1.9928900976849477,
+          "temperature": 0.2,
+          "mutation_probs": {
+            "budget": 0.2857060926295047,
+            "memory": 0.031227074484124605,
+            "planner": 0.031227074484124605,
+            "reflection": 0.060994711819073545,
+            "tool": 0.5908450465831725
+          }
+        }
+      ],
+      "wall_time": 0.3157057762145996,
+      "evaluations": 108,
+      "igd": 0.03866362851815762
+    }
+  ]
+}

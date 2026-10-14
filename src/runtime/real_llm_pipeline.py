@@ -8,6 +8,7 @@ from typing import Any, Callable, Dict, List, Optional, Sequence
 from src.backend.base import LLMBackend, resolve_backend, get_env_key
 from src.benchmark.alfworld_real import ALFWorldRealAdapter
 from src.benchmark.base_adapter import BenchmarkAdapter
+from src.benchmark.webshop_real import WebShopRealAdapter
 from src.evaluation.objective_evaluator import ObjectiveEvaluator
 from src.agent.genome import AgentGenome
 from src.runtime.agent_builder import AgentBuilder
@@ -53,13 +54,25 @@ class RealLLMPipeline:
 
         self.builder = AgentBuilder(llm=self.backend)
         self.objectives = ObjectiveEvaluator()
-        self.adapter = adapter or ALFWorldRealAdapter(
-            n_tasks=self.config.n_tasks,
-            seed=self.config.seed,
-            backend=self.backend,
-            cache=self.cache,
-            budget_cap=self.config.budget_cap_usd,
-        )
+        if adapter is not None:
+            self.adapter = adapter
+        else:
+            kind = (self.config.benchmark or "alfworld").lower()
+            if kind.startswith("web"):
+                self.adapter = WebShopRealAdapter(
+                    n_tasks=self.config.n_tasks,
+                    seed=self.config.seed,
+                    backend=self.backend,
+                    cache=self.cache,
+                )
+            else:
+                self.adapter = ALFWorldRealAdapter(
+                    n_tasks=self.config.n_tasks,
+                    seed=self.config.seed,
+                    backend=self.backend,
+                    cache=self.cache,
+                    budget_cap=self.config.budget_cap_usd,
+                )
 
     def evaluate_genome(self, genome: AgentGenome) -> List[float]:
         agent = self.builder.build(genome, agent_id=0)

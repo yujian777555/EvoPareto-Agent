@@ -1,0 +1,179 @@
+{
+  "fig1_pareto": [
+    {
+      "method": "B0_random_search",
+      "success": 0.4055555555555556,
+      "cost": 0.003600214264087707
+    },
+    {
+      "method": "B1_react",
+      "success": 0.20000000000000004,
+      "cost": 0.0038496509884646548
+    },
+    {
+      "method": "B2_nsga2",
+      "success": 0.41111111111111115,
+      "cost": 0.00381346691798503
+    },
+    {
+      "method": "B3_nsga3",
+      "success": 0.4055555555555556,
+      "cost": 0.003600214264087707
+    },
+    {
+      "method": "B4_nsga3_peem",
+      "success": 0.5,
+      "cost": 0.004896551143897962
+    },
+    {
+      "method": "B5_peem_ppec",
+      "success": 0.5,
+      "cost": 0.004896551143897962
+    }
+  ],
+  "fig2_preference_shift": [
+    {
+      "preference": "accuracy_first",
+      "mean_performance": 0.5166666666666667,
+      "mean_cost": 0.005023838300675058,
+      "pss": 0.5674640626696744
+    },
+    {
+      "preference": "cost_first",
+      "mean_performance": 0.4166666666666667,
+      "mean_cost": 0.0045643204509041154,
+      "pss": 0.6971113748205179
+    },
+    {
+      "preference": "balanced",
+      "mean_performance": 0.3666666666666667,
+      "mean_cost": 0.004319358612218956,
+      "pss": 0.5913486720414115
+    }
+  ],
+  "fig3_evolution": [
+    {
+      "seed": 11,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.09361228991078531
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.09498152644359475
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.09523868827710813
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.10400949471322024
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.10000151058116166
+        },
+        {
+          "generation": 5,
+          "hypervolume": 0.2327058149162438
+        },
+        {
+          "generation": 6,
+          "hypervolume": 0.23012065894984024
+        },
+        {
+          "generation": 7,
+          "hypervolume": 0.24315408770142066
+        },
+        {
+          "generation": 8,
+          "hypervolume": 0.25031976938315187
+        }
+      ]
+    },
+    {
+      "seed": 22,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.10992315692215225
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.11013869252396039
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.115308691113602
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.12182700033484073
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.12757848962103494
+        },
+        {
+          "generation": 5,
+          "hypervolume": 0.12683146267447115
+        },
+        {
+          "generation": 6,
+          "hypervolume": 0.27638808830066497
+        },
+        {
+          "generation": 7,
+          "hypervolume": 0.27244906566455096
+        },
+        {
+          "generation": 8,
+          "hypervolume": 0.27507508075529363
+        }
+      ]
+    },
+    {
+      "seed": 33,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.046118598267324604
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.1141563471338768
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.12067788996248255
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.1222657569356731
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.2563430168088433
+        },
+        {
+          "generation": 5,
+          "hypervolume": 0.260282039045267
+        },
+        {
+          "generation": 6,
+          "hypervolume": 0.26033205226863254
+        },
+        {
+          "generation": 7,
+          "hypervolume": 0.2550595043745843
+        },
+        {
+          "generation": 8,
+          "hypervolume": 0.2504353081033654
+        }
+      ]
+    }
+  ]
+}
