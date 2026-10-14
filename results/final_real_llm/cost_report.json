@@ -1,0 +1,29 @@
+{
+  "scale": "micro",
+  "note": "Real DeepSeek API; reduced from paper scale due to latency (~6s/call)",
+  "paper_target": {
+    "pop": 16,
+    "gens": 10,
+    "tasks": 50,
+    "seeds": 3
+  },
+  "executed_scale": {
+    "pop": 5,
+    "gens": 2,
+    "tasks": 3,
+    "seeds": [
+      11
+    ],
+    "workers": 6
+  },
+  "llm_model": "deepseek-chat",
+  "total_api_calls": 306,
+  "total_tokens": 56935,
+  "estimated_cost_usd": 0.009404299999999997,
+  "cache_hits": 351,
+  "cache_misses": 273,
+  "saved_calls": 351,
+  "estimated_cost_saving_usd": 0.12250660000000002,
+  "budget_cap_usd": 20.0,
+  "within_budget": true
+}

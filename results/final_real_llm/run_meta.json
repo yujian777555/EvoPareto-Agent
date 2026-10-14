@@ -1,0 +1,26 @@
+{
+  "scale": "micro",
+  "scale_config": {
+    "pop": 5,
+    "gens": 2,
+    "tasks": 3,
+    "seeds": [
+      11
+    ],
+    "workers": 4
+  },
+  "backend": "auto",
+  "paper_target": {
+    "pop": 16,
+    "gens": 10,
+    "tasks": 50,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "workers": 8
+  },
+  "reduction_reason": "DeepSeek latency ~6s/call; wall-clock bound",
+  "started_at": "2026-10-14T11:23:06Z"
+}

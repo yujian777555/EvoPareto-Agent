@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "scale": "micro",
+    "scale_config": {
+      "pop": 5,
+      "gens": 2,
+      "tasks": 3,
+      "seeds": [
+        11
+      ],
+      "workers": 4
+    },
+    "backend": "auto",
+    "paper_target": {
+      "pop": 16,
+      "gens": 10,
+      "tasks": 50,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "workers": 8
+    },
+    "reduction_reason": "DeepSeek latency ~6s/call; wall-clock bound",
+    "started_at": "2026-10-14T11:23:06Z"
+  },
+  "overall": {
+    "B0_random_search": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009156814569588037,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.8201495792234396,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.17985042077656044,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.08026817684451557,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.5967836755260186,
+        "std": 0.0
+      }
+    },
+    "B1_react": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009896281183916942,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.7994814591713416,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.2005185408286584,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.16575729175884715,
+        "std": 0.0
+      }
+    },
+    "B2_nsga3": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.000918337774644212,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.8189395751437507,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.1810604248562493,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.11568706468215129,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.5937314045389713,
+        "std": 0.0
+      }
+    },
+    "B3_nsga3_peem": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009222975590120596,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.816962463321401,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.183037536678599,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.04591148404757196,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.7230756869701919,
+        "std": 0.0
+      }
+    },
+    "B4_peem_ppec": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009264421750459768,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.8143746354119618,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.18562536458803824,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.03402612934161545,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.7250054632653589,
+        "std": 0.0
+      }
+    }
+  },
+  "ablation": {
+    "nsga3": {
+      "final_hv": {
+        "mean": 0.6187513734569531,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "pss_accuracy": {
+        "mean": 0.9244489617988465,
+        "std": 0.0
+      }
+    },
+    "nsga3_peem": {
+      "final_hv": {
+        "mean": 0.7188131527417092,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "pss_accuracy": {
+        "mean": 0.9258844590276227,
+        "std": 0.0
+      }
+    },
+    "nsga3_peem_ppec": {
+      "final_hv": {
+        "mean": 0.7234643261664352,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "pss_accuracy": {
+        "mean": 0.921435284414286,
+        "std": 0.0
+      }
+    }
+  },
+  "preference": {
+    "accuracy_first": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009144049983041572,
+        "std": 0.0
+      },
+      "pss": {
+        "mean": 0.9165834445063137,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.7295048363425202,
+        "std": 0.0
+      }
+    },
+    "cost_first": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009276766930522492,
+        "std": 0.0
+      },
+      "pss": {
+        "mean": 0.90436064601855,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.7239473713954951,
+        "std": 0.0
+      }
+    },
+    "balanced": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009244196617690957,
+        "std": 0.0
+      },
+      "pss": {
+        "mean": 0.8980514617947138,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.7210183327871459,
+        "std": 0.0
+      }
+    }
+  },
+  "evolution_curve": [
+    {
+      "generation": 0,
+      "hypervolume": 0.7775056664763881,
+      "n_non_dominated": 3,
+      "mutation_entropy": 0.0,
+      "temperature": 1.0
+    },
+    {
+      "generation": 1,
+      "hypervolume": 0.7845958403531479,
+      "n_non_dominated": 3,
+      "mutation_entropy": 1.5219280948873621,
+      "temperature": 0.9
+    },
+    {
+      "generation": 2,
+      "hypervolume": 0.7861312529565787,
+      "n_non_dominated": 3,
+      "mutation_entropy": 2.246439344671016,
+      "temperature": 0.8
+    }
+  ],
+  "cost_report": {
+    "scale": "micro",
+    "note": "Real DeepSeek API; reduced from paper scale due to latency (~6s/call)",
+    "paper_target": {
+      "pop": 16,
+      "gens": 10,
+      "tasks": 50,
+      "seeds": 3
+    },
+    "executed_scale": {
+      "pop": 5,
+      "gens": 2,
+      "tasks": 3,
+      "seeds": [
+        11
+      ],
+      "workers": 6
+    },
+    "llm_model": "deepseek-chat",
+    "total_api_calls": 306,
+    "total_tokens": 56935,
+    "estimated_cost_usd": 0.009404299999999997,
+    "cache_hits": 351,
+    "cache_misses": 273,
+    "saved_calls": 351,
+    "estimated_cost_saving_usd": 0.12250660000000002,
+    "budget_cap_usd": 20.0,
+    "within_budget": true
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "curve": [
+    {
+      "generation": 0,
+      "hypervolume": 0.7775056664763881,
+      "n_non_dominated": 3,
+      "mutation_entropy": 0.0,
+      "temperature": 1.0
+    },
+    {
+      "generation": 1,
+      "hypervolume": 0.7845958403531479,
+      "n_non_dominated": 3,
+      "mutation_entropy": 1.5219280948873621,
+      "temperature": 0.9
+    },
+    {
+      "generation": 2,
+      "hypervolume": 0.7861312529565787,
+      "n_non_dominated": 3,
+      "mutation_entropy": 2.246439344671016,
+      "temperature": 0.8
+    }
+  ],
+  "final_hv": 0.7838281340514325,
+  "usage": {
+    "calls": 39,
+    "prompt_tokens": 2513,
+    "completion_tokens": 5036,
+    "tokens": 7549,
+    "cost": 0.0012585
+  }
+}

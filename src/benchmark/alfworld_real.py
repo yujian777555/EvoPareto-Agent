@@ -81,11 +81,13 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
         cache: Optional[EvaluationCache] = None,
         budget_cap: Optional[float] = None,
         use_fallback_on_error: bool = True,
+        max_workers: int = 4,
     ) -> None:
         self.n = int(n_tasks)
         self.seed = int(seed)
         self.budget_cap = budget_cap
         self.use_fallback_on_error = use_fallback_on_error
+        self.max_workers = max(1, int(max_workers))
         self.cache = cache if cache is not None else EvaluationCache()
         self.backend = backend or self._default_backend()
         self.api_calls = 0
@@ -121,8 +123,21 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
     # ------------------------------------------------------------------ #
     def run(self, agent: Agent) -> EpisodeResult:
         episode = EpisodeResult(agent_id=agent.agent_id)
-        for task in self._tasks:
-            episode.append(self._run_one(agent, task))
+        # Task-level parallelism is evaluation infrastructure only
+        # (algorithms unchanged). Falls back to serial when max_workers==1.
+        if self.max_workers <= 1:
+            for task in self._tasks:
+                episode.append(self._run_one(agent, task))
+            return episode
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+
+        results: Dict[str, TaskResult] = {}
+        with ThreadPoolExecutor(max_workers=self.max_workers) as pool:
+            futs = {pool.submit(self._run_one, agent, t): t["task_id"] for t in self._tasks}
+            for fut in as_completed(futs):
+                results[futs[fut]] = fut.result()
+        for t in self._tasks:
+            episode.append(results[t["task_id"]])
         return episode
 
     def _run_one(self, agent: Agent, task: Dict[str, Any]) -> TaskResult:
@@ -149,11 +164,13 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
         resp = None
         try:
             resp = self.backend.generate(prompt, budget=g.reasoning_budget)
+            # Thread-safe call counter (approximate under concurrency).
             self.api_calls += 1
         except Exception:
             if not self.use_fallback_on_error:
                 raise
             resp = MockLLMBackend().generate(prompt, budget=g.reasoning_budget)
+            self.api_calls += 1
 
         success, score = self._score_completion(resp.text, task, g, resp)
         steps = max(1, int(round(task["horizon"] * (0.7 + 0.4 * (g.reasoning_budget / 128.0)))))

@@ -156,6 +156,9 @@ python experiments/run_real_agent_evolution.py
 
 # Phase 4-R1: real LLM validation (DeepSeek/OpenAI + cache)
 python experiments/run_real_llm_validation.py --scale smoke
+
+# Phase 4-R2: final frozen real-LLM experiments
+python experiments/run_final_real_llm.py --scale micro --backend auto
 ```
 
 Artifacts land in `results/`:
@@ -242,10 +245,11 @@ Phase 4 LLM backends: `MockLLMBackend` (offline default) or set
 | **Phase 2.5-R1** | **Robust PEEM**: rank credit + delayed + temperature | ✅ frozen (`4cb0d3a`) |
 | **Phase 3** | **PPEC**: preference-aware Pareto search | ✅ frozen (`94983aa`) |
 | **Phase 4** | **Real benchmark validation** (ALFWorld / WebShop) | ✅ frozen (`647be4f`) |
-| **Phase 4-R1** | **Real LLM validation** (DeepSeek + cache) | ✅ current |
+| **Phase 4-R1** | **Real LLM validation** (DeepSeek + cache) | ✅ frozen (`2a703df`) |
+| **Phase 4-R2** | **Final real-LLM experiment freeze** | ✅ current |
 | Phase 5 | Paper writing + CCF-B submission package | |
 
-See `docs/PHASE0_FINAL_AUDIT.md` … `docs/PHASE4_R1_REAL_LLM_VALIDATION.md`.
+See `docs/PHASE0_FINAL_AUDIT.md` … `docs/PHASE4_R2_FINAL_EXPERIMENT.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 

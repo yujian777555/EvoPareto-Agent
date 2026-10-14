@@ -66,6 +66,13 @@ class RealLLMPipeline:
         episode = self.adapter.run(agent)
         return self.objectives.from_episode(episode)
 
+    def evaluate_genome_recorded(self, genome: AgentGenome):
+        """Return (objective_vector, episode, episode_records)."""
+        agent = self.builder.build(genome, agent_id=0)
+        episode, records = self.adapter.run_recorded(agent)
+        vec = self.objectives.from_episode(episode)
+        return vec, episode, records
+
     def as_evaluate_fn(self) -> Callable[[AgentGenome], Sequence[float]]:
         return self.evaluate_genome
 

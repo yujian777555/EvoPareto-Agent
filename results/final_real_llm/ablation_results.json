@@ -1,0 +1,244 @@
+{
+  "rows": [
+    {
+      "method": "nsga3",
+      "seed": 11,
+      "final_hv": 0.6187513734569531,
+      "final_pareto": 2,
+      "front_fitness": [
+        [
+          1.0,
+          0.8593117202898265,
+          0.0009038852459050702,
+          1.0,
+          0.6536666666666667
+        ],
+        [
+          1.0,
+          0.8164305001758233,
+          0.0009208102170436281,
+          1.0,
+          0.7256666666666667
+        ]
+      ],
+      "success": 1.0,
+      "cost": 0.0009123477314743492,
+      "efficiency": 0.8378711102328249,
+      "wall_time": 191.77731323242188,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 42,
+        "cache_used": 45,
+        "cache_stats": {
+          "n_entries": 42,
+          "hits": 45,
+          "misses": 42,
+          "hit_rate": 0.5172413793103449,
+          "saved_tokens": 9060,
+          "saved_cost": 0.0159827
+        },
+        "llm_usage": {
+          "calls": 36,
+          "prompt_tokens": 2337,
+          "completion_tokens": 4972,
+          "tokens": 7309,
+          "cost": 0.0012280999999999998
+        },
+        "cache": {
+          "n_entries": 42,
+          "hits": 45,
+          "misses": 42,
+          "hit_rate": 0.5172413793103449,
+          "saved_tokens": 9060,
+          "saved_cost": 0.0159827
+        }
+      },
+      "pss_accuracy": 0.9244489617988465
+    },
+    {
+      "method": "nsga3_peem",
+      "seed": 11,
+      "final_hv": 0.7188131527417092,
+      "final_pareto": 5,
+      "front_fitness": [
+        [
+          1.0,
+          0.8104110352200727,
+          0.0009286145537695059,
+          1.0,
+          0.735
+        ],
+        [
+          1.0,
+          0.8113959085497925,
+          0.000930039889171342,
+          1.0,
+          0.6456666666666667
+        ],
+        [
+          1.0,
+          0.7764967035148377,
+          0.0009943035005483623,
+          1.0,
+          0.895
+        ],
+        [
+          1.0,
+          0.814224061469797,
+          0.0009255591000507405,
+          1.0,
+          0.5763333333333334
+        ],
+        [
+          1.0,
+          0.8104110352200727,
+          0.0009286145537695059,
+          1.0,
+          0.735
+        ]
+      ],
+      "success": 1.0,
+      "cost": 0.0009414263194618914,
+      "efficiency": 0.8045877487949145,
+      "wall_time": 100.81529116630554,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 36,
+        "cache_used": 54,
+        "cache_stats": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 12205,
+          "saved_cost": 0.018878099999999995
+        },
+        "llm_usage": {
+          "calls": 36,
+          "prompt_tokens": 2337,
+          "completion_tokens": 4722,
+          "tokens": 7059,
+          "cost": 0.0011781
+        },
+        "cache": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 12205,
+          "saved_cost": 0.018878099999999995
+        }
+      },
+      "pss_accuracy": 0.9258844590276227
+    },
+    {
+      "method": "nsga3_peem_ppec",
+      "seed": 11,
+      "final_hv": 0.7234643261664352,
+      "final_pareto": 3,
+      "front_fitness": [
+        [
+          1.0,
+          0.8192101160296205,
+          0.000919285796299291,
+          1.0,
+          0.5856666666666667
+        ],
+        [
+          1.0,
+          0.8138419337853802,
+          0.0009256583957472671,
+          1.0,
+          0.8856666666666667
+        ],
+        [
+          1.0,
+          0.8192101160296205,
+          0.000919285796299291,
+          1.0,
+          0.5856666666666667
+        ]
+      ],
+      "success": 1.0,
+      "cost": 0.000921409996115283,
+      "efficiency": 0.8174207219482071,
+      "wall_time": 87.93507218360901,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 36,
+        "cache_used": 54,
+        "cache_stats": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 11745,
+          "saved_cost": 0.018837600000000003
+        },
+        "llm_usage": {
+          "calls": 36,
+          "prompt_tokens": 2334,
+          "completion_tokens": 4591,
+          "tokens": 6925,
+          "cost": 0.0011516
+        },
+        "cache": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 11745,
+          "saved_cost": 0.018837600000000003
+        }
+      },
+      "pss_accuracy": 0.921435284414286
+    }
+  ],
+  "summary": {
+    "nsga3": {
+      "final_hv": {
+        "mean": 0.6187513734569531,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "pss_accuracy": {
+        "mean": 0.9244489617988465,
+        "std": 0.0
+      }
+    },
+    "nsga3_peem": {
+      "final_hv": {
+        "mean": 0.7188131527417092,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "pss_accuracy": {
+        "mean": 0.9258844590276227,
+        "std": 0.0
+      }
+    },
+    "nsga3_peem_ppec": {
+      "final_hv": {
+        "mean": 0.7234643261664352,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "pss_accuracy": {
+        "mean": 0.921435284414286,
+        "std": 0.0
+      }
+    }
+  }
+}

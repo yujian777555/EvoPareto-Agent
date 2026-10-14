@@ -1,0 +1,417 @@
+{
+  "rows": [
+    {
+      "method": "B1_react",
+      "seed": 11,
+      "objectives": [
+        1.0,
+        0.7994814591713416,
+        0.0009896281183916942,
+        1.0,
+        0.9136666666666667
+      ],
+      "success": 1.0,
+      "efficiency": 0.7994814591713416,
+      "cost": 0.0009896281183916942,
+      "robustness": 1.0,
+      "autonomy": 0.9136666666666667,
+      "wall_time": 7.624962329864502,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 3,
+        "cache_used": 0,
+        "cache_stats": {
+          "n_entries": 3,
+          "hits": 0,
+          "misses": 3,
+          "hit_rate": 0.0,
+          "saved_tokens": 0,
+          "saved_cost": 0.0
+        },
+        "llm_usage": {
+          "calls": 3,
+          "prompt_tokens": 200,
+          "completion_tokens": 351,
+          "tokens": 551,
+          "cost": 9.020000000000001e-05
+        },
+        "cache": {
+          "n_entries": 3,
+          "hits": 0,
+          "misses": 3,
+          "hit_rate": 0.0,
+          "saved_tokens": 0,
+          "saved_cost": 0.0
+        }
+      },
+      "igd": 0.16575729175884715
+    },
+    {
+      "method": "B0_random_search",
+      "seed": 11,
+      "final_hv": 0.5967836755260186,
+      "final_pareto": 2,
+      "front_fitness": [
+        [
+          1.0,
+          0.8231430262137586,
+          0.0009103557704398406,
+          1.0,
+          0.5856666666666667
+        ],
+        [
+          1.0,
+          0.8171561322331206,
+          0.0009210071434777668,
+          1.0,
+          0.7256666666666667
+        ]
+      ],
+      "success": 1.0,
+      "cost": 0.0009156814569588037,
+      "efficiency": 0.8201495792234396,
+      "wall_time": 102.08287143707275,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 42,
+        "cache_used": 45,
+        "cache_stats": {
+          "n_entries": 42,
+          "hits": 45,
+          "misses": 42,
+          "hit_rate": 0.5172413793103449,
+          "saved_tokens": 9062,
+          "saved_cost": 0.015626400000000002
+        },
+        "llm_usage": {
+          "calls": 42,
+          "prompt_tokens": 2722,
+          "completion_tokens": 4540,
+          "tokens": 7262,
+          "cost": 0.0011802000000000004
+        },
+        "cache": {
+          "n_entries": 42,
+          "hits": 45,
+          "misses": 42,
+          "hit_rate": 0.5172413793103449,
+          "saved_tokens": 9062,
+          "saved_cost": 0.015626400000000002
+        }
+      },
+      "igd": 0.08026817684451557
+    },
+    {
+      "method": "B2_nsga3",
+      "seed": 11,
+      "final_hv": 0.5937314045389713,
+      "final_pareto": 1,
+      "front_fitness": [
+        [
+          1.0,
+          0.8189395751437507,
+          0.000918337774644212,
+          1.0,
+          0.7256666666666667
+        ]
+      ],
+      "success": 1.0,
+      "cost": 0.000918337774644212,
+      "efficiency": 0.8189395751437507,
+      "wall_time": 114.86553311347961,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 42,
+        "cache_used": 45,
+        "cache_stats": {
+          "n_entries": 42,
+          "hits": 45,
+          "misses": 42,
+          "hit_rate": 0.5172413793103449,
+          "saved_tokens": 9392,
+          "saved_cost": 0.015644500000000002
+        },
+        "llm_usage": {
+          "calls": 42,
+          "prompt_tokens": 2716,
+          "completion_tokens": 5110,
+          "tokens": 7826,
+          "cost": 0.0012935999999999998
+        },
+        "cache": {
+          "n_entries": 42,
+          "hits": 45,
+          "misses": 42,
+          "hit_rate": 0.5172413793103449,
+          "saved_tokens": 9392,
+          "saved_cost": 0.015644500000000002
+        }
+      },
+      "igd": 0.11568706468215129
+    },
+    {
+      "method": "B3_nsga3_peem",
+      "seed": 11,
+      "final_hv": 0.7230756869701919,
+      "final_pareto": 3,
+      "front_fitness": [
+        [
+          1.0,
+          0.8171722863741574,
+          0.0009210019044954178,
+          1.0,
+          0.5856666666666667
+        ],
+        [
+          1.0,
+          0.8165428172158883,
+          0.0009248888680453432,
+          1.0,
+          0.8856666666666667
+        ],
+        [
+          1.0,
+          0.8171722863741574,
+          0.0009210019044954178,
+          1.0,
+          0.5856666666666667
+        ]
+      ],
+      "success": 1.0,
+      "cost": 0.0009222975590120596,
+      "efficiency": 0.816962463321401,
+      "wall_time": 87.6988582611084,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 36,
+        "cache_used": 54,
+        "cache_stats": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 10972,
+          "saved_cost": 0.0186824
+        },
+        "llm_usage": {
+          "calls": 36,
+          "prompt_tokens": 2334,
+          "completion_tokens": 3861,
+          "tokens": 6195,
+          "cost": 0.0010056000000000002
+        },
+        "cache": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 10972,
+          "saved_cost": 0.0186824
+        }
+      },
+      "igd": 0.04591148404757196
+    },
+    {
+      "method": "B4_peem_ppec",
+      "seed": 11,
+      "final_hv": 0.7250054632653589,
+      "final_pareto": 4,
+      "front_fitness": [
+        [
+          1.0,
+          0.8073136855445758,
+          0.0009397277135914252,
+          1.0,
+          0.6456666666666667
+        ],
+        [
+          1.0,
+          0.8069618026735963,
+          0.0009395349386249722,
+          1.0,
+          0.8856666666666667
+        ],
+        [
+          1.0,
+          0.8206646936556362,
+          0.0009151988621151492,
+          1.0,
+          0.6363333333333334
+        ],
+        [
+          1.0,
+          0.8225583597740385,
+          0.0009113071858523605,
+          1.0,
+          0.5056666666666667
+        ]
+      ],
+      "success": 1.0,
+      "cost": 0.0009264421750459768,
+      "efficiency": 0.8143746354119618,
+      "wall_time": 87.3353340625763,
+      "cost_report": {
+        "backend": "deepseek",
+        "model": "deepseek-chat",
+        "api_calls": 36,
+        "cache_used": 54,
+        "cache_stats": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 11842,
+          "saved_cost": 0.0188549
+        },
+        "llm_usage": {
+          "calls": 36,
+          "prompt_tokens": 2334,
+          "completion_tokens": 3925,
+          "tokens": 6259,
+          "cost": 0.0010184
+        },
+        "cache": {
+          "n_entries": 36,
+          "hits": 54,
+          "misses": 36,
+          "hit_rate": 0.6,
+          "saved_tokens": 11842,
+          "saved_cost": 0.0188549
+        }
+      },
+      "igd": 0.03402612934161545
+    }
+  ],
+  "summary": {
+    "B0_random_search": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009156814569588037,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.8201495792234396,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.17985042077656044,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.08026817684451557,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.5967836755260186,
+        "std": 0.0
+      }
+    },
+    "B1_react": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009896281183916942,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.7994814591713416,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.2005185408286584,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.16575729175884715,
+        "std": 0.0
+      }
+    },
+    "B2_nsga3": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.000918337774644212,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.8189395751437507,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.1810604248562493,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.11568706468215129,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.5937314045389713,
+        "std": 0.0
+      }
+    },
+    "B3_nsga3_peem": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009222975590120596,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.816962463321401,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.183037536678599,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.04591148404757196,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.7230756869701919,
+        "std": 0.0
+      }
+    },
+    "B4_peem_ppec": {
+      "success": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0009264421750459768,
+        "std": 0.0
+      },
+      "efficiency": {
+        "mean": 0.8143746354119618,
+        "std": 0.0
+      },
+      "tokens_proxy": {
+        "mean": 0.18562536458803824,
+        "std": 0.0
+      },
+      "igd": {
+        "mean": 0.03402612934161545,
+        "std": 0.0
+      },
+      "final_hv": {
+        "mean": 0.7250054632653589,
+        "std": 0.0
+      }
+    }
+  }
+}
