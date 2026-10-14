@@ -1,0 +1,148 @@
+{
+  "phase": "Phase5-Audit-2 PEEM credit attribution",
+  "question": "Does PEEM learn causal operator contribution or correlate with successful offspring?",
+  "observational": {
+    "memory": {
+      "name": "memory",
+      "n": 8,
+      "mean_improvement": -0.02191254296323663,
+      "std_improvement": 0.06010657966300124,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.125,
+      "ci_low": -0.057384333588026526,
+      "ci_high": 0.018397021928207996,
+      "kind": "observational"
+    },
+    "planner": {
+      "name": "planner",
+      "n": 15,
+      "mean_improvement": 0.007259131661646797,
+      "std_improvement": 0.06466733300663872,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.4,
+      "ci_low": -0.022625992162008456,
+      "ci_high": 0.03911212524644526,
+      "kind": "observational"
+    },
+    "tool": {
+      "name": "tool",
+      "n": 14,
+      "mean_improvement": 0.005076315296407869,
+      "std_improvement": 0.02750327674283547,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.21428571428571427,
+      "ci_low": -0.003995598667791541,
+      "ci_high": 0.021507585602427333,
+      "kind": "observational"
+    },
+    "reflection": {
+      "name": "reflection",
+      "n": 16,
+      "mean_improvement": 0.021138552968374608,
+      "std_improvement": 0.03779981364861685,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.0,
+      "ci_low": 0.0029085535887759468,
+      "ci_high": 0.04079319414483231,
+      "kind": "observational"
+    },
+    "budget": {
+      "name": "budget",
+      "n": 19,
+      "mean_improvement": -0.0027578372728312406,
+      "std_improvement": 0.012295104913030182,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.05263157894736842,
+      "ci_low": -0.008954836768243291,
+      "ci_high": 0.0007028231742563015,
+      "kind": "observational"
+    }
+  },
+  "counterfactual": {
+    "budget": {
+      "name": "budget",
+      "n": 60,
+      "mean_improvement": 0.0011666666666666674,
+      "std_improvement": 0.005846651463302167,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.0,
+      "ci_low": -0.00036111111111111185,
+      "ci_high": 0.0026500000000000004,
+      "kind": "counterfactual"
+    },
+    "memory": {
+      "name": "memory",
+      "n": 60,
+      "mean_improvement": 0.0,
+      "std_improvement": 0.0,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "kind": "counterfactual"
+    },
+    "planner": {
+      "name": "planner",
+      "n": 60,
+      "mean_improvement": 0.035149999999999994,
+      "std_improvement": 0.019543178690615635,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.0,
+      "ci_low": 0.030016666666666678,
+      "ci_high": 0.03976666666666669,
+      "kind": "counterfactual"
+    },
+    "reflection": {
+      "name": "reflection",
+      "n": 60,
+      "mean_improvement": 0.0,
+      "std_improvement": 0.0,
+      "mean_pareto_gain": 0.0,
+      "success_rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "kind": "counterfactual"
+    },
+    "tool": {
+      "name": "tool",
+      "n": 60,
+      "mean_improvement": 0.024916666666666663,
+      "std_improvement": 0.0649775067918806,
+      "mean_pareto_gain": 0.5666666666666667,
+      "success_rate": 0.5666666666666667,
+      "ci_low": 0.009500000000000005,
+      "ci_high": 0.041583333333333326,
+      "kind": "counterfactual"
+    }
+  },
+  "verdict": {
+    "observational_ranking": [
+      "reflection",
+      "planner",
+      "tool",
+      "budget",
+      "memory"
+    ],
+    "counterfactual_ranking": [
+      "planner",
+      "tool",
+      "budget",
+      "memory",
+      "reflection"
+    ],
+    "top1_agreement": false,
+    "counterfactual_null_operators": [
+      "budget",
+      "memory",
+      "reflection"
+    ],
+    "causal_claim_supported": false,
+    "interpretation": "PEEM scores are correlated with offspring success by construction; counterfactual intervention shows which operators truly improve objectives. Agreement supports (but does not prove) causal utility; disagreement implies observational credit is partially confounded."
+  },
+  "limitations": [
+    "Observational MV mixes improvement, pareto bucket, diversity, survival — inherently correlational with offspring outcome.",
+    "Counterfactual probe uses do-intervention on mutation type but a toy evaluator and n=20 parents.",
+    "Confidence intervals are percentile bootstrap on per-transition improvement (not on full MV).",
+    "We do NOT claim full causal identification; PEEM is a credit-assignment heuristic."
+  ]
+}
