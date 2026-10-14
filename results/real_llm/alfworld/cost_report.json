@@ -1,0 +1,9 @@
+{
+  "scale": "pilot",
+  "llm_calls": 3120,
+  "tokens": 207512,
+  "estimated_cost_usd": 0.0,
+  "budget_cap_usd": 20.0,
+  "within_budget": true,
+  "smoke": {}
+}

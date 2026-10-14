@@ -1,0 +1,287 @@
+{
+  "scale": "pilot",
+  "config": {
+    "n_tasks": 10,
+    "pop": 8,
+    "gens": 5,
+    "seeds": [
+      11,
+      22
+    ]
+  },
+  "runs": [
+    {
+      "variant": "B1_react",
+      "seed": 11,
+      "objectives": [
+        0.4,
+        0.6071735077087836,
+        0.0013122890796216017,
+        0.24,
+        0.8836666666666668
+      ],
+      "success": 0.4,
+      "cost": 0.0013122890796216017
+    },
+    {
+      "variant": "B0_random_search",
+      "seed": 11,
+      "final_hv": 0.719552235577743,
+      "final_pareto": 8,
+      "success": 0.725,
+      "cost": 0.0011413552937136382,
+      "efficiency": 0.738445947039634,
+      "usage": {
+        "calls": 350,
+        "prompt_tokens": 19534,
+        "completion_tokens": 3650,
+        "tokens": 23184,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 350,
+        "hits": 40,
+        "misses": 350,
+        "hit_rate": 0.10256410256410256,
+        "saved_tokens": 4280,
+        "saved_cost": 0.014799999999999995
+      }
+    },
+    {
+      "variant": "B2_nsga3",
+      "seed": 11,
+      "final_hv": 0.719552235577743,
+      "final_pareto": 8,
+      "success": 0.725,
+      "cost": 0.0011413552937136382,
+      "efficiency": 0.738445947039634,
+      "usage": {
+        "calls": 350,
+        "prompt_tokens": 19534,
+        "completion_tokens": 3650,
+        "tokens": 23184,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 350,
+        "hits": 40,
+        "misses": 350,
+        "hit_rate": 0.10256410256410256,
+        "saved_tokens": 4280,
+        "saved_cost": 0.014799999999999995
+      }
+    },
+    {
+      "variant": "B3_nsga3_peem",
+      "seed": 11,
+      "final_hv": 0.6834484142515829,
+      "final_pareto": 8,
+      "success": 0.9249999999999999,
+      "cost": 0.0010594633511763448,
+      "efficiency": 0.817930509734032,
+      "usage": {
+        "calls": 390,
+        "prompt_tokens": 21894,
+        "completion_tokens": 3610,
+        "tokens": 25504,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 390,
+        "hits": 90,
+        "misses": 390,
+        "hit_rate": 0.1875,
+        "saved_tokens": 10116,
+        "saved_cost": 0.034899999999999994
+      }
+    },
+    {
+      "variant": "B4_peem_ppec",
+      "seed": 11,
+      "final_hv": 0.6834484142515829,
+      "final_pareto": 8,
+      "success": 0.9249999999999999,
+      "cost": 0.0010594633511763448,
+      "efficiency": 0.817930509734032,
+      "usage": {
+        "calls": 390,
+        "prompt_tokens": 21894,
+        "completion_tokens": 3610,
+        "tokens": 25504,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 390,
+        "hits": 90,
+        "misses": 390,
+        "hit_rate": 0.1875,
+        "saved_tokens": 10116,
+        "saved_cost": 0.034899999999999994
+      }
+    },
+    {
+      "variant": "B0_random_search",
+      "seed": 22,
+      "final_hv": 0.7348792882454066,
+      "final_pareto": 8,
+      "success": 0.8,
+      "cost": 0.0011663119693050372,
+      "efficiency": 0.7617161886079907,
+      "usage": {
+        "calls": 420,
+        "prompt_tokens": 23192,
+        "completion_tokens": 4720,
+        "tokens": 27912,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 420,
+        "hits": 20,
+        "misses": 420,
+        "hit_rate": 0.045454545454545456,
+        "saved_tokens": 2330,
+        "saved_cost": 0.0078
+      }
+    },
+    {
+      "variant": "B2_nsga3",
+      "seed": 22,
+      "final_hv": 0.7348792882454066,
+      "final_pareto": 8,
+      "success": 0.8,
+      "cost": 0.0011663119693050372,
+      "efficiency": 0.7617161886079907,
+      "usage": {
+        "calls": 420,
+        "prompt_tokens": 23192,
+        "completion_tokens": 4720,
+        "tokens": 27912,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 420,
+        "hits": 20,
+        "misses": 420,
+        "hit_rate": 0.045454545454545456,
+        "saved_tokens": 2330,
+        "saved_cost": 0.0078
+      }
+    },
+    {
+      "variant": "B3_nsga3_peem",
+      "seed": 22,
+      "final_hv": 0.7851500257837237,
+      "final_pareto": 8,
+      "success": 0.825,
+      "cost": 0.0011627248171706735,
+      "efficiency": 0.772061650385159,
+      "usage": {
+        "calls": 400,
+        "prompt_tokens": 22196,
+        "completion_tokens": 4960,
+        "tokens": 27156,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 400,
+        "hits": 80,
+        "misses": 400,
+        "hit_rate": 0.16666666666666666,
+        "saved_tokens": 9426,
+        "saved_cost": 0.033100000000000004
+      }
+    },
+    {
+      "variant": "B4_peem_ppec",
+      "seed": 22,
+      "final_hv": 0.7851500257837237,
+      "final_pareto": 8,
+      "success": 0.825,
+      "cost": 0.0011627248171706735,
+      "efficiency": 0.772061650385159,
+      "usage": {
+        "calls": 400,
+        "prompt_tokens": 22196,
+        "completion_tokens": 4960,
+        "tokens": 27156,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 400,
+        "hits": 80,
+        "misses": 400,
+        "hit_rate": 0.16666666666666666,
+        "saved_tokens": 9426,
+        "saved_cost": 0.033100000000000004
+      }
+    }
+  ],
+  "summary": {
+    "B1_react": {
+      "success": {
+        "mean": 0.4,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0013122890796216017,
+        "std": 0.0
+      }
+    },
+    "B0_random_search": {
+      "success": {
+        "mean": 0.7625,
+        "std": 0.03750000000000003
+      },
+      "cost": {
+        "mean": 0.0011538336315093378,
+        "std": 1.2478337795699518e-05
+      },
+      "final_hv": {
+        "mean": 0.7272157619115748,
+        "std": 0.007663526333831827
+      }
+    },
+    "B2_nsga3": {
+      "success": {
+        "mean": 0.7625,
+        "std": 0.03750000000000003
+      },
+      "cost": {
+        "mean": 0.0011538336315093378,
+        "std": 1.2478337795699518e-05
+      },
+      "final_hv": {
+        "mean": 0.7272157619115748,
+        "std": 0.007663526333831827
+      }
+    },
+    "B3_nsga3_peem": {
+      "success": {
+        "mean": 0.875,
+        "std": 0.04999999999999999
+      },
+      "cost": {
+        "mean": 0.0011110940841735093,
+        "std": 5.163073299716437e-05
+      },
+      "final_hv": {
+        "mean": 0.7342992200176532,
+        "std": 0.05085080576607043
+      }
+    },
+    "B4_peem_ppec": {
+      "success": {
+        "mean": 0.875,
+        "std": 0.04999999999999999
+      },
+      "cost": {
+        "mean": 0.0011110940841735093,
+        "std": 5.163073299716437e-05
+      },
+      "final_hv": {
+        "mean": 0.7342992200176532,
+        "std": 0.05085080576607043
+      }
+    }
+  }
+}

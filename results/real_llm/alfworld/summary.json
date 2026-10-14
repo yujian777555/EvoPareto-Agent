@@ -1,0 +1,153 @@
+{
+  "scale": "pilot",
+  "smoke": {
+    "ok": null,
+    "backend": null,
+    "model": null,
+    "final_hv": null
+  },
+  "baselines": {
+    "B1_react": {
+      "success": {
+        "mean": 0.4,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0013122890796216017,
+        "std": 0.0
+      }
+    },
+    "B0_random_search": {
+      "success": {
+        "mean": 0.7625,
+        "std": 0.03750000000000003
+      },
+      "cost": {
+        "mean": 0.0011538336315093378,
+        "std": 1.2478337795699518e-05
+      },
+      "final_hv": {
+        "mean": 0.7272157619115748,
+        "std": 0.007663526333831827
+      }
+    },
+    "B2_nsga3": {
+      "success": {
+        "mean": 0.7625,
+        "std": 0.03750000000000003
+      },
+      "cost": {
+        "mean": 0.0011538336315093378,
+        "std": 1.2478337795699518e-05
+      },
+      "final_hv": {
+        "mean": 0.7272157619115748,
+        "std": 0.007663526333831827
+      }
+    },
+    "B3_nsga3_peem": {
+      "success": {
+        "mean": 0.875,
+        "std": 0.04999999999999999
+      },
+      "cost": {
+        "mean": 0.0011110940841735093,
+        "std": 5.163073299716437e-05
+      },
+      "final_hv": {
+        "mean": 0.7342992200176532,
+        "std": 0.05085080576607043
+      }
+    },
+    "B4_peem_ppec": {
+      "success": {
+        "mean": 0.875,
+        "std": 0.04999999999999999
+      },
+      "cost": {
+        "mean": 0.0011110940841735093,
+        "std": 5.163073299716437e-05
+      },
+      "final_hv": {
+        "mean": 0.7342992200176532,
+        "std": 0.05085080576607043
+      }
+    }
+  },
+  "preferences": {
+    "accuracy_first": {
+      "pref_sat": {
+        "mean": 0.7644453409823159,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 0.8249999999999998,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0010879228799439281,
+        "std": 0.0
+      }
+    },
+    "cost_first": {
+      "pref_sat": {
+        "mean": 0.8691840743483981,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 0.8999999999999999,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0011769444623464021,
+        "std": 0.0
+      }
+    },
+    "balanced": {
+      "pref_sat": {
+        "mean": 0.785734467859468,
+        "std": 0.0
+      },
+      "success": {
+        "mean": 0.7999999999999999,
+        "std": 0.0
+      },
+      "cost": {
+        "mean": 0.0011164088007579623,
+        "std": 0.0
+      }
+    }
+  },
+  "trajectory": [
+    {
+      "generation": 0,
+      "hypervolume": 0.741861838826113,
+      "n_non_dominated": 3,
+      "mutation_entropy": 0.0,
+      "temperature": 1.0
+    },
+    {
+      "generation": 2,
+      "hypervolume": 0.7358242918129383,
+      "n_non_dominated": 6,
+      "mutation_entropy": 2.202819531114783,
+      "temperature": 0.6799999999999999
+    },
+    {
+      "generation": 5,
+      "hypervolume": 0.7820201945510646,
+      "n_non_dominated": 8,
+      "mutation_entropy": 2.2160641630775046,
+      "temperature": 0.2
+    }
+  ],
+  "cost_report": {
+    "scale": "pilot",
+    "llm_calls": 3120,
+    "tokens": 207512,
+    "estimated_cost_usd": 0.0,
+    "budget_cap_usd": 20.0,
+    "within_budget": true,
+    "smoke": {}
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "runs": [
+    {
+      "variant": "B4_peem_ppec",
+      "seed": 11,
+      "final_hv": 0.6834484142515829,
+      "final_pareto": 8,
+      "success": 0.9249999999999999,
+      "cost": 0.0010594633511763448,
+      "efficiency": 0.817930509734032,
+      "usage": {
+        "calls": 390,
+        "prompt_tokens": 21894,
+        "completion_tokens": 3610,
+        "tokens": 25504,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 390,
+        "hits": 90,
+        "misses": 390,
+        "hit_rate": 0.1875,
+        "saved_tokens": 10116,
+        "saved_cost": 0.034899999999999994
+      }
+    },
+    {
+      "variant": "B4_peem_ppec",
+      "seed": 22,
+      "final_hv": 0.7851500257837237,
+      "final_pareto": 8,
+      "success": 0.825,
+      "cost": 0.0011627248171706735,
+      "efficiency": 0.772061650385159,
+      "usage": {
+        "calls": 400,
+        "prompt_tokens": 22196,
+        "completion_tokens": 4960,
+        "tokens": 27156,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 400,
+        "hits": 80,
+        "misses": 400,
+        "hit_rate": 0.16666666666666666,
+        "saved_tokens": 9426,
+        "saved_cost": 0.033100000000000004
+      }
+    }
+  ]
+}

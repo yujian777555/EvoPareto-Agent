@@ -1,0 +1,41 @@
+{
+  "trajectory": [
+    {
+      "generation": 0,
+      "hypervolume": 0.741861838826113,
+      "n_non_dominated": 3,
+      "mutation_entropy": 0.0,
+      "temperature": 1.0
+    },
+    {
+      "generation": 2,
+      "hypervolume": 0.7358242918129383,
+      "n_non_dominated": 6,
+      "mutation_entropy": 2.202819531114783,
+      "temperature": 0.6799999999999999
+    },
+    {
+      "generation": 5,
+      "hypervolume": 0.7820201945510646,
+      "n_non_dominated": 8,
+      "mutation_entropy": 2.2160641630775046,
+      "temperature": 0.2
+    }
+  ],
+  "final_hv": 0.7773467670935882,
+  "usage": {
+    "calls": 400,
+    "prompt_tokens": 22154,
+    "completion_tokens": 5540,
+    "tokens": 27694,
+    "cost": 0.0
+  },
+  "cache": {
+    "n_entries": 400,
+    "hits": 80,
+    "misses": 400,
+    "hit_rate": 0.16666666666666666,
+    "saved_tokens": 9564,
+    "saved_cost": 0.0337
+  }
+}

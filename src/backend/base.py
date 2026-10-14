@@ -75,6 +75,18 @@ class MockLLMBackend(LLMBackend):
         self.latency = latency
         self.cost_per_1k = cost_per_1k
         self.calls = 0
+        self.total_prompt_tokens = 0
+        self.total_completion_tokens = 0
+        self.total_cost = 0.0
+
+    def usage(self) -> Dict[str, float]:
+        return {
+            "calls": self.calls,
+            "prompt_tokens": self.total_prompt_tokens,
+            "completion_tokens": self.total_completion_tokens,
+            "tokens": self.total_prompt_tokens + self.total_completion_tokens,
+            "cost": self.total_cost,
+        }
 
     def generate(self, prompt: str, *, budget: int = 32, **kwargs: Any) -> LLMResponse:
         self.calls += 1
@@ -88,6 +100,9 @@ class MockLLMBackend(LLMBackend):
         tp = self.count_tokens(prompt)
         tc = self.count_tokens(text)
         cost = (tp + tc) / 1000.0 * self.cost_per_1k
+        self.total_prompt_tokens += tp
+        self.total_completion_tokens += tc
+        self.total_cost += cost
         return LLMResponse(
             text=text,
             tokens_prompt=tp,
@@ -104,6 +119,7 @@ class MockLLMBackend(LLMBackend):
 class OpenAICompatibleBackend(LLMBackend):
     """Chat-completions style backend using urllib (no hard dependency).
 
+    Supports timeout, bounded retry with backoff, and token/cost accounting.
     Subclasses set base_url / api_key_env / default model.
     """
 
@@ -119,15 +135,32 @@ class OpenAICompatibleBackend(LLMBackend):
         *,
         api_key: Optional[str] = None,
         model: Optional[str] = None,
-        timeout: float = 30.0,
+        timeout: float = 60.0,
+        max_retries: int = 3,
+        retry_backoff: float = 1.5,
     ) -> None:
         self.api_key = api_key or get_env_key(self.api_key_env)
         if model:
             self.model = model
         self.timeout = timeout
+        self.max_retries = max(0, int(max_retries))
+        self.retry_backoff = retry_backoff
+        self.total_prompt_tokens = 0
+        self.total_completion_tokens = 0
+        self.total_cost = 0.0
+        self.total_calls = 0
 
     def has_credentials(self) -> bool:
         return bool(self.api_key)
+
+    def usage(self) -> Dict[str, float]:
+        return {
+            "calls": self.total_calls,
+            "prompt_tokens": self.total_prompt_tokens,
+            "completion_tokens": self.total_completion_tokens,
+            "tokens": self.total_prompt_tokens + self.total_completion_tokens,
+            "cost": self.total_cost,
+        }
 
     def generate(self, prompt: str, *, budget: int = 32, **kwargs: Any) -> LLMResponse:
         if not self.api_key:
@@ -144,22 +177,33 @@ class OpenAICompatibleBackend(LLMBackend):
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": int(budget) * 8,
         }
-        req = urllib.request.Request(
-            self.base_url,
-            data=json.dumps(payload).encode("utf-8"),
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {self.api_key}",
-            },
-            method="POST",
-        )
+        body = json.dumps(payload).encode("utf-8")
+        last_err: Exception | None = None
+        data: Dict[str, Any] | None = None
         t0 = time.time()
-        try:
-            with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-        except (urllib.error.URLError, TimeoutError) as e:  # pragma: no cover - network
-            raise RuntimeError(f"LLM request failed: {e}") from e
+
+        for attempt in range(self.max_retries + 1):
+            req = urllib.request.Request(
+                self.base_url,
+                data=body,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {self.api_key}",
+                },
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                break
+            except (urllib.error.URLError, TimeoutError, ValueError) as e:  # pragma: no cover
+                last_err = e
+                if attempt < self.max_retries:
+                    time.sleep(self.retry_backoff * (attempt + 1))
         latency = time.time() - t0
+
+        if data is None:  # pragma: no cover - network
+            raise RuntimeError(f"LLM request failed after retries: {last_err}")
 
         text = ""
         try:
@@ -170,6 +214,12 @@ class OpenAICompatibleBackend(LLMBackend):
         tp = int(usage.get("prompt_tokens", self.count_tokens(prompt)))
         tc = int(usage.get("completion_tokens", self.count_tokens(text)))
         cost = tp / 1000.0 * self.cost_per_1k_prompt + tc / 1000.0 * self.cost_per_1k_completion
+
+        self.total_calls += 1
+        self.total_prompt_tokens += tp
+        self.total_completion_tokens += tc
+        self.total_cost += cost
+
         return LLMResponse(
             text=text,
             tokens_prompt=tp,
@@ -177,7 +227,7 @@ class OpenAICompatibleBackend(LLMBackend):
             model=self.model,
             latency=latency,
             cost=cost,
-            raw={"id": data.get("id")},
+            raw={"id": data.get("id"), "usage": usage},
         )
 
 
