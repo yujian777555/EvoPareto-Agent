@@ -32,16 +32,28 @@ src/
     population.py    # Population manager: initialize / add / select / next_generation
     nsga3.py         # NSGA-III: non-dominated sorting + reference dirs + niching
     operators.py     # Agent-specific mutation / crossover
+  runtime/           # Phase 1: genome -> agent -> task results
+    task.py          # TaskSpec / TaskSuite
+    result.py        # TaskResult / EpisodeResult
+    agent_builder.py # AgentBuilder + Agent + LLMBackend protocol
+    agent_runner.py  # unified agent.run(task) runner
+    pipeline.py      # genome -> objectives + run_agent_evolution
+  benchmark/
+    base.py          # Benchmark ABC
+    mock_benchmark.py
   evaluation/
-    evaluator.py     # Toy multi-objective environment (no real LLM)
+    evaluator.py     # Toy multi-objective environment (Phase 0)
+    objective_evaluator.py  # TaskResult -> paper objective vector (Phase 1)
     objectives.py    # Objective conventions (max/min semantics)
   utils/
     pareto.py        # Pareto dominance / filter helpers
 experiments/
-  run_nsga3_demo.py  # End-to-end Phase 0 experiment
+  run_nsga3_demo.py              # Phase 0 demo
+  run_agent_evolution_demo.py    # Phase 1 demo
 tests/               # pytest suite
 results/             # generated artifacts
 paper/               # reserved for later paper writing
+docs/                # phase audit + design docs
 ```
 
 ### Agent Genome
@@ -96,20 +108,23 @@ Implemented from scratch in `src/evolution/nsga3.py`:
 # from repository root
 python -m pytest -q
 
-# run the Phase 0 demo experiment
+# Phase 0: NSGA-III on toy landscape
 python experiments/run_nsga3_demo.py
+
+# Phase 1: agent genome -> runtime -> benchmark -> evolution
+python experiments/run_agent_evolution_demo.py
 ```
 
 Artifacts land in `results/`:
 
-- `population_history.json` — per-generation population stats
-- `pareto_front.json` — non-dominated agent genomes + objective vectors
-- `objective_scatter.png` (or `.txt` fallback) — objective visualization
-- `run_summary.json` — run metadata
+- Phase 0: `population_history.json`, `pareto_front.json`, `objective_scatter.png`
+- Phase 1: `agent_population_history.json`, `agent_pareto_front.json`, `agent_evolution_summary.json`
 
 ## Tests
 
 `pytest` covers:
+
+**Phase 0**
 
 1. Genome serialization / comparison
 2. Mutation correctness (each operator + bounds)
@@ -117,15 +132,25 @@ Artifacts land in `results/`:
 4. NSGA-III selection (sorting, reference directions, niching, ≥5 objectives)
 5. Pareto front correctness vs. brute-force filter
 
+**Phase 1**
+
+6. Genome → Agent creation
+7. Agent runtime execution (`agent.run_task`)
+8. Benchmark adapter (`MockBenchmark`)
+9. Objective vector correctness (mixed max/min)
+10. End-to-end evolution pipeline
+
 ## Phase roadmap
 
 | phase | goal | status |
 |-------|------|--------|
-| **Phase 0** | NSGA-III + AgentGenome + toy evaluation | ✅ current |
-| Phase 1 | LLM Agent Genome + real evaluation (DeepSeek / GPT API) | |
+| **Phase 0** | NSGA-III + AgentGenome + toy evaluation | ✅ frozen (`3dd75be`) |
+| **Phase 1** | Agent runtime + benchmark adapter + objective evaluator | ✅ current |
 | Phase 2 | Evolution Memory | |
 | Phase 3 | Preference-aware adaptation | |
 | Phase 4 | Benchmark + paper | |
+
+See `docs/PHASE0_FINAL_AUDIT.md` and `docs/PHASE1_AGENT_RUNTIME.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 

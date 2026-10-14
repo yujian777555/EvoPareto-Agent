@@ -1,0 +1,522 @@
+{
+  "objective_names": [
+    "performance",
+    "efficiency",
+    "cost",
+    "robustness",
+    "autonomy"
+  ],
+  "n_points": 30,
+  "points": [
+    {
+      "genome": {
+        "planner_strategy": "reflexion",
+        "memory_strategy": "hybrid",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 48
+      },
+      "fitness_vector": [
+        1.0,
+        0.7934210844200376,
+        0.040193784405941506,
+        1.0,
+        0.9136666666666665
+      ],
+      "generation": 7
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        1.0,
+        0.876684522992443,
+        0.016138325422949726,
+        1.0,
+        0.8949999999999997
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8696291959968586,
+        0.012435817746599178,
+        0.85,
+        0.8908333333333331
+      ],
+      "generation": 7
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 56
+      },
+      "fitness_vector": [
+        0.5833333333333334,
+        0.7523810712366966,
+        0.011383081185498163,
+        0.35000000000000003,
+        0.9421666666666667
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        0.8333333333333334,
+        0.8572828153733777,
+        0.010924085075062331,
+        0.7,
+        0.8866666666666666
+      ],
+      "generation": 3
+    },
+    {
+      "genome": {
+        "planner_strategy": "reflexion",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        0.8333333333333334,
+        0.7335093290687462,
+        0.03981720656211213,
+        0.7,
+        0.9593333333333335
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "reflexion",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        1.0,
+        0.7903570801115296,
+        0.06117392053818808,
+        1.0,
+        0.927666666666667
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 56
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8676739774040011,
+        0.02343594444119236,
+        0.85,
+        0.9188333333333333
+      ],
+      "generation": 6
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        1.0,
+        0.8985902154893147,
+        0.00875198998163204,
+        1.0,
+        0.8763333333333333
+      ],
+      "generation": 4
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 56
+      },
+      "fitness_vector": [
+        1.0,
+        0.8153082452937821,
+        0.046724857893265755,
+        1.0,
+        0.923
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 56
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8676739774040011,
+        0.02343594444119236,
+        0.85,
+        0.9188333333333333
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 40
+      },
+      "fitness_vector": [
+        1.0,
+        0.8666225220969181,
+        0.024304122100542516,
+        1.0,
+        0.9043333333333335
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8696291959968586,
+        0.012435817746599178,
+        0.85,
+        0.8908333333333331
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "conservative",
+        "reasoning_budget": 8
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.875881274754723,
+        0.006090586811513483,
+        0.85,
+        0.8628333333333336
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        0.5833333333333334,
+        0.7447377198457913,
+        0.014504988612971058,
+        0.35000000000000003,
+        0.9468333333333336
+      ],
+      "generation": 4
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 40
+      },
+      "fitness_vector": [
+        0.75,
+        0.8279049807565751,
+        0.011861083093979602,
+        0.5499999999999999,
+        0.8918333333333334
+      ],
+      "generation": 6
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8696291959968586,
+        0.012435817746599178,
+        0.85,
+        0.8908333333333331
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 48
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8609820079221739,
+        0.018690379206886185,
+        0.85,
+        0.9095
+      ],
+      "generation": 1
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "conservative",
+        "reasoning_budget": 64
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8615624618939299,
+        0.024079860281030926,
+        0.85,
+        0.9235000000000002
+      ],
+      "generation": 2
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 48
+      },
+      "fitness_vector": [
+        0.75,
+        0.8255481480703742,
+        0.012473758812344736,
+        0.5499999999999999,
+        0.9011666666666668
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "hybrid",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 40
+      },
+      "fitness_vector": [
+        0.75,
+        0.7994178185320839,
+        0.011471594908177103,
+        0.5499999999999999,
+        0.9318333333333335
+      ],
+      "generation": 6
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 48
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.8609820079221739,
+        0.018690379206886185,
+        0.85,
+        0.9095
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 40
+      },
+      "fitness_vector": [
+        0.6666666666666666,
+        0.7939787073284417,
+        0.007333503729996385,
+        0.5,
+        0.927666666666667
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        0.75,
+        0.8279791866263543,
+        0.010161625755175145,
+        0.5499999999999999,
+        0.8825
+      ],
+      "generation": 8
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        0.9166666666666666,
+        0.873602697367479,
+        0.013925127720491185,
+        0.85,
+        0.8908333333333331
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 40
+      },
+      "fitness_vector": [
+        0.5,
+        0.7364960499282263,
+        0.005631421821757795,
+        0.3,
+        0.9193333333333337
+      ],
+      "generation": 10
+    },
+    {
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 16
+      },
+      "fitness_vector": [
+        0.8333333333333334,
+        0.849318069768691,
+        0.007188122405123083,
+        0.7,
+        0.868
+      ],
+      "generation": 6
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 32
+      },
+      "fitness_vector": [
+        0.75,
+        0.8279791866263543,
+        0.010161625755175145,
+        0.5499999999999999,
+        0.8825
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 80
+      },
+      "fitness_vector": [
+        0.6666666666666666,
+        0.7637493854003684,
+        0.022345392763175504,
+        0.5,
+        0.9323333333333332
+      ],
+      "generation": 9
+    },
+    {
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "none",
+        "reflection_strategy": "none",
+        "tool_policy": "conservative",
+        "reasoning_budget": 56
+      },
+      "fitness_vector": [
+        0.75,
+        0.8243939410848579,
+        0.014487122273113976,
+        0.5499999999999999,
+        0.9104999999999999
+      ],
+      "generation": 3
+    }
+  ]
+}

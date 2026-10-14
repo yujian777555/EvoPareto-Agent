@@ -1,0 +1,18 @@
+{
+  "phase": "Phase 1 — agent runtime evaluation foundation",
+  "pop_size": 30,
+  "n_generations": 10,
+  "n_tasks": 12,
+  "seed": 42,
+  "pareto_size": 30,
+  "objective_names": [
+    "performance",
+    "efficiency",
+    "cost",
+    "robustness",
+    "autonomy"
+  ],
+  "history_path": "D:\\新建文件夹\\results\\agent_population_history.json",
+  "pareto_front_path": "D:\\新建文件夹\\results\\agent_pareto_front.json",
+  "note": "MockBenchmark behavioral model; no commercial LLM API."
+}
