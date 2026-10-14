@@ -229,3 +229,15 @@ def reference_front_from_population(
     """Empirical reference front = mixed non-dominated set of `rows`."""
     mask = pareto_mask_mixed(rows) if maximize_input else [True] * len(rows)
     return [list(rows[i]) for i in range(len(rows)) if mask[i]]
+
+
+def preference_satisfaction_score(
+    rows: Sequence[Sequence[float]],
+    preference,
+) -> float:
+    """Mean Preference Satisfaction Score of a set of solutions."""
+    from src.evolution.preference import preference_satisfaction
+
+    if not rows:
+        return 0.0
+    return float(sum(preference_satisfaction(r, preference) for r in rows) / len(rows))

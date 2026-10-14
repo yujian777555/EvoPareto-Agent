@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import Callable, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
 
 from src.agent.genome import AgentGenome
 from src.agent.individual import Individual
@@ -43,6 +43,8 @@ from src.evolution.normalization import GenerationNormalizer
 from src.evolution.operators import evolve_individual
 from src.evolution.pareto_experience import PEEMConfig, ParetoExperience
 from src.evolution.pareto_credit import ParetoContributionEstimator
+from src.evolution.preference import PreferenceVector, encode_preference, preference_satisfaction
+from src.evolution.preference_controller import PreferenceController
 
 
 EvaluateFn = Callable[[AgentGenome], Sequence[float]]
@@ -70,6 +72,9 @@ class MemoryEvolutionConfig:
     # Delayed credit
     delayed_horizon: int = 3
     use_delayed_credit: bool = True
+    # Phase 3 preference
+    preference: Any = None  # mode / dict / PreferenceVector / None
+    preference_strength: float = 1.0
 
 
 @dataclass
@@ -88,11 +93,25 @@ class MemoryEvolutionLoop:
 
     def __post_init__(self) -> None:
         self.rng = random.Random(self.config.seed)
-        self.nsga3 = NSGA3(
-            n_objectives=self.config.n_objectives,
-            divisions=self.config.divisions,
-            seed=self.config.seed,
-        )
+        # Phase 3: preference-aware selector when a preference is provided.
+        self.preference = None
+        self.pref_controller = None
+        if self.config.preference is not None:
+            self.preference = encode_preference(self.config.preference)
+            self.pref_controller = PreferenceController(
+                preference=self.preference,
+                n_objectives=self.config.n_objectives,
+                divisions=self.config.divisions,
+                strength=self.config.preference_strength,
+                seed=self.config.seed,
+            )
+            self.nsga3 = self.pref_controller.selector
+        else:
+            self.nsga3 = NSGA3(
+                n_objectives=self.config.n_objectives,
+                divisions=self.config.divisions,
+                seed=self.config.seed,
+            )
         mode = (self.config.experience_mode or "robust_peem").lower()
         if mode in ("peem", "robust_peem", "robust"):
             self.experience: Union[ParetoExperience, MutationExperience] = ParetoExperience(
@@ -419,6 +438,8 @@ def run_memory_evolution(
     temperature_step: float = 0.02,
     use_softmax: bool = True,
     use_delayed_credit: bool = True,
+    preference: Any = None,
+    preference_strength: float = 1.0,
 ) -> Dict[str, object]:
     cfg = MemoryEvolutionConfig(
         pop_size=pop_size,
@@ -433,10 +454,17 @@ def run_memory_evolution(
         temperature_step=temperature_step,
         use_softmax=use_softmax,
         use_delayed_credit=use_delayed_credit,
+        preference=preference,
+        preference_strength=preference_strength,
     )
     loop = MemoryEvolutionLoop(evaluator=evaluator, config=cfg)
     loop.initialize()
     loop.run(n_generations)
+    pref_scores = []
+    if loop.preference is not None:
+        for ind in loop.individuals:
+            if ind.has_fitness():
+                pref_scores.append(preference_satisfaction(ind.fitness_vector or [], loop.preference))
     return {
         "loop": loop,
         "history": list(loop.history),
@@ -449,4 +477,6 @@ def run_memory_evolution(
         "mutation_probs": loop.controller.probability_distribution(),
         "mutation_counts": loop.mutation_type_counts(),
         "experience_mode": experience_mode,
+        "preference": loop.preference.as_dict() if loop.preference else None,
+        "preference_satisfaction": (sum(pref_scores) / len(pref_scores)) if pref_scores else None,
     }

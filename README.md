@@ -41,7 +41,10 @@ src/
     normalization.py # Phase 2.5-R1: per-generation z-score
     delayed_credit.py # Phase 2.5-R1: delayed survival / Pareto gain
     adaptive_mutation.py  # Phase 2/2.5-R1: controller + temperature softmax
-    memory_evolution.py   # Phase 2/2.5-R1: memory-aware / robust PEEM loop
+    memory_evolution.py   # Phase 2/2.5-R1/3: memory-aware / robust PEEM / preference loop
+    preference.py         # Phase 3: PreferenceVector + structured encoder
+    reference_adapter.py  # Phase 3: preference-guided reference directions
+    preference_controller.py  # Phase 3: PPEC (set_preference / region / score)
   runtime/           # Phase 1: genome -> agent -> task results
     task.py          # TaskSpec / TaskSuite
     result.py        # TaskResult / EpisodeResult
@@ -135,6 +138,9 @@ python experiments/run_peem_demo.py
 
 # Phase 2.5-R1: Robust PEEM (rank credit + delayed + temperature)
 python experiments/run_robust_peem_demo.py
+
+# Phase 3: preference-aware Pareto evolution controller
+python experiments/run_preference_demo.py
 ```
 
 Artifacts land in `results/`:
@@ -144,6 +150,7 @@ Artifacts land in `results/`:
 - Phase 2: `evolution_memory_results.json`, `evolution_memory_summary.json`
 - Phase 2.5: `peem_results.json`, `peem_summary.json`
 - Phase 2.5-R1: `robust_peem_results.json`, `robust_peem_summary.json`
+- Phase 3: `preference_results.json`, `preference_summary.json`
 
 ## Tests
 
@@ -189,6 +196,14 @@ Artifacts land in `results/`:
 24. Temperature-softmax mutation sampling
 25. Long-horizon robust evolution loop
 
+**Phase 3 (Preference-aware PPEC)**
+
+26. PreferenceVector encoding / normalization / serialization
+27. Reference direction adaptation
+28. Preference satisfaction scoring
+29. PreferenceController API
+30. End-to-end preference-guided evolution
+
 ## Phase roadmap
 
 | phase | goal | status |
@@ -197,12 +212,13 @@ Artifacts land in `results/`:
 | **Phase 1** | Agent runtime + benchmark adapter + objective evaluator | ✅ frozen (`29536e6`) |
 | **Phase 2** | Evolution Experience Memory (optimizer memory) | ✅ frozen (`a7e6420`) |
 | **Phase 2.5** | **PEEM**: Pareto-aware mutation utility | ✅ frozen (`0b770ac`) |
-| **Phase 2.5-R1** | **Robust PEEM**: rank credit + delayed + temperature | ✅ current |
-| Phase 3 | Preference-aware adaptation | |
+| **Phase 2.5-R1** | **Robust PEEM**: rank credit + delayed + temperature | ✅ frozen (`4cb0d3a`) |
+| **Phase 3** | **PPEC**: preference-aware Pareto search | ✅ current |
 | Phase 4 | Benchmark + paper | |
 
 See `docs/PHASE0_FINAL_AUDIT.md`, `docs/PHASE1_AGENT_RUNTIME.md`,
-`docs/PHASE2_EVOLUTION_MEMORY.md` (incl. Robust PEEM), `docs/PHASE2_5_PEEM.md`.
+`docs/PHASE2_EVOLUTION_MEMORY.md`, `docs/PHASE2_5_PEEM.md`,
+`docs/PHASE3_PREFERENCE_EVOLUTION.md`.
 
 Folder rename to `EvoPareto-Agent` is planned after Phase 4.
 
