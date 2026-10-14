@@ -75,6 +75,9 @@ class MemoryEvolutionConfig:
     # Phase 3 preference
     preference: Any = None  # mode / dict / PreferenceVector / None
     preference_strength: float = 1.0
+    # Phase 5-Pre ablation hook: same MV formula, injectable weights
+    # (no algorithmic change).
+    credit_weights: Any = None
 
 
 @dataclass
@@ -265,7 +268,7 @@ class MemoryEvolutionLoop:
 
                 from src.evolution.credit_assignment import CreditWeights as CW
 
-                w = CW().normalized()
+                w = (self.config.credit_weights or CW()).normalized()
                 raw.improvement_norm = z["improvement"]
                 raw.pareto_norm = row["pareto"]
                 raw.diversity_norm = row["diversity"]

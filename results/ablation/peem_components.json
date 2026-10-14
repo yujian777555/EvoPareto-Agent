@@ -1,0 +1,781 @@
+{
+  "experiment": "E2_peem_component_ablation",
+  "config": {
+    "pop": 16,
+    "gens": 8,
+    "tasks": 8,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "budget_evals": 144
+  },
+  "component_table": [
+    {
+      "Variant": "PEEM_full",
+      "HV": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "IGD": {
+        "mean": 0.05170981303875754,
+        "std": 0.03282718865299373
+      },
+      "Convergence": {
+        "final_hv_curve": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    },
+    {
+      "Variant": "PEEM_w_o_Pareto",
+      "HV": {
+        "mean": 0.7837770570271676,
+        "std": 0.02440013854171266
+      },
+      "IGD": {
+        "mean": 0.044810381395048504,
+        "std": 0.023803724070938004
+      },
+      "Convergence": {
+        "final_hv_curve": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    },
+    {
+      "Variant": "PEEM_w_o_Diversity",
+      "HV": {
+        "mean": 0.7905386570122751,
+        "std": 0.009395901107576555
+      },
+      "IGD": {
+        "mean": 0.048348707799707374,
+        "std": 0.03751269586759239
+      },
+      "Convergence": {
+        "final_hv_curve": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    },
+    {
+      "Variant": "PEEM_w_o_Delay",
+      "HV": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "IGD": {
+        "mean": 0.05170981303875754,
+        "std": 0.03282718865299373
+      },
+      "Convergence": {
+        "final_hv_curve": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    },
+    {
+      "Variant": "PEEM_w_o_Temperature",
+      "HV": {
+        "mean": 0.7926281717471116,
+        "std": 0.011272028492226234
+      },
+      "IGD": {
+        "mean": 0.02523223370174471,
+        "std": 0.005105217692743366
+      },
+      "Convergence": {
+        "final_hv_curve": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    }
+  ],
+  "summary": {
+    "PEEM_full": {
+      "hypervolume": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "igd": {
+        "mean": 0.05170981303875754,
+        "std": 0.03282718865299373
+      },
+      "success": {
+        "mean": 0.9322916666666666,
+        "std": 0.003682847818679935
+      },
+      "cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      },
+      "pss": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "mutation_entropy": {
+        "mean": 2.2103965738055384,
+        "std": 0.015732832740583017
+      },
+      "n_seeds": 3
+    },
+    "PEEM_w_o_Delay": {
+      "hypervolume": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "igd": {
+        "mean": 0.05170981303875754,
+        "std": 0.03282718865299373
+      },
+      "success": {
+        "mean": 0.9322916666666666,
+        "std": 0.003682847818679935
+      },
+      "cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      },
+      "pss": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "mutation_entropy": {
+        "mean": 2.2103965738055384,
+        "std": 0.015732832740583017
+      },
+      "n_seeds": 3
+    },
+    "PEEM_w_o_Diversity": {
+      "hypervolume": {
+        "mean": 0.7905386570122751,
+        "std": 0.009395901107576555
+      },
+      "igd": {
+        "mean": 0.048348707799707374,
+        "std": 0.03751269586759239
+      },
+      "success": {
+        "mean": 0.9296875,
+        "std": 0.01275775907699572
+      },
+      "cost": {
+        "mean": 0.0010515799829213014,
+        "std": 3.143683605399138e-05
+      },
+      "pss": {
+        "mean": 0.8824906469909699,
+        "std": 0.017655714154843263
+      },
+      "mutation_entropy": {
+        "mean": 1.9866517718644037,
+        "std": 0.11898342781508567
+      },
+      "n_seeds": 3
+    },
+    "PEEM_w_o_Pareto": {
+      "hypervolume": {
+        "mean": 0.7837770570271676,
+        "std": 0.02440013854171266
+      },
+      "igd": {
+        "mean": 0.044810381395048504,
+        "std": 0.023803724070938004
+      },
+      "success": {
+        "mean": 0.9348958333333334,
+        "std": 0.003682847818679935
+      },
+      "cost": {
+        "mean": 0.00102522904347933,
+        "std": 2.5026768948905984e-05
+      },
+      "pss": {
+        "mean": 0.8881402860693165,
+        "std": 0.009846268760230965
+      },
+      "mutation_entropy": {
+        "mean": 2.139041577541933,
+        "std": 0.016296388602952083
+      },
+      "n_seeds": 3
+    },
+    "PEEM_w_o_Temperature": {
+      "hypervolume": {
+        "mean": 0.7926281717471116,
+        "std": 0.011272028492226234
+      },
+      "igd": {
+        "mean": 0.02523223370174471,
+        "std": 0.005105217692743366
+      },
+      "success": {
+        "mean": 0.9322916666666666,
+        "std": 0.00736569563735987
+      },
+      "cost": {
+        "mean": 0.0010382188481692265,
+        "std": 3.546642351176909e-05
+      },
+      "pss": {
+        "mean": 0.8832871343184112,
+        "std": 0.005799936312443529
+      },
+      "mutation_entropy": {
+        "mean": 2.086404603861554,
+        "std": 0.14277649509614532
+      },
+      "n_seeds": 3
+    }
+  },
+  "mutation_strategies": {
+    "experiment": "E3_mutation_strategy_comparison",
+    "table": [
+      {
+        "Strategy": "Random_mutation",
+        "HV": {
+          "mean": 0.8054066500860794,
+          "std": 0.0017928398180173811
+        },
+        "EvalEfficiency": {
+          "mean": 0.8984375,
+          "std": 0.016876928902103804
+        },
+        "MutationEntropy": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      {
+        "Strategy": "Success_rate_adaptive",
+        "HV": {
+          "mean": 0.7734190806681188,
+          "std": 0.023133322204581218
+        },
+        "EvalEfficiency": {
+          "mean": 0.9244791666666666,
+          "std": 0.003682847818679935
+        },
+        "MutationEntropy": {
+          "mean": 2.2274890217370404,
+          "std": 0.04894645610795426
+        }
+      },
+      {
+        "Strategy": "PEEM",
+        "HV": {
+          "mean": 0.7900410809323186,
+          "std": 0.012229780820398628
+        },
+        "EvalEfficiency": {
+          "mean": 0.9322916666666666,
+          "std": 0.003682847818679935
+        },
+        "MutationEntropy": {
+          "mean": 2.2103965738055384,
+          "std": 0.015732832740583017
+        }
+      }
+    ],
+    "summary": {
+      "PEEM": {
+        "hypervolume": {
+          "mean": 0.7900410809323186,
+          "std": 0.012229780820398628
+        },
+        "igd": {
+          "mean": 0.030897593848121418,
+          "std": 0.014271904753417162
+        },
+        "success": {
+          "mean": 0.9322916666666666,
+          "std": 0.003682847818679935
+        },
+        "cost": {
+          "mean": 0.001035616017994975,
+          "std": 3.365419707718318e-05
+        },
+        "pss": {
+          "mean": 0.8882955004533054,
+          "std": 0.0005458661330538665
+        },
+        "mutation_entropy": {
+          "mean": 2.2103965738055384,
+          "std": 0.015732832740583017
+        },
+        "n_seeds": 3
+      },
+      "Random_mutation": {
+        "hypervolume": {
+          "mean": 0.8054066500860794,
+          "std": 0.0017928398180173811
+        },
+        "igd": {
+          "mean": 0.021491592942532525,
+          "std": 0.004662595139392137
+        },
+        "success": {
+          "mean": 0.8984375,
+          "std": 0.016876928902103804
+        },
+        "cost": {
+          "mean": 0.0010274516501316633,
+          "std": 3.564200348653874e-05
+        },
+        "pss": {
+          "mean": 0.8692708625662967,
+          "std": 0.009973808558902626
+        },
+        "mutation_entropy": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "n_seeds": 3
+      },
+      "Success_rate_adaptive": {
+        "hypervolume": {
+          "mean": 0.7734190806681188,
+          "std": 0.023133322204581218
+        },
+        "igd": {
+          "mean": 0.04891752884978574,
+          "std": 0.026283734980779565
+        },
+        "success": {
+          "mean": 0.9244791666666666,
+          "std": 0.003682847818679935
+        },
+        "cost": {
+          "mean": 0.0009981338521678222,
+          "std": 3.378669153906493e-05
+        },
+        "pss": {
+          "mean": 0.8672711341162498,
+          "std": 0.0009503446644999661
+        },
+        "mutation_entropy": {
+          "mean": 2.2274890217370404,
+          "std": 0.04894645610795426
+        },
+        "n_seeds": 3
+      }
+    }
+  },
+  "runs": [
+    {
+      "name": "PEEM_full",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7927817160286249,
+        "igd": 0.0979390033648704,
+        "success": 0.9296875,
+        "cost": 0.001024474943198845,
+        "efficiency": 0.8235132499154646,
+        "pss": 0.887544629994453,
+        "mutation_entropy": 2.1910529251368036,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.6897628307342529
+    },
+    {
+      "name": "PEEM_w_o_Pareto",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.795670741661386,
+        "igd": 0.07816627436445893,
+        "success": 0.9375,
+        "cost": 0.0010400712812725507,
+        "efficiency": 0.8238623546797008,
+        "pss": 0.8946144566796855,
+        "mutation_entropy": 2.137420170368046,
+        "n_non_dominated": 15.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.4824836254119873
+    },
+    {
+      "name": "PEEM_w_o_Diversity",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7774054726391806,
+        "igd": 0.10075752753308835,
+        "success": 0.9296875,
+        "cost": 0.0010935061893535027,
+        "efficiency": 0.8150058836815662,
+        "pss": 0.8926710171651093,
+        "mutation_entropy": 1.9691140679527688,
+        "n_non_dominated": 15.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.49277424812316895
+    },
+    {
+      "name": "PEEM_w_o_Delay",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7927817160286249,
+        "igd": 0.0979390033648704,
+        "success": 0.9296875,
+        "cost": 0.001024474943198845,
+        "efficiency": 0.8235132499154646,
+        "pss": 0.887544629994453,
+        "mutation_entropy": 2.1910529251368036,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3866457939147949
+    },
+    {
+      "name": "PEEM_w_o_Temperature",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.777389230599968,
+        "igd": 0.028654059523558928,
+        "success": 0.921875,
+        "cost": 0.0010367273737878022,
+        "efficiency": 0.8190239202512063,
+        "pss": 0.8764161885754838,
+        "mutation_entropy": 2.2680547397677784,
+        "n_non_dominated": 15.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.38770556449890137
+    },
+    {
+      "name": "PEEM_full",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7738816458369906,
+        "igd": 0.024909713346754587,
+        "success": 0.9375,
+        "cost": 0.0010011139361792288,
+        "efficiency": 0.8276629182634067,
+        "pss": 0.8885156941987788,
+        "mutation_entropy": 2.229589452766372,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.41914963722229004
+    },
+    {
+      "name": "PEEM_w_o_Pareto",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7497774904101178,
+        "igd": 0.032064892491545836,
+        "success": 0.9296875,
+        "cost": 0.0009899818625365012,
+        "efficiency": 0.8261391817086439,
+        "pss": 0.8742267149692214,
+        "mutation_entropy": 2.1199428185211118,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3730287551879883
+    },
+    {
+      "name": "PEEM_w_o_Diversity",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7953548099391606,
+        "igd": 0.02927102491650714,
+        "success": 0.9140625,
+        "cost": 0.0010178084097621656,
+        "efficiency": 0.8178014169479815,
+        "pss": 0.8576556800409771,
+        "mutation_entropy": 1.8504899305628149,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3673131465911865
+    },
+    {
+      "name": "PEEM_w_o_Delay",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7738816458369906,
+        "igd": 0.024909713346754587,
+        "success": 0.9375,
+        "cost": 0.0010011139361792288,
+        "efficiency": 0.8276629182634067,
+        "pss": 0.8885156941987788,
+        "mutation_entropy": 2.229589452766372,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.36810302734375
+    },
+    {
+      "name": "PEEM_w_o_Temperature",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7961956127021146,
+        "igd": 0.029027063480913474,
+        "success": 0.9375,
+        "cost": 0.0009955464736644561,
+        "efficiency": 0.8280021368807098,
+        "pss": 0.8828429847480758,
+        "mutation_entropy": 1.9192243630525896,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.38163161277770996
+    },
+    {
+      "name": "PEEM_full",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8034598809313404,
+        "igd": 0.03228072240464764,
+        "success": 0.9296875,
+        "cost": 0.0010812591746068511,
+        "efficiency": 0.8171444366746957,
+        "pss": 0.8888261771666844,
+        "mutation_entropy": 2.210547343513439,
+        "n_non_dominated": 11.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3918337821960449
+    },
+    {
+      "name": "PEEM_w_o_Pareto",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8058829390099989,
+        "igd": 0.024199977329140757,
+        "success": 0.9375,
+        "cost": 0.0010456339866289385,
+        "efficiency": 0.8236940667818402,
+        "pss": 0.8955796865590424,
+        "mutation_entropy": 2.1597617437366416,
+        "n_non_dominated": 15.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.35745859146118164
+    },
+    {
+      "name": "PEEM_w_o_Diversity",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.7988556884584843,
+        "igd": 0.015017570949526642,
+        "success": 0.9453125,
+        "cost": 0.001043425349648236,
+        "efficiency": 0.8261706858504323,
+        "pss": 0.8971452437668235,
+        "mutation_entropy": 2.1403513170776276,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.35247254371643066
+    },
+    {
+      "name": "PEEM_w_o_Delay",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8034598809313404,
+        "igd": 0.03228072240464764,
+        "success": 0.9296875,
+        "cost": 0.0010812591746068511,
+        "efficiency": 0.8171444366746957,
+        "pss": 0.8888261771666844,
+        "mutation_entropy": 2.210547343513439,
+        "n_non_dominated": 11.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3625922203063965
+    },
+    {
+      "name": "PEEM_w_o_Temperature",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8042996719392523,
+        "igd": 0.018015578100761726,
+        "success": 0.9375,
+        "cost": 0.0010823826970554216,
+        "efficiency": 0.8197185308554262,
+        "pss": 0.8906022296316741,
+        "mutation_entropy": 2.071934708764294,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3573336601257324
+    },
+    {
+      "name": "Random_mutation",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.8071332222773464,
+        "igd": 0.023539054439255407,
+        "success": 0.8828125,
+        "cost": 0.001022252665711198,
+        "efficiency": 0.8060228403646247,
+        "pss": 0.8629782425397827,
+        "mutation_entropy": 0.0,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.5810742378234863
+    },
+    {
+      "name": "Success_rate_adaptive",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7487906035478336,
+        "igd": 0.08515959908164264,
+        "success": 0.921875,
+        "cost": 0.0009699250808269206,
+        "efficiency": 0.826738409423182,
+        "pss": 0.8662141135351378,
+        "mutation_entropy": 2.1633862721066235,
+        "n_non_dominated": 15.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.6877543926239014
+    },
+    {
+      "name": "PEEM",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7927817160286249,
+        "igd": 0.04821775869279082,
+        "success": 0.9296875,
+        "cost": 0.001024474943198845,
+        "efficiency": 0.8235132499154646,
+        "pss": 0.887544629994453,
+        "mutation_entropy": 2.1910529251368036,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.5103611946105957
+    },
+    {
+      "name": "Random_mutation",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.8029353766550292,
+        "igd": 0.015039638155371397,
+        "success": 0.890625,
+        "cost": 0.0009866316013545885,
+        "efficiency": 0.8125875513296134,
+        "pss": 0.8614847672789853,
+        "mutation_entropy": 0.0,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.7321319580078125
+    },
+    {
+      "name": "Success_rate_adaptive",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7670838023341663,
+        "igd": 0.037947461905486014,
+        "success": 0.9296875,
+        "cost": 0.0009788389908061699,
+        "efficiency": 0.8280233742327654,
+        "pss": 0.8670807820483918,
+        "mutation_entropy": 2.2821625420220513,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.790031909942627
+    },
+    {
+      "name": "PEEM",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7738816458369906,
+        "igd": 0.03121190919115381,
+        "success": 0.9375,
+        "cost": 0.0010011139361792288,
+        "efficiency": 0.8276629182634067,
+        "pss": 0.8885156941987788,
+        "mutation_entropy": 2.229589452766372,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.4618077278137207
+    },
+    {
+      "name": "Random_mutation",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8061513513258627,
+        "igd": 0.025896086232970763,
+        "success": 0.921875,
+        "cost": 0.0010734706833292035,
+        "efficiency": 0.815435943417274,
+        "pss": 0.883349577880122,
+        "mutation_entropy": 0.0,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.5850942134857178
+    },
+    {
+      "name": "Success_rate_adaptive",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8043828361223567,
+        "igd": 0.023645525562228566,
+        "success": 0.921875,
+        "cost": 0.0010456374848703757,
+        "efficiency": 0.8181694213109694,
+        "pss": 0.8685185067652198,
+        "mutation_entropy": 2.2369182510824466,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.6455848217010498
+    },
+    {
+      "name": "PEEM",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8034598809313404,
+        "igd": 0.01326311366041963,
+        "success": 0.9296875,
+        "cost": 0.0010812591746068511,
+        "efficiency": 0.8171444366746957,
+        "pss": 0.8888261771666844,
+        "mutation_entropy": 2.210547343513439,
+        "n_non_dominated": 11.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.4038083553314209
+    }
+  ]
+}

@@ -1,0 +1,560 @@
+{
+  "experiment": "E4_preference_ablation",
+  "config": {
+    "pop": 16,
+    "gens": 8,
+    "tasks": 8,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "budget_evals": 144
+  },
+  "table": [
+    {
+      "Preference": "accuracy_first",
+      "Method": "PEEM",
+      "PSS": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "HV": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "Cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      }
+    },
+    {
+      "Preference": "accuracy_first",
+      "Method": "PEEM_PPEC",
+      "PSS": {
+        "mean": 0.8767325169094894,
+        "std": 0.016361450092340017
+      },
+      "HV": {
+        "mean": 0.7921263841441739,
+        "std": 0.012392488474152892
+      },
+      "Cost": {
+        "mean": 0.0010363556106254184,
+        "std": 2.959540918474062e-05
+      }
+    },
+    {
+      "Preference": "cost_first",
+      "Method": "PEEM",
+      "PSS": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "HV": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "Cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      }
+    },
+    {
+      "Preference": "cost_first",
+      "Method": "PEEM_PPEC",
+      "PSS": {
+        "mean": 0.8914164938995831,
+        "std": 0.004966098505173537
+      },
+      "HV": {
+        "mean": 0.776690969457774,
+        "std": 0.029611793576230044
+      },
+      "Cost": {
+        "mean": 0.0010274456163923463,
+        "std": 4.412224670971914e-05
+      }
+    },
+    {
+      "Preference": "balanced",
+      "Method": "PEEM",
+      "PSS": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "HV": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "Cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      }
+    },
+    {
+      "Preference": "balanced",
+      "Method": "PEEM_PPEC",
+      "PSS": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "HV": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "Cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      }
+    }
+  ],
+  "summary": {
+    "PEEM_PPEC|accuracy_first": {
+      "hypervolume": {
+        "mean": 0.7921263841441739,
+        "std": 0.012392488474152892
+      },
+      "igd": {
+        "mean": 0.05136479033105915,
+        "std": 0.010337480502162493
+      },
+      "success": {
+        "mean": 0.9270833333333334,
+        "std": 0.016053161466065044
+      },
+      "cost": {
+        "mean": 0.0010363556106254184,
+        "std": 2.959540918474062e-05
+      },
+      "pss": {
+        "mean": 0.8767325169094894,
+        "std": 0.016361450092340017
+      },
+      "n_seeds": 3
+    },
+    "PEEM_PPEC|balanced": {
+      "hypervolume": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "igd": {
+        "mean": 0.036803981017846654,
+        "std": 0.016818695030518412
+      },
+      "success": {
+        "mean": 0.9322916666666666,
+        "std": 0.003682847818679935
+      },
+      "cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      },
+      "pss": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "n_seeds": 3
+    },
+    "PEEM_PPEC|cost_first": {
+      "hypervolume": {
+        "mean": 0.776690969457774,
+        "std": 0.029611793576230044
+      },
+      "igd": {
+        "mean": 0.06572789032308156,
+        "std": 0.030258142500649746
+      },
+      "success": {
+        "mean": 0.9244791666666666,
+        "std": 0.00736569563735987
+      },
+      "cost": {
+        "mean": 0.0010274456163923463,
+        "std": 4.412224670971914e-05
+      },
+      "pss": {
+        "mean": 0.8914164938995831,
+        "std": 0.004966098505173537
+      },
+      "n_seeds": 3
+    },
+    "PEEM|accuracy_first": {
+      "hypervolume": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "igd": {
+        "mean": 0.036803981017846654,
+        "std": 0.016818695030518412
+      },
+      "success": {
+        "mean": 0.9322916666666666,
+        "std": 0.003682847818679935
+      },
+      "cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      },
+      "pss": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "n_seeds": 3
+    },
+    "PEEM|balanced": {
+      "hypervolume": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "igd": {
+        "mean": 0.036803981017846654,
+        "std": 0.016818695030518412
+      },
+      "success": {
+        "mean": 0.9322916666666666,
+        "std": 0.003682847818679935
+      },
+      "cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      },
+      "pss": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "n_seeds": 3
+    },
+    "PEEM|cost_first": {
+      "hypervolume": {
+        "mean": 0.7900410809323186,
+        "std": 0.012229780820398628
+      },
+      "igd": {
+        "mean": 0.036803981017846654,
+        "std": 0.016818695030518412
+      },
+      "success": {
+        "mean": 0.9322916666666666,
+        "std": 0.003682847818679935
+      },
+      "cost": {
+        "mean": 0.001035616017994975,
+        "std": 3.365419707718318e-05
+      },
+      "pss": {
+        "mean": 0.8882955004533054,
+        "std": 0.0005458661330538665
+      },
+      "n_seeds": 3
+    }
+  },
+  "runs": [
+    {
+      "name": "PEEM|accuracy_first",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7927817160286249,
+        "igd": 0.05975157467375595,
+        "success": 0.9296875,
+        "cost": 0.001024474943198845,
+        "efficiency": 0.8235132499154646,
+        "pss": 0.887544629994453,
+        "mutation_entropy": 2.1910529251368036,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3998382091522217
+    },
+    {
+      "name": "PEEM_PPEC|accuracy_first",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7864047451505277,
+        "igd": 0.03717438167266919,
+        "success": 0.90625,
+        "cost": 0.0010389474298921934,
+        "efficiency": 0.8130862224083585,
+        "pss": 0.8541664174950108,
+        "mutation_entropy": 2.0850581994244592,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3857743740081787
+    },
+    {
+      "name": "PEEM|cost_first",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7927817160286249,
+        "igd": 0.05975157467375595,
+        "success": 0.9296875,
+        "cost": 0.001024474943198845,
+        "efficiency": 0.8235132499154646,
+        "pss": 0.887544629994453,
+        "mutation_entropy": 2.1910529251368036,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3845517635345459
+    },
+    {
+      "name": "PEEM_PPEC|cost_first",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.736269781077501,
+        "igd": 0.1080274932953381,
+        "success": 0.9296875,
+        "cost": 0.0010300401877271828,
+        "efficiency": 0.8228416781531697,
+        "pss": 0.8929335081005917,
+        "mutation_entropy": 2.1568392276142445,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.43201684951782227
+    },
+    {
+      "name": "PEEM|balanced",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7927817160286249,
+        "igd": 0.05975157467375595,
+        "success": 0.9296875,
+        "cost": 0.001024474943198845,
+        "efficiency": 0.8235132499154646,
+        "pss": 0.887544629994453,
+        "mutation_entropy": 2.1910529251368036,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.40729188919067383
+    },
+    {
+      "name": "PEEM_PPEC|balanced",
+      "seed": 11,
+      "metrics": {
+        "hypervolume": 0.7927817160286249,
+        "igd": 0.05975157467375595,
+        "success": 0.9296875,
+        "cost": 0.001024474943198845,
+        "efficiency": 0.8235132499154646,
+        "pss": 0.887544629994453,
+        "mutation_entropy": 2.1910529251368036,
+        "n_non_dominated": 13.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.4179348945617676
+    },
+    {
+      "name": "PEEM|accuracy_first",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7738816458369906,
+        "igd": 0.030748552288021803,
+        "success": 0.9375,
+        "cost": 0.0010011139361792288,
+        "efficiency": 0.8276629182634067,
+        "pss": 0.8885156941987788,
+        "mutation_entropy": 2.229589452766372,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.4034843444824219
+    },
+    {
+      "name": "PEEM_PPEC|accuracy_first",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7806412010168229,
+        "igd": 0.0615045769435572,
+        "success": 0.9453125,
+        "cost": 0.0009988824398756246,
+        "efficiency": 0.8312253948415315,
+        "pss": 0.8924454584436362,
+        "mutation_entropy": 2.220472612511147,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3871433734893799
+    },
+    {
+      "name": "PEEM|cost_first",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7738816458369906,
+        "igd": 0.030748552288021803,
+        "success": 0.9375,
+        "cost": 0.0010011139361792288,
+        "efficiency": 0.8276629182634067,
+        "pss": 0.8885156941987788,
+        "mutation_entropy": 2.229589452766372,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3721127510070801
+    },
+    {
+      "name": "PEEM_PPEC|cost_first",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7874208924877689,
+        "igd": 0.03897536872288912,
+        "success": 0.9296875,
+        "cost": 0.000972156570874361,
+        "efficiency": 0.8287031891620789,
+        "pss": 0.8847193672220994,
+        "mutation_entropy": 2.1113340108643066,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.39482593536376953
+    },
+    {
+      "name": "PEEM|balanced",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7738816458369906,
+        "igd": 0.030748552288021803,
+        "success": 0.9375,
+        "cost": 0.0010011139361792288,
+        "efficiency": 0.8276629182634067,
+        "pss": 0.8885156941987788,
+        "mutation_entropy": 2.229589452766372,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3953127861022949
+    },
+    {
+      "name": "PEEM_PPEC|balanced",
+      "seed": 22,
+      "metrics": {
+        "hypervolume": 0.7738816458369906,
+        "igd": 0.030748552288021803,
+        "success": 0.9375,
+        "cost": 0.0010011139361792288,
+        "efficiency": 0.8276629182634067,
+        "pss": 0.8885156941987788,
+        "mutation_entropy": 2.229589452766372,
+        "n_non_dominated": 16.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.39041614532470703
+    },
+    {
+      "name": "PEEM|accuracy_first",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8034598809313404,
+        "igd": 0.019911816091762204,
+        "success": 0.9296875,
+        "cost": 0.0010812591746068511,
+        "efficiency": 0.8171444366746957,
+        "pss": 0.8888261771666844,
+        "mutation_entropy": 2.210547343513439,
+        "n_non_dominated": 11.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3941538333892822
+    },
+    {
+      "name": "PEEM_PPEC|accuracy_first",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.809333206265171,
+        "igd": 0.05541541237695107,
+        "success": 0.9296875,
+        "cost": 0.0010712369621084367,
+        "efficiency": 0.8184626616386823,
+        "pss": 0.883585674789821,
+        "mutation_entropy": 2.1119477495892216,
+        "n_non_dominated": 14.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3911566734313965
+    },
+    {
+      "name": "PEEM|cost_first",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8034598809313404,
+        "igd": 0.019911816091762204,
+        "success": 0.9296875,
+        "cost": 0.0010812591746068511,
+        "efficiency": 0.8171444366746957,
+        "pss": 0.8888261771666844,
+        "mutation_entropy": 2.210547343513439,
+        "n_non_dominated": 11.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3711261749267578
+    },
+    {
+      "name": "PEEM_PPEC|cost_first",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8063822348080524,
+        "igd": 0.05018080895101748,
+        "success": 0.9140625,
+        "cost": 0.0010801400905754953,
+        "efficiency": 0.8115589951860136,
+        "pss": 0.8965966063760584,
+        "mutation_entropy": 2.245115900525829,
+        "n_non_dominated": 14.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.3837742805480957
+    },
+    {
+      "name": "PEEM|balanced",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8034598809313404,
+        "igd": 0.019911816091762204,
+        "success": 0.9296875,
+        "cost": 0.0010812591746068511,
+        "efficiency": 0.8171444366746957,
+        "pss": 0.8888261771666844,
+        "mutation_entropy": 2.210547343513439,
+        "n_non_dominated": 11.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.42453646659851074
+    },
+    {
+      "name": "PEEM_PPEC|balanced",
+      "seed": 33,
+      "metrics": {
+        "hypervolume": 0.8034598809313404,
+        "igd": 0.019911816091762204,
+        "success": 0.9296875,
+        "cost": 0.0010812591746068511,
+        "efficiency": 0.8171444366746957,
+        "pss": 0.8888261771666844,
+        "mutation_entropy": 2.210547343513439,
+        "n_non_dominated": 11.0,
+        "evaluations": 144.0
+      },
+      "history": [],
+      "wall_time": 0.46419858932495117
+    }
+  ]
+}
