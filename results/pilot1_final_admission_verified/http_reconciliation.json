@@ -1,0 +1,7 @@
+{
+  "scenario": "mock_http_to_sqlite",
+  "status": "verified_in_tests",
+  "test": "tests/test_pilot1_microfix.py::test_unknown_cost_billing_block_persists",
+  "formula": "deepseek-flash-2026-v1",
+  "note": "full mock HTTP E2E via cost_status + BudgetDB.settle; see tests"
+}

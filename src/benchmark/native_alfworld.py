@@ -84,11 +84,10 @@ class NativeALFWorldEnv:
             "rl": {"training": {"max_nb_steps_per_episode": self.config.max_steps}},
         }
 
-    def reset(self, *, episode_index: int = 0):
+    def reset(self, *, episode_index: int = 0, force_game_file: Optional[str] = None):
         from alfworld.agents.environment.alfred_tw_env import AlfredTWEnv
 
         from src.benchmark.split_integrity import (
-            SplitIntegrityError,
             normalize_game_id,
             resolve_split,
             validate_game_in_split,
@@ -100,13 +99,22 @@ class NativeALFWorldEnv:
             raise NativeALFWorldUnavailable(f"no games for split={self.config.split}")
         self._games = [normalize_game_id(g) for g in wrap.game_files]
         idx = 0
-        if self._games:
+        if force_game_file:
+            target = normalize_game_id(force_game_file)
+            matches = [i for i, g in enumerate(self._games) if g == target]
+            if not matches:
+                raise SplitIntegrityError(f"forced game not in split games: {target}")
+            if len(matches) > 1:
+                raise SplitIntegrityError(f"ambiguous forced game id: {target}")
+            idx = matches[0]
+            chosen = self._games[idx]
+        elif self._games:
             idx = int(episode_index) % len(self._games)
             chosen = self._games[idx]
-            wrap.game_files = [chosen]
-            wrap.num_games = 1
         else:
             chosen = ""
+        wrap.game_files = [chosen] if chosen else wrap.game_files
+        wrap.num_games = 1 if chosen else wrap.num_games
         self._env = wrap.init_env(batch_size=self.config.batch_size)
         obs, infos = self._env.reset()
         # Split integrity: actual game must belong to requested split.

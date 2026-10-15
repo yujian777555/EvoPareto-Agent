@@ -1,0 +1,6 @@
+{
+  "pytest": "all green",
+  "manifest_game_match": true,
+  "native_dry_run_status": "PASS",
+  "real_api_calls": 0
+}

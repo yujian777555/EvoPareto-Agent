@@ -95,7 +95,18 @@ def post_json(
                 tokens_out=tout,
                 actual_cost=cstat.cost if cstat.is_known else 0.0,
             )
-            # Surface cost status on the response for callers / reconciliation.
+            # Persistent billing block on unknown cost (fail-closed).
+            if not cstat.is_known:
+                try:
+                    from src.runtime.http_budget import get_global_gate
+
+                    gate = get_global_gate()
+                    if gate is not None:
+                        gate.db.mark_billing_blocked(
+                            f"{cstat.status}:{cstat.detail}", ticket_id=ticket
+                        )
+                except Exception:
+                    pass
             if isinstance(data, dict):
                 data["_cost_status"] = cstat.to_dict()
             return status, data

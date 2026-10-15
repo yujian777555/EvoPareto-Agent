@@ -74,6 +74,14 @@ class BudgetDB:
                 )
                 """
             )
+            self._conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS meta (
+                    key TEXT PRIMARY KEY,
+                    value TEXT NOT NULL
+                )
+                """
+            )
             row = self._conn.execute("SELECT * FROM budget WHERE id=1").fetchone()
             if row is None:
                 self._conn.execute(
@@ -159,10 +167,52 @@ class BudgetDB:
                 "max_cost_usd": r["max_cost_usd"],
             }
 
+    def is_billing_blocked(self) -> bool:
+        with self._lock:
+            row = self._conn.execute(
+                "SELECT value FROM meta WHERE key='billing_blocked'"
+            ).fetchone()
+            return bool(row and row["value"] == "1")
+
+    def billing_block_reason(self) -> str:
+        with self._lock:
+            row = self._conn.execute(
+                "SELECT value FROM meta WHERE key='billing_block_reason'"
+            ).fetchone()
+            return str(row["value"]) if row else ""
+
+    def mark_billing_blocked(self, reason: str, ticket_id: str = "") -> None:
+        with self._lock:
+            conn = self._conn
+            conn.execute("BEGIN IMMEDIATE")
+            try:
+                conn.execute(
+                    "INSERT INTO meta (key, value) VALUES ('billing_blocked','1') "
+                    "ON CONFLICT(key) DO UPDATE SET value='1'"
+                )
+                conn.execute(
+                    "INSERT INTO meta (key, value) VALUES ('billing_block_reason', ?) "
+                    "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                    (str(reason),),
+                )
+                if ticket_id:
+                    conn.execute(
+                        "INSERT INTO meta (key, value) VALUES ('unknown_cost_ticket_id', ?) "
+                        "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                        (str(ticket_id),),
+                    )
+                conn.execute("COMMIT")
+            except Exception:
+                conn.execute("ROLLBACK")
+                raise
+
     def acquire_ticket(self, est_cost: float, *, is_retry: bool = False) -> str:
         """Atomic pre-send reservation. Returns ticket id. Raises if denied."""
         with self._lock:
             conn = self._conn
+            # Fail-closed: billing block is sticky across restarts.
+            if self.is_billing_blocked():
+                raise BillingBlocked(self.billing_block_reason() or "billing blocked")
             conn.execute("BEGIN IMMEDIATE")
             try:
                 r = conn.execute("SELECT * FROM budget WHERE id=1").fetchone()

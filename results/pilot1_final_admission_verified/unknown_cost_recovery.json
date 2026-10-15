@@ -1,0 +1,5 @@
+{
+  "unknown_cost_ticket": "uk1",
+  "billing_blocked_persisted": true,
+  "test": "test_unknown_cost_billing_block_persists"
+}
