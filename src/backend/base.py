@@ -228,7 +228,7 @@ class OpenAIBackend(OpenAICompatibleBackend):
 
 class DeepSeekBackend(OpenAICompatibleBackend):
     name = "deepseek"
-    model = "deepseek-chat"
+    model = "deepseek-flash"
     api_key_env = "DEEPSEEK_API_KEY"
     base_url = "https://api.deepseek.com/v1/chat/completions"
     cost_per_1k_prompt = 0.0001
