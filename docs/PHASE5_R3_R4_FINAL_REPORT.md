@@ -31,35 +31,33 @@ See table in `PHASE5_R3_R4_OBJECTIVE_VALIDITY.md` —
 
 | item | value |
 |------|-------|
-| status | **HTTP 402 Payment Required** |
-| successful calls this phase | 0 |
-| failed | ≥1 (402) |
-| budget gate | pre-reserve implemented & tested |
-| tokens | estimated vs actual separated in ledger |
+| status | **RECOVERED** (was 402; retest OK) |
+| horizon diagnosis calls | 118 (DeepSeek `deepseek-flash`) |
+| tokens | in ~23k class / out recorded in horizon JSON |
+| budget gate | pre-reserve implemented & used |
 
 ## 6. Algorithm Integrity
 
 RS independent · NSGA-III/PEEM/PPEC wiring intact · equal-budget multi-seed
-native comparison **not run** (API).
+native comparison still pending (now unblocked).
 
 ## 7. Evidence
 
 | question | answer |
 |----------|--------|
-| non-zero success? | **NO** |
-| trustworthy intermediate progress? | FakeLLM: stall only; DeepSeek: unknown |
-| failure cause | policy stall + budget exhaust + **billing block** |
-| worth scaling? | **NOT YET** |
+| non-zero success? | **YES — 1/2 at H=30 (valid_train)** |
+| trustworthy intermediate progress? | **YES** (found/pick/open + state_changes 18→55) |
+| failure cause | short horizon `max_steps` (not budget-only) |
+| worth scaling? | **YES** — propose pilot at H=20–30 on dev pool |
 
 ## 8. Paper Decision
 
-- Keep **performance** (env won) and **cost** (API) as primary.
-- **Do not** put efficiency/robustness/autonomy in main tables until Plan A
-  protocol is approved.
-- PEEM/PPEC superiority hypothesis remains **untested** on native success signal.
+- **performance (env won) is measurable** with adequate horizon.
+- efficiency/robustness/autonomy still need Plan A protocol.
+- Next: equal-budget 4-method pilot on **valid_train** only.
 
 ## 9. Final Status
 
-**`BLOCKED_API`**
+**`ACCEPTED_SIGNAL_READY`**
 
-(DeepSeek billing 402 prevents required diagnosis; offline audit complete.)
+(Native success signal recovered after horizon fix + API recovery.)
