@@ -1,7 +1,8 @@
-"""HTTP JSON POST helper that works behind HTTP CONNECT proxies.
+"""HTTP JSON POST helper with single-transport physical accounting.
 
-urllib/requests may stall on some local proxies; curl.exe's CONNECT tunnel
-is reliable. We try urllib first, then fall back to curl.
+Exactly one physical send per post_json call (no curl/urllib double-fire).
+BillingBlocked / BudgetExceeded / GateRequired never retry.
+Unknown cost settles + blocks in one atomic ledger transaction.
 """
 
 from __future__ import annotations
@@ -12,14 +13,11 @@ import shutil
 import subprocess
 import urllib.error
 import urllib.request
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple
 
 
 def _proxy_url() -> Optional[str]:
-    """Return proxy URL only if explicitly enabled (EVO_USE_PROXY=1).
-
-    Phase5-R3: default is **direct** connection (bypass local/global proxies).
-    """
+    """Return proxy URL only if explicitly enabled (EVO_USE_PROXY=1)."""
     if os.environ.get("EVO_USE_PROXY", "").strip() not in ("1", "true", "yes"):
         return None
     for k in ("HTTPS_PROXY", "https_proxy", "HTTP_PROXY", "http_proxy", "ALL_PROXY", "all_proxy"):
@@ -27,6 +25,11 @@ def _proxy_url() -> Optional[str]:
         if v:
             return v
     return None
+
+
+def _pick_transport() -> str:
+    curl = shutil.which("curl") or shutil.which("curl.exe")
+    return "curl" if curl else "urllib"
 
 
 def post_json(
@@ -39,34 +42,39 @@ def post_json(
     retry_backoff: float = 1.5,
     before_send: Optional[Callable[[], None]] = None,
 ) -> Tuple[int, Dict[str, Any]]:
-    """POST JSON with physical-attempt accounting and billing fail-fast."""
-    body = json.dumps(payload).encode("utf-8")
-    last_err: Exception | None = None
-    # curl is preferred (handles TLS + optional --noproxy reliably).
-    attempts = ("curl", "urllib")
+    """POST JSON with one physical attempt per try and billing fail-fast.
 
-    def _send(mode: str) -> Tuple[int, Dict[str, Any]]:
-        # Fail-closed pre-send ticket. Any error here aborts BEFORE network.
+    Order per try:
+      pre_send_ticket (BEGIN IMMEDIATE, checks billing_blocked)
+        -> single transport send
+        -> settle once (known cost) OR settle_unknown_and_block (atomic)
+    """
+    body = json.dumps(payload).encode("utf-8")
+    last_err: Optional[Exception] = None
+
+    for attempt in range(max_retries + 1):
         from src.runtime.http_budget import (
+            BillingBlocked,
             BudgetExceeded,
             GateRequired,
+            get_global_gate,
             pre_send_ticket,
             settle_ticket,
         )
 
+        # Ticket BEFORE network. BillingBlocked must abort, never retry.
         ticket = pre_send_ticket()
+        settled = False
         try:
+            if before_send is not None:
+                before_send()
+            mode = _pick_transport()
             if mode == "curl":
                 status, data = _post_curl(url, body, headers, timeout)
             else:
                 status, data = _post_urllib(url, body, headers, timeout)
-            # Classify + settle exactly once with real usage/cost.
-            from src.backend.cost_status import (
-                KNOWN,
-                UNKNOWN_RATE,
-                UNKNOWN_USAGE,
-                estimate_cost,
-            )
+
+            from src.backend.cost_status import estimate_cost
 
             usage = data.get("usage") or {} if isinstance(data, dict) else {}
             tokens_in = usage.get("prompt_tokens")
@@ -83,58 +91,65 @@ def post_json(
                 except Exception:
                     completion_ok = False
 
-            # If cost unknown and HTTP attempted, keep conservative estimate
-            # for budget: use max residual reserve via settle with est token
-            # already held; do NOT invent zero as truth in ledger flags.
             tin = int(tokens_in or 0)
             tout = int(tokens_out or 0)
-            settle_ticket(
-                ticket,
-                success=completion_ok,
-                tokens_in=tin,
-                tokens_out=tout,
-                actual_cost=cstat.cost if cstat.is_known else 0.0,
-            )
-            # Persistent billing block on unknown cost (fail-closed).
-            if not cstat.is_known:
-                try:
-                    from src.runtime.http_budget import get_global_gate
-
-                    gate = get_global_gate()
-                    if gate is not None:
-                        gate.db.mark_billing_blocked(
-                            f"{cstat.status}:{cstat.detail}", ticket_id=ticket
-                        )
-                except Exception:
-                    pass
+            if cstat.is_known:
+                settle_ticket(
+                    ticket,
+                    success=completion_ok,
+                    tokens_in=tin,
+                    tokens_out=tout,
+                    actual_cost=cstat.cost,
+                )
+                settled = True
+            else:
+                # Unknown cost: settle + persistent billing block in ONE
+                # transaction, then abort this call. Never present unknown
+                # cost as a successful zero-cost result.
+                gate = get_global_gate()
+                if gate is None:
+                    raise RuntimeError(
+                        f"unknown cost ({cstat.status}) without budget gate — "
+                        "refusing to continue"
+                    )
+                gate.db.settle_unknown_and_block(
+                    ticket,
+                    reason=f"{cstat.status}:{cstat.detail}",
+                    tokens_in=tin,
+                    tokens_out=tout,
+                )
+                settled = True
+                if isinstance(data, dict):
+                    data["_cost_status"] = cstat.to_dict()
+                raise BillingBlocked(
+                    f"unknown cost aborted after atomic block: "
+                    f"{cstat.status}:{cstat.detail}"
+                )
             if isinstance(data, dict):
                 data["_cost_status"] = cstat.to_dict()
             return status, data
-        except (BudgetExceeded, GateRequired):
+        except (BudgetExceeded, GateRequired, BillingBlocked):
+            # Pre-send denial or ledger refusal: no retry.
             raise
-        except Exception:
-            # Transport failure after send: retain physical attempt, unknown usage.
-            settle_ticket(ticket, success=False)
-            raise
-
-    last_err: Exception | None = None
-    for attempt in range(max_retries + 1):
-        for mode in attempts:
-            try:
-                return _send(mode)
-            except (BudgetExceeded, GateRequired):
+        except Exception as e:
+            if not settled and ticket:
+                # Transport failure after ticket: count the physical attempt.
+                # Response body unavailable => not a priced unknown-cost event.
+                try:
+                    settle_ticket(ticket, success=False)
+                    settled = True
+                except Exception:
+                    pass
+            last_err = e
+            msg = str(e)
+            if any(x in msg for x in ("402", "Payment Required", "401", "403")):
                 raise
-            except Exception as e:
-                last_err = e
-                msg = str(e)
-                if "402" in msg or "Payment Required" in msg:
-                    raise
-                if "401" in msg or "403" in msg:
-                    raise
-        if attempt < max_retries:
-            import time
+            if attempt < max_retries:
+                import time
 
-            time.sleep(retry_backoff * (attempt + 1))
+                time.sleep(retry_backoff * (attempt + 1))
+                continue
+            raise RuntimeError(f"HTTP POST failed: {last_err}") from last_err
     raise RuntimeError(f"HTTP POST failed: {last_err}")
 
 
@@ -148,9 +163,18 @@ def _post_urllib(
     else:
         opener = urllib.request.build_opener()
     req = urllib.request.Request(url, data=body, headers=headers, method="POST")
-    with opener.open(req, timeout=timeout) as resp:
-        raw = resp.read().decode("utf-8")
-        return int(resp.status), json.loads(raw) if raw else {}
+    try:
+        with opener.open(req, timeout=timeout) as resp:
+            raw = resp.read().decode("utf-8")
+            return int(resp.status), json.loads(raw) if raw else {}
+    except urllib.error.HTTPError as e:
+        # Normalize: HTTP status + parsed body, same shape as curl path.
+        raw = e.read().decode("utf-8", errors="replace")
+        try:
+            data = json.loads(raw) if raw.strip() else {}
+        except Exception:
+            data = {"raw": raw[:500]}
+        return int(e.code), data
 
 
 def _post_curl(
@@ -165,17 +189,17 @@ def _post_curl(
     with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tf:
         tf.write(body)
         body_path = tf.name
-    cmd = [curl, "--noproxy", "*", "-sS", "-m", str(int(timeout)), "-w", "\n%{http_code}", "-X", "POST", url]
     if proxy:
-        # Explicit opt-in proxy path.
         cmd = [curl, "-x", proxy, "-sS", "-m", str(int(timeout)), "-w", "\n%{http_code}", "-X", "POST", url]
+    else:
+        cmd = [curl, "--noproxy", "*", "-sS", "-m", str(int(timeout)), "-w", "\n%{http_code}", "-X", "POST", url]
     for k, v in headers.items():
         cmd += ["-H", f"{k}: {v}"]
     cmd += ["--data-binary", f"@{body_path}"]
     try:
         out = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=timeout + 5)
         text = out.decode("utf-8", errors="replace")
-        # last line is http_code from -w
+        # -w appends "\n{http_code}" as the final line.
         lines = text.rsplit("\n", 1)
         if len(lines) == 2:
             body_text, code_str = lines

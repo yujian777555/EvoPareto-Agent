@@ -1,0 +1,28 @@
+{
+  "normal_settle": {
+    "physical_attempts": 1,
+    "tokens_in": 100,
+    "tokens_out": 20,
+    "spent_cost_usd": 1.4000000000000001e-05,
+    "backend_total_cost": 1.4000000000000001e-05,
+    "http_hits": 1,
+    "billing_blocked": false,
+    "status": "PASS"
+  },
+  "unknown_usage_block": {
+    "status": "PASS",
+    "reason": "UNKNOWN_USAGE:missing usage fields",
+    "physical_attempts": 1,
+    "http_hits": 1,
+    "billing_blocked": true,
+    "second_send_count": 0
+  },
+  "concurrent_interleave": {
+    "status": "PASS",
+    "tickets_before_block_visible": 0,
+    "tickets_after_block": 0,
+    "blocked_slots": 8,
+    "post_block_acquire_attempts": 5,
+    "post_block_acquire_successes": 0
+  }
+}

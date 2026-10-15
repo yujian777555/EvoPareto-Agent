@@ -1,0 +1,22 @@
+{
+  "scenario": "local_mock_http_to_sqlite",
+  "status": "PASS",
+  "http_hits": 1,
+  "logical_llm_calls": 1,
+  "physical_attempts": 1,
+  "settled_ok": 1,
+  "open_tickets": 0,
+  "ledger_tokens_in": 100,
+  "backend_tokens_in": 100,
+  "episode_tokens_in": 100,
+  "ledger_tokens_out": 20,
+  "backend_tokens_out": 20,
+  "episode_tokens_out": 20,
+  "ledger_estimated_cost": 1.4000000000000001e-05,
+  "backend_total_cost": 1.4000000000000001e-05,
+  "episode_cost_usd": 1.4000000000000001e-05,
+  "frozen_rate_expected_cost": 1.4000000000000001e-05,
+  "rate_version": "deepseek-flash-2026-v1",
+  "real_deepseek_calls": 0,
+  "transport": "post_json->local HTTP server"
+}

@@ -1,0 +1,63 @@
+{
+  "git_sha": "f0db3af37eb2326fb273b8378302d30d8466dac5",
+  "origin_main": "f0db3af37eb2326fb273b8378302d30d8466dac5",
+  "head_equals_origin_main": true,
+  "real_deepseek_api_calls": 0,
+  "pytest_full_suite": "PASSED (260+ tests, see command below)",
+  "pilot1_tests": {
+    "count": 35,
+    "passed": 35,
+    "failed": 0,
+    "names": [
+      "test_resolve_locked_live_task_selects_exact",
+      "test_resolve_locked_rejects_missing_manifest",
+      "test_resolve_locked_rejects_wrong_split",
+      "test_verify_rejects_wrong_game_id",
+      "test_episode_runner_second_reset_keeps_same_game",
+      "test_identity_error_sends_zero_http",
+      "test_live_entry_mock_backend_uses_manifest_lock",
+      "test_normal_request_full_settle",
+      "test_unknown_usage_atomic_block",
+      "test_unknown_rate_atomic_block",
+      "test_billing_block_survives_restart",
+      "test_two_process_cannot_bypass_block",
+      "test_concurrent_interleave_no_ticket_after_block_commit",
+      "test_transaction_failure_aborts_and_no_false_settle",
+      "test_same_ticket_not_double_settled",
+      "test_retry_cannot_bypass_billing_blocked",
+      "test_prior_successful_ledger_not_broken",
+      "test_e2e_mock_http_reconciliation",
+      "test_e2e_empty_completion_and_missing_usage_block",
+      "test_e2e_http_error_statuses_recorded",
+      "test_e2e_timeout_records_attempt",
+      "test_native_smoke_artifact_present"
+    ]
+  },
+  "acceptance": {
+    "live_manifest_lock": true,
+    "forced_game_reset": true,
+    "actual_game_id_matches_manifest": true,
+    "identity_verified_before_first_llm": true,
+    "unknown_cost_atomic_txn": true,
+    "billing_block_persistent": true,
+    "concurrent_race_test": true,
+    "mock_http_e2e_executed": true,
+    "backend_ledger_episode_reconciled": true,
+    "native_alfworld_reset_step": true,
+    "real_api_calls": 0
+  },
+  "native_smoke_status": "PASS",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
+  "canonical_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "e2e_http_hits": 1,
+  "e2e_ledger_cost": 1.4000000000000001e-05,
+  "e2e_backend_cost": 1.4000000000000001e-05,
+  "e2e_episode_cost": 1.4000000000000001e-05,
+  "commands": [
+    "python -m pytest -q",
+    "python -m pytest tests/test_pilot1_final_patch.py tests/test_pilot1_microfix.py tests/test_pilot1_final_admission.py -q",
+    "docker run --rm -v alfworld-data:/data -v <repo>/src:/src -v <repo>/scripts:/scripts -v <repo>/results:/results -e ALFWORLD_DATA=/data -e PYTHONPATH=/ alfworld-local:tw python /scripts/native_offline_smoke.py",
+    "git diff --check"
+  ]
+}

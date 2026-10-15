@@ -135,11 +135,14 @@ def _finish(out: dict) -> int:
     out["checks"]["result_writable"] = True
     ok = all(out["checks"].get(k) for k in REQUIRED)
     out["native_dry_run_status"] = "PASS" if ok else "FAIL"
-    p = "/results/pilot1_final_admission_verified/native_smoke.json"
-    os.makedirs(os.path.dirname(p), exist_ok=True)
-    with open(p, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2)
-    # also task_identity
+    paths = [
+        "/results/pilot1_final_admission_verified/native_smoke.json",
+        "/results/pilot1_live_admission_verified/native_smoke.json",
+    ]
+    for p in paths:
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump(out, f, indent=2)
     ident = {
         "manifest_sha256": out.get("manifest_sha256"),
         "selected_manifest_game_id": out.get("selected_manifest_game_id"),
@@ -148,8 +151,12 @@ def _finish(out: dict) -> int:
         "git_sha": out.get("episode", {}).get("git_sha"),
         "split": "valid_train",
     }
-    with open("/results/pilot1_final_admission_verified/task_identity.json", "w", encoding="utf-8") as f:
-        json.dump(ident, f, indent=2)
+    for p in (
+        "/results/pilot1_final_admission_verified/task_identity.json",
+        "/results/pilot1_live_admission_verified/task_identity.json",
+    ):
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump(ident, f, indent=2)
     print(json.dumps(out, indent=2)[:1800])
     return 0 if ok else 4
 

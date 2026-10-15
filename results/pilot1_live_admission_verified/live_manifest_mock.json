@@ -1,0 +1,16 @@
+{
+  "scenario": "live_entry_mock_backend_manifest_lock",
+  "status": "PASS",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "selected_manifest_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "raw_task_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
+  "canonical_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "git_sha": "f0db3af37eb2326fb273b8378302d30d8466dac5",
+  "task_index": 0,
+  "requested_split": "valid_train",
+  "episode_success": false,
+  "llm_call_count": 2,
+  "same_lock_as_native_smoke": true,
+  "real_api_calls": 0
+}

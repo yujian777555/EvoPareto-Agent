@@ -181,6 +181,13 @@ class BudgetDB:
             ).fetchone()
             return str(row["value"]) if row else ""
 
+    @staticmethod
+    def _rollback_quiet(conn: sqlite3.Connection) -> None:
+        try:
+            conn.execute("ROLLBACK")
+        except Exception:
+            pass
+
     def mark_billing_blocked(self, reason: str, ticket_id: str = "") -> None:
         with self._lock:
             conn = self._conn
@@ -203,28 +210,36 @@ class BudgetDB:
                     )
                 conn.execute("COMMIT")
             except Exception:
-                conn.execute("ROLLBACK")
+                self._rollback_quiet(conn)
                 raise
 
     def acquire_ticket(self, est_cost: float, *, is_retry: bool = False) -> str:
-        """Atomic pre-send reservation. Returns ticket id. Raises if denied."""
+        """Atomic pre-send reservation. Returns ticket id. Raises if denied.
+
+        Billing-block check runs INSIDE BEGIN IMMEDIATE so a block committed
+        by another process is observed before any new reservation.
+        """
         with self._lock:
             conn = self._conn
-            # Fail-closed: billing block is sticky across restarts.
-            if self.is_billing_blocked():
-                raise BillingBlocked(self.billing_block_reason() or "billing blocked")
             conn.execute("BEGIN IMMEDIATE")
             try:
+                row = conn.execute(
+                    "SELECT value FROM meta WHERE key='billing_blocked'"
+                ).fetchone()
+                if row and row["value"] == "1":
+                    reason = conn.execute(
+                        "SELECT value FROM meta WHERE key='billing_block_reason'"
+                    ).fetchone()
+                    raise BillingBlocked(
+                        str(reason["value"]) if reason else "billing blocked"
+                    )
                 r = conn.execute("SELECT * FROM budget WHERE id=1").fetchone()
                 open_n = conn.execute(
                     "SELECT COUNT(*) AS c FROM tickets WHERE status='open'"
                 ).fetchone()["c"]
-                # Hard cap on physical sends (attempts + in-flight).
                 if r["physical_attempts"] + open_n >= r["max_physical"]:
-                    conn.execute("ROLLBACK")
                     raise BudgetExceeded("max physical HTTP attempts reached")
                 if r["spent_cost"] + r["reserved_cost"] + float(est_cost) > r["max_cost_usd"]:
-                    conn.execute("ROLLBACK")
                     raise BudgetExceeded("max cost reached")
                 tid = uuid.uuid4().hex
                 conn.execute(
@@ -239,10 +254,8 @@ class BudgetDB:
                 )
                 conn.execute("COMMIT")
                 return tid
-            except BudgetExceeded:
-                raise
             except Exception:
-                conn.execute("ROLLBACK")
+                self._rollback_quiet(conn)
                 raise
 
     def settle(
@@ -260,10 +273,8 @@ class BudgetDB:
             try:
                 t = conn.execute("SELECT * FROM tickets WHERE id=?", (ticket,)).fetchone()
                 if t is None:
-                    conn.execute("ROLLBACK")
                     raise UnknownTicket(ticket)
                 if t["status"] != "open":
-                    conn.execute("ROLLBACK")
                     raise RuntimeError(f"ticket already settled: {ticket}")
                 est = float(t["est_cost"])
                 conn.execute(
@@ -285,13 +296,59 @@ class BudgetDB:
                     ),
                 )
                 conn.execute("COMMIT")
-            except (UnknownTicket, RuntimeError):
-                raise
             except Exception:
-                try:
-                    conn.execute("ROLLBACK")
-                except Exception:
-                    pass
+                self._rollback_quiet(conn)
+                raise
+
+    def settle_unknown_and_block(
+        self,
+        ticket: str,
+        *,
+        reason: str,
+        tokens_in: int = 0,
+        tokens_out: int = 0,
+    ) -> None:
+        """One atomic transaction: settle ticket + persistent billing block.
+
+        The physical attempt is recorded and billing_blocked=1 is written in
+        the SAME BEGIN IMMEDIATE transaction. Commit failure propagates.
+        """
+        with self._lock:
+            conn = self._conn
+            conn.execute("BEGIN IMMEDIATE")
+            try:
+                t = conn.execute("SELECT * FROM tickets WHERE id=?", (ticket,)).fetchone()
+                if t is None:
+                    raise UnknownTicket(ticket)
+                if t["status"] != "open":
+                    raise RuntimeError(f"ticket already settled: {ticket}")
+                est = float(t["est_cost"])
+                conn.execute("UPDATE tickets SET status='settled' WHERE id=?", (ticket,))
+                conn.execute(
+                    "UPDATE budget SET physical_attempts=physical_attempts+1, "
+                    "reserved_tickets=MAX(0,reserved_tickets-1), "
+                    "reserved_cost=MAX(0,reserved_cost-?), "
+                    "settled_failed=settled_failed+1, "
+                    "tokens_in=tokens_in+?, tokens_out=tokens_out+? WHERE id=1",
+                    (est, int(tokens_in), int(tokens_out)),
+                )
+                conn.execute(
+                    "INSERT INTO meta (key, value) VALUES ('billing_blocked','1') "
+                    "ON CONFLICT(key) DO UPDATE SET value='1'"
+                )
+                conn.execute(
+                    "INSERT INTO meta (key, value) VALUES ('billing_block_reason', ?) "
+                    "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                    (str(reason),),
+                )
+                conn.execute(
+                    "INSERT INTO meta (key, value) VALUES ('unknown_cost_ticket_id', ?) "
+                    "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                    (str(ticket),),
+                )
+                conn.execute("COMMIT")
+            except Exception:
+                self._rollback_quiet(conn)
                 raise
 
 

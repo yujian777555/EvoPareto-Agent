@@ -1,0 +1,45 @@
+{
+  "checks": {
+    "alfworld_importable": true,
+    "manifest_exists": true,
+    "manifest_valid": true,
+    "manifest_game_match": true,
+    "native_reset_pass": true,
+    "native_step_pass": true,
+    "episode_runner_pass": true,
+    "fitness_2d_pass": true,
+    "result_writable": true
+  },
+  "errors": [],
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "selected_manifest_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "selected_task_fingerprint": "75cb75cb4d34f61a",
+  "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
+  "canonical_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "native_won": false,
+  "genome": {
+    "planner_strategy": "cot",
+    "memory_strategy": "short_term",
+    "reflection_strategy": "self_critique",
+    "tool_policy": "balanced",
+    "reasoning_budget": 48
+  },
+  "episode": {
+    "success": false,
+    "steps": 4,
+    "termination_reason": "budget_exhausted",
+    "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
+    "goal": "look at book under the desklamp.",
+    "tokens_in": 20,
+    "tokens_out": 4,
+    "cost_usd": 0.0,
+    "git_sha": "docker",
+    "evaluation_kind": "real_environment"
+  },
+  "fitness": [
+    0.0,
+    0.0
+  ],
+  "trajectory_len": 4,
+  "native_dry_run_status": "PASS"
+}

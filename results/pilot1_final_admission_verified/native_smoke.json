@@ -33,7 +33,7 @@
     "tokens_in": 20,
     "tokens_out": 4,
     "cost_usd": 0.0,
-    "git_sha": "af50d23",
+    "git_sha": "docker",
     "evaluation_kind": "real_environment"
   },
   "fitness": [
