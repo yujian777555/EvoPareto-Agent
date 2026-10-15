@@ -11,6 +11,12 @@ import os
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
+from src.benchmark.split_integrity import (
+    SplitIntegrityError,
+    normalize_game_id,
+    resolve_split,
+    validate_game_in_split,
+)
 from src.runtime.result import EpisodeResult, TaskResult
 
 
@@ -49,14 +55,16 @@ class NativeALFWorldEnv:
             )
         self._env = None
         self._games: List[str] = []
+        self.last_reset_meta: Dict[str, Any] = {}
 
     def _cfg_dict(self) -> Dict[str, Any]:
+        from src.benchmark.split_integrity import data_dir_for, resolve_split
+
         data = self.config.data_path or os.environ.get(
             "ALFWORLD_DATA", os.path.expanduser("~/.cache/alfworld")
         )
-        split_path = os.path.join(data, "json_2.1.1", self.config.split)
-        if self.config.split == "train":
-            split_path = os.path.join(data, "json_2.1.1", "valid_train")
+        train_eval, _rel = resolve_split(self.config.split)
+        split_path = data_dir_for(self.config.split, data)
         return {
             "general": {"training_method": "dagger"},
             "env": {
@@ -67,8 +75,8 @@ class NativeALFWorldEnv:
             },
             "dataset": {
                 "data_path": split_path,
-                "eval_id_data_path": os.path.join(data, "json_2.1.1", "valid_seen"),
-                "eval_ood_data_path": os.path.join(data, "json_2.1.1", "valid_unseen"),
+                "eval_id_data_path": data_dir_for("valid_seen", data),
+                "eval_ood_data_path": data_dir_for("valid_unseen", data),
                 "num_train_games": self.config.num_games,
                 "num_eval_games": self.config.num_games,
             },
@@ -79,22 +87,49 @@ class NativeALFWorldEnv:
     def reset(self, *, episode_index: int = 0):
         from alfworld.agents.environment.alfred_tw_env import AlfredTWEnv
 
-        split = "eval_out_of_distribution" if self.config.split != "train" else "train"
-        wrap = AlfredTWEnv(config=self._cfg_dict(), train_eval=split)
+        from src.benchmark.split_integrity import (
+            SplitIntegrityError,
+            normalize_game_id,
+            resolve_split,
+            validate_game_in_split,
+        )
+
+        train_eval, _ = resolve_split(self.config.split)  # fail-closed
+        wrap = AlfredTWEnv(config=self._cfg_dict(), train_eval=train_eval)
         if wrap.num_games == 0:
-            raise NativeALFWorldUnavailable("no native games found for split")
-        self._games = list(wrap.game_files)
+            raise NativeALFWorldUnavailable(f"no games for split={self.config.split}")
+        self._games = [normalize_game_id(g) for g in wrap.game_files]
         idx = 0
         if self._games:
             idx = int(episode_index) % len(self._games)
-            wrap.game_files = [self._games[idx]]
+            chosen = self._games[idx]
+            wrap.game_files = [chosen]
             wrap.num_games = 1
+        else:
+            chosen = ""
         self._env = wrap.init_env(batch_size=self.config.batch_size)
         obs, infos = self._env.reset()
-        # Always stamp the selected game file into infos for auditability.
+        # Split integrity: actual game must belong to requested split.
+        actual = ""
+        if isinstance(infos, dict):
+            gf = infos.get("extra.gamefile") or infos.get("gamefile")
+            if gf:
+                actual = normalize_game_id(str(gf[0] if isinstance(gf, (list, tuple)) else gf))
+        if not actual and chosen:
+            actual = chosen
+        validate_game_in_split(actual, self.config.split)
         if isinstance(infos, dict):
             infos = dict(infos)
-            infos["extra.gamefile"] = [self._games[idx] if self._games else ""]
+            infos["extra.gamefile"] = [actual]
+            infos["requested_split"] = self.config.split
+            infos["resolved_train_eval"] = train_eval
+            infos["actual_game_id"] = actual
+        self.last_reset_meta = {
+            "requested_split": self.config.split,
+            "resolved_train_eval": train_eval,
+            "dataset_path": self._cfg_dict()["dataset"]["data_path"],
+            "actual_game_id": actual,
+        }
         return obs, infos
 
     def step(self, actions: Sequence[str]):

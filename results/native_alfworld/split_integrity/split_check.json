@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-10-15T08:00:43Z",
+  "results": [
+    {
+      "split": "valid_train",
+      "resolved_train_eval": "train",
+      "rows": [
+        {
+          "episode_index": 0,
+          "requested_split": "valid_train",
+          "resolved_train_eval": "train",
+          "dataset_path": "/data/json_2.1.1/valid_train",
+          "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230650_245482/game.tw-pddl",
+          "in_requested_split": true,
+          "goal_preview": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking qu"
+        },
+        {
+          "episode_index": 1,
+          "requested_split": "valid_train",
+          "resolved_train_eval": "train",
+          "dataset_path": "/data/json_2.1.1/valid_train",
+          "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Bowl-None-DeskLamp-304/trial_T20190907_232227_752681/game.tw-pddl",
+          "in_requested_split": true,
+          "goal_preview": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking qu"
+        }
+      ]
+    },
+    {
+      "split": "valid_seen",
+      "resolved_train_eval": "eval_in_distribution",
+      "rows": [
+        {
+          "episode_index": 0,
+          "requested_split": "valid_seen",
+          "resolved_train_eval": "eval_in_distribution",
+          "dataset_path": "/data/json_2.1.1/valid_seen",
+          "actual_game_id": "/data/json_2.1.1/valid_seen/pick_and_place_simple-Book-None-Sofa-229/trial_T20190907_042856_259139/game.tw-pddl",
+          "in_requested_split": true,
+          "goal_preview": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking qu"
+        },
+        {
+          "episode_index": 1,
+          "requested_split": "valid_seen",
+          "resolved_train_eval": "eval_in_distribution",
+          "dataset_path": "/data/json_2.1.1/valid_seen",
+          "actual_game_id": "/data/json_2.1.1/valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230702_962704/game.tw-pddl",
+          "in_requested_split": true,
+          "goal_preview": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking qu"
+        }
+      ]
+    },
+    {
+      "split": "valid_unseen",
+      "resolved_train_eval": "eval_out_of_distribution",
+      "rows": [
+        {
+          "episode_index": 0,
+          "requested_split": "valid_unseen",
+          "resolved_train_eval": "eval_out_of_distribution",
+          "dataset_path": "/data/json_2.1.1/valid_unseen",
+          "actual_game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+          "in_requested_split": true,
+          "goal_preview": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking qu"
+        },
+        {
+          "episode_index": 1,
+          "requested_split": "valid_unseen",
+          "resolved_train_eval": "eval_out_of_distribution",
+          "dataset_path": "/data/json_2.1.1/valid_unseen",
+          "actual_game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+          "in_requested_split": true,
+          "goal_preview": "-= Welcome to TextWorld, ALFRED! =-\n\nYou are in the middle of a room. Looking qu"
+        }
+      ]
+    }
+  ],
+  "fail_closed": true
+}

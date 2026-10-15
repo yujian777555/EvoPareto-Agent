@@ -93,23 +93,27 @@ class APICallGate:
                 self.ledger.requests_failed += 1
 
     def generate(self, prompt: str, *, budget: int = 32, **kwargs: Any):
-        """Reserve before each attempt (retries included)."""
+        """Reserve before each attempt (retries included). 402 fails fast."""
         est = max(8, len(prompt) // 4) + max(8, int(budget) * 2)
         last_err: Optional[Exception] = None
         for attempt in range(self.max_retries + 1):
             self._reserve(est, is_retry=attempt > 0)
             try:
                 resp = self.backend_generate(prompt, budget=budget, **kwargs)
-                # Prefer API-reported usage.
                 ain = int(getattr(resp, "tokens_prompt", 0) or 0)
                 aout = int(getattr(resp, "tokens_completion", 0) or 0)
                 acost = float(getattr(resp, "cost", 0.0) or 0.0)
                 self._settle(success=True, actual_in=ain, actual_out=aout, actual_cost=acost)
                 return resp
             except Exception as e:
-                # Response lost after send: still count the request as spent.
                 self._settle(success=False, actual_in=0, actual_out=0, actual_cost=0.0)
                 last_err = e
+                msg = str(e)
+                if "402" in msg or "Payment Required" in msg:
+                    # Billing: never retry the same charge error.
+                    raise RuntimeError(f"BLOCKED_BILLING: {e}") from e
+                if "401" in msg or "403" in msg:
+                    raise RuntimeError(f"BLOCKED_AUTH: {e}") from e
         raise RuntimeError(f"LLM failed after retries under budget gate: {last_err}")
 
     def snapshot(self) -> Dict[str, Any]:
