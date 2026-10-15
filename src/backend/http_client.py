@@ -37,20 +37,38 @@ def post_json(
     timeout: float = 60.0,
     max_retries: int = 2,
     retry_backoff: float = 1.5,
+    before_send: Optional[Callable[[], None]] = None,
 ) -> Tuple[int, Dict[str, Any]]:
-    """POST JSON, return (status_code, parsed_json). Raises on failure."""
+    """POST JSON with physical-attempt accounting and billing fail-fast."""
     body = json.dumps(payload).encode("utf-8")
     last_err: Exception | None = None
     # curl is preferred (handles TLS + optional --noproxy reliably).
     attempts = ("curl", "urllib")
+
+    def _send(mode: str) -> Tuple[int, Dict[str, Any]]:
+        try:
+            from src.runtime.api_budget import bump_physical_http
+
+            bump_physical_http()
+        except Exception:
+            pass
+        if before_send is not None:
+            before_send()
+        if mode == "curl":
+            return _post_curl(url, body, headers, timeout)
+        return _post_urllib(url, body, headers, timeout)
+
     for attempt in range(max_retries + 1):
         for mode in attempts:
             try:
-                if mode == "curl":
-                    return _post_curl(url, body, headers, timeout)
-                return _post_urllib(url, body, headers, timeout)
+                return _send(mode)
             except Exception as e:
                 last_err = e
+                msg = str(e)
+                if "402" in msg or "Payment Required" in msg:
+                    raise
+                if "401" in msg or "403" in msg:
+                    raise
         if attempt < max_retries:
             import time
 

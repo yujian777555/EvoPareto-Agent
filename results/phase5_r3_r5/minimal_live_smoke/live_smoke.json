@@ -1,0 +1,42 @@
+{
+  "model": "deepseek-flash",
+  "results": [
+    {
+      "i": 0,
+      "ok": true,
+      "text": "OK",
+      "tokens_in": 9,
+      "tokens_out": 1,
+      "cost": 1.1e-06,
+      "model": "deepseek-flash"
+    },
+    {
+      "i": 1,
+      "ok": true,
+      "text": "OK",
+      "tokens_in": 9,
+      "tokens_out": 1,
+      "cost": 1.1e-06,
+      "model": "deepseek-flash"
+    }
+  ],
+  "snapshot": {
+    "estimated_in": 48,
+    "estimated_out": 0,
+    "actual_in": 18,
+    "actual_out": 2,
+    "requests_ok": 2,
+    "requests_failed": 0,
+    "retries": 0,
+    "physical_http_attempts": 0,
+    "actual_total_tokens": 20,
+    "estimated_total_tokens": 48,
+    "max_calls": 20,
+    "max_cost_usd": 0.1,
+    "spent_cost_usd": 2.2e-06,
+    "reserved_cost_usd": 0.0,
+    "reserved_calls": 0,
+    "pending_reservations": 0
+  },
+  "physical_http": 4
+}

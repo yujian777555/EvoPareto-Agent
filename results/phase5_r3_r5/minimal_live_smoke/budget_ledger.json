@@ -1,0 +1,16 @@
+{
+  "ledger": {
+    "estimated_in": 48,
+    "estimated_out": 0,
+    "actual_in": 18,
+    "actual_out": 2,
+    "requests_ok": 2,
+    "requests_failed": 0,
+    "retries": 0,
+    "physical_http_attempts": 0,
+    "actual_total_tokens": 20,
+    "estimated_total_tokens": 48
+  },
+  "spent_cost": 2.2e-06,
+  "updated_at": 1792052769.8484523
+}

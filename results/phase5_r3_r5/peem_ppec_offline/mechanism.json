@@ -1,0 +1,22 @@
+{
+  "peem_mechanism": {
+    "prob_before_planner": 0.2,
+    "prob_after_planner": 0.21563376150528596,
+    "changed": true
+  },
+  "ppec_selection": {
+    "accuracy_prefers_a": true,
+    "cost_prefers_b": false,
+    "selection_differs": true
+  },
+  "ppec_refs": {
+    "directions_differ": true,
+    "n": 35
+  },
+  "all_zero_bias": {
+    "budget_score": 0.1835962937427617,
+    "planner_score": 0.14190160615729902,
+    "budget_not_dominant": true
+  },
+  "ablation_note": "RS vs NSGA-III vs +PEEM vs +PEEM+PPEC must be separately attributable"
+}
