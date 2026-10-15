@@ -175,6 +175,9 @@ class OpenAICompatibleBackend(LLMBackend):
             "model": self.model,
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": int(budget) * 8,
+            # Unified with diagnostics: disable reasoning side-channel so
+            # choices[0].message.content carries the completion.
+            "thinking": {"type": "disabled"},
         }
         headers = {
             "Content-Type": "application/json",

@@ -1,0 +1,193 @@
+{
+  "benchmark": "alfworld_textworld",
+  "evaluation_kind": "real_environment",
+  "model": "deepseek-flash",
+  "policy": "InteractiveAgent+DeepSeek",
+  "episodes": [
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "success": false,
+      "steps": 8,
+      "score": 0.0,
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 5,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 6,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 7,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": true
+        }
+      ],
+      "model": "deepseek-flash",
+      "api_usage": {
+        "calls": 8,
+        "prompt_tokens": 2116,
+        "completion_tokens": 40,
+        "tokens": 2156,
+        "cost": 0.00021960000000000005
+      },
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 48
+      }
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "success": false,
+      "steps": 8,
+      "score": 0.0,
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine safe 1",
+          "obs": "The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "look",
+          "obs": "You are facing the safe 1. Next to it, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "look",
+          "obs": "You are facing the safe 1. Next to it, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "look",
+          "obs": "You are facing the safe 1. Next to it, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 5,
+          "action": "look",
+          "obs": "You are facing the safe 1. Next to it, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 6,
+          "action": "look",
+          "obs": "You are facing the safe 1. Next to it, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 7,
+          "action": "look",
+          "obs": "You are facing the safe 1. Next to it, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": true
+        }
+      ],
+      "model": "deepseek-flash",
+      "api_usage": {
+        "calls": 10,
+        "prompt_tokens": 2794,
+        "completion_tokens": 50,
+        "tokens": 2844,
+        "cost": 0.00028940000000000004
+      },
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 48
+      }
+    }
+  ],
+  "n_success": 0,
+  "api_usage": {
+    "calls": 10,
+    "prompt_tokens": 2794,
+    "completion_tokens": 50,
+    "tokens": 2844,
+    "cost": 0.00028940000000000004
+  },
+  "wall_time": 22.75106644630432
+}

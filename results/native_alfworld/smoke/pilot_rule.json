@@ -1,0 +1,326 @@
+{
+  "benchmark": "alfworld_textworld",
+  "evaluation_kind": "real_environment",
+  "split": "valid_unseen",
+  "policy": "rule_policy",
+  "episodes": [
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "success": false,
+      "steps": 12,
+      "score": 0.0,
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 5,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 6,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 7,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 8,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 9,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 10,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 11,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": true
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "success": false,
+      "steps": 12,
+      "score": 0.0,
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 5,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 6,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 7,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 8,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 9,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 10,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 11,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": true
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "success": false,
+      "steps": 12,
+      "score": 0.0,
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 5,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 6,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 7,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 8,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 9,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 10,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 11,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": true
+        }
+      ]
+    }
+  ],
+  "n_episodes": 3,
+  "n_success": 0,
+  "wall_time": 15.126769542694092
+}
