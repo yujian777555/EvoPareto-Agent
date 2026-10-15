@@ -40,61 +40,29 @@ CONFIG = {
 
 
 def api_healthcheck() -> Dict[str, Any]:
-    """Probe DeepSeek chat; return status for the paper log."""
-    key = os.environ.get("DEEPSEEK_API_KEY", "")
-    if not key:
-        return {"ok": False, "reason": "DEEPSEEK_API_KEY missing", "model": "deepseek-chat"}
-    # models endpoint (cheap)
-    t0 = time.time()
-    try:
-        import urllib.request
+    """Probe DeepSeek chat; never fabricate success on empty bodies."""
+    from src.backend.diagnostics import check_balance, chat_probe
 
-        proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("HTTP_PROXY")
-        if proxy:
-            opener = urllib.request.build_opener(
-                urllib.request.ProxyHandler({"http": proxy, "https": proxy})
-            )
-        else:
-            opener = urllib.request.build_opener()
-        req = urllib.request.Request(
-            "https://api.deepseek.com/v1/models",
-            headers={"Authorization": f"Bearer {key}"},
-        )
-        with opener.open(req, timeout=10) as resp:
-            models_ok = resp.status == 200
-    except Exception as e:
-        return {"ok": False, "reason": f"models endpoint: {e}", "model": "deepseek-chat"}
+    bal = check_balance()
+    probe = chat_probe("deepseek-flash", stream=False, thinking_disabled=True,
+                       max_tokens=64, timeout=12)
+    return {
+        "ok": bool(probe.get("ok")),
+        "model_id": "deepseek-flash",
+        "balance_available": bal.get("available"),
+        "chat_nonstream": probe,
+        "reason": probe.get("error") or ("empty_body" if not probe.get("valid_completion") else None),
+    }
 
-    # chat completion probe
-    try:
-        status, data = post_json(
-            "https://api.deepseek.com/v1/chat/completions",
-            {
-                "model": "deepseek-chat",
-                "messages": [{"role": "user", "content": "Say OK"}],
-                "max_tokens": 4,
-            },
-            {"Content-Type": "application/json", "Authorization": f"Bearer {key}"},
-            timeout=12,
-            max_retries=0,
+
+def assert_budget_before_calls(planned_calls: int, budget_cap: int) -> None:
+    """P0: budget gate BEFORE any API request."""
+    if planned_calls < 0:
+        raise ValueError("planned_calls must be >= 0")
+    if planned_calls > budget_cap:
+        raise RuntimeError(
+            f"budget exceeded before requests: planned={planned_calls} > cap={budget_cap}"
         )
-        chat_ok = status < 400
-        return {
-            "ok": chat_ok,
-            "models_ok": models_ok,
-            "chat_status": status,
-            "latency": time.time() - t0,
-            "model": "deepseek-chat",
-            "sample": str(data)[:120],
-        }
-    except Exception as e:
-        return {
-            "ok": False,
-            "models_ok": models_ok,
-            "reason": f"chat completions: {type(e).__name__}: {e}",
-            "model": "deepseek-chat",
-            "latency": time.time() - t0,
-        }
 
 
 def _ms(vals: List[float]) -> Dict[str, float]:
@@ -206,12 +174,38 @@ def experiment_main(benchmark: str, backend: str) -> Dict[str, Any]:
 def main() -> Dict[str, Any]:
     OUT.mkdir(parents=True, exist_ok=True)
     health = api_healthcheck()
-    backend = "auto" if health.get("ok") else "mock"
+    # P0: real experiment must NOT fall back to mock and emit paper tables.
+    if not health.get("ok"):
+        meta = {
+            "phase": "Phase5-R3 large-scale real LLM",
+            "intended_model": "deepseek-flash",
+            "api_healthcheck": health,
+            "backend_used": "none",
+            "live_llm_evidence": False,
+            "aborted": True,
+            "abort_reason": "DeepSeek chat API unavailable; real experiment stopped",
+            "config": CONFIG,
+            "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        }
+        _write(OUT / "meta.json", meta)
+        print("API unavailable — abort real experiment (no mock fallback).")
+        print(json.dumps(health, indent=2, ensure_ascii=False))
+        return meta
+
+    backend = "deepseek"
+    # Pre-flight budget: each run evaluates pop*(gens+1)*tasks genomes×tasks.
+    planned_per_run = CONFIG["pop"] * (CONFIG["gens"] + 1) * CONFIG["tasks"]
+    n_runs = len(CONFIG["seeds"]) * len(CONFIG["methods"]) * 2  # alfworld+webshop
+    assert_budget_before_calls(planned_per_run * n_runs, CONFIG["budget_calls"])
+
     meta = {
         "phase": "Phase5-R3 large-scale real LLM",
-        "intended_model": "deepseek-chat",
+        "intended_model": "deepseek-flash",
         "api_healthcheck": health,
         "backend_used": backend,
+        "live_llm_evidence": True,
+        "aborted": False,
+        "planned_calls": planned_per_run * n_runs,
         "config": CONFIG,
         "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }

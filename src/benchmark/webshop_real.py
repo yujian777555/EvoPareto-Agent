@@ -138,6 +138,10 @@ class WebShopRealAdapter(BenchmarkAdapter):
         cached = self.cache.get(key)
         if cached is not None:
             self.cache_used += 1
+            meta = dict(cached.extra)
+            meta.update({"cached": True, "api_status": meta.get("api_status", "cached")})
+            if "trajectory" not in meta:
+                meta["trajectory"] = []
             return TaskResult(
                 task_id=task["task_id"],
                 success=cached.success,
@@ -145,19 +149,35 @@ class WebShopRealAdapter(BenchmarkAdapter):
                 tokens=cached.tokens,
                 latency=cached.latency,
                 cost=cached.cost,
-                metadata={**cached.extra, "cached": True,
-                          "trajectory": cached.extra.get("trajectory", [])},
+                metadata=meta,
             )
 
         prompt = self._build_prompt(task, g)
+        api_status = "ok"
         try:
             resp = self.backend.generate(prompt, budget=g.reasoning_budget)
             self.api_calls += 1
-        except Exception:
-            if not self.use_fallback_on_error:
-                raise
-            resp = MockLLMBackend().generate(prompt, budget=g.reasoning_budget)
+        except Exception as e:
+            # P0: NEVER silently replace real LLM with Mock.
             self.api_calls += 1
+            api_status = f"error:{type(e).__name__}"
+            return TaskResult(
+                task_id=task["task_id"],
+                success=False,
+                steps=0,
+                tokens=0,
+                latency=0.0,
+                cost=0.0,
+                metadata={
+                    "api_status": api_status,
+                    "api_error": str(e)[:300],
+                    "backend": self.backend.name,
+                    "model": getattr(self.backend, "model", "unknown"),
+                    "cached": False,
+                    "trajectory": [],
+                    "evaluation_kind": "real_llm_failed",
+                },
+            )
 
         success, score = self._score_completion(resp.text, task, g)
         steps = max(1, int(round(task["horizon"] * (0.7 + 0.4 * (g.reasoning_budget / 128.0)))))
@@ -180,6 +200,9 @@ class WebShopRealAdapter(BenchmarkAdapter):
             "score": score,
             "backend": self.backend.name,
             "model": getattr(self.backend, "model", "unknown"),
+            "api_status": api_status,
+            "cached": False,
+            "evaluation_kind": "real_llm_proxy",
             "reflection": g.reflection_strategy,
             "tool_policy": g.tool_policy,
             "reasoning_budget": g.reasoning_budget,
@@ -211,6 +234,11 @@ class WebShopRealAdapter(BenchmarkAdapter):
         )
 
     def _score_completion(self, text: str, task: Dict[str, Any], g) -> Tuple[bool, float]:
+        """SYNTHETIC / PROXY scoring — not native WebShop evaluation.
+
+        Uses genome capability prior + LLM text signals. Labeled
+        `evaluation_kind=real_llm_proxy`. Do not cite as real-environment success.
+        """
         low = (text or "").lower()
         hint_words = [w for w in task["hint"].lower().split() if len(w) > 3]
         covered = sum(1 for w in hint_words if w in low)

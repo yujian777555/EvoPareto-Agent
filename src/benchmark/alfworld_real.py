@@ -150,6 +150,10 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
         cached = self.cache.get(key)
         if cached is not None:
             self.cache_used += 1
+            meta = dict(cached.extra)
+            meta.update({"cached": True, "api_status": meta.get("api_status", "cached")})
+            if "trajectory" not in meta:
+                meta["trajectory"] = []
             return TaskResult(
                 task_id=task["task_id"],
                 success=cached.success,
@@ -157,24 +161,35 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
                 tokens=cached.tokens,
                 latency=cached.latency,
                 cost=cached.cost,
-                metadata={
-                    **cached.extra,
-                    "cached": True,
-                    "trajectory": cached.extra.get("trajectory", []),
-                },
+                metadata=meta,
             )
 
         prompt = self._build_prompt(task, g)
-        resp = None
+        api_status = "ok"
         try:
             resp = self.backend.generate(prompt, budget=g.reasoning_budget)
-            # Thread-safe call counter (approximate under concurrency).
             self.api_calls += 1
-        except Exception:
-            if not self.use_fallback_on_error:
-                raise
-            resp = MockLLMBackend().generate(prompt, budget=g.reasoning_budget)
+        except Exception as e:
+            # P0: NEVER silently replace real LLM with Mock.
             self.api_calls += 1
+            api_status = f"error:{type(e).__name__}"
+            return TaskResult(
+                task_id=task["task_id"],
+                success=False,
+                steps=0,
+                tokens=0,
+                latency=0.0,
+                cost=0.0,
+                metadata={
+                    "api_status": api_status,
+                    "api_error": str(e)[:300],
+                    "backend": self.backend.name,
+                    "model": getattr(self.backend, "model", "unknown"),
+                    "cached": False,
+                    "trajectory": [],
+                    "evaluation_kind": "real_llm_failed",
+                },
+            )
 
         success, score = self._score_completion(resp.text, task, g, resp)
         steps = max(1, int(round(task["horizon"] * (0.7 + 0.4 * (g.reasoning_budget / 128.0)))))
@@ -196,6 +211,9 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
             "score": score,
             "backend": self.backend.name,
             "model": getattr(self.backend, "model", "unknown"),
+            "api_status": api_status,
+            "cached": False,
+            "evaluation_kind": "real_llm_proxy",  # synthetic scoring + real LLM text
             "reflection": g.reflection_strategy,
             "tool_policy": g.tool_policy,
             "reasoning_budget": g.reasoning_budget,
@@ -240,7 +258,12 @@ class ALFWorldRealAdapter(BenchmarkAdapter):
         )
 
     def _score_completion(self, text: str, task: Dict[str, Any], g, resp) -> Tuple[bool, float]:
-        """Score LLM output into success + quality in [0, 1]."""
+        """SYNTHETIC / PROXY scoring — not native ALFWorld evaluation.
+
+        Combines LLM text quality with a hand-designed genome capability prior.
+        This is labeled `evaluation_kind=real_llm_proxy` and must NOT be cited
+        as real-environment success. Native ALFWorld eval is not integrated.
+        """
         low = (text or "").lower()
         # Keyword coverage vs gold hint.
         hint_words = [w for w in task["hint"].lower().split() if len(w) > 3]

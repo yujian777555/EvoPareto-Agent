@@ -192,12 +192,19 @@ class OpenAICompatibleBackend(LLMBackend):
         latency = time.time() - t0
         if status >= 400:
             raise RuntimeError(f"LLM request failed status={status} body={str(data)[:200]}")
+        if not data:
+            # 200 + empty body is NOT success (P0 pollution rule).
+            raise RuntimeError("LLM request returned empty body")
 
         text = ""
         try:
             text = data["choices"][0]["message"]["content"] or ""
         except (KeyError, IndexError, TypeError):
             text = ""
+        if not str(text).strip():
+            # Empty completion is NOT success.
+            raise RuntimeError("LLM completion empty")
+
         usage = data.get("usage") or {}
         tp = int(usage.get("prompt_tokens", self.count_tokens(prompt)))
         tc = int(usage.get("completion_tokens", self.count_tokens(text)))
@@ -228,7 +235,7 @@ class OpenAIBackend(OpenAICompatibleBackend):
 
 class DeepSeekBackend(OpenAICompatibleBackend):
     name = "deepseek"
-    model = "deepseek-flash"
+    model = "deepseek-flash"  # unified model id (diagnostics + experiments)
     api_key_env = "DEEPSEEK_API_KEY"
     base_url = "https://api.deepseek.com/v1/chat/completions"
     cost_per_1k_prompt = 0.0001
