@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "host_git_rev_parse_HEAD": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
+  "origin_main_before_commit": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
+  "git_sha_passed_to_docker": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
+  "git_sha_recorded_in_container": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
+  "episode_git_sha": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
+  "is_40_hex": true,
+  "not_unknown_or_docker": true,
+  "host_sha_equals_container_sha": true,
+  "command_host_shell": "PowerShell",
+  "command": "git rev-parse HEAD; docker run --rm -v alfworld-data:/data -v <repo>/src:/src -v <repo>/scripts:/scripts -v <repo>/results:/results -e ALFWORLD_DATA=/data -e PYTHONPATH=/ -e GIT_SHA=<sha> alfworld-local:tw python /scripts/native_offline_smoke.py",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
+  "native_dry_run_status": "PASS",
+  "real_deepseek_calls": 0
+}

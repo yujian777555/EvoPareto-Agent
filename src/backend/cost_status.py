@@ -1,15 +1,22 @@
-"""Cost status + fail-closed estimation (Pilot1 final admission)."""
+"""Cost status + fail-closed estimation (Pilot1 preflight).
+
+Rate numbers come from ONE authoritative module: src.backend.rates.
+Transport / backend / episode / SQLite all price through this layer so
+there is no second, conflicting rate table.
+"""
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional
 
-RATE_VERSION = "deepseek-flash-2026-v1"
-
-RATES: Dict[str, Dict[str, float]] = {
-    "deepseek-flash": {"prompt": 0.0001, "completion": 0.0002},
-    "deepseek-chat": {"prompt": 0.0001, "completion": 0.0002},
-}
+from src.backend.rates import (
+    RATE_SOURCE,
+    RATE_SOURCE_VERIFIED_ON,
+    RATE_VERSION,
+    RATES,
+    estimated_cost as _rate_estimated_cost,
+    rate_metadata,
+)
 
 KNOWN = "KNOWN"
 UNKNOWN_USAGE = "UNKNOWN_USAGE"
@@ -43,7 +50,7 @@ def estimate_cost(
     tokens_in: Optional[int],
     tokens_out: Optional[int],
 ) -> CostStatus:
-    """Never silently zero unknowns."""
+    """Never silently zero unknowns. Unknown model → UNKNOWN_RATE (no cheap map)."""
     if tokens_in is None or tokens_out is None:
         return CostStatus(UNKNOWN_USAGE, 0.0, model, "missing usage fields")
     try:
@@ -52,9 +59,8 @@ def estimate_cost(
         return CostStatus(UNKNOWN_USAGE, 0.0, model, f"bad usage: {e}")
     if model not in RATES:
         return CostStatus(UNKNOWN_RATE, 0.0, model, f"no rate for {model}")
-    r = RATES[model]
     try:
-        cost = (tin / 1000.0) * r["prompt"] + (tout / 1000.0) * r["completion"]
+        cost = _rate_estimated_cost(model, tin, tout)
         return CostStatus(KNOWN, cost, model, "")
     except Exception as e:
         return CostStatus(UNKNOWN_RATE, 0.0, model, f"rate error: {e}")
@@ -66,3 +72,18 @@ def backend_estimated_cost(model: str, tokens_in: int, tokens_out: int) -> float
     if not cs.is_known:
         raise ValueError(f"cannot price model {model!r}: {cs.status}")
     return cs.cost
+
+
+__all__ = [
+    "KNOWN",
+    "UNKNOWN_USAGE",
+    "UNKNOWN_RATE",
+    "TRANSPORT_UNCERTAIN",
+    "RATE_VERSION",
+    "RATE_SOURCE",
+    "RATE_SOURCE_VERIFIED_ON",
+    "CostStatus",
+    "estimate_cost",
+    "backend_estimated_cost",
+    "rate_metadata",
+]

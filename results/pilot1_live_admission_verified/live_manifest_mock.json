@@ -6,7 +6,7 @@
   "raw_task_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
   "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
   "canonical_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
-  "git_sha": "f0db3af37eb2326fb273b8378302d30d8466dac5",
+  "git_sha": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
   "task_index": 0,
   "requested_split": "valid_train",
   "episode_success": false,

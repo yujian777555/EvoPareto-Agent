@@ -12,11 +12,11 @@
   "ledger_tokens_out": 20,
   "backend_tokens_out": 20,
   "episode_tokens_out": 20,
-  "ledger_estimated_cost": 1.4000000000000001e-05,
-  "backend_total_cost": 1.4000000000000001e-05,
-  "episode_cost_usd": 1.4000000000000001e-05,
-  "frozen_rate_expected_cost": 1.4000000000000001e-05,
-  "rate_version": "deepseek-flash-2026-v1",
+  "ledger_estimated_cost": 5.4e-05,
+  "backend_total_cost": 5.4e-05,
+  "episode_cost_usd": 5.4e-05,
+  "frozen_rate_expected_cost": 5.4e-05,
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
   "real_deepseek_calls": 0,
   "transport": "post_json->local HTTP server"
 }

@@ -682,9 +682,10 @@ def test_e2e_mock_http_reconciliation(tmp_path):
         assert backend.total_cost == pytest.approx(ep["cost_usd"], rel=1e-9)
         assert ep["tokens_in"] == 100
         assert ep["tokens_out"] == 20
-        # cost from frozen rates: 100*0.0001/1000 + 20*0.0002/1000
-        expected = 100 / 1000.0 * 0.0001 + 20 / 1000.0 * 0.0002
+        # cost from frozen peak-conservative rates: 100*0.30/1e6 + 20*1.20/1e6
+        expected = 100 * 0.30 / 1_000_000 + 20 * 1.20 / 1_000_000
         assert backend.total_cost == pytest.approx(expected, rel=1e-9)
+        assert expected == pytest.approx(0.000054, rel=1e-9)
         write_evidence(
             "http_e2e_reconciliation.json",
             {
@@ -705,7 +706,7 @@ def test_e2e_mock_http_reconciliation(tmp_path):
                 "backend_total_cost": backend.total_cost,
                 "episode_cost_usd": ep["cost_usd"],
                 "frozen_rate_expected_cost": expected,
-                "rate_version": "deepseek-flash-2026-v1",
+                "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
                 "real_deepseek_calls": 0,
                 "transport": "post_json->local HTTP server",
             },

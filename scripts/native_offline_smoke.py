@@ -21,6 +21,7 @@ from src.benchmark.manifest_lock import (
 from src.benchmark.native_alfworld import NativeALFWorldConfig, NativeALFWorldEnv
 from src.evaluation.objective_spec import SPEC_2
 from src.runtime.episode_runner import EpisodeRunner
+from src.runtime.run_identity import resolve_git_sha, write_run_manifest
 
 
 def mock_llm(prompt: str):
@@ -101,10 +102,12 @@ def main() -> int:
         return _finish(out)
 
     try:
+        git_sha = resolve_git_sha()
+        out["git_sha"] = git_sha
         genome = AgentGenome("cot", "short_term", "self_critique", "balanced", 48)
         runner = EpisodeRunner(genome, mock_llm, horizon=5, model="mock-llm",
                                experiment_id="native_smoke_manifest",
-                               git_sha=os.environ.get("GIT_SHA", "docker"))
+                               git_sha=git_sha)
         env2 = NativeALFWorldEnv(NativeALFWorldConfig(split="valid_train", num_games=200, max_steps=8))
         ep = runner.run(
             lambda episode_index=0: env2.reset(episode_index=episode_index, force_game_file=game_file),
@@ -138,25 +141,50 @@ def _finish(out: dict) -> int:
     paths = [
         "/results/pilot1_final_admission_verified/native_smoke.json",
         "/results/pilot1_live_admission_verified/native_smoke.json",
+        "/results/pilot1_preflight/native_smoke.json",
     ]
     for p in paths:
         os.makedirs(os.path.dirname(p), exist_ok=True)
         with open(p, "w", encoding="utf-8") as f:
             json.dump(out, f, indent=2)
+    git_sha = out.get("git_sha") or out.get("episode", {}).get("git_sha") or ""
     ident = {
         "manifest_sha256": out.get("manifest_sha256"),
         "selected_manifest_game_id": out.get("selected_manifest_game_id"),
         "actual_game_id": out.get("actual_game_id"),
         "canonical_game_id": out.get("canonical_game_id"),
-        "git_sha": out.get("episode", {}).get("git_sha"),
+        "git_sha": git_sha,
         "split": "valid_train",
     }
     for p in (
         "/results/pilot1_final_admission_verified/task_identity.json",
         "/results/pilot1_live_admission_verified/task_identity.json",
+        "/results/pilot1_preflight/task_identity.json",
     ):
+        os.makedirs(os.path.dirname(p), exist_ok=True)
         with open(p, "w", encoding="utf-8") as f:
             json.dump(ident, f, indent=2)
+    try:
+        from src.backend.rates import RATE_VERSION
+
+        write_run_manifest(
+            "/results/pilot1_preflight/run_manifest.json",
+            git_sha=git_sha,
+            manifest_sha256=str(out.get("manifest_sha256") or ""),
+            experiment_id="native_smoke_manifest",
+            model="mock-llm",
+            rate_version=RATE_VERSION,
+            task_index=int(os.environ.get("TASK_INDEX", "0")),
+            seed=11,
+            objective_version="candidate_2obj",
+            extra={
+                "native_dry_run_status": out["native_dry_run_status"],
+                "actual_game_id": out.get("actual_game_id"),
+                "canonical_game_id": out.get("canonical_game_id"),
+            },
+        )
+    except Exception as e:
+        out.setdefault("errors", []).append(f"run_manifest:{e}")
     print(json.dumps(out, indent=2)[:1800])
     return 0 if ok else 4
 

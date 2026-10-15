@@ -3,8 +3,8 @@
     "physical_attempts": 1,
     "tokens_in": 100,
     "tokens_out": 20,
-    "spent_cost_usd": 1.4000000000000001e-05,
-    "backend_total_cost": 1.4000000000000001e-05,
+    "spent_cost_usd": 5.4e-05,
+    "backend_total_cost": 5.4e-05,
     "http_hits": 1,
     "billing_blocked": false,
     "status": "PASS"
@@ -19,7 +19,7 @@
   },
   "concurrent_interleave": {
     "status": "PASS",
-    "tickets_before_block_visible": 0,
+    "tickets_before_block_visible": 8,
     "tickets_after_block": 0,
     "blocked_slots": 8,
     "post_block_acquire_attempts": 5,

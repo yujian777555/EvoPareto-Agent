@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "scenario": "local mock delay -> transport timeout -> atomic billing block",
+  "physical_attempts": 1,
+  "billing_blocked": true,
+  "billing_block_reason": "TRANSPORT_UNCERTAIN:CalledProcessError:Command '['C:\\\\Windows\\\\system32\\\\curl.EXE', '--noproxy', '*', '-sS', '-m', '1', '-w', '\\n%{http_code}', '-X', 'POST', 'http://127.0.0.1:57740/v1/chat/completions', '-H', 'Content-Type: application/json', '-H', 'Authorization: Bearer k', '--data-binary', '@D:\\\\temp\\\\tmp8qcs0iz9.json']' returned non-zero exit status 28.",
+  "second_physical_send": 0,
+  "http_hits": 1,
+  "block_survives_sqlite_restart": true,
+  "retry_bypassed_block": false,
+  "real_deepseek_calls": 0,
+  "assertions": {
+    "physical_attempts": 1,
+    "billing_blocked": true,
+    "second_physical_send": 0
+  }
+}

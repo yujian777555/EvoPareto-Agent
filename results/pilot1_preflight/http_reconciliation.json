@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "http_hits": 1,
+  "physical_attempts": 1,
+  "settled_ok": 1,
+  "open_tickets": 0,
+  "tokens_in": 100,
+  "tokens_out": 20,
+  "expected_cost_usd": 5.4e-05,
+  "ledger_cost": 5.4e-05,
+  "backend_cost": 5.4e-05,
+  "episode_cost": 5.4e-05,
+  "ledger_eq_backend_eq_episode": true,
+  "formula": "100*0.30/1e6 + 20*1.20/1e6 = 0.000054",
+  "real_deepseek_calls": 0
+}

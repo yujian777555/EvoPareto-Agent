@@ -193,6 +193,27 @@ def live_run(args: argparse.Namespace) -> Dict[str, Any]:
     outp = Path(args.output_dir) / "pilot1_episode.json"
     outp.parent.mkdir(parents=True, exist_ok=True)
     outp.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
+    from src.backend.rates import RATE_VERSION
+    from src.runtime.run_identity import write_run_manifest
+
+    run_manifest = write_run_manifest(
+        Path(args.output_dir) / "run_manifest.json",
+        git_sha=git_sha,
+        manifest_sha256=lock["manifest_sha256"],
+        experiment_id=args.experiment_id,
+        model="deepseek-flash",
+        rate_version=RATE_VERSION,
+        task_index=lock["task_index"],
+        seed=args.seed,
+        objective_version="candidate_2obj",
+        extra={
+            "requested_split": lock["split"],
+            "selected_manifest_game_id": lock["target_game_id"],
+            "canonical_game_id": can_id,
+            "physical_cap": args.physical_cap,
+            "cost_cap": args.cost_cap,
+        },
+    )
     return {
         "episode": out,
         "ledger": launch["db"].snapshot(),
@@ -201,16 +222,19 @@ def live_run(args: argparse.Namespace) -> Dict[str, Any]:
         "actual_game_id": actual_id,
         "canonical_game_id": can_id,
         "git_sha": git_sha,
+        "run_manifest": run_manifest,
     }
 
 
 def _git_sha() -> str:
-    import subprocess
+    from src.runtime.run_identity import GitIdentityError, resolve_git_sha
 
     try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
-    except Exception:
-        return "unknown"
+        return resolve_git_sha()
+    except GitIdentityError:
+        raise
+    except Exception as e:
+        raise SystemExit(f"git SHA unavailable: {e}")
 
 
 def main() -> None:

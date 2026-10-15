@@ -20,6 +20,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Dict, Optional
 
+from src.backend.rates import PEAK_INPUT_PER_1K, PEAK_OUTPUT_PER_1K
+
 
 @dataclass
 class LLMResponse:
@@ -211,17 +213,16 @@ class OpenAICompatibleBackend(LLMBackend):
         usage = data.get("usage") or {}
         tp = int(usage.get("prompt_tokens", self.count_tokens(prompt)))
         tc = int(usage.get("completion_tokens", self.count_tokens(text)))
-        from src.backend.cost_status import backend_estimated_cost, estimate_cost
+        from src.backend.cost_status import estimate_cost
 
         cstat = estimate_cost(self.model, usage.get("prompt_tokens"), usage.get("completion_tokens"))
-        if cstat.is_known:
-            cost = cstat.cost
-        else:
-            # Fallback heuristic tokens if usage missing — mark not-known cost.
-            cost = backend_estimated_cost(self.model, tp, tc) if self.model in ("deepseek-flash", "deepseek-chat") else 0.0
-            if not cstat.is_known:
-                # keep cost but record status on raw
-                data["_cost_status"] = cstat.to_dict()
+        if not cstat.is_known:
+            # Transport already blocks on unknown cost; never invent a cheap rate.
+            raise RuntimeError(
+                f"unknown cost status {cstat.status} for model={self.model!r} "
+                f"detail={cstat.detail}"
+            )
+        cost = cstat.cost
 
         self.total_calls += 1
         self.total_prompt_tokens += tp
@@ -249,11 +250,12 @@ class OpenAIBackend(OpenAICompatibleBackend):
 
 class DeepSeekBackend(OpenAICompatibleBackend):
     name = "deepseek"
-    model = "deepseek-flash"  # unified model id (diagnostics + experiments)
+    model = "deepseek-flash"  # official id (DeepSeek-V4.1-Flash)
     api_key_env = "DEEPSEEK_API_KEY"
     base_url = "https://api.deepseek.com/v1/chat/completions"
-    cost_per_1k_prompt = 0.0001
-    cost_per_1k_completion = 0.0002
+    # Mirrors of the authoritative table in src.backend.rates (peak conservative).
+    cost_per_1k_prompt = PEAK_INPUT_PER_1K
+    cost_per_1k_completion = PEAK_OUTPUT_PER_1K
 
 
 def resolve_backend(kind: str = "mock", **kwargs: Any) -> LLMBackend:

@@ -17,7 +17,8 @@ from src.backend.cost_status import (
 def test_cost_known_when_usage_and_rate():
     c = estimate_cost("deepseek-flash", 1000, 500)
     assert c.status == KNOWN
-    assert c.cost == pytest.approx(0.0001 + 0.0001)
+    # peak conservative: 1000*0.30/1e6 + 500*1.20/1e6 = 0.0003 + 0.0006
+    assert c.cost == pytest.approx(0.0009)
 
 
 def test_cost_unknown_usage_not_zero_pass():

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from src.backend.base import DeepSeekBackend, LLMResponse
+from src.backend.rates import estimated_cost as peak_estimated_cost
 from src.runtime.http_budget import (
     BudgetDB,
     GateRequired,
@@ -21,13 +22,26 @@ class LiveExperimentError(RuntimeError):
     pass
 
 
+# Explicit request token upper bounds used for pre-send cost reservation.
+# Conservative peak pricing (src.backend.rates); NOT average-cost guessing.
+RESERVE_MAX_PROMPT_TOKENS = 2000
+RESERVE_MAX_COMPLETION_TOKENS = 128  # covers budget*8 with margin
+
+
+def default_reserve_per_request(model: str = "deepseek-flash") -> float:
+    """Peak-priced reservation for one request under the token bounds above."""
+    return peak_estimated_cost(
+        model, RESERVE_MAX_PROMPT_TOKENS, RESERVE_MAX_COMPLETION_TOKENS
+    )
+
+
 def launch_live_experiment(
     *,
     experiment_id: str,
     ledger_path: str | Path,
     max_physical: int = 100,
     max_cost_usd: float = 1.0,
-    est_cost_per_request: float = 0.0005,
+    est_cost_per_request: Optional[float] = None,
     model: str = "deepseek-flash",
 ) -> Dict[str, Any]:
     """Strict bootstrap: refuse to start if gate cannot be installed."""
@@ -36,6 +50,11 @@ def launch_live_experiment(
 
     if not os.environ.get("DEEPSEEK_API_KEY"):
         raise LiveExperimentError("DEEPSEEK_API_KEY missing — refuse live start")
+
+    if est_cost_per_request is None:
+        est_cost_per_request = default_reserve_per_request(model)
+        if est_cost_per_request <= 0:
+            raise LiveExperimentError("cannot compute safe cost reservation")
 
     # 2) BudgetDB open + version check
     try:

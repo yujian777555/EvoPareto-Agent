@@ -2,7 +2,11 @@
 
 Exactly one physical send per post_json call (no curl/urllib double-fire).
 BillingBlocked / BudgetExceeded / GateRequired never retry.
-Unknown cost settles + blocks in one atomic ledger transaction.
+
+Unknown cost (missing usage / unknown model) settles + blocks atomically.
+Transport uncertainty (timeout, dropped connection after send) also settles
+via TRANSPORT_UNCERTAIN + persistent billing block — a lost response is NOT
+proof of zero provider cost.
 """
 
 from __future__ import annotations
@@ -14,6 +18,10 @@ import subprocess
 import urllib.error
 import urllib.request
 from typing import Any, Callable, Dict, Optional, Tuple
+
+
+class LocalPreSendFailure(Exception):
+    """Proven local failure BEFORE any network I/O (not billable)."""
 
 
 def _proxy_url() -> Optional[str]:
@@ -47,7 +55,8 @@ def post_json(
     Order per try:
       pre_send_ticket (BEGIN IMMEDIATE, checks billing_blocked)
         -> single transport send
-        -> settle once (known cost) OR settle_unknown_and_block (atomic)
+        -> settle once (known cost)
+           OR settle_unknown_and_block (unknown cost / transport uncertain)
     """
     body = json.dumps(payload).encode("utf-8")
     last_err: Optional[Exception] = None
@@ -67,7 +76,10 @@ def post_json(
         settled = False
         try:
             if before_send is not None:
-                before_send()
+                try:
+                    before_send()
+                except Exception as e:
+                    raise LocalPreSendFailure(f"before_send failed: {e}") from e
             mode = _pick_transport()
             if mode == "curl":
                 status, data = _post_curl(url, body, headers, timeout)
@@ -131,25 +143,32 @@ def post_json(
         except (BudgetExceeded, GateRequired, BillingBlocked):
             # Pre-send denial or ledger refusal: no retry.
             raise
-        except Exception as e:
+        except LocalPreSendFailure:
+            # Proven not sent: release reservation, do NOT billing-block.
             if not settled and ticket:
-                # Transport failure after ticket: count the physical attempt.
-                # Response body unavailable => not a priced unknown-cost event.
-                try:
+                settle_ticket(ticket, success=False)
+                settled = True
+            raise
+        except Exception as e:
+            # Request may have reached the provider (timeout / reset / partial
+            # read). A lost response is NOT zero cost — atomic TRANSPORT_UNCERTAIN
+            # block, then abort. Never retry.
+            if not settled and ticket:
+                gate = get_global_gate()
+                if gate is not None:
+                    gate.db.settle_unknown_and_block(
+                        ticket,
+                        reason=f"TRANSPORT_UNCERTAIN:{type(e).__name__}:{e}",
+                        tokens_in=0,
+                        tokens_out=0,
+                    )
+                else:
                     settle_ticket(ticket, success=False)
-                    settled = True
-                except Exception:
-                    pass
-            last_err = e
-            msg = str(e)
-            if any(x in msg for x in ("402", "Payment Required", "401", "403")):
-                raise
-            if attempt < max_retries:
-                import time
-
-                time.sleep(retry_backoff * (attempt + 1))
-                continue
-            raise RuntimeError(f"HTTP POST failed: {last_err}") from last_err
+                settled = True
+                raise BillingBlocked(
+                    f"transport uncertain after atomic block: {type(e).__name__}:{e}"
+                ) from e
+            raise
     raise RuntimeError(f"HTTP POST failed: {last_err}")
 
 
@@ -182,7 +201,7 @@ def _post_curl(
 ) -> Tuple[int, Dict[str, Any]]:
     curl = shutil.which("curl") or shutil.which("curl.exe")
     if not curl:
-        raise RuntimeError("curl not found")
+        raise LocalPreSendFailure("curl not found")
     import tempfile
 
     proxy = _proxy_url()

@@ -18,8 +18,9 @@ from src.runtime.http_budget import (
 
 def test_estimated_cost_frozen_rate():
     c = estimated_cost("deepseek-flash", 1000, 1000)
-    assert c == pytest.approx(0.0001 + 0.0002)
-    assert RATE_VERSION
+    # peak conservative: 1000*0.30/1e6 + 1000*1.20/1e6 = 0.0003 + 0.0012
+    assert c == pytest.approx(0.0015)
+    assert RATE_VERSION == "deepseek-flash-2026-10-peak-conservative-v1"
 
 
 def test_ticket_settle_includes_cost(tmp_path):

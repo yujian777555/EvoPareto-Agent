@@ -1,0 +1,53 @@
+{
+  "phase": "PILOT1_PREFLIGHT",
+  "status": "ACCEPTED_PILOT1_PREFLIGHT",
+  "git_sha_at_evidence": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
+  "real_deepseek_api_calls": 0,
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "checks": {
+    "official_pricing_frozen_single_source": true,
+    "cost_100_20_is_0_000054": true,
+    "backend_ledger_episode_consistent": true,
+    "timeout_atomic_billing_block": true,
+    "block_survives_restart": true,
+    "physical_http_cap_120_unchanged": true,
+    "cost_cap_0_05_unchanged": true,
+    "docker_git_sha_valid_40hex": true,
+    "manifest_lock_no_regression": true,
+    "native_alfworld_reset_step": true,
+    "peem_ppec_nsga3_untouched": true,
+    "real_api_calls": 0
+  },
+  "pilot1_tests": {
+    "files": [
+      "tests/test_pilot1_preflight.py",
+      "tests/test_pilot1_final_patch.py",
+      "tests/test_pilot1_final_admission.py",
+      "tests/test_pilot1_hotfix.py",
+      "tests/test_pilot1_microfix.py"
+    ],
+    "command": "python -m pytest tests/test_pilot1_preflight.py tests/test_pilot1_final_patch.py tests/test_pilot1_final_admission.py tests/test_pilot1_hotfix.py tests/test_pilot1_microfix.py -q",
+    "result": "53 passed"
+  },
+  "full_suite": {
+    "command": "python -m pytest -q",
+    "result": "all passed"
+  },
+  "evidence_files": [
+    "results/pilot1_preflight/pricing_validation.json",
+    "results/pilot1_preflight/timeout_billing_block.json",
+    "results/pilot1_preflight/http_reconciliation.json",
+    "results/pilot1_preflight/docker_git_identity.json",
+    "results/pilot1_preflight/native_smoke.json",
+    "results/pilot1_preflight/run_manifest.json",
+    "results/pilot1_preflight/task_identity.json"
+  ],
+  "key_numbers": {
+    "peak_input_cache_miss_per_1m": 0.3,
+    "peak_output_per_1m": 1.2,
+    "cost_100in_20out_usd": 5.4e-05,
+    "reserve_per_request_usd": 0.0007535999999999999,
+    "timeout_physical_attempts": 1,
+    "timeout_second_send": 0
+  }
+}

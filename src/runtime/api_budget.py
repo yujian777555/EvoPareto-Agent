@@ -15,6 +15,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
+from src.backend.rates import PEAK_INPUT_PER_1K, PEAK_OUTPUT_PER_1K
+
 
 class BudgetExceeded(RuntimeError):
     pass
@@ -60,8 +62,8 @@ class APICallGate:
         max_calls: int = 100,
         max_cost_usd: float = 1.0,
         max_retries: int = 1,
-        cost_per_1k_in: float = 0.0001,
-        cost_per_1k_out: float = 0.0002,
+        cost_per_1k_in: float = PEAK_INPUT_PER_1K,
+        cost_per_1k_out: float = PEAK_OUTPUT_PER_1K,
         ledger_path: Optional[str] = None,
     ) -> None:
         self.backend_generate = backend_generate
@@ -104,7 +106,8 @@ class APICallGate:
         self.ledger_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     def _reserve(self, est_tokens: int, is_retry: bool = False) -> int:
-        est_cost = (est_tokens / 1000.0) * self.cost_per_1k_in + 0.0002
+        # Conservative peak: estimated input + 1K output-token allowance.
+        est_cost = (est_tokens / 1000.0) * self.cost_per_1k_in + self.cost_per_1k_out
         with self._lock:
             total_started = (
                 self.ledger.requests_ok + self.ledger.requests_failed + self.reserved_calls

@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "rate_source": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "verified_on": "2026-10",
+  "policy": "peak_conservative_cache_miss_input_peak_output",
+  "official_model": "deepseek-flash",
+  "peak_input_cache_miss_per_1m": 0.3,
+  "peak_output_per_1m": 1.2,
+  "fixed_test_tokens": {
+    "prompt_tokens": 100,
+    "completion_tokens": 20
+  },
+  "expected_cost_usd": 5.4e-05,
+  "computed_cost_usd": 5.4e-05,
+  "formula": "100*0.30/1e6 + 20*1.20/1e6",
+  "known_models": [
+    "deepseek-flash"
+  ],
+  "unknown_model_maps_to_cheaper_rate": false,
+  "real_api_calls": 0,
+  "budget_reservation": {
+    "reserve_max_prompt_tokens": 2000,
+    "reserve_max_completion_tokens": 128,
+    "reserve_per_request_usd": 0.0007535999999999999,
+    "formula": "peak rates × token upper bounds (not average cost)",
+    "covers_conservative_request": true,
+    "physical_http_cap": 120,
+    "estimated_cost_cap_usd": 0.05,
+    "cap_is_local_estimate_not_provider_invoice": true
+  }
+}

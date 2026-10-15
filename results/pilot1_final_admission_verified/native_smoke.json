@@ -17,6 +17,7 @@
   "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
   "canonical_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
   "native_won": false,
+  "git_sha": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
   "genome": {
     "planner_strategy": "cot",
     "memory_strategy": "short_term",
@@ -33,7 +34,7 @@
     "tokens_in": 20,
     "tokens_out": 4,
     "cost_usd": 0.0,
-    "git_sha": "docker",
+    "git_sha": "c3580e31f25ec67a44bf6cd04efcbd183f61ebac",
     "evaluation_kind": "real_environment"
   },
   "fitness": [
