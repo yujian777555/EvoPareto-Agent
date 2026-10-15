@@ -46,6 +46,14 @@ def post_json(
     attempts = ("curl", "urllib")
 
     def _send(mode: str) -> Tuple[int, Dict[str, Any]]:
+        # PRE-SEND hard gate: if this raises, no network I/O happens.
+        try:
+            from src.runtime.http_budget import pre_send_approval
+
+            pre_send_approval()
+        except Exception as e:
+            if e.__class__.__name__ in ("BudgetExceeded", "BillingBlocked"):
+                raise
         try:
             from src.runtime.api_budget import bump_physical_http
 

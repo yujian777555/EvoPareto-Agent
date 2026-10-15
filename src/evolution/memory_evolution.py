@@ -45,9 +45,16 @@ from src.evolution.pareto_experience import PEEMConfig, ParetoExperience
 from src.evolution.pareto_credit import ParetoContributionEstimator
 from src.evolution.preference import PreferenceVector, encode_preference, preference_satisfaction
 from src.evolution.preference_controller import PreferenceController
+from src.evolution.reference_adapter import PreferenceAwareNSGA3
 
 
 EvaluateFn = Callable[[AgentGenome], Sequence[float]]
+
+
+def _spec_for_dim(n: int):
+    from src.evaluation.objective_spec import SPEC_2, SPEC_5
+
+    return SPEC_2 if n == 2 else SPEC_5
 
 
 @dataclass
@@ -99,7 +106,22 @@ class MemoryEvolutionLoop:
         # Phase 3: preference-aware selector when a preference is provided.
         self.preference = None
         self.pref_controller = None
-        if self.config.preference is not None:
+        if self.config.preference is not None and self.config.n_objectives == 2:
+            # Two-objective PPEC (Phase5-R3-R5-R1).
+            from src.evolution.preference_2d import Preference2DController
+
+            self.pref_controller = Preference2DController(
+                self.config.preference,
+                strength=self.config.preference_strength,
+            )
+            self.nsga3 = NSGA3(
+                n_objectives=2,
+                divisions=self.config.divisions,
+                seed=self.config.seed,
+                maximize=(True, False),
+            )
+            self.nsga3.directions = self.pref_controller.directions
+        elif self.config.preference is not None:
             self.preference = encode_preference(self.config.preference)
             self.pref_controller = PreferenceController(
                 preference=self.preference,
@@ -114,6 +136,7 @@ class MemoryEvolutionLoop:
                 n_objectives=self.config.n_objectives,
                 divisions=self.config.divisions,
                 seed=self.config.seed,
+                maximize=(True, False) if self.config.n_objectives == 2 else None,
             )
         mode = (self.config.experience_mode or "robust_peem").lower()
         if mode in ("peem", "robust_peem", "robust"):
@@ -242,6 +265,7 @@ class MemoryEvolutionLoop:
                         child.fitness_vector or [],
                         pop_rows,
                     ),
+                    spec=_spec_for_dim(self.config.n_objectives),
                 )
                 comps.append((parent, child, mut_name, survived, raw))
                 raw_rows.append(raw.raw_row())

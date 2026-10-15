@@ -75,22 +75,14 @@ class CreditBreakdown:
 def objective_improvement(
     parent: Sequence[float],
     child: Sequence[float],
+    spec: Optional[Any] = None,
 ) -> float:
-    """Signed improvement in paper semantics.
+    """Signed improvement using ObjectiveSpec directions (default 5-obj)."""
+    if spec is not None:
+        return spec.improvement(parent, child)
+    from src.evaluation.objective_spec import SPEC_5
 
-    Positive part of mixed-direction gains, normalized by dimension.
-    For cost (minimize), a decrease is a gain.
-    """
-    # Mixed gain: for maximize obj, child-parent; for cost, parent-child.
-    gains = []
-    for i, (p, c) in enumerate(zip(parent, child)):
-        if i == 2:  # cost
-            gains.append(float(p) - float(c))
-        else:
-            gains.append(float(c) - float(p))
-    pos = sum(max(0.0, g) for g in gains)
-    neg = sum(max(0.0, -g) for g in gains)
-    return (pos - 0.5 * neg) / max(1, len(parent))
+    return SPEC_5.improvement(parent, child)
 
 
 def pareto_rank_change(
@@ -218,12 +210,13 @@ def robust_raw_components(
     population: Optional[Sequence[Sequence[float]]] = None,
     survived: bool = False,
     pareto_score: Optional[float] = None,
+    spec: Optional[Any] = None,
 ) -> RobustCreditBreakdown:
     """Compute raw (un-normalized) components for robust PEEM."""
     from src.evolution.diversity import diversity_contribution
     from src.evolution.pareto_credit import ParetoContributionEstimator
 
-    imp = objective_improvement(parent, child)
+    imp = objective_improvement(parent, child, spec=spec)
     if pareto_score is None:
         est = ParetoContributionEstimator()
         pareto_score = est.score_one(parent, child, list(population or []))
