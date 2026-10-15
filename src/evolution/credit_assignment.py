@@ -123,11 +123,12 @@ def compute_credit(
     weights: Optional[CreditWeights] = None,
     hv_n_samples: int = 256,
     seed: int = 0,
+    spec: Optional[Any] = None,
 ) -> CreditBreakdown:
     """Full Pareto-aware credit for one mutation transition."""
     w = (weights or CreditWeights()).normalized()
 
-    imp = objective_improvement(parent, child)
+    imp = objective_improvement(parent, child, spec=spec)
     hv_gain = hypervolume_contribution(
         child,
         list(population_front or []),

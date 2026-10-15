@@ -13,7 +13,13 @@ from src.evolution.preference_2d import (
     encode_preference_2d,
     preference_satisfaction_2d,
 )
-from src.runtime.http_budget import BudgetDB, BudgetExceeded, PhysicalBudgetGate, pre_send_approval, install_global_gate
+from src.runtime.http_budget import (
+    BudgetDB,
+    BudgetExceeded,
+    PhysicalBudgetGate,
+    install_global_gate,
+    pre_send_ticket,
+)
 
 
 # --- dominance A/B/C/D ---
@@ -126,33 +132,33 @@ def test_ppec_2d_rejects_wrong_dim():
 
 
 def test_http_gate_blocks_before_send(tmp_path):
-    db = BudgetDB(tmp_path / "b.db", max_calls=2, max_cost_usd=1.0)
+    db = BudgetDB(tmp_path / "b.db", max_physical=2, max_cost_usd=1.0)
     gate = PhysicalBudgetGate(db, est_cost_per_request=0.01)
-    install_global_gate(gate)
-    gate.approve()
-    gate.release(success=True)
-    gate.approve()
-    gate.release(success=True)
+    install_global_gate(gate, strict=True)
+    t1 = pre_send_ticket()
+    gate.settle(t1, success=True)
+    t2 = pre_send_ticket()
+    gate.settle(t2, success=True)
     with pytest.raises(BudgetExceeded):
-        pre_send_approval()  # 3rd send denied BEFORE network
-    install_global_gate(None)
+        pre_send_ticket()  # 3rd send denied BEFORE network
+    install_global_gate(None, strict=False)
 
 
 def test_sqlite_persistent_across_instances(tmp_path):
     path = tmp_path / "b.db"
-    db1 = BudgetDB(path, max_calls=5, max_cost_usd=1.0)
-    db1.reserve(0.01)
-    db1.settle(0.01, success=True)
+    db1 = BudgetDB(path, max_physical=5, max_cost_usd=1.0)
+    t = db1.acquire_ticket(0.01)
+    db1.settle(t, success=True)
     db1.close()
-    db2 = BudgetDB(path, max_calls=5, max_cost_usd=1.0)
-    assert db2.snapshot()["logical_ok"] == 1
+    db2 = BudgetDB(path, max_physical=5, max_cost_usd=1.0)
+    assert db2.snapshot()["settled_ok"] == 1
     db2.close()
 
 
 def test_reserved_released_after_settle(tmp_path):
-    db = BudgetDB(tmp_path / "b.db", max_calls=10, max_cost_usd=1.0)
-    db.reserve(0.1)
-    db.settle(0.1, success=True, actual_cost=0.05)
+    db = BudgetDB(tmp_path / "b.db", max_physical=10, max_cost_usd=1.0)
+    t = db.acquire_ticket(0.1)
+    db.settle(t, success=True, actual_cost=0.05)
     snap = db.snapshot()
-    assert snap["reserved_calls"] == 0
+    assert snap["reserved_tickets"] == 0
     assert snap["reserved_cost_usd"] == 0.0

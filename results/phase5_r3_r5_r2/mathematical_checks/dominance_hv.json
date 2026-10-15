@@ -1,0 +1,9 @@
+{
+  "dominance": {
+    "A>B": true,
+    "A>C": true,
+    "A||D": true
+  },
+  "hv": 0.11500000000000002,
+  "all_zero_note": "cost-fail preferred when success identical \u2014 degeneracy documented"
+}

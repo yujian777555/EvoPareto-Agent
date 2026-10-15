@@ -46,30 +46,36 @@ def post_json(
     attempts = ("curl", "urllib")
 
     def _send(mode: str) -> Tuple[int, Dict[str, Any]]:
-        # PRE-SEND hard gate: if this raises, no network I/O happens.
-        try:
-            from src.runtime.http_budget import pre_send_approval
+        # Fail-closed pre-send ticket. Any error here aborts BEFORE network.
+        from src.runtime.http_budget import (
+            BudgetExceeded,
+            GateRequired,
+            pre_send_ticket,
+            settle_ticket,
+        )
 
-            pre_send_approval()
-        except Exception as e:
-            if e.__class__.__name__ in ("BudgetExceeded", "BillingBlocked"):
-                raise
+        ticket = pre_send_ticket()
         try:
-            from src.runtime.api_budget import bump_physical_http
-
-            bump_physical_http()
+            if mode == "curl":
+                status, data = _post_curl(url, body, headers, timeout)
+            else:
+                status, data = _post_urllib(url, body, headers, timeout)
+            settle_ticket(ticket, success=True)
+            return status, data
+        except (BudgetExceeded, GateRequired):
+            raise
         except Exception:
-            pass
-        if before_send is not None:
-            before_send()
-        if mode == "curl":
-            return _post_curl(url, body, headers, timeout)
-        return _post_urllib(url, body, headers, timeout)
+            # Physical attempt occurred (or transport failed after send).
+            settle_ticket(ticket, success=False)
+            raise
 
+    last_err: Exception | None = None
     for attempt in range(max_retries + 1):
         for mode in attempts:
             try:
                 return _send(mode)
+            except (BudgetExceeded, GateRequired):
+                raise
             except Exception as e:
                 last_err = e
                 msg = str(e)

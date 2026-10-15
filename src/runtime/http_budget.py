@@ -1,11 +1,14 @@
-"""SQLite-backed physical HTTP budget (Phase5-R3-R5-R1 Task A)."""
+"""Physical HTTP budget with ticket lifecycle (Phase5-R3-R5-R2 P0-A).
+
+Fail-closed when formal mode requires a gate and none is installed.
+Every physical attempt has a unique ticket; settle exactly once.
+"""
 
 from __future__ import annotations
 
 import sqlite3
 import threading
-import time
-from dataclasses import dataclass
+import uuid
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -18,173 +21,263 @@ class BillingBlocked(RuntimeError):
     pass
 
 
-class BudgetDB:
-    """Cross-process atomic budget ledger."""
+class GateRequired(RuntimeError):
+    """Formal real-API mode without an installed budget gate."""
 
-    def __init__(self, path: str | Path, max_calls: int = 100, max_cost_usd: float = 1.0) -> None:
+
+class UnknownTicket(RuntimeError):
+    pass
+
+
+class BudgetDB:
+    """SQLite WAL ledger. physical_attempts is the hard HTTP cap."""
+
+    def __init__(self, path: str | Path, max_physical: int = 100, max_cost_usd: float = 1.0) -> None:
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.max_calls = max_calls
+        self.max_physical = max_physical
         self.max_cost_usd = max_cost_usd
         self._lock = threading.RLock()
-        self._conn = sqlite3.connect(str(self.path), check_same_thread=False)
+        self._conn = sqlite3.connect(str(self.path), check_same_thread=False, timeout=30.0)
         self._conn.row_factory = sqlite3.Row
         self._conn.execute("PRAGMA journal_mode=WAL")
-        self._conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS budget (
-                id INTEGER PRIMARY KEY CHECK (id = 1),
-                reserved_calls INTEGER NOT NULL DEFAULT 0,
-                reserved_cost REAL NOT NULL DEFAULT 0,
-                spent_cost REAL NOT NULL DEFAULT 0,
-                logical_ok INTEGER NOT NULL DEFAULT 0,
-                logical_failed INTEGER NOT NULL DEFAULT 0,
-                physical_attempts INTEGER NOT NULL DEFAULT 0,
-                retries INTEGER NOT NULL DEFAULT 0,
-                tokens_in INTEGER NOT NULL DEFAULT 0,
-                tokens_out INTEGER NOT NULL DEFAULT 0
+        self._conn.execute("PRAGMA busy_timeout=30000")
+        self._init_schema()
+
+    def _init_schema(self) -> None:
+        with self._lock:
+            self._conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS budget (
+                    id INTEGER PRIMARY KEY CHECK (id = 1),
+                    max_physical INTEGER NOT NULL,
+                    max_cost_usd REAL NOT NULL,
+                    physical_attempts INTEGER NOT NULL DEFAULT 0,
+                    reserved_tickets INTEGER NOT NULL DEFAULT 0,
+                    settled_ok INTEGER NOT NULL DEFAULT 0,
+                    settled_failed INTEGER NOT NULL DEFAULT 0,
+                    reserved_cost REAL NOT NULL DEFAULT 0,
+                    spent_cost REAL NOT NULL DEFAULT 0,
+                    tokens_in INTEGER NOT NULL DEFAULT 0,
+                    tokens_out INTEGER NOT NULL DEFAULT 0,
+                    retries INTEGER NOT NULL DEFAULT 0
+                )
+                """
             )
-            """
-        )
-        self._conn.execute(
-            "INSERT OR IGNORE INTO budget (id) VALUES (1)"
-        )
-        self._conn.commit()
+            self._conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS tickets (
+                    id TEXT PRIMARY KEY,
+                    est_cost REAL NOT NULL,
+                    status TEXT NOT NULL,
+                    created_at REAL NOT NULL
+                )
+                """
+            )
+            row = self._conn.execute("SELECT * FROM budget WHERE id=1").fetchone()
+            if row is None:
+                self._conn.execute(
+                    "INSERT INTO budget (id, max_physical, max_cost_usd) VALUES (1, ?, ?)",
+                    (self.max_physical, self.max_cost_usd),
+                )
+            else:
+                # Do not silently raise caps.
+                if int(row["max_physical"]) < self.max_physical:
+                    self.max_physical = int(row["max_physical"])
+                if float(row["max_cost_usd"]) < self.max_cost_usd:
+                    self.max_cost_usd = float(row["max_cost_usd"])
+                # Recover in-flight tickets conservatively as spent attempts.
+                self._conn.execute(
+                    "UPDATE budget SET physical_attempts = physical_attempts + "
+                    "(SELECT COUNT(*) FROM tickets WHERE status='open') WHERE id=1"
+                )
+                self._conn.execute("UPDATE tickets SET status='abandoned' WHERE status='open'")
+                self._conn.execute(
+                    "UPDATE budget SET reserved_tickets=0, reserved_cost=0 WHERE id=1"
+                )
+            self._conn.commit()
 
     def close(self) -> None:
         with self._lock:
             self._conn.close()
 
-    def _row(self) -> sqlite3.Row:
-        return self._conn.execute("SELECT * FROM budget WHERE id=1").fetchone()
-
     def snapshot(self) -> Dict[str, Any]:
         with self._lock:
-            r = self._row()
+            r = self._conn.execute("SELECT * FROM budget WHERE id=1").fetchone()
+            open_n = self._conn.execute(
+                "SELECT COUNT(*) AS c FROM tickets WHERE status='open'"
+            ).fetchone()["c"]
             return {
-                "reserved_calls": r["reserved_calls"],
+                "physical_attempts": r["physical_attempts"],
+                "max_physical": r["max_physical"],
+                "reserved_tickets": r["reserved_tickets"],
+                "open_tickets": open_n,
+                "settled_ok": r["settled_ok"],
+                "settled_failed": r["settled_failed"],
                 "reserved_cost_usd": r["reserved_cost"],
                 "spent_cost_usd": r["spent_cost"],
-                "logical_ok": r["logical_ok"],
-                "logical_failed": r["logical_failed"],
-                "physical_attempts": r["physical_attempts"],
-                "retries": r["retries"],
                 "tokens_in": r["tokens_in"],
                 "tokens_out": r["tokens_out"],
-                "max_calls": self.max_calls,
-                "max_cost_usd": self.max_cost_usd,
+                "retries": r["retries"],
+                "max_cost_usd": r["max_cost_usd"],
             }
 
-    def reserve(self, est_cost: float, is_retry: bool = False) -> int:
-        """Atomically reserve one physical attempt. Returns ticket id."""
+    def acquire_ticket(self, est_cost: float, *, is_retry: bool = False) -> str:
+        """Atomic pre-send reservation. Returns ticket id. Raises if denied."""
         with self._lock:
             conn = self._conn
             conn.execute("BEGIN IMMEDIATE")
             try:
                 r = conn.execute("SELECT * FROM budget WHERE id=1").fetchone()
-                started = r["logical_ok"] + r["logical_failed"] + r["reserved_calls"]
-                if started + r["physical_attempts"] * 0 + r["reserved_calls"] >= self.max_calls and (
-                    r["logical_ok"] + r["logical_failed"] + r["reserved_calls"] >= self.max_calls
-                ):
-                    # physical + logical share the same cap
-                    if r["physical_attempts"] >= self.max_calls or (
-                        r["logical_ok"] + r["logical_failed"] + r["reserved_calls"]
-                        >= self.max_calls
-                    ):
-                        conn.execute("ROLLBACK")
-                        raise BudgetExceeded("max_calls reached")
-                if r["spent_cost"] + r["reserved_cost"] + est_cost > self.max_cost_usd:
+                open_n = conn.execute(
+                    "SELECT COUNT(*) AS c FROM tickets WHERE status='open'"
+                ).fetchone()["c"]
+                # Hard cap on physical sends (attempts + in-flight).
+                if r["physical_attempts"] + open_n >= r["max_physical"]:
                     conn.execute("ROLLBACK")
-                    raise BudgetExceeded("max_cost reached")
+                    raise BudgetExceeded("max physical HTTP attempts reached")
+                if r["spent_cost"] + r["reserved_cost"] + float(est_cost) > r["max_cost_usd"]:
+                    conn.execute("ROLLBACK")
+                    raise BudgetExceeded("max cost reached")
+                tid = uuid.uuid4().hex
                 conn.execute(
-                    "UPDATE budget SET reserved_calls=reserved_calls+1, "
-                    "reserved_cost=reserved_cost+?, physical_attempts=physical_attempts+1, "
-                    "retries=retries+? WHERE id=1",
+                    "INSERT INTO tickets (id, est_cost, status, created_at) "
+                    "VALUES (?, ?, 'open', strftime('%s','now'))",
+                    (tid, float(est_cost)),
+                )
+                conn.execute(
+                    "UPDATE budget SET reserved_tickets=reserved_tickets+1, "
+                    "reserved_cost=reserved_cost+?, retries=retries+? WHERE id=1",
                     (float(est_cost), 1 if is_retry else 0),
                 )
                 conn.execute("COMMIT")
-                return r["physical_attempts"] + 1
+                return tid
             except BudgetExceeded:
                 raise
             except Exception:
                 conn.execute("ROLLBACK")
                 raise
 
-    def settle(self, est_cost: float, *, success: bool, actual_in: int = 0,
-               actual_out: int = 0, actual_cost: float = 0.0) -> None:
+    def settle(
+        self,
+        ticket: str,
+        *,
+        success: bool,
+        actual_cost: float = 0.0,
+        tokens_in: int = 0,
+        tokens_out: int = 0,
+    ) -> None:
         with self._lock:
             conn = self._conn
             conn.execute("BEGIN IMMEDIATE")
             try:
+                t = conn.execute("SELECT * FROM tickets WHERE id=?", (ticket,)).fetchone()
+                if t is None:
+                    conn.execute("ROLLBACK")
+                    raise UnknownTicket(ticket)
+                if t["status"] != "open":
+                    conn.execute("ROLLBACK")
+                    raise RuntimeError(f"ticket already settled: {ticket}")
+                est = float(t["est_cost"])
                 conn.execute(
-                    "UPDATE budget SET reserved_calls=MAX(0, reserved_calls-1), "
-                    "reserved_cost=MAX(0, reserved_cost-?), spent_cost=spent_cost+?, "
-                    "logical_ok=logical_ok+?, logical_failed=logical_failed+?, "
+                    "UPDATE tickets SET status='settled' WHERE id=?", (ticket,)
+                )
+                conn.execute(
+                    "UPDATE budget SET physical_attempts=physical_attempts+1, "
+                    "reserved_tickets=MAX(0,reserved_tickets-1), "
+                    "reserved_cost=MAX(0,reserved_cost-?), spent_cost=spent_cost+?, "
+                    "settled_ok=settled_ok+?, settled_failed=settled_failed+?, "
                     "tokens_in=tokens_in+?, tokens_out=tokens_out+? WHERE id=1",
                     (
-                        float(est_cost),
+                        est,
                         max(0.0, float(actual_cost)),
                         1 if success else 0,
                         0 if success else 1,
-                        int(actual_in),
-                        int(actual_out),
+                        int(tokens_in),
+                        int(tokens_out),
                     ),
                 )
                 conn.execute("COMMIT")
+            except (UnknownTicket, RuntimeError):
+                raise
             except Exception:
-                conn.execute("ROLLBACK")
+                try:
+                    conn.execute("ROLLBACK")
+                except Exception:
+                    pass
                 raise
 
 
 class PhysicalBudgetGate:
-    """Transport-level pre-send approval. HTTP must not send if denied."""
+    """Per-attempt ticket gate. approve() then network then settle(ticket)."""
 
     def __init__(self, db: BudgetDB, est_cost_per_request: float = 0.0005) -> None:
         self.db = db
         self.est_cost = est_cost_per_request
-        self._local = threading.local()
-        self._active_ticket: Dict[int, float] = {}
-        self._tlock = threading.Lock()
 
-    def approve(self, *, is_retry: bool = False) -> None:
-        """Called before EVERY physical send. Raises if budget denied."""
-        est = self.db.reserve(self.est_cost, is_retry=is_retry)
-        with self._tlock:
-            self._active_ticket[id(threading.current_thread())] = est
+    def approve(self, *, is_retry: bool = False) -> str:
+        return self.db.acquire_ticket(self.est_cost, is_retry=is_retry)
 
-    def release(self, *, success: bool, actual_cost: float = 0.0,
-                actual_in: int = 0, actual_out: int = 0) -> None:
-        with self._tlock:
-            est = self._active_ticket.pop(id(threading.current_thread()), self.est_cost)
-        self.db.settle(est, success=success, actual_cost=actual_cost,
-                       actual_in=actual_in, actual_out=actual_out)
-
-    def force_release_all(self) -> None:
-        with self._tlock:
-            leftovers = list(self._active_ticket.items())
-            self._active_ticket.clear()
-        for _, est in leftovers:
-            self.db.settle(est, success=False)
+    def settle(
+        self,
+        ticket: str,
+        *,
+        success: bool,
+        actual_cost: float = 0.0,
+        tokens_in: int = 0,
+        tokens_out: int = 0,
+    ) -> None:
+        self.db.settle(
+            ticket,
+            success=success,
+            actual_cost=actual_cost,
+            tokens_in=tokens_in,
+            tokens_out=tokens_out,
+        )
 
 
-_GLOBAL_GATE: Optional[PhysicalBudgetGate] = None
-_GLOBAL_LOCK = threading.Lock()
+_GATE: Optional[PhysicalBudgetGate] = None
+_LOCK = threading.Lock()
+_STRICT = False  # formal real-API mode: require gate
 
 
-def install_global_gate(gate: PhysicalBudgetGate) -> None:
-    global _GLOBAL_GATE
-    with _GLOBAL_LOCK:
-        _GLOBAL_GATE = gate
+def install_global_gate(gate: PhysicalBudgetGate, *, strict: bool = False) -> None:
+    global _GATE, _STRICT
+    with _LOCK:
+        _GATE = gate
+        _STRICT = bool(strict)
 
 
 def get_global_gate() -> Optional[PhysicalBudgetGate]:
-    with _GLOBAL_LOCK:
-        return _GLOBAL_GATE
+    with _LOCK:
+        return _GATE
 
 
-def pre_send_approval(*, is_retry: bool = False) -> None:
-    """http_client hook: approve or raise BEFORE any network I/O."""
-    gate = _GLOBAL_GATE
+def set_strict_mode(flag: bool) -> None:
+    global _STRICT
+    with _LOCK:
+        _STRICT = bool(flag)
+
+
+def pre_send_ticket(*, is_retry: bool = False) -> str:
+    """Must be called before every physical send.
+
+    - strict mode + no gate => GateRequired (no send)
+    - gate error => propagate (no send)
+    """
+    with _LOCK:
+        gate = _GATE
+        strict = _STRICT
     if gate is None:
+        if strict:
+            raise GateRequired("strict mode: physical HTTP requires installed Budget gate")
+        return ""  # offline / non-research path
+    return gate.approve(is_retry=is_retry)
+
+
+def settle_ticket(ticket: str, *, success: bool, **kwargs: Any) -> None:
+    with _LOCK:
+        gate = _GATE
+    if gate is None or not ticket:
         return
-    gate.approve(is_retry=is_retry)
+    gate.settle(ticket, success=success, **kwargs)

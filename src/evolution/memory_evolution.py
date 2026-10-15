@@ -375,6 +375,7 @@ class MemoryEvolutionLoop:
             child_rank=child_rank,
             survived=survived,
             seed=self.generation + 1,
+            spec=_spec_for_dim(self.config.n_objectives),
         )
         rec = self.archive.record_transition(
             generation=self.generation + 1,

@@ -82,7 +82,14 @@ class NSGA2:
             self.rng = random.Random()
 
     def _min_rows(self, population: Sequence[Individual]) -> List[List[float]]:
-        return [to_minimization(list(i.fitness_vector or [])) for i in population]
+        from src.evaluation.objective_spec import SPEC_2, SPEC_5
+
+        rows = [list(i.fitness_vector or []) for i in population]
+        if rows and len(rows[0]) == 2:
+            spec = SPEC_2
+        else:
+            spec = SPEC_5
+        return [spec.to_minimization(r) for r in rows]
 
     def ranks_and_crowding(
         self, population: Sequence[Individual]

@@ -56,10 +56,11 @@ def run_2d_evolution(
         divisions=4,
     )
     loop = MemoryEvolutionLoop(evaluator=evaluator, config=cfg)
-    # Force 2-obj NSGA-III with correct maximize mask.
-    from src.evolution.nsga3 import NSGA3
-
-    loop.nsga3 = NSGA3(n_objectives=2, divisions=4, seed=seed, maximize=spec.maximize)
+    # Do NOT override selector here — MemoryEvolutionLoop installs
+    # PreferenceAware/NSGA3 with maximize=(True, False) when n_objectives==2.
+    # Force maximize mask on the already-constructed selector.
+    if hasattr(loop.nsga3, "config"):
+        loop.nsga3.config.maximize = spec.maximize
     loop.initialize()
     loop.run(generations)
     front = loop.pareto_front()
