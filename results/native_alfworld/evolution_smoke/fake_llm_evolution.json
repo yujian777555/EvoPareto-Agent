@@ -1,0 +1,258 @@
+{
+  "evaluation_kind": "real_environment",
+  "fake_llm": true,
+  "sample_vec": [
+    0.0,
+    0.5274725274725275,
+    0.0,
+    0.0,
+    0.5
+  ],
+  "evo_generation": 1,
+  "evo_pop": 3,
+  "evo_hv": 0.0,
+  "rs_evals": 2,
+  "episodes": [
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 5,
+      "score": 0.0,
+      "api_calls": 5,
+      "input_tokens": 100,
+      "output_tokens": 25,
+      "cost_usd": 0.0,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 48
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 5,
+      "score": 0.0,
+      "api_calls": 5,
+      "input_tokens": 100,
+      "output_tokens": 25,
+      "cost_usd": 0.0,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "self_critique",
+        "tool_policy": "balanced",
+        "reasoning_budget": 48
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 4,
+      "score": 0.0,
+      "api_calls": 4,
+      "input_tokens": 80,
+      "output_tokens": 20,
+      "cost_usd": 0.0,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "critic_model",
+        "tool_policy": "conservative",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 4,
+      "score": 0.0,
+      "api_calls": 4,
+      "input_tokens": 80,
+      "output_tokens": 20,
+      "cost_usd": 0.0,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "plan_and_solve",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "critic_model",
+        "tool_policy": "conservative",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "examine armchair 1",
+          "obs": "On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    }
+  ],
+  "wall_time": 63.813756704330444
+}

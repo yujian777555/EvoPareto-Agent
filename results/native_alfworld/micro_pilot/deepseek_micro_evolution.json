@@ -1,0 +1,867 @@
+{
+  "model": "deepseek-flash",
+  "evaluation_kind": "real_environment",
+  "api_calls": 57,
+  "tokens_in": 23102,
+  "tokens_out": 307,
+  "cost_usd": 0.0023716000000000006,
+  "hard_cap_calls": 100,
+  "hard_cap_cost": 1.0,
+  "evo_generation": 1,
+  "evo_hv": 0.0,
+  "evo_front": 2,
+  "n_episodes": 16,
+  "n_success": 0,
+  "episodes": [
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 5,
+      "score": 0.0,
+      "api_calls": 5,
+      "input_tokens": 2101,
+      "output_tokens": 25,
+      "cost_usd": 0.00021510000000000002,
+      "termination_reason": "max_steps",
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "hybrid",
+        "reflection_strategy": "critic_model",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 56
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "go to shelf 1",
+          "obs": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 5,
+      "score": 0.0,
+      "api_calls": 6,
+      "input_tokens": 2404,
+      "output_tokens": 29,
+      "cost_usd": 0.0002462,
+      "termination_reason": "max_steps",
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "hybrid",
+        "reflection_strategy": "critic_model",
+        "tool_policy": "tool_first",
+        "reasoning_budget": 56
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to shelf 1",
+          "obs": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "go to shelf 2",
+          "obs": "You arrive at shelf 2. On the shelf 2, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 4,
+          "action": "examine shelf 2",
+          "obs": "On the shelf 2, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 4,
+      "score": 0.0,
+      "api_calls": 4,
+      "input_tokens": 1647,
+      "output_tokens": 20,
+      "cost_usd": 0.0001687000000000001,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "hybrid",
+        "reflection_strategy": "critic_model",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 48
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 4,
+      "score": 0.0,
+      "api_calls": 4,
+      "input_tokens": 1593,
+      "output_tokens": 45,
+      "cost_usd": 0.00016829999999999992,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "cot",
+        "memory_strategy": "hybrid",
+        "reflection_strategy": "critic_model",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 48
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to shelf 1",
+          "obs": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "go to shelf 2",
+          "obs": "You arrive at shelf 2. On the shelf 2, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1219,
+      "output_tokens": 15,
+      "cost_usd": 0.00012490000000000005,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "balanced",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1238,
+      "output_tokens": 15,
+      "cost_usd": 0.00012680000000000005,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "balanced",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to dresser 1",
+          "obs": "You arrive at dresser 1. On the dresser 1, you see a laptop 1, a newspaper 2, a newspaper 1, a remotecontrol 1, a statue 2, and a vase 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1254,
+      "output_tokens": 16,
+      "cost_usd": 0.00012859999999999998,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "conservative",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1238,
+      "output_tokens": 15,
+      "cost_usd": 0.00012680000000000005,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "conservative",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to sidetable 1",
+          "obs": "You arrive at sidetable 1. On the sidetable 1, you see a keychain 1, and a statue 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1219,
+      "output_tokens": 18,
+      "cost_usd": 0.00012549999999999996,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "balanced",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "take keychain 3 from safe 1",
+          "obs": "You pick up the keychain 3 from the safe 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1238,
+      "output_tokens": 15,
+      "cost_usd": 0.00012680000000000005,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "balanced",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 1, a creditcard 1, a pillow 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1219,
+      "output_tokens": 15,
+      "cost_usd": 0.00012490000000000005,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to armchair 1",
+          "obs": "You arrive at armchair 1. On the armchair 1, you see a cellphone 3, a laptop 2, and a pillow 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1238,
+      "output_tokens": 14,
+      "cost_usd": 0.00012659999999999993,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "direct",
+        "memory_strategy": "semantic",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 24
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to shelf 1",
+          "obs": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1231,
+      "output_tokens": 14,
+      "cost_usd": 0.00012589999999999997,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "reflexion",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to shelf 1",
+          "obs": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 3,
+      "score": 0.0,
+      "api_calls": 3,
+      "input_tokens": 1280,
+      "output_tokens": 13,
+      "cost_usd": 0.00013060000000000003,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "reflexion",
+        "memory_strategy": "episodic",
+        "reflection_strategy": "pairwise",
+        "tool_policy": "no_tools",
+        "reasoning_budget": 8
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "close safe 1",
+          "obs": "You close the safe 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 4,
+      "score": 0.0,
+      "api_calls": 4,
+      "input_tokens": 1482,
+      "output_tokens": 19,
+      "cost_usd": 0.00015200000000000023,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 32
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to shelf 1",
+          "obs": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is open. In it, you see a keychain 3.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    },
+    {
+      "benchmark": "alfworld_textworld",
+      "evaluation_kind": "real_environment",
+      "model": "deepseek-flash",
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 4,
+      "score": 0.0,
+      "api_calls": 4,
+      "input_tokens": 1501,
+      "output_tokens": 19,
+      "cost_usd": 0.00015390000000000022,
+      "termination_reason": "budget_exhausted",
+      "genome": {
+        "planner_strategy": "tree_search",
+        "memory_strategy": "short_term",
+        "reflection_strategy": "none",
+        "tool_policy": "balanced",
+        "reasoning_budget": 32
+      },
+      "trajectory": [
+        {
+          "t": 0,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is closed.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 1,
+          "action": "open safe 1",
+          "obs": "You open the safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 2,
+          "action": "go to shelf 1",
+          "obs": "You arrive at shelf 1. On the shelf 1, you see nothing.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        },
+        {
+          "t": 3,
+          "action": "go to safe 1",
+          "obs": "You arrive at safe 1. The safe 1 is open. In it, you see a watch 2, and a watch 1.",
+          "score": 0.0,
+          "won": false,
+          "done": false
+        }
+      ]
+    }
+  ],
+  "termination_reasons": [
+    "max_steps",
+    "max_steps",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted",
+    "budget_exhausted"
+  ]
+}

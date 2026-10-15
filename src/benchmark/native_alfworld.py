@@ -76,7 +76,7 @@ class NativeALFWorldEnv:
             "rl": {"training": {"max_nb_steps_per_episode": self.config.max_steps}},
         }
 
-    def reset(self):
+    def reset(self, *, episode_index: int = 0):
         from alfworld.agents.environment.alfred_tw_env import AlfredTWEnv
 
         split = "eval_out_of_distribution" if self.config.split != "train" else "train"
@@ -84,8 +84,17 @@ class NativeALFWorldEnv:
         if wrap.num_games == 0:
             raise NativeALFWorldUnavailable("no native games found for split")
         self._games = list(wrap.game_files)
+        idx = 0
+        if self._games:
+            idx = int(episode_index) % len(self._games)
+            wrap.game_files = [self._games[idx]]
+            wrap.num_games = 1
         self._env = wrap.init_env(batch_size=self.config.batch_size)
         obs, infos = self._env.reset()
+        # Always stamp the selected game file into infos for auditability.
+        if isinstance(infos, dict):
+            infos = dict(infos)
+            infos["extra.gamefile"] = [self._games[idx] if self._games else ""]
         return obs, infos
 
     def step(self, actions: Sequence[str]):
