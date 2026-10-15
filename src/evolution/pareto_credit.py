@@ -146,11 +146,14 @@ class ParetoContributionEstimator:
         parent: Sequence[float],
         child: Sequence[float],
         population: Sequence[Sequence[float]],
+        spec: Optional[object] = None,
     ) -> float:
         """Single-child fallback: dominance-based rank vs population."""
         if not population:
             return MID_SCORE
-        dom = dominance_count(child, population)
+        dom = sum(
+            1 for o in population if dominates_mixed(o, child, spec=spec)
+        )
         n = len(population)
         if dom == 0:
             return TOP_SCORE

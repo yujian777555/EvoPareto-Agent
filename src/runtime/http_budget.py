@@ -92,27 +92,46 @@ class BudgetDB:
             self._conn.commit()
 
     def recover_stale(self, older_than_seconds: float = 3600.0) -> int:
-        """Conservatively expire old in-flight tickets (crash recovery)."""
+        """Expire only tickets proven stale by age (crash recovery).
+
+        Does NOT touch fresh open tickets belonging to live processes.
+        """
         with self._lock:
             conn = self._conn
             conn.execute("BEGIN IMMEDIATE")
             try:
                 rows = conn.execute(
-                    "SELECT id FROM tickets WHERE status='open' AND CAST(created_at AS REAL) <= strftime('%s','now') - ?",
+                    "SELECT id FROM tickets WHERE status='open' "
+                    "AND CAST(created_at AS REAL) <= strftime('%s','now') - ?",
                     (int(older_than_seconds),),
                 ).fetchall()
-                n = len(rows)
-                if n:
+                stale_ids = [r["id"] for r in rows]
+                if stale_ids:
+                    est_sum = conn.execute(
+                        "SELECT COALESCE(SUM(est_cost),0) AS s FROM tickets WHERE id IN ({seq})".format(
+                            seq=",".join("?" * len(stale_ids))
+                        ),
+                        tuple(stale_ids),
+                    ).fetchone()["s"]
                     conn.execute(
                         "UPDATE budget SET physical_attempts = physical_attempts + ?, "
-                        "reserved_tickets=0, reserved_cost=0 WHERE id=1",
-                        (n,),
+                        "reserved_tickets=MAX(0, reserved_tickets-?), "
+                        "reserved_cost=MAX(0, reserved_cost - ?) WHERE id=1",
+                        (len(stale_ids), len(stale_ids), float(est_sum)),
                     )
-                    conn.execute("UPDATE tickets SET status='abandoned' WHERE status='open'")
+                    conn.execute(
+                        "UPDATE tickets SET status='abandoned' WHERE id IN ({seq})".format(
+                            seq=",".join("?" * len(stale_ids))
+                        ),
+                        tuple(stale_ids),
+                    )
                 conn.execute("COMMIT")
-                return n
+                return len(stale_ids)
             except Exception:
-                conn.execute("ROLLBACK")
+                try:
+                    conn.execute("ROLLBACK")
+                except Exception:
+                    pass
                 raise
 
     def close(self) -> None:

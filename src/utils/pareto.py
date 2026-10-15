@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Sequence, Tuple
+from typing import List, Optional, Sequence, Tuple
 
 from src.evaluation.objectives import MAXIMIZE, to_minimization
 
@@ -28,25 +28,27 @@ def dominates_min(a: Sequence[float], b: Sequence[float]) -> bool:
     return strictly_better
 
 
-def dominates_mixed(a: Sequence[float], b: Sequence[float]) -> bool:
-    """Dominance under paper semantics (max except cost).
+def _spec_for_len(n: int):
+    from src.evaluation.objective_spec import SPEC_2, SPEC_5
 
-    Fast path avoids allocation-heavy to_minimization for the common case.
+    if n == 2:
+        return SPEC_2
+    return SPEC_5
+
+
+def dominates_mixed(
+    a: Sequence[float],
+    b: Sequence[float],
+    spec: Optional[object] = None,
+) -> bool:
+    """Dominance under explicit ObjectiveSpec (max/min directions).
+
+    Default: 2-vec uses candidate_2obj (performance↑, cost↓);
+    other widths use legacy 5-obj paper semantics.
     """
-    strictly_better = False
-    # maximize: a[i] >= b[i]; cost (i==2): a[i] <= b[i]
-    for i, (x, y) in enumerate(zip(a, b)):
-        if i == 2:
-            if x > y:
-                return False
-            if x < y:
-                strictly_better = True
-        else:
-            if x < y:
-                return False
-            if x > y:
-                strictly_better = True
-    return strictly_better
+    if spec is not None:
+        return spec.dominates(a, b)  # type: ignore[attr-defined]
+    return _spec_for_len(len(a)).dominates(a, b)
 
 
 def pareto_mask_max(rows: Sequence[Sequence[float]]) -> List[bool]:
@@ -67,8 +69,11 @@ def pareto_mask_max(rows: Sequence[Sequence[float]]) -> List[bool]:
     return mask
 
 
-def pareto_mask_mixed(rows: Sequence[Sequence[float]]) -> List[bool]:
-    """Boolean mask of non-dominated rows under paper max/min semantics."""
+def pareto_mask_mixed(
+    rows: Sequence[Sequence[float]],
+    spec: Optional[object] = None,
+) -> List[bool]:
+    """Boolean mask of non-dominated rows under mixed max/min semantics."""
     n = len(rows)
     mask = [True] * n
     for i in range(n):
@@ -77,10 +82,10 @@ def pareto_mask_mixed(rows: Sequence[Sequence[float]]) -> List[bool]:
         for j in range(n):
             if i == j or not mask[j]:
                 continue
-            if dominates_mixed(rows[j], rows[i]):
+            if dominates_mixed(rows[j], rows[i], spec=spec):
                 mask[i] = False
                 break
-            if dominates_mixed(rows[i], rows[j]):
+            if dominates_mixed(rows[i], rows[j], spec=spec):
                 mask[j] = False
     return mask
 

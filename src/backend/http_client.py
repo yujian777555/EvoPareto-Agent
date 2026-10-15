@@ -60,7 +60,20 @@ def post_json(
                 status, data = _post_curl(url, body, headers, timeout)
             else:
                 status, data = _post_urllib(url, body, headers, timeout)
-            settle_ticket(ticket, success=True)
+            # Parse usage BEFORE settle so SQLite gets real tokens/cost.
+            usage = data.get("usage") or {} if isinstance(data, dict) else {}
+            tokens_in = int(usage.get("prompt_tokens", 0) or 0)
+            tokens_out = int(usage.get("completion_tokens", 0) or 0)
+            # Cost estimate: rate table applied by caller; here we store tokens only
+            # and a placeholder cost of 0 — backend.generate adds cost after parse.
+            # Mark usage_known explicitly.
+            settle_ticket(
+                ticket,
+                success=True,
+                tokens_in=tokens_in,
+                tokens_out=tokens_out,
+                actual_cost=0.0,
+            )
             return status, data
         except (BudgetExceeded, GateRequired):
             raise

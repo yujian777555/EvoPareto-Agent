@@ -264,6 +264,7 @@ class MemoryEvolutionLoop:
                         parent.fitness_vector or [],
                         child.fitness_vector or [],
                         pop_rows,
+                        spec=_spec_for_dim(self.config.n_objectives),
                     ),
                     spec=_spec_for_dim(self.config.n_objectives),
                 )
