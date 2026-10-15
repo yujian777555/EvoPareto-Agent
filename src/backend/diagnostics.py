@@ -50,7 +50,7 @@ def _direct_urlopen(url: str, *, method: str = "GET", body: Optional[bytes] = No
 
 
 def check_balance() -> Dict[str, Any]:
-    """GET /user/balance — availability only, no account details leaked."""
+    """GET /user/balance — parse is_available; do not leak account details."""
     key = os.environ.get("DEEPSEEK_API_KEY", "")
     if not key:
         return {"available": False, "reason": "DEEPSEEK_API_KEY missing"}
@@ -60,23 +60,26 @@ def check_balance() -> Dict[str, Any]:
         headers={"Authorization": f"Bearer {key}", "Accept": "application/json"},
         timeout=12,
     )
-    # Parse only whether balance info is present, not amounts/ids.
-    has_balance_info = False
-    if r["raw_prefix"]:
+    is_available = False
+    parse_ok = False
+    if r["http_status"] == 200 and r["raw_prefix"]:
         try:
-            data = json.loads(r["raw_prefix"] if r["response_len"] <= 200 else r["raw_prefix"] + "}")
+            # raw_prefix may be truncated; fetch is small for balance.
+            import json as _json
+
+            data = _json.loads(r["raw_prefix"]) if r["response_len"] <= 200 else {}
+            if isinstance(data, dict):
+                parse_ok = True
+                is_available = bool(data.get("is_available", False))
         except Exception:
-            data = {}
-        # Official shape: {"is_available": true, "balance_infos": [...]}
-        if isinstance(data, dict) and ("is_available" in data or "balance_infos" in data):
-            has_balance_info = True
+            parse_ok = False
     return {
-        "available": r["http_status"] == 200 and has_balance_info,
+        "available": bool(is_available),
+        "parse_ok": parse_ok,
         "http_status": r["http_status"],
         "ttfb": r["ttfb"],
         "total_latency": r["total_latency"],
         "error": r["error"],
-        "has_balance_fields": has_balance_info,
     }
 
 
@@ -109,15 +112,25 @@ def chat_probe(model: str = "deepseek-flash", *, stream: bool = False,
         timeout=timeout,
     )
     ok = r["http_status"] == 200 and r["response_len"] > 0 and not r["error"]
-    # Validate JSON completion if non-stream
     valid_completion = False
+    parsed_content = ""
     if ok and not stream:
         try:
-            data = json.loads(r["raw_prefix"]) if r["response_len"] <= 200 else None
-            # may be truncated prefix; try full via error path only if small
+            import json as _json
+
+            data = _json.loads(r["raw_prefix"]) if r["response_len"] <= 400 else {}
+            if isinstance(data, dict):
+                ch = data.get("choices") or []
+                if ch and isinstance(ch[0], dict):
+                    msg = ch[0].get("message") or {}
+                    parsed_content = str(msg.get("content") or "")
+                    valid_completion = bool(parsed_content.strip())
         except Exception:
-            data = None
-        valid_completion = r["response_len"] > 20
+            valid_completion = False
+    elif ok and stream:
+        # SSE: need at least one data: line with content/delta.
+        raw = r["raw_prefix"]
+        valid_completion = ("data:" in raw and ("content" in raw or "delta" in raw)) or r["response_len"] > 50
     return {
         "ok": bool(ok and valid_completion),
         "model": model,
@@ -130,6 +143,7 @@ def chat_probe(model: str = "deepseek-flash", *, stream: bool = False,
         "response_len": r["response_len"],
         "error": r["error"],
         "valid_completion": valid_completion,
+        "content_len": len(parsed_content),
     }
 
 
