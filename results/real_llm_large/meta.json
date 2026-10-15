@@ -1,0 +1,30 @@
+{
+  "phase": "Phase5-R3 large-scale real LLM",
+  "intended_model": "deepseek-chat",
+  "api_healthcheck": {
+    "ok": false,
+    "models_ok": true,
+    "reason": "chat completions: RuntimeError: HTTP POST failed: Command '['C:\\\\Windows\\\\system32\\\\curl.EXE', '-sS', '-m', '12', '-w', '\\n%{http_code}', '-X', 'POST', 'https://api.deepseek.com/v1/chat/completions', '-H', 'Content-Type: application/json', '-H', 'Authorization: Bearer sk-e76e2cfe30e249baadbdd625cee4d526', '--data-binary', '@D:\\\\temp\\\\tmpn0hyo33t.json']' returned non-zero exit status 28.",
+    "model": "deepseek-chat",
+    "latency": 35.026928186416626
+  },
+  "backend_used": "mock",
+  "config": {
+    "pop": 8,
+    "gens": 4,
+    "tasks": 10,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "methods": [
+      "B1_nsga3",
+      "B2_nsga3_peem",
+      "B3_peem_ppec"
+    ],
+    "workers": 6,
+    "budget_calls": 5000
+  },
+  "started_at": "2026-10-15T03:13:29Z"
+}

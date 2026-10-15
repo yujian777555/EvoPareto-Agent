@@ -1,0 +1,156 @@
+{
+  "alfworld": [
+    {
+      "seed": 11,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.5804648104331009
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.6196310970624072
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.6705143395494271
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.6806081038007088
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.6676737701397294
+        }
+      ]
+    },
+    {
+      "seed": 22,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.6444644188739461
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.6616501367105847
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.7746025289828864
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.776142494249254
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.7761351705105509
+        }
+      ]
+    },
+    {
+      "seed": 33,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.6612962055818865
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.773597369492598
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.7767165565903248
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.7859939839197062
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.7935503560349313
+        }
+      ]
+    }
+  ],
+  "webshop": [
+    {
+      "seed": 11,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.09121623866050159
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.2196051426538665
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.22412889385491863
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.22564140261736473
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.2247391570874901
+        }
+      ]
+    },
+    {
+      "seed": 22,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.1097326023574691
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.11391956647802601
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.11531947758490632
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.11467855771414777
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.11491549688297865
+        }
+      ]
+    },
+    {
+      "seed": 33,
+      "curve": [
+        {
+          "generation": 0,
+          "hypervolume": 0.046118598267324604
+        },
+        {
+          "generation": 1,
+          "hypervolume": 0.11312791157411214
+        },
+        {
+          "generation": 2,
+          "hypervolume": 0.2799023046462684
+        },
+        {
+          "generation": 3,
+          "hypervolume": 0.2881909833715566
+        },
+        {
+          "generation": 4,
+          "hypervolume": 0.2744431205835408
+        }
+      ]
+    }
+  ]
+}

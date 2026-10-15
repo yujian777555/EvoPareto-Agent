@@ -1,0 +1,914 @@
+{
+  "backend": "mock",
+  "runs": [
+    {
+      "method": "B1_nsga3",
+      "benchmark": "webshop",
+      "seed": 11,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.09861117001678495,
+      "final_pareto": 8,
+      "success": 0.375,
+      "cost": 0.005898624230220624,
+      "efficiency": 0.6004537768576563,
+      "pss": 0.5646776971921538,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.09121623866050159,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.09152313767602577,
+          "archive_size": 8,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.08924794339790393,
+          "archive_size": 14,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.10048005506727027,
+          "archive_size": 22,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.09828136677258165,
+          "archive_size": 27,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "usage": {
+        "calls": 340,
+        "prompt_tokens": 21024,
+        "completion_tokens": 3970,
+        "tokens": 24994,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.15317153930664062
+    },
+    {
+      "method": "B2_nsga3_peem",
+      "benchmark": "webshop",
+      "seed": 11,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.22405812933874011,
+      "final_pareto": 8,
+      "success": 0.4000000000000001,
+      "cost": 0.0036557473555599122,
+      "efficiency": 0.6155554354600677,
+      "pss": 0.6064132709542348,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.09121623866050159,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 6,
+          "hypervolume": 0.2196051426538665,
+          "archive_size": 8,
+          "mutation_entropy": 1.811278124459133,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.26241518805138253,
+            "memory": 0.19907481939308266,
+            "planner": 0.17426016278588388,
+            "reflection": 0.19395389524776716,
+            "tool": 0.17029593452188388
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.22412889385491863,
+          "archive_size": 16,
+          "mutation_entropy": 2.311278124459133,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.19879239053426961,
+            "memory": 0.2630277023217469,
+            "planner": 0.1634864512905993,
+            "reflection": 0.16701422805752109,
+            "tool": 0.20767922779586312
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.22564140261736473,
+          "archive_size": 24,
+          "mutation_entropy": 2.304585169337799,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.14206799103106288,
+            "memory": 0.2661552173670235,
+            "planner": 0.13840693165662815,
+            "reflection": 0.2420853680366175,
+            "tool": 0.21128449190866788
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2247391570874901,
+          "archive_size": 32,
+          "mutation_entropy": 2.2806390622295662,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.13156951135280617,
+            "memory": 0.1757886317615816,
+            "planner": 0.10788830092966432,
+            "reflection": 0.21543753773536334,
+            "tool": 0.3693160182205845
+          }
+        }
+      ],
+      "usage": {
+        "calls": 330,
+        "prompt_tokens": 20410,
+        "completion_tokens": 3860,
+        "tokens": 24270,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.12797212600708008
+    },
+    {
+      "method": "B3_peem_ppec",
+      "benchmark": "webshop",
+      "seed": 11,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.22405812933874011,
+      "final_pareto": 8,
+      "success": 0.4000000000000001,
+      "cost": 0.0036557473555599122,
+      "efficiency": 0.6155554354600677,
+      "pss": 0.6064132709542348,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.09121623866050159,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 6,
+          "hypervolume": 0.2196051426538665,
+          "archive_size": 8,
+          "mutation_entropy": 1.811278124459133,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.26241518805138253,
+            "memory": 0.19907481939308266,
+            "planner": 0.17426016278588388,
+            "reflection": 0.19395389524776716,
+            "tool": 0.17029593452188388
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.22412889385491863,
+          "archive_size": 16,
+          "mutation_entropy": 2.311278124459133,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.19879239053426961,
+            "memory": 0.2630277023217469,
+            "planner": 0.1634864512905993,
+            "reflection": 0.16701422805752109,
+            "tool": 0.20767922779586312
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.22564140261736473,
+          "archive_size": 24,
+          "mutation_entropy": 2.304585169337799,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.14206799103106288,
+            "memory": 0.2661552173670235,
+            "planner": 0.13840693165662815,
+            "reflection": 0.2420853680366175,
+            "tool": 0.21128449190866788
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2247391570874901,
+          "archive_size": 32,
+          "mutation_entropy": 2.2806390622295662,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.13156951135280617,
+            "memory": 0.1757886317615816,
+            "planner": 0.10788830092966432,
+            "reflection": 0.21543753773536334,
+            "tool": 0.3693160182205845
+          }
+        }
+      ],
+      "usage": {
+        "calls": 330,
+        "prompt_tokens": 20410,
+        "completion_tokens": 3860,
+        "tokens": 24270,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.14656639099121094
+    },
+    {
+      "method": "B1_nsga3",
+      "benchmark": "webshop",
+      "seed": 22,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.11122519884725339,
+      "final_pareto": 8,
+      "success": 0.30000000000000004,
+      "cost": 0.0026647475786158647,
+      "efficiency": 0.5753330314387359,
+      "pss": 0.5519669901053573,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.1097326023574691,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.11274784802817761,
+          "archive_size": 8,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11227332209365122,
+          "archive_size": 15,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11529412896612613,
+          "archive_size": 23,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11021863596175789,
+          "archive_size": 30,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "usage": {
+        "calls": 360,
+        "prompt_tokens": 22376,
+        "completion_tokens": 4240,
+        "tokens": 26616,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.18113017082214355
+    },
+    {
+      "method": "B2_nsga3_peem",
+      "benchmark": "webshop",
+      "seed": 22,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.11408620979207056,
+      "final_pareto": 8,
+      "success": 0.37500000000000006,
+      "cost": 0.00418517679504075,
+      "efficiency": 0.6059501402836317,
+      "pss": 0.578869659364385,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.1097326023574691,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.11391956647802601,
+          "archive_size": 8,
+          "mutation_entropy": 1.2987949406953985,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.2114482835408803,
+            "memory": 0.19499930469229732,
+            "planner": 0.18175635979778315,
+            "reflection": 0.21679674727674186,
+            "tool": 0.19499930469229732
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11531947758490632,
+          "archive_size": 16,
+          "mutation_entropy": 1.936278124459133,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.2085605427069533,
+            "memory": 0.18110073222118145,
+            "planner": 0.15360675304361104,
+            "reflection": 0.2372128133151219,
+            "tool": 0.21951915871313243
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11467855771414777,
+          "archive_size": 24,
+          "mutation_entropy": 2.1302704430860198,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.20530410838583374,
+            "memory": 0.18007173921261976,
+            "planner": 0.11996134421108255,
+            "reflection": 0.3212698157120276,
+            "tool": 0.17339299247843631
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11491549688297865,
+          "archive_size": 32,
+          "mutation_entropy": 2.274988766373815,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.23447523540204115,
+            "memory": 0.10957019420969225,
+            "planner": 0.09555114726392083,
+            "reflection": 0.22190801092294668,
+            "tool": 0.33849541220139917
+          }
+        }
+      ],
+      "usage": {
+        "calls": 340,
+        "prompt_tokens": 20838,
+        "completion_tokens": 4050,
+        "tokens": 24888,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.21440386772155762
+    },
+    {
+      "method": "B3_peem_ppec",
+      "benchmark": "webshop",
+      "seed": 22,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.11408620979207056,
+      "final_pareto": 8,
+      "success": 0.37500000000000006,
+      "cost": 0.00418517679504075,
+      "efficiency": 0.6059501402836317,
+      "pss": 0.578869659364385,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 5,
+          "hypervolume": 0.1097326023574691,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.11391956647802601,
+          "archive_size": 8,
+          "mutation_entropy": 1.2987949406953985,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.2114482835408803,
+            "memory": 0.19499930469229732,
+            "planner": 0.18175635979778315,
+            "reflection": 0.21679674727674186,
+            "tool": 0.19499930469229732
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11531947758490632,
+          "archive_size": 16,
+          "mutation_entropy": 1.936278124459133,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.2085605427069533,
+            "memory": 0.18110073222118145,
+            "planner": 0.15360675304361104,
+            "reflection": 0.2372128133151219,
+            "tool": 0.21951915871313243
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11467855771414777,
+          "archive_size": 24,
+          "mutation_entropy": 2.1302704430860198,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.20530410838583374,
+            "memory": 0.18007173921261976,
+            "planner": 0.11996134421108255,
+            "reflection": 0.3212698157120276,
+            "tool": 0.17339299247843631
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11491549688297865,
+          "archive_size": 32,
+          "mutation_entropy": 2.274988766373815,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.23447523540204115,
+            "memory": 0.10957019420969225,
+            "planner": 0.09555114726392083,
+            "reflection": 0.22190801092294668,
+            "tool": 0.33849541220139917
+          }
+        }
+      ],
+      "usage": {
+        "calls": 340,
+        "prompt_tokens": 20838,
+        "completion_tokens": 4050,
+        "tokens": 24888,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.15531611442565918
+    },
+    {
+      "method": "B1_nsga3",
+      "benchmark": "webshop",
+      "seed": 33,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.11654756037609348,
+      "final_pareto": 8,
+      "success": 0.25000000000000006,
+      "cost": 0.0037792611236210196,
+      "efficiency": 0.557550162524162,
+      "pss": 0.5500875136134415,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.046118598267324604,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.09825124258117547,
+          "archive_size": 7,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 6,
+          "hypervolume": 0.12062783447793532,
+          "archive_size": 13,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.12062783447793532,
+          "archive_size": 21,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11677563779365922,
+          "archive_size": 28,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {}
+        }
+      ],
+      "usage": {
+        "calls": 330,
+        "prompt_tokens": 20728,
+        "completion_tokens": 4170,
+        "tokens": 24898,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.18882250785827637
+    },
+    {
+      "method": "B2_nsga3_peem",
+      "benchmark": "webshop",
+      "seed": 33,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.2802412146803762,
+      "final_pareto": 8,
+      "success": 0.55,
+      "cost": 0.005677207895947626,
+      "efficiency": 0.6594969405195157,
+      "pss": 0.6494139465247135,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.046118598267324604,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11312791157411214,
+          "archive_size": 8,
+          "mutation_entropy": 2.0,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.2273124333377715,
+            "memory": 0.24500919184645742,
+            "planner": 0.15851138281199603,
+            "reflection": 0.19170640114495457,
+            "tool": 0.1774605908588204
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2799023046462684,
+          "archive_size": 16,
+          "mutation_entropy": 2.0524212838293647,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.2512592168199206,
+            "memory": 0.192801111193399,
+            "planner": 0.15120218314480627,
+            "reflection": 0.18570727096419348,
+            "tool": 0.21903021787768068
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2881909833715566,
+          "archive_size": 24,
+          "mutation_entropy": 2.054585169337799,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.29283212713299,
+            "memory": 0.22480077805339985,
+            "planner": 0.16215381856765862,
+            "reflection": 0.18520155875772673,
+            "tool": 0.13501171748822496
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2744431205835408,
+          "archive_size": 32,
+          "mutation_entropy": 2.1287451922921394,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.2104686269313421,
+            "memory": 0.17549951647687217,
+            "planner": 0.14044666934360336,
+            "reflection": 0.35098940922710725,
+            "tool": 0.12259577802107514
+          }
+        }
+      ],
+      "usage": {
+        "calls": 340,
+        "prompt_tokens": 21496,
+        "completion_tokens": 4690,
+        "tokens": 26186,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.14421844482421875
+    },
+    {
+      "method": "B3_peem_ppec",
+      "benchmark": "webshop",
+      "seed": 33,
+      "backend": "mock",
+      "model": "mock-llm",
+      "final_hv": 0.2802412146803762,
+      "final_pareto": 8,
+      "success": 0.55,
+      "cost": 0.005677207895947626,
+      "efficiency": 0.6594969405195157,
+      "pss": 0.6494139465247135,
+      "curve": [
+        {
+          "generation": 0,
+          "n_individuals": 8,
+          "n_non_dominated": 7,
+          "hypervolume": 0.046118598267324604,
+          "archive_size": 0,
+          "mutation_entropy": 0.0,
+          "temperature": 1.0,
+          "mutation_probs": {
+            "budget": 0.2,
+            "memory": 0.2,
+            "planner": 0.2,
+            "reflection": 0.2,
+            "tool": 0.2
+          }
+        },
+        {
+          "generation": 1,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.11312791157411214,
+          "archive_size": 8,
+          "mutation_entropy": 2.0,
+          "temperature": 0.84,
+          "mutation_probs": {
+            "budget": 0.2273124333377715,
+            "memory": 0.24500919184645742,
+            "planner": 0.15851138281199603,
+            "reflection": 0.19170640114495457,
+            "tool": 0.1774605908588204
+          }
+        },
+        {
+          "generation": 2,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2799023046462684,
+          "archive_size": 16,
+          "mutation_entropy": 2.0524212838293647,
+          "temperature": 0.6799999999999999,
+          "mutation_probs": {
+            "budget": 0.2512592168199206,
+            "memory": 0.192801111193399,
+            "planner": 0.15120218314480627,
+            "reflection": 0.18570727096419348,
+            "tool": 0.21903021787768068
+          }
+        },
+        {
+          "generation": 3,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2881909833715566,
+          "archive_size": 24,
+          "mutation_entropy": 2.054585169337799,
+          "temperature": 0.52,
+          "mutation_probs": {
+            "budget": 0.29283212713299,
+            "memory": 0.22480077805339985,
+            "planner": 0.16215381856765862,
+            "reflection": 0.18520155875772673,
+            "tool": 0.13501171748822496
+          }
+        },
+        {
+          "generation": 4,
+          "n_individuals": 8,
+          "n_non_dominated": 8,
+          "hypervolume": 0.2744431205835408,
+          "archive_size": 32,
+          "mutation_entropy": 2.1287451922921394,
+          "temperature": 0.36,
+          "mutation_probs": {
+            "budget": 0.2104686269313421,
+            "memory": 0.17549951647687217,
+            "planner": 0.14044666934360336,
+            "reflection": 0.35098940922710725,
+            "tool": 0.12259577802107514
+          }
+        }
+      ],
+      "usage": {
+        "calls": 340,
+        "prompt_tokens": 21496,
+        "completion_tokens": 4690,
+        "tokens": 26186,
+        "cost": 0.0
+      },
+      "cache": {
+        "n_entries": 0,
+        "hits": 0,
+        "misses": 0,
+        "hit_rate": 0.0,
+        "saved_tokens": 0,
+        "saved_cost": 0.0
+      },
+      "wall_time": 0.14832043647766113
+    }
+  ]
+}

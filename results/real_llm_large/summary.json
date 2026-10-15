@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "phase": "Phase5-R3 large-scale real LLM",
+    "intended_model": "deepseek-chat",
+    "api_healthcheck": {
+      "ok": false,
+      "models_ok": true,
+      "reason": "chat completions: RuntimeError: HTTP POST failed: Command '['C:\\\\Windows\\\\system32\\\\curl.EXE', '-sS', '-m', '12', '-w', '\\n%{http_code}', '-X', 'POST', 'https://api.deepseek.com/v1/chat/completions', '-H', 'Content-Type: application/json', '-H', 'Authorization: Bearer sk-e76e2cfe30e249baadbdd625cee4d526', '--data-binary', '@D:\\\\temp\\\\tmpn0hyo33t.json']' returned non-zero exit status 28.",
+      "model": "deepseek-chat",
+      "latency": 35.026928186416626
+    },
+    "backend_used": "mock",
+    "config": {
+      "pop": 8,
+      "gens": 4,
+      "tasks": 10,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "methods": [
+        "B1_nsga3",
+        "B2_nsga3_peem",
+        "B3_peem_ppec"
+      ],
+      "workers": 6,
+      "budget_calls": 5000
+    },
+    "started_at": "2026-10-15T03:13:29Z"
+  },
+  "alfworld": [
+    {
+      "Method": "B1_nsga3",
+      "Success": {
+        "mean": 0.775,
+        "std": 0.07359800721939874
+      },
+      "HV": {
+        "mean": 0.7218518602285675,
+        "std": 0.008352684586400101
+      },
+      "IGD": {
+        "mean": 0.10755765370713465,
+        "std": 0.022109520147156923
+      },
+      "Cost": {
+        "mean": 0.0011757991561176997,
+        "std": 4.1982410710763954e-05
+      },
+      "TokensProxy": {
+        "mean": 0.24763049332520828,
+        "std": 0.022523850258762853
+      }
+    },
+    {
+      "Method": "B2_nsga3_peem",
+      "Success": {
+        "mean": 0.8333333333333334,
+        "std": 0.04714045207910316
+      },
+      "HV": {
+        "mean": 0.7472308496058107,
+        "std": 0.05378823798906097
+      },
+      "IGD": {
+        "mean": 0.14048976823239753,
+        "std": 0.034409056430757014
+      },
+      "Cost": {
+        "mean": 0.0011188249286379784,
+        "std": 4.700682854903563e-05
+      },
+      "TokensProxy": {
+        "mean": 0.22146316318641754,
+        "std": 0.017927051149907013
+      }
+    },
+    {
+      "Method": "B3_peem_ppec",
+      "Success": {
+        "mean": 0.8333333333333334,
+        "std": 0.04714045207910316
+      },
+      "HV": {
+        "mean": 0.7472308496058107,
+        "std": 0.05378823798906097
+      },
+      "IGD": {
+        "mean": 0.14048976823239753,
+        "std": 0.034409056430757014
+      },
+      "Cost": {
+        "mean": 0.0011188249286379784,
+        "std": 4.700682854903563e-05
+      },
+      "TokensProxy": {
+        "mean": 0.22146316318641754,
+        "std": 0.017927051149907013
+      }
+    }
+  ],
+  "webshop": [
+    {
+      "Method": "B1_nsga3",
+      "Success": {
+        "mean": 0.30833333333333335,
+        "std": 0.05137011669140812
+      },
+      "HV": {
+        "mean": 0.10879464308004394,
+        "std": 0.00752149035690447
+      },
+      "IGD": {
+        "mean": 0.11641588246004846,
+        "std": 0.024624365541455123
+      },
+      "Cost": {
+        "mean": 0.004114210977485835,
+        "std": 0.0013413011351921557
+      },
+      "TokensProxy": {
+        "mean": 0.42222100972648197,
+        "std": 0.017600512619151968
+      }
+    },
+    {
+      "Method": "B2_nsga3_peem",
+      "Success": {
+        "mean": 0.4416666666666667,
+        "std": 0.07728015412913086
+      },
+      "HV": {
+        "mean": 0.2061285179370623,
+        "std": 0.06900712347827867
+      },
+      "IGD": {
+        "mean": 0.09497950371709811,
+        "std": 0.024141379631509332
+      },
+      "Cost": {
+        "mean": 0.004506044015516096,
+        "std": 0.0008558786942738353
+      },
+      "TokensProxy": {
+        "mean": 0.37299916124559496,
+        "std": 0.023310411068918492
+      }
+    },
+    {
+      "Method": "B3_peem_ppec",
+      "Success": {
+        "mean": 0.4416666666666667,
+        "std": 0.07728015412913086
+      },
+      "HV": {
+        "mean": 0.2061285179370623,
+        "std": 0.06900712347827867
+      },
+      "IGD": {
+        "mean": 0.09497950371709811,
+        "std": 0.024141379631509332
+      },
+      "Cost": {
+        "mean": 0.004506044015516096,
+        "std": 0.0008558786942738353
+      },
+      "TokensProxy": {
+        "mean": 0.37299916124559496,
+        "std": 0.023310411068918492
+      }
+    }
+  ],
+  "cost_analysis": {
+    "total_api_calls": 6080,
+    "total_tokens": 431936,
+    "total_cost_usd": 0.0,
+    "cache_hits": 0,
+    "cache_misses": 0,
+    "budget_cap_calls": 5000,
+    "within_budget": false,
+    "api_healthcheck": {
+      "ok": false,
+      "models_ok": true,
+      "reason": "chat completions: RuntimeError: HTTP POST failed: Command '['C:\\\\Windows\\\\system32\\\\curl.EXE', '-sS', '-m', '12', '-w', '\\n%{http_code}', '-X', 'POST', 'https://api.deepseek.com/v1/chat/completions', '-H', 'Content-Type: application/json', '-H', 'Authorization: Bearer sk-e76e2cfe30e249baadbdd625cee4d526', '--data-binary', '@D:\\\\temp\\\\tmpn0hyo33t.json']' returned non-zero exit status 28.",
+      "model": "deepseek-chat",
+      "latency": 35.026928186416626
+    },
+    "backend_used": "mock",
+    "live_llm_evidence": false
+  }
+}

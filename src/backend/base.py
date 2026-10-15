@@ -167,43 +167,31 @@ class OpenAICompatibleBackend(LLMBackend):
             raise RuntimeError(
                 f"missing API key: set ${self.api_key_env} or pass api_key="
             )
-        import json
         import time
-        import urllib.error
-        import urllib.request
+
+        from src.backend.http_client import post_json
 
         payload = {
             "model": self.model,
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": int(budget) * 8,
         }
-        body = json.dumps(payload).encode("utf-8")
-        last_err: Exception | None = None
-        data: Dict[str, Any] | None = None
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
         t0 = time.time()
-
-        for attempt in range(self.max_retries + 1):
-            req = urllib.request.Request(
-                self.base_url,
-                data=body,
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": f"Bearer {self.api_key}",
-                },
-                method="POST",
-            )
-            try:
-                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                break
-            except (urllib.error.URLError, TimeoutError, ValueError) as e:  # pragma: no cover
-                last_err = e
-                if attempt < self.max_retries:
-                    time.sleep(self.retry_backoff * (attempt + 1))
+        status, data = post_json(
+            self.base_url,
+            payload,
+            headers,
+            timeout=self.timeout,
+            max_retries=self.max_retries,
+            retry_backoff=self.retry_backoff,
+        )
         latency = time.time() - t0
-
-        if data is None:  # pragma: no cover - network
-            raise RuntimeError(f"LLM request failed after retries: {last_err}")
+        if status >= 400:
+            raise RuntimeError(f"LLM request failed status={status} body={str(data)[:200]}")
 
         text = ""
         try:
@@ -227,7 +215,7 @@ class OpenAICompatibleBackend(LLMBackend):
             model=self.model,
             latency=latency,
             cost=cost,
-            raw={"id": data.get("id"), "usage": usage},
+            raw={"id": data.get("id"), "usage": usage, "status": status},
         )
 
 
