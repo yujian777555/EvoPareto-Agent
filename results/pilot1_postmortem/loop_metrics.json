@@ -1,0 +1,58 @@
+{
+  "metric_definitions": {
+    "action_repetition_ratio": "1 - |unique actions| / |actions| ; range [0,1]; 1 = all identical",
+    "max_consecutive_same_action": "max run-length of identical consecutive actions in the sequence",
+    "max_consecutive_same_observation": "max run-length of identical observation_after strings",
+    "state_action_pair_repeat_count": "number of (observation_after[t-1] or obs_before[t], action[t]) pairs that occur at least twice in the episode",
+    "state_action_loop_occurrences": "total occurrences beyond the first of every repeated (state, action) pair = sum_{pairs with count>1} (count-1)",
+    "no_new_info_action_ratio": "fraction of steps where observation_after == observation_before (environment returned identical text)",
+    "obs_change_after_action_ratio": "fraction of steps where observation_after != previous observation_after",
+    "unique_location_visit_count": "number of distinct ALFWorld location tokens observed as current place (desk/shelf/bed/drawer/...)",
+    "half_behavior_divergence": "1 - Jaccard(first_half_action_multiset_keys, second_half_action_multiset_keys) using action identity (not counts); 0 = identical action sets"
+  },
+  "max_consecutive_same_action": 4,
+  "max_consecutive_same_observation": 4,
+  "state_action_pair_repeat_count": 6,
+  "state_action_loop_occurrences": 21,
+  "repeated_pair_details": [
+    {
+      "action": "examine desk 1",
+      "observation_before_preview": "On the desk 1, you see a cellphone 3, a keychain 3, a laptop 3, and a pen 2.",
+      "count": 8
+    },
+    {
+      "action": "examine desk 1",
+      "observation_before_preview": "You are facing the desk 1. Next to it, you see nothing.",
+      "count": 7
+    },
+    {
+      "action": "look",
+      "observation_before_preview": "On the desk 1, you see a cellphone 3, a keychain 3, a laptop 3, and a pen 2.",
+      "count": 5
+    },
+    {
+      "action": "go to shelf 1",
+      "observation_before_preview": "On the desk 1, you see a cellphone 3, a keychain 3, a laptop 3, and a pen 2.",
+      "count": 3
+    },
+    {
+      "action": "go to desk 1",
+      "observation_before_preview": "You arrive at shelf 1. On the shelf 1, you see a cellphone 2, and a keychain 2.",
+      "count": 2
+    },
+    {
+      "action": "look",
+      "observation_before_preview": "You arrive at desk 1. On the desk 1, you see a cellphone 3, a keychain 3, a lapt",
+      "count": 2
+    }
+  ],
+  "no_new_info_action_count": 8,
+  "no_new_info_action_ratio": 0.27586206896551724,
+  "obs_change_after_action_ratio": 0.7142857142857143,
+  "unique_location_visit_count": 2,
+  "unique_location_tokens": [
+    "desk 1",
+    "shelf 1"
+  ],
+  "action_repetition_ratio": 0.8620689655172413
+}

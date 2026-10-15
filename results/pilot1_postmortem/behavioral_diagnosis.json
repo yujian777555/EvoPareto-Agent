@@ -1,0 +1,65 @@
+{
+  "goal_progress": {
+    "goal": "look at book under the desklamp.",
+    "won": false,
+    "obs_mentions_book": true,
+    "obs_mentions_desklamp_or_lamp": true,
+    "any_open_container_action": false,
+    "any_take_or_pick_action": false,
+    "any_use_light_action": false,
+    "any_action_text_contains_book": false,
+    "objects_surfaced_in_obs": [
+      "book",
+      "cellphone",
+      "desk",
+      "desklamp",
+      "drawer",
+      "keychain",
+      "laptop",
+      "pen",
+      "safe",
+      "shelf"
+    ],
+    "book_location_known_from_trajectory": true,
+    "book_location_status": "seen_in_observation",
+    "desklamp_location_status": "seen_in_observation",
+    "agent_acted_on_goal_terms": false,
+    "looped_around_desk_shelf": true,
+    "note": "Do not infer book position from failure. UNKNOWN_FROM_TRAJECTORY means the 29-step trace never surfaced the object."
+  },
+  "budget_decode": {
+    "reasoning_budget": 64,
+    "horizon": 30,
+    "max_steps_formula": "max(1, round(horizon * (0.5 + reasoning_budget/128)))",
+    "max_tokens_formula": "max(64, reasoning_budget * 12)",
+    "max_steps": 30,
+    "max_tokens": 768
+  },
+  "observation_evidence": {
+    "raw_llm_response_available": false,
+    "parse_ok_available": false,
+    "used_fallback_available": false,
+    "per_step_tokens_available": false,
+    "not_observable_from_pilot1": [
+      "raw_llm_response",
+      "parse_ok",
+      "parse_failure_reason",
+      "used_fallback",
+      "per_step_tokens",
+      "per_step_cost",
+      "reflection_trigger_step"
+    ]
+  },
+  "call_accounting": {
+    "env_actions": 29,
+    "llm_call_count": 30,
+    "reflection_count": 1,
+    "explanation": "29 select_action invocations produced 29 env actions; 1 invocation hit parse failure and reflected (2nd LLM call, also charges a budget step) => 30 LLM calls, 30 budget charges, max_steps=30 => budget_exhausted at the end of step 29"
+  },
+  "loop_metrics_summary": {
+    "action_repetition_ratio": 0.8620689655172413,
+    "max_consecutive_same_observation": 4,
+    "state_action_loop_occurrences": 21,
+    "no_new_info_action_ratio": 0.27586206896551724
+  }
+}
