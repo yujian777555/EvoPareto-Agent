@@ -60,25 +60,40 @@ def post_json(
                 status, data = _post_curl(url, body, headers, timeout)
             else:
                 status, data = _post_urllib(url, body, headers, timeout)
-            # Parse usage BEFORE settle so SQLite gets real tokens/cost.
+            # Classify + settle exactly once with real usage/cost.
+            from src.backend.rates import estimated_cost
+
             usage = data.get("usage") or {} if isinstance(data, dict) else {}
             tokens_in = int(usage.get("prompt_tokens", 0) or 0)
             tokens_out = int(usage.get("completion_tokens", 0) or 0)
-            # Cost estimate: rate table applied by caller; here we store tokens only
-            # and a placeholder cost of 0 — backend.generate adds cost after parse.
-            # Mark usage_known explicitly.
+            model = str(data.get("model") or headers.get("X-Model") or "deepseek-flash")
+            usage_known = bool(usage)
+            try:
+                cost = estimated_cost(model, tokens_in, tokens_out) if usage_known else 0.0
+            except Exception:
+                cost = 0.0
+                usage_known = False
+            http_ok = 200 <= int(status) < 300
+            completion_ok = False
+            if http_ok and isinstance(data, dict):
+                try:
+                    text = data["choices"][0]["message"].get("content") or ""
+                    completion_ok = bool(str(text).strip())
+                except Exception:
+                    completion_ok = False
+            # Business success = valid completion; still count physical attempt.
             settle_ticket(
                 ticket,
-                success=True,
+                success=completion_ok,
                 tokens_in=tokens_in,
                 tokens_out=tokens_out,
-                actual_cost=0.0,
+                actual_cost=cost,
             )
             return status, data
         except (BudgetExceeded, GateRequired):
             raise
         except Exception:
-            # Physical attempt occurred (or transport failed after send).
+            # Transport failure after send: retain physical attempt, unknown usage.
             settle_ticket(ticket, success=False)
             raise
 
