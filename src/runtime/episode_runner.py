@@ -100,7 +100,11 @@ class EpisodeRunner:
         )
 
         def usage_wrap(prompt: str) -> str:
-            text, usage = self.llm_generate(prompt)
+            raw = self.llm_generate(prompt)
+            if isinstance(raw, tuple) and len(raw) >= 2:
+                text, usage = raw[0], raw[1]
+            else:
+                text, usage = raw, {}
             state.api_calls += int(usage.get("calls", 1))
             state.tokens_in += int(usage.get("tokens_in", 0))
             state.tokens_out += int(usage.get("tokens_out", 0))

@@ -1,0 +1,174 @@
+{
+  "mode": "fake",
+  "code_note": "diagnostic only; valid_train split",
+  "horizons": [
+    {
+      "horizon": 10,
+      "episodes": 2,
+      "success": 0,
+      "avg_steps": 8.0,
+      "budget_exhausted": 0,
+      "max_steps": 0,
+      "stalled": 2,
+      "progress_state_changes": 2,
+      "repeated_actions": 12
+    },
+    {
+      "horizon": 20,
+      "episodes": 2,
+      "success": 0,
+      "avg_steps": 8.0,
+      "budget_exhausted": 0,
+      "max_steps": 0,
+      "stalled": 2,
+      "progress_state_changes": 2,
+      "repeated_actions": 12
+    },
+    {
+      "horizon": 30,
+      "episodes": 2,
+      "success": 0,
+      "avg_steps": 8.0,
+      "budget_exhausted": 0,
+      "max_steps": 0,
+      "stalled": 2,
+      "progress_state_changes": 2,
+      "repeated_actions": 12
+    }
+  ],
+  "episodes": [
+    {
+      "horizon": 10,
+      "episode_id": 0,
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 8,
+      "termination_reason": "stalled_no_obs_change",
+      "failure_class": "stalled_no_obs_change",
+      "api_calls": 8,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 1,
+        "repeated_actions": 6,
+        "n_steps": 8
+      }
+    },
+    {
+      "horizon": 10,
+      "episode_id": 1,
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 8,
+      "termination_reason": "stalled_no_obs_change",
+      "failure_class": "stalled_no_obs_change",
+      "api_calls": 8,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 1,
+        "repeated_actions": 6,
+        "n_steps": 8
+      }
+    },
+    {
+      "horizon": 20,
+      "episode_id": 0,
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 8,
+      "termination_reason": "stalled_no_obs_change",
+      "failure_class": "stalled_no_obs_change",
+      "api_calls": 8,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 1,
+        "repeated_actions": 6,
+        "n_steps": 8
+      }
+    },
+    {
+      "horizon": 20,
+      "episode_id": 1,
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 8,
+      "termination_reason": "stalled_no_obs_change",
+      "failure_class": "stalled_no_obs_change",
+      "api_calls": 8,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 1,
+        "repeated_actions": 6,
+        "n_steps": 8
+      }
+    },
+    {
+      "horizon": 30,
+      "episode_id": 0,
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl",
+      "goal": "Your task is to: put a vase in safe.",
+      "success": false,
+      "steps": 8,
+      "termination_reason": "stalled_no_obs_change",
+      "failure_class": "stalled_no_obs_change",
+      "api_calls": 8,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 1,
+        "repeated_actions": 6,
+        "n_steps": 8
+      }
+    },
+    {
+      "horizon": 30,
+      "episode_id": 1,
+      "game_id": "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+      "goal": "Your task is to: put some vase on safe.",
+      "success": false,
+      "steps": 8,
+      "termination_reason": "stalled_no_obs_change",
+      "failure_class": "stalled_no_obs_change",
+      "api_calls": 8,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 1,
+        "repeated_actions": 6,
+        "n_steps": 8
+      }
+    }
+  ],
+  "api_calls_total": 0
+}

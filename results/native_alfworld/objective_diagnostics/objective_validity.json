@@ -1,0 +1,102 @@
+{
+  "timestamp": "2026-10-15T07:15:01Z",
+  "efficiency_counterexamples": {
+    "quick_fail_1step": 0.9433962264150942,
+    "serious_fail_10step": 0.5882352941176471,
+    "success_12step": 0.5405405405405405,
+    "quick_fail_beats_serious_try": true,
+    "quick_fail_beats_success": true
+  },
+  "efficiency_conditional_candidate": {
+    "fail_quick": 0.33018867924528295,
+    "success_long": 0.5405405405405405
+  },
+  "robustness_redundancy": {
+    "performance": 0.0,
+    "stall_rate": 0.4,
+    "robustness_current": 0.0,
+    "identical_when_perf_zero": true
+  },
+  "autonomy_behavior_candidate": {
+    "clean": 1.0,
+    "fallback_heavy": 0.4
+  },
+  "cost_resolution_micro": {
+    "min": 0.001,
+    "max": 0.003,
+    "range": 0.002,
+    "saturating_range": 0.0019920259202412744
+  },
+  "audit_table": [
+    {
+      "objective": "performance",
+      "source": "env won",
+      "valid": true,
+      "issues": ""
+    },
+    {
+      "objective": "efficiency",
+      "source": "steps+tokens",
+      "valid": false,
+      "issues": "quick-fail can beat serious try; horizon-dependent"
+    },
+    {
+      "objective": "cost",
+      "source": "API $ / saturating transform",
+      "valid": true,
+      "issues": "low dynamic range on micro costs; direction=min"
+    },
+    {
+      "objective": "robustness",
+      "source": "perf*(1-stall)",
+      "valid": false,
+      "issues": "coupled to performance; zero when all fail"
+    },
+    {
+      "objective": "autonomy",
+      "source": "early-budget/stall penalties",
+      "valid": false,
+      "issues": "behavioral proxy only; not independent autonomy"
+    }
+  ],
+  "plan_a_vs_plan_b": {
+    "plan_a_keep_5_with_protocol": {
+      "pros": [
+        "keeps paper structure",
+        "success/cost stay native"
+      ],
+      "cons": [
+        "efficiency/robustness/autonomy need redesign",
+        "Goodhart risk"
+      ],
+      "requirements": [
+        "success-conditioned efficiency",
+        "independent robustness protocol (multi-instance)",
+        "behavioral autonomy (fallback/help rates)"
+      ]
+    },
+    "plan_b_reduce_reorganize": {
+      "pros": [
+        "higher construct validity",
+        "less redundancy"
+      ],
+      "cons": [
+        "changes paper framing",
+        "fewer axes for PPEC demo"
+      ],
+      "requirements": [
+        "Planner approval",
+        "update PPEC preference vectors",
+        "re-run baselines"
+      ]
+    }
+  },
+  "positive_control": {
+    "ok": true,
+    "mode": "expert_plan_available_check",
+    "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230650_245482/game.tw-pddl",
+    "expert_type": "planner",
+    "note": "Positive control requires dagger expert_plan extras; if missing, report incomplete.",
+    "won": null
+  }
+}

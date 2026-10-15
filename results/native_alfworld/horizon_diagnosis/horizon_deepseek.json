@@ -1,0 +1,174 @@
+{
+  "mode": "deepseek",
+  "code_note": "diagnostic only; valid_train split",
+  "horizons": [
+    {
+      "horizon": 10,
+      "episodes": 2,
+      "success": 0,
+      "avg_steps": 0.0,
+      "budget_exhausted": 0,
+      "max_steps": 0,
+      "stalled": 0,
+      "progress_state_changes": 0,
+      "repeated_actions": 0
+    },
+    {
+      "horizon": 20,
+      "episodes": 2,
+      "success": 0,
+      "avg_steps": 0.0,
+      "budget_exhausted": 0,
+      "max_steps": 0,
+      "stalled": 0,
+      "progress_state_changes": 0,
+      "repeated_actions": 0
+    },
+    {
+      "horizon": 30,
+      "episodes": 2,
+      "success": 0,
+      "avg_steps": 0.0,
+      "budget_exhausted": 0,
+      "max_steps": 0,
+      "stalled": 0,
+      "progress_state_changes": 0,
+      "repeated_actions": 0
+    }
+  ],
+  "episodes": [
+    {
+      "horizon": 10,
+      "episode_id": 0,
+      "game_id": "",
+      "goal": "",
+      "success": false,
+      "steps": 0,
+      "termination_reason": "environment_error:RuntimeError:LLM failed after retries under budget gate: HTTP POST failed: HTTP Error 402: Payment Required",
+      "failure_class": "environment_error",
+      "api_calls": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 0,
+        "repeated_actions": 0,
+        "n_steps": 0
+      }
+    },
+    {
+      "horizon": 10,
+      "episode_id": 1,
+      "game_id": "",
+      "goal": "",
+      "success": false,
+      "steps": 0,
+      "termination_reason": "environment_error:RuntimeError:LLM failed after retries under budget gate: HTTP POST failed: HTTP Error 402: Payment Required",
+      "failure_class": "environment_error",
+      "api_calls": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 0,
+        "repeated_actions": 0,
+        "n_steps": 0
+      }
+    },
+    {
+      "horizon": 20,
+      "episode_id": 0,
+      "game_id": "",
+      "goal": "",
+      "success": false,
+      "steps": 0,
+      "termination_reason": "environment_error:RuntimeError:LLM failed after retries under budget gate: HTTP POST failed: HTTP Error 402: Payment Required",
+      "failure_class": "environment_error",
+      "api_calls": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 0,
+        "repeated_actions": 0,
+        "n_steps": 0
+      }
+    },
+    {
+      "horizon": 20,
+      "episode_id": 1,
+      "game_id": "",
+      "goal": "",
+      "success": false,
+      "steps": 0,
+      "termination_reason": "environment_error:RuntimeError:LLM failed after retries under budget gate: HTTP POST failed: HTTP Error 402: Payment Required",
+      "failure_class": "environment_error",
+      "api_calls": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 0,
+        "repeated_actions": 0,
+        "n_steps": 0
+      }
+    },
+    {
+      "horizon": 30,
+      "episode_id": 0,
+      "game_id": "",
+      "goal": "",
+      "success": false,
+      "steps": 0,
+      "termination_reason": "environment_error:RuntimeError:LLM failed after retries under budget gate: HTTP POST failed: HTTP Error 402: Payment Required",
+      "failure_class": "environment_error",
+      "api_calls": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 0,
+        "repeated_actions": 0,
+        "n_steps": 0
+      }
+    },
+    {
+      "horizon": 30,
+      "episode_id": 1,
+      "game_id": "",
+      "goal": "",
+      "success": false,
+      "steps": 0,
+      "termination_reason": "environment_error:RuntimeError:LLM failed after retries under budget gate: HTTP POST failed: HTTP Error 402: Payment Required",
+      "failure_class": "environment_error",
+      "api_calls": 0,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "cost_usd": 0.0,
+      "progress": {
+        "found_goal_object": false,
+        "picked_something": false,
+        "opened_container": false,
+        "state_changes": 0,
+        "repeated_actions": 0,
+        "n_steps": 0
+      }
+    }
+  ],
+  "api_calls_total": 0
+}

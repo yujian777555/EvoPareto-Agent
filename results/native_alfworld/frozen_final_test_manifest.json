@@ -1,0 +1,252 @@
+{
+  "role": "frozen_final_test_manifest",
+  "split": "valid_unseen",
+  "n": 30,
+  "tasks": [
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222917_366542",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-AlarmClock-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "255ee915438a96b7"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222933_607649",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-AlarmClock-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "6722765cb48848bd"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222951_616606",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-AlarmClock-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "207f2fedc8f0bf36"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214631_761426",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-BaseballBat-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "9b689d9c0459932a"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214648_973919",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-BaseballBat-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "d34690ac3c1c1614"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214706_219505",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-BaseballBat-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "7fee1e0edabef7f1"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161210_531813",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-BasketBall-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "4260849a66d431d9"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161235_786153",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-BasketBall-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "a3f38e493898a6dd"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161252_926204",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-BasketBall-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "16226ec3c8fb063a"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020029_636862",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Book-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "17611df673eedb50"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020048_814402",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Book-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "20e75ebe16a16cf5"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_144951_587345",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Book-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "83b909dfb517a427"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133919_856963",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Bowl-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "493c4d65e76a2786"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133935_066606",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Bowl-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "de189351e30229e8"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133953_562557",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Bowl-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "1708259a6befbc7d"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_102952_001375",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Box-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "d96cca8e1933c67c"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103005_855069",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Box-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "81bc71259d288a4b"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103041_110705",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-Box-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "4ba691fcae8ef044"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141942_810052",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CD-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "df13cc222b4c469f"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141958_463362",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CD-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "d9e87f0f054efbe7"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_142046_281296",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CD-None-DeskLamp-308",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": true,
+      "fingerprint": "ab753f96e016f1e5"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CellPhone-None-FloorLamp-219/trial_T20190908_044113_026049",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CellPhone-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "938c3257379535dc"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CellPhone-None-FloorLamp-219/trial_T20190908_044123_416784",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CellPhone-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "009b39e57640b4a0"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CellPhone-None-FloorLamp-219/trial_T20190908_044139_261907",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CellPhone-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "70e544b95dd6a103"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CreditCard-None-FloorLamp-219/trial_T20190909_103553_077615",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CreditCard-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "e11b88448c486947"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CreditCard-None-FloorLamp-219/trial_T20190909_103610_740356",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CreditCard-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "5011d912f5f9a0eb"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-CreditCard-None-FloorLamp-219/trial_T20190909_103628_479585",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-CreditCard-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "b8af00afd7d8b4c6"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-KeyChain-None-FloorLamp-219/trial_T20190909_103507_522012",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-KeyChain-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "fe88533cfbd4ad64"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-KeyChain-None-FloorLamp-219/trial_T20190909_103526_341991",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-KeyChain-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "8fe88c5b1929df35"
+    },
+    {
+      "game_id": "/data/json_2.1.1/valid_unseen/look_at_obj_in_light-KeyChain-None-FloorLamp-219/trial_T20190909_103543_580765",
+      "split": "valid_unseen",
+      "task_type": "look_at_obj_in_light-KeyChain-None-FloorLamp-219",
+      "goal": "look_at_obj_in_light",
+      "has_game_tw": false,
+      "fingerprint": "f5d4caeee514427d"
+    }
+  ],
+  "contaminated_game_ids": [
+    "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352/game.tw-pddl",
+    "/data/json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817/game.tw-pddl"
+  ],
+  "note": "Do not tune methods on these instances."
+}
