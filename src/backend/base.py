@@ -211,7 +211,17 @@ class OpenAICompatibleBackend(LLMBackend):
         usage = data.get("usage") or {}
         tp = int(usage.get("prompt_tokens", self.count_tokens(prompt)))
         tc = int(usage.get("completion_tokens", self.count_tokens(text)))
-        cost = tp / 1000.0 * self.cost_per_1k_prompt + tc / 1000.0 * self.cost_per_1k_completion
+        from src.backend.cost_status import backend_estimated_cost, estimate_cost
+
+        cstat = estimate_cost(self.model, usage.get("prompt_tokens"), usage.get("completion_tokens"))
+        if cstat.is_known:
+            cost = cstat.cost
+        else:
+            # Fallback heuristic tokens if usage missing — mark not-known cost.
+            cost = backend_estimated_cost(self.model, tp, tc) if self.model in ("deepseek-flash", "deepseek-chat") else 0.0
+            if not cstat.is_known:
+                # keep cost but record status on raw
+                data["_cost_status"] = cstat.to_dict()
 
         self.total_calls += 1
         self.total_prompt_tokens += tp
@@ -225,7 +235,8 @@ class OpenAICompatibleBackend(LLMBackend):
             model=self.model,
             latency=latency,
             cost=cost,
-            raw={"id": data.get("id"), "usage": usage, "status": status},
+            raw={"id": data.get("id"), "usage": usage, "status": status,
+                 "cost_status": data.get("_cost_status", cstat.to_dict())},
         )
 
 

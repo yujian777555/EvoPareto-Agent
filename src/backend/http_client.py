@@ -61,18 +61,19 @@ def post_json(
             else:
                 status, data = _post_urllib(url, body, headers, timeout)
             # Classify + settle exactly once with real usage/cost.
-            from src.backend.rates import estimated_cost
+            from src.backend.cost_status import (
+                KNOWN,
+                UNKNOWN_RATE,
+                UNKNOWN_USAGE,
+                estimate_cost,
+            )
 
             usage = data.get("usage") or {} if isinstance(data, dict) else {}
-            tokens_in = int(usage.get("prompt_tokens", 0) or 0)
-            tokens_out = int(usage.get("completion_tokens", 0) or 0)
-            model = str(data.get("model") or headers.get("X-Model") or "deepseek-flash")
-            usage_known = bool(usage)
-            try:
-                cost = estimated_cost(model, tokens_in, tokens_out) if usage_known else 0.0
-            except Exception:
-                cost = 0.0
-                usage_known = False
+            tokens_in = usage.get("prompt_tokens")
+            tokens_out = usage.get("completion_tokens")
+            model = str(data.get("model") or "deepseek-flash")
+            cstat = estimate_cost(model, tokens_in, tokens_out)
+
             http_ok = 200 <= int(status) < 300
             completion_ok = False
             if http_ok and isinstance(data, dict):
@@ -81,14 +82,22 @@ def post_json(
                     completion_ok = bool(str(text).strip())
                 except Exception:
                     completion_ok = False
-            # Business success = valid completion; still count physical attempt.
+
+            # If cost unknown and HTTP attempted, keep conservative estimate
+            # for budget: use max residual reserve via settle with est token
+            # already held; do NOT invent zero as truth in ledger flags.
+            tin = int(tokens_in or 0)
+            tout = int(tokens_out or 0)
             settle_ticket(
                 ticket,
                 success=completion_ok,
-                tokens_in=tokens_in,
-                tokens_out=tokens_out,
-                actual_cost=cost,
+                tokens_in=tin,
+                tokens_out=tout,
+                actual_cost=cstat.cost if cstat.is_known else 0.0,
             )
+            # Surface cost status on the response for callers / reconciliation.
+            if isinstance(data, dict):
+                data["_cost_status"] = cstat.to_dict()
             return status, data
         except (BudgetExceeded, GateRequired):
             raise
