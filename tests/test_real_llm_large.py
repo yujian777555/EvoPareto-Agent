@@ -65,16 +65,13 @@ def test_cache_isolation_keys():
 
 
 def test_http_client_proxy_resolution(monkeypatch):
+    # Default: direct connection (bypass proxies).
+    monkeypatch.delenv("EVO_USE_PROXY", raising=False)
     monkeypatch.setenv("HTTPS_PROXY", "http://127.0.0.1:7897")
+    assert _proxy_url() is None
+    # Opt-in proxy only when EVO_USE_PROXY=1.
+    monkeypatch.setenv("EVO_USE_PROXY", "1")
     assert _proxy_url() == "http://127.0.0.1:7897"
-    monkeypatch.delenv("HTTPS_PROXY", raising=False)
-    monkeypatch.delenv("HTTP_PROXY", raising=False)
-    monkeypatch.delenv("http_proxy", raising=False)
-    monkeypatch.delenv("https_proxy", raising=False)
-    monkeypatch.delenv("ALL_PROXY", raising=False)
-    monkeypatch.delenv("all_proxy", raising=False)
-    # may still inherit; just ensure function returns str or None
-    assert _proxy_url() is None or isinstance(_proxy_url(), str)
 
 
 def test_episode_record_schema_in_results():

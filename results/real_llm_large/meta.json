@@ -4,9 +4,9 @@
   "api_healthcheck": {
     "ok": false,
     "models_ok": true,
-    "reason": "chat completions: RuntimeError: HTTP POST failed: Command '['C:\\\\Windows\\\\system32\\\\curl.EXE', '-sS', '-m', '12', '-w', '\\n%{http_code}', '-X', 'POST', 'https://api.deepseek.com/v1/chat/completions', '-H', 'Content-Type: application/json', '-H', 'Authorization: Bearer sk-e76e2cfe30e249baadbdd625cee4d526', '--data-binary', '@D:\\\\temp\\\\tmpn0hyo33t.json']' returned non-zero exit status 28.",
+    "reason": "chat completions: RuntimeError: HTTP POST failed: The read operation timed out",
     "model": "deepseek-chat",
-    "latency": 35.026928186416626
+    "latency": 34.968069076538086
   },
   "backend_used": "mock",
   "config": {
@@ -26,5 +26,5 @@
     "workers": 6,
     "budget_calls": 5000
   },
-  "started_at": "2026-10-15T03:13:29Z"
+  "started_at": "2026-10-15T03:27:57Z"
 }

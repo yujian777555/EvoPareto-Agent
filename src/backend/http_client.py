@@ -16,6 +16,12 @@ from typing import Any, Dict, Optional, Tuple
 
 
 def _proxy_url() -> Optional[str]:
+    """Return proxy URL only if explicitly enabled (EVO_USE_PROXY=1).
+
+    Phase5-R3: default is **direct** connection (bypass local/global proxies).
+    """
+    if os.environ.get("EVO_USE_PROXY", "").strip() not in ("1", "true", "yes"):
+        return None
     for k in ("HTTPS_PROXY", "https_proxy", "HTTP_PROXY", "http_proxy", "ALL_PROXY", "all_proxy"):
         v = os.environ.get(k, "").strip()
         if v:
@@ -35,9 +41,8 @@ def post_json(
     """POST JSON, return (status_code, parsed_json). Raises on failure."""
     body = json.dumps(payload).encode("utf-8")
     last_err: Exception | None = None
-    proxy = _proxy_url()
-    # Local HTTP CONNECT proxies often stall urllib; prefer curl when proxied.
-    attempts = ("curl", "urllib") if proxy else ("urllib", "curl")
+    # curl is preferred (handles TLS + optional --noproxy reliably).
+    attempts = ("curl", "urllib")
     for attempt in range(max_retries + 1):
         for mode in attempts:
             try:
@@ -80,9 +85,10 @@ def _post_curl(
     with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tf:
         tf.write(body)
         body_path = tf.name
-    cmd = [curl, "-sS", "-m", str(int(timeout)), "-w", "\n%{http_code}", "-X", "POST", url]
+    cmd = [curl, "--noproxy", "*", "-sS", "-m", str(int(timeout)), "-w", "\n%{http_code}", "-X", "POST", url]
     if proxy:
-        cmd += ["-x", proxy]
+        # Explicit opt-in proxy path.
+        cmd = [curl, "-x", proxy, "-sS", "-m", str(int(timeout)), "-w", "\n%{http_code}", "-X", "POST", url]
     for k, v in headers.items():
         cmd += ["-H", f"{k}: {v}"]
     cmd += ["--data-binary", f"@{body_path}"]

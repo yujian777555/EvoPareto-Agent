@@ -80,7 +80,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.17095160484313965
+      "wall_time": 0.16265201568603516
     },
     {
       "method": "B2_nsga3_peem",
@@ -191,7 +191,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.1210181713104248
+      "wall_time": 0.10630917549133301
     },
     {
       "method": "B3_peem_ppec",
@@ -302,7 +302,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.12096142768859863
+      "wall_time": 0.11507511138916016
     },
     {
       "method": "B1_nsga3",
@@ -383,7 +383,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.17371773719787598
+      "wall_time": 0.1950082778930664
     },
     {
       "method": "B2_nsga3_peem",
@@ -494,7 +494,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.11809897422790527
+      "wall_time": 0.11461043357849121
     },
     {
       "method": "B3_peem_ppec",
@@ -605,7 +605,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.11985230445861816
+      "wall_time": 0.12708115577697754
     },
     {
       "method": "B1_nsga3",
@@ -686,7 +686,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.1788468360900879
+      "wall_time": 0.16286921501159668
     },
     {
       "method": "B2_nsga3_peem",
@@ -797,118 +797,7 @@
         "saved_tokens": 0,
         "saved_cost": 0.0
       },
-      "wall_time": 0.12753891944885254
-    },
-    {
-      "method": "B3_peem_ppec",
-      "benchmark": "alfworld",
-      "seed": 33,
-      "backend": "mock",
-      "model": "mock-llm",
-      "final_hv": 0.788845512026819,
-      "final_pareto": 8,
-      "success": 0.8999999999999999,
-      "cost": 0.0011093452005228616,
-      "efficiency": 0.8030958144069669,
-      "pss": 0.8404806271746221,
-      "curve": [
-        {
-          "generation": 0,
-          "n_individuals": 8,
-          "n_non_dominated": 4,
-          "hypervolume": 0.6612962055818865,
-          "archive_size": 0,
-          "mutation_entropy": 0.0,
-          "temperature": 1.0,
-          "mutation_probs": {
-            "budget": 0.2,
-            "memory": 0.2,
-            "planner": 0.2,
-            "reflection": 0.2,
-            "tool": 0.2
-          }
-        },
-        {
-          "generation": 1,
-          "n_individuals": 8,
-          "n_non_dominated": 4,
-          "hypervolume": 0.773597369492598,
-          "archive_size": 8,
-          "mutation_entropy": 2.0,
-          "temperature": 0.84,
-          "mutation_probs": {
-            "budget": 0.17057646335798043,
-            "memory": 0.26005423997396043,
-            "planner": 0.17189253082126166,
-            "reflection": 0.1814645192437549,
-            "tool": 0.21601224660304263
-          }
-        },
-        {
-          "generation": 2,
-          "n_individuals": 8,
-          "n_non_dominated": 7,
-          "hypervolume": 0.7767165565903248,
-          "archive_size": 16,
-          "mutation_entropy": 2.0524212838293647,
-          "temperature": 0.6799999999999999,
-          "mutation_probs": {
-            "budget": 0.1318336499794327,
-            "memory": 0.24065161293565912,
-            "planner": 0.28981605338611544,
-            "reflection": 0.15533334046947778,
-            "tool": 0.18236534322931502
-          }
-        },
-        {
-          "generation": 3,
-          "n_individuals": 8,
-          "n_non_dominated": 7,
-          "hypervolume": 0.7859939839197062,
-          "archive_size": 24,
-          "mutation_entropy": 2.099598313565133,
-          "temperature": 0.52,
-          "mutation_probs": {
-            "budget": 0.2120045327644247,
-            "memory": 0.13332114620275654,
-            "planner": 0.24244457849605933,
-            "reflection": 0.1563285045149354,
-            "tool": 0.255901238021824
-          }
-        },
-        {
-          "generation": 4,
-          "n_individuals": 8,
-          "n_non_dominated": 8,
-          "hypervolume": 0.7935503560349313,
-          "archive_size": 32,
-          "mutation_entropy": 2.1775496777656036,
-          "temperature": 0.36,
-          "mutation_probs": {
-            "budget": 0.24397073332251995,
-            "memory": 0.20882266788392295,
-            "planner": 0.19705002999366206,
-            "reflection": 0.08344344779990763,
-            "tool": 0.26671312099998745
-          }
-        }
-      ],
-      "usage": {
-        "calls": 330,
-        "prompt_tokens": 18672,
-        "completion_tokens": 4130,
-        "tokens": 22802,
-        "cost": 0.0
-      },
-      "cache": {
-        "n_entries": 0,
-        "hits": 0,
-        "misses": 0,
-        "hit_rate": 0.0,
-        "saved_tokens": 0,
-        "saved_cost": 0.0
-      },
-      "wall_time": 0.12350583076477051
+      "wall_time": 0.11261582374572754
     }
   ]
 }
