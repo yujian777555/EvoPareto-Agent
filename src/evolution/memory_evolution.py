@@ -419,6 +419,10 @@ class MemoryEvolutionLoop:
 
     def current_hypervolume(self) -> float:
         rows = [list(i.fitness_vector or []) for i in self.individuals]
+        if self.config.n_objectives == 2:
+            from src.evaluation.hv_unified import hv_for_objectives
+
+            return hv_for_objectives(rows, objective_version="candidate_2obj")
         return hypervolume(rows, n_samples=1024, seed=0) if rows else 0.0
 
     def mutation_type_counts(self) -> Dict[str, int]:
@@ -432,12 +436,18 @@ class MemoryEvolutionLoop:
         rows = [list(i.fitness_vector or []) for i in self.individuals]
         counts = self.mutation_type_counts()
         ent = mutation_entropy(list(counts.values())) if counts else 0.0
+        if self.config.n_objectives == 2:
+            from src.evaluation.hv_unified import hv_for_objectives
+
+            hv_val = hv_for_objectives(rows, objective_version="candidate_2obj")
+        else:
+            hv_val = hypervolume(rows, n_samples=512, seed=self.generation) if rows else 0.0
         self.history.append(
             {
                 "generation": self.generation,
                 "n_individuals": len(self.individuals),
                 "n_non_dominated": len(fronts[0]) if fronts else 0,
-                "hypervolume": hypervolume(rows, n_samples=512, seed=self.generation) if rows else 0.0,
+                "hypervolume": hv_val,
                 "archive_size": len(self.archive),
                 "mutation_entropy": ent,
                 "temperature": self.controller.current_temperature(),

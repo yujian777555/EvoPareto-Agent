@@ -65,8 +65,14 @@ def test_crash_recovery_counts_open_tickets(tmp_path):
     db.close()
     db2 = BudgetDB(path, max_physical=5, max_cost_usd=1.0)
     snap = db2.snapshot()
-    assert snap["open_tickets"] == 0
-    assert snap["physical_attempts"] >= 1  # conservative
+    # in-flight preserved (not freed by mere open)
+    assert snap["open_tickets"] == 1
+    n = db2.recover_stale(older_than_seconds=0)  # force expire
+    assert n == 1
+    snap2 = db2.snapshot()
+    assert snap2["open_tickets"] == 0
+    assert snap2["physical_attempts"] >= 1  # conservative
+    db2.close()
 
 
 def test_ppec_selector_not_overwritten():

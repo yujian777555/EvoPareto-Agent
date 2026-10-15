@@ -1,0 +1,35 @@
+{
+  "n_episodes_hist": 2,
+  "api_calls_per_ep": {
+    "min": 3,
+    "max": 31,
+    "median": 31
+  },
+  "tokens_in_per_ep": {
+    "min": 932,
+    "max": 11307
+  },
+  "tokens_out_per_ep": {
+    "min": 19,
+    "max": 205
+  },
+  "cost_per_ep": {
+    "min": 9.700000000000003e-05,
+    "max": 0.0011717,
+    "sum": 0.0012687
+  },
+  "steps_per_ep": {
+    "min": 3,
+    "max": 30
+  },
+  "pilot1_budget": {
+    "physical_http_cap": 120,
+    "cost_cap_usd": 0.05,
+    "episodes": 2
+  },
+  "pilot2_budget": {
+    "physical_http_cap": 3000,
+    "cost_cap_usd": 1.0
+  },
+  "note": "H=30 episode != 30 LLM calls; actual from D2: [3, 31]"
+}

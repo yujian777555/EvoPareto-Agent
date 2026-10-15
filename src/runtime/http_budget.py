@@ -86,16 +86,34 @@ class BudgetDB:
                     self.max_physical = int(row["max_physical"])
                 if float(row["max_cost_usd"]) < self.max_cost_usd:
                     self.max_cost_usd = float(row["max_cost_usd"])
-                # Recover in-flight tickets conservatively as spent attempts.
-                self._conn.execute(
-                    "UPDATE budget SET physical_attempts = physical_attempts + "
-                    "(SELECT COUNT(*) FROM tickets WHERE status='open') WHERE id=1"
-                )
-                self._conn.execute("UPDATE tickets SET status='abandoned' WHERE status='open'")
-                self._conn.execute(
-                    "UPDATE budget SET reserved_tickets=0, reserved_cost=0 WHERE id=1"
-                )
+                # NOTE: do NOT abandon open tickets on every process start —
+                # that would free another live process's reservation.
+                # Crash recovery is explicit via recover_stale().
             self._conn.commit()
+
+    def recover_stale(self, older_than_seconds: float = 3600.0) -> int:
+        """Conservatively expire old in-flight tickets (crash recovery)."""
+        with self._lock:
+            conn = self._conn
+            conn.execute("BEGIN IMMEDIATE")
+            try:
+                rows = conn.execute(
+                    "SELECT id FROM tickets WHERE status='open' AND CAST(created_at AS REAL) <= strftime('%s','now') - ?",
+                    (int(older_than_seconds),),
+                ).fetchall()
+                n = len(rows)
+                if n:
+                    conn.execute(
+                        "UPDATE budget SET physical_attempts = physical_attempts + ?, "
+                        "reserved_tickets=0, reserved_cost=0 WHERE id=1",
+                        (n,),
+                    )
+                    conn.execute("UPDATE tickets SET status='abandoned' WHERE status='open'")
+                conn.execute("COMMIT")
+                return n
+            except Exception:
+                conn.execute("ROLLBACK")
+                raise
 
     def close(self) -> None:
         with self._lock:
