@@ -1,0 +1,78 @@
+{
+  "phase": "PILOT1_LIVE_RUN",
+  "authorization": "APPROVED_LIVE_PILOT1",
+  "executed_git_sha": "e80753a84a3d650383ea1ec35516cd2513cbe910",
+  "approved_git_sha": "e80753a84a3d650383ea1ec35516cd2513cbe910",
+  "git_sha_match": true,
+  "run_count": 1,
+  "status": "COMPLETED",
+  "task_identity": {
+    "task_index": 0,
+    "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+    "selected_manifest_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+    "canonical_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+    "actual_game_id_episode": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
+    "identity_match": true,
+    "split": "valid_train",
+    "goal": "look at book under the desklamp.",
+    "seed": 11
+  },
+  "outcome": {
+    "won": false,
+    "success": false,
+    "termination_reason": "budget_exhausted",
+    "steps": 29,
+    "trajectory_len": 29,
+    "llm_call_count": 30,
+    "reflection_count": 1
+  },
+  "accounting": {
+    "model": "deepseek-flash",
+    "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+    "tokens_in": 8418,
+    "tokens_out": 122,
+    "estimated_cost_usd": 0.0026717999999999998,
+    "formula": "8418*0.30/1e6 + 122*1.20/1e6",
+    "formula_expected_usd": 0.0026718,
+    "ledger_eq_episode_cost": true,
+    "physical_attempts": 30,
+    "physical_cap": 120,
+    "cost_cap": 0.05,
+    "settled_ok": 30,
+    "settled_failed": 0,
+    "open_tickets": 0,
+    "reserved_cost_usd": 0.0,
+    "retries": 0
+  },
+  "billing": {
+    "billing_blocked": false,
+    "unknown_cost_events": 0,
+    "transport_uncertain_events": 0,
+    "data_anomalies": 0
+  },
+  "stop_reason": "agent reasoning budget exhausted after 29 steps (natural episode end)",
+  "budget_not_exhausted": {
+    "http_used": 30,
+    "http_cap": 120,
+    "cost_used": 0.0026717999999999998,
+    "cost_cap": 0.05
+  },
+  "genome": {
+    "planner_strategy": "cot",
+    "memory_strategy": "short_term",
+    "reflection_strategy": "self_critique",
+    "tool_policy": "balanced",
+    "reasoning_budget": 64
+  },
+  "objective_version": "candidate_2obj",
+  "interpretation_limit": "engineering_wiring_validation_only_not_peem_ppec_evidence",
+  "artifacts": [
+    "results/pilot1_live_run/live_result.json",
+    "results/pilot1_live_run/pilot1_episode.json",
+    "results/pilot1_live_run/budget.sqlite",
+    "results/pilot1_live_run/run_manifest.json",
+    "results/pilot1_live_run/docker_live_stdout.txt",
+    "results/pilot1_live_run/audit_report.json",
+    "docs/PILOT1_LIVE_RUN_REPORT.md"
+  ]
+}

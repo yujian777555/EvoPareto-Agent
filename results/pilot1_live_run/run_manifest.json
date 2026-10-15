@@ -1,0 +1,15 @@
+{
+  "git_sha": "e80753a84a3d650383ea1ec35516cd2513cbe910",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "experiment_id": "pilot1",
+  "model": "deepseek-flash",
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "task_index": 0,
+  "seed": 11,
+  "objective_version": "candidate_2obj",
+  "requested_split": "valid_train",
+  "selected_manifest_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "canonical_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+  "physical_cap": 120,
+  "cost_cap": 0.05
+}

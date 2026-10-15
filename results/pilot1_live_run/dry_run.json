@@ -1,0 +1,34 @@
+{
+  "config": {
+    "model": "deepseek-flash",
+    "environment": "ALFWorld TextWorld",
+    "split": "valid_train",
+    "horizon": 30,
+    "objective_version": "candidate_2obj",
+    "maximize": [
+      true,
+      false
+    ],
+    "max_physical_http": 120,
+    "max_estimated_cost_usd": 0.05,
+    "mode": "pilot1_wiring",
+    "experiment_id": "pilot1",
+    "ledger_path": "results/pilot1_hotfix_offline/budget.sqlite",
+    "task_manifest": "/results/native_alfworld/development_task_pool.json",
+    "task_index": 0,
+    "output_dir": "/results/pilot1_live_run",
+    "seed": 11
+  },
+  "checks": {
+    "config_ok": true,
+    "objective_ok": true,
+    "output_writable": true,
+    "manifest_exists": true,
+    "manifest_valid": true,
+    "alfworld_importable": true,
+    "fitness_2d_ok": true,
+    "gate_required_in_live": true,
+    "gate_installed_now": false
+  },
+  "dry_run": true
+}
