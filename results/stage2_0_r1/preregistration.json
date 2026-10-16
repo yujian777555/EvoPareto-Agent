@@ -1,0 +1,38 @@
+{
+  "frozen": true,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "primary_metric": "frozen_transfer mean_final_reward on heldout",
+  "secondary": [
+    "task_success_rate",
+    "mean_paired_delta",
+    "improvement_prob",
+    "negative_rate"
+  ],
+  "controls": [
+    "random",
+    "global_aos",
+    "fixed_map",
+    "contextual_bandit",
+    "fceol",
+    "shuffled",
+    "unknown_only",
+    "wrong_diagnosis",
+    "oracle"
+  ],
+  "protocols": [
+    "frozen_transfer",
+    "online_adaptation"
+  ],
+  "real_llm_calls": 0
+}

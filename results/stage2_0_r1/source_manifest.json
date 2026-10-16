@@ -1,0 +1,11 @@
+{
+  "fceol_r1_modules": [
+    "src/research/fceol_r1/task_suite.py",
+    "src/research/fceol_r1/workflow_interpreter.py",
+    "src/research/fceol_r1/faults.py",
+    "src/research/fceol_r1/evidence.py",
+    "src/research/fceol_r1/policies.py",
+    "src/research/fceol_r1/evaluator.py"
+  ],
+  "stage2_0_code_preserved": true
+}

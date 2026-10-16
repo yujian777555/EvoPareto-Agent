@@ -1,0 +1,24 @@
+{
+  "interpreter": "WorkflowInterpreter \u2014 real node execution",
+  "reward": "independent_evaluate over required_checks (no fault lookup)",
+  "fault_channels": [
+    "tool_is_broken",
+    "verifier_sabotaged",
+    "context_dropped",
+    "recovery_miswired"
+  ],
+  "genome_params_wired": [
+    "context_mode",
+    "route_policy",
+    "max_repairs",
+    "enabled nodes"
+  ],
+  "unfixable_by_design": [
+    "RECOVERY_BRANCH_ERROR",
+    "COMPOUND"
+  ],
+  "solvable_tasks": [
+    "TOOL_ROUTING_ERROR",
+    "CONTEXT_PROPAGATION_ERROR"
+  ]
+}

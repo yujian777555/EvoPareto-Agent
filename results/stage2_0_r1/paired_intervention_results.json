@@ -1,0 +1,14 @@
+{
+  "protocol": "Experiment-1 operator learning (paired parent/child)",
+  "primary_metric": "frozen mean_final_reward",
+  "frozen_means": {
+    "random": 0.19027999999999998,
+    "global_aos": 0.19999999999999998,
+    "fixed_map": 0.19999999999999998,
+    "contextual_bandit": 0.19999999999999998,
+    "fceol": 0.19999999999999998,
+    "shuffled": 0.18298999999999999,
+    "unknown_only": 0.1757,
+    "wrong_diagnosis": 0.1757
+  }
+}

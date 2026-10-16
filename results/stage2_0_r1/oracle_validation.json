@@ -1,0 +1,49 @@
+{
+  "n_tasks": 6,
+  "mean_best_reward": 0.3841666666666667,
+  "per_task": [
+    {
+      "task_id": "RECOVERY_BRANCH_ERROR~11~0000",
+      "best_reward": 0.3,
+      "best_seq": [
+        "M1_INSERT_VERIFICATION",
+        "M1_INSERT_VERIFICATION",
+        "M3_CHANGE_TOOL_ROUTING"
+      ]
+    },
+    {
+      "task_id": "TOOL_ROUTING_ERROR~11~0001",
+      "best_reward": 0.655,
+      "best_seq": [
+        "M1_INSERT_VERIFICATION",
+        "M1_INSERT_VERIFICATION",
+        "M2_ADD_FAILURE_RECOVERY"
+      ]
+    },
+    {
+      "task_id": "CONTEXT_PROPAGATION_ERROR~11~0002",
+      "best_reward": 0.75,
+      "best_seq": [
+        "M1_INSERT_VERIFICATION",
+        "M2_ADD_FAILURE_RECOVERY",
+        "M3_CHANGE_TOOL_ROUTING"
+      ]
+    },
+    {
+      "task_id": "COMPOUND_RECOVERY_ROUTING~11~0001",
+      "best_reward": 0.2,
+      "best_seq": []
+    },
+    {
+      "task_id": "COMPOUND_RECOVERY_ROUTING~11~0002",
+      "best_reward": 0.22,
+      "best_seq": []
+    },
+    {
+      "task_id": "COMPOUND_RECOVERY_ROUTING~11~0003",
+      "best_reward": 0.18,
+      "best_seq": []
+    }
+  ],
+  "note": "exact enumeration upper bound on final reward with same budget"
+}

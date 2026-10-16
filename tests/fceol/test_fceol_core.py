@@ -49,8 +49,8 @@ def test_mutations_produce_different_structure():
                M_CHANGE_TOOL_ROUTING, M_MODIFY_CONTEXT_FLOW):
         c = apply_operator(op, g)
         assert c is not None, op
-        assert c.hash() != s0 or op == M_MODIFY_CONTEXT_FLOW or True  # structure or params differ
         c.validate()
+        assert c.hash() != s0 or op == M_MODIFY_CONTEXT_FLOW  # params change counts too
     m1 = apply_operator(M_INSERT_VERIFICATION, g)
     assert "VERIFY" in m1.enabled_kinds()
     m2 = apply_operator(M_ADD_FAILURE_RECOVERY, g)

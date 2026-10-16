@@ -1,0 +1,8 @@
+{
+  "serialize_roundtrip": true,
+  "mutation_changes_trace": true,
+  "disabled_nodes_not_executed": true,
+  "params_affect_execution": true,
+  "invalid_mutations_rejected": true,
+  "invalid_test_assertions_removed": "or True removed from tests/fceol/test_fceol_core.py"
+}

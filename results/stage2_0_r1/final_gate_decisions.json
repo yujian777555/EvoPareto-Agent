@@ -1,0 +1,36 @@
+{
+  "GATE_R1_A": {
+    "unique_ids": "PASS",
+    "split_isolation": "PASS",
+    "template_leakage": "PASS",
+    "no_hidden_fault_leakage": "PASS"
+  },
+  "GATE_R1_B": {
+    "workflow_interpreter": "PASS",
+    "node_execution": "PASS",
+    "trace_completeness": "PASS",
+    "independent_evaluator": "PASS",
+    "nontrivial_fault_interaction": "PASS",
+    "no_fault_reward_lookup": "PASS"
+  },
+  "GATE_R1_C": {
+    "shuffled_control": "PASS",
+    "oracle_upper_bound": "PASS",
+    "global_aos_fairness": "PASS",
+    "frozen_transfer": "PASS",
+    "task_level_metrics": "PASS",
+    "objective_direction": "PASS"
+  },
+  "GATE_R1_D": "FCEOL_BENEFIT_NOT_ESTABLISHED",
+  "comparison": {
+    "fceol_vs_contextual_bandit": 0.0,
+    "fceol_vs_global_aos": 0.0,
+    "fceol_vs_shuffled": 0.017009999999999997,
+    "fceol_vs_unknown_only": 0.02429999999999999,
+    "oracle_ceiling": 0.3841666666666667,
+    "verdict": "FCEOL_BENEFIT_NOT_ESTABLISHED",
+    "reason": "FCEOL ties standard contextual bandit and global AOS at 0.200; failure conditioning adds no measurable value under 3-step budget"
+  },
+  "FINAL_DECISION": "OFFLINE_VALID_BUT_NO_BENEFIT",
+  "real_llm_calls": 0
+}

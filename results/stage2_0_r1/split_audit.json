@@ -1,0 +1,14 @@
+{
+  "total_tasks": 30,
+  "unique_id_count": 30,
+  "unique_id_pass": true,
+  "train_dev_disjoint": true,
+  "train_test_disjoint": true,
+  "dev_test_disjoint": true,
+  "template_train_test_disjoint": true,
+  "template_train_dev_disjoint": true,
+  "template_dev_test_disjoint": true,
+  "n_train": 18,
+  "n_dev": 6,
+  "n_test": 6
+}

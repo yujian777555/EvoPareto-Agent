@@ -1,0 +1,23 @@
+{
+  "mean_final_reward": {
+    "fceol": {
+      "mean": 0.1757,
+      "std": 0.0,
+      "ci95": 0.0,
+      "n": 10
+    },
+    "global_aos": {
+      "mean": 0.1757,
+      "std": 0.0,
+      "ci95": 0.0,
+      "n": 10
+    },
+    "random": {
+      "mean": 0.18541999999999997,
+      "std": 0.012548466041712024,
+      "ci95": 0.007777619831285142,
+      "n": 10
+    }
+  },
+  "note": "Protocol B \u2014 online updates allowed; separate from frozen transfer"
+}

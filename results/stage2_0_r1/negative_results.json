@@ -1,0 +1,7 @@
+{
+  "fceol_equals_contextual_bandit": true,
+  "fceol_equals_global_aos": true,
+  "no_success_anywhere": true,
+  "oracle_reveals_missing_search": true,
+  "interpretation": "environment is valid and non-trivial (oracle 0.38 vs policies 0.20), but failure-conditioned selection does not outperform generic bandit/AOS"
+}
