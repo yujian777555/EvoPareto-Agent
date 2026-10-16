@@ -1,0 +1,89 @@
+{
+  "rows": [
+    {
+      "episode_id": "t0_grounded_planner_v1",
+      "runtime_variant": "grounded_planner_v1",
+      "won": false,
+      "target_discovered": false,
+      "target_acquired": false,
+      "tool_used": false,
+      "placement_attempted": false,
+      "steps": 30,
+      "loop_occ": 25,
+      "rep_ratio": 0.9,
+      "termination_reason": "env_done",
+      "subgoal_transitions": 10
+    },
+    {
+      "episode_id": "t0_current",
+      "runtime_variant": "current",
+      "won": false,
+      "target_discovered": true,
+      "target_acquired": false,
+      "tool_used": false,
+      "placement_attempted": false,
+      "steps": 30,
+      "loop_occ": 20,
+      "rep_ratio": 0.8333333333333334,
+      "termination_reason": "env_done",
+      "subgoal_transitions": null
+    },
+    {
+      "episode_id": "t10_current",
+      "runtime_variant": "current",
+      "won": false,
+      "target_discovered": true,
+      "target_acquired": false,
+      "tool_used": false,
+      "placement_attempted": false,
+      "steps": 30,
+      "loop_occ": 22,
+      "rep_ratio": 0.8666666666666667,
+      "termination_reason": "env_done",
+      "subgoal_transitions": null
+    },
+    {
+      "episode_id": "t10_grounded_planner_v1",
+      "runtime_variant": "grounded_planner_v1",
+      "won": false,
+      "target_discovered": false,
+      "target_acquired": false,
+      "tool_used": false,
+      "placement_attempted": false,
+      "steps": 30,
+      "loop_occ": 27,
+      "rep_ratio": 0.9333333333333333,
+      "termination_reason": "env_done",
+      "subgoal_transitions": 10
+    },
+    {
+      "episode_id": "t20_grounded_planner_v1",
+      "runtime_variant": "grounded_planner_v1",
+      "won": false,
+      "target_discovered": false,
+      "target_acquired": false,
+      "tool_used": false,
+      "placement_attempted": false,
+      "steps": 30,
+      "loop_occ": 27,
+      "rep_ratio": 0.9333333333333333,
+      "termination_reason": "env_done",
+      "subgoal_transitions": 10
+    },
+    {
+      "episode_id": "t20_current",
+      "runtime_variant": "current",
+      "won": false,
+      "target_discovered": false,
+      "target_acquired": false,
+      "tool_used": false,
+      "placement_attempted": false,
+      "steps": 30,
+      "loop_occ": 23,
+      "rep_ratio": 0.8333333333333334,
+      "termination_reason": "env_done",
+      "subgoal_transitions": null
+    }
+  ],
+  "note": "auxiliary mechanism metrics — native won is the only performance"
+}

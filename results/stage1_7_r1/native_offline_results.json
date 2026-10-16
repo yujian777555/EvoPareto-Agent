@@ -168,12 +168,12 @@
           "go to shelf 1",
           "use desklamp 1",
           "use desklamp 1",
-          "look",
-          "examine shelf 1",
-          "use desklamp 1",
-          "use desklamp 1",
-          "use desklamp 1",
-          "use desklamp 1"
+          "go to drawer 3",
+          "go to bed 1",
+          "go to bed 2",
+          "go to desk 1",
+          "go to garbagecan 1",
+          "go to drawer 1"
         ],
         "status": "FAIL_OR_INCONCLUSIVE"
       }

@@ -1,0 +1,23 @@
+{
+  "pairs": [
+    {
+      "task_index": 0,
+      "current_won": false,
+      "grounded_won": false
+    },
+    {
+      "task_index": 10,
+      "current_won": false,
+      "grounded_won": false
+    },
+    {
+      "task_index": 20,
+      "current_won": false,
+      "grounded_won": false
+    }
+  ],
+  "grounded_only_wins": 0,
+  "current_only_wins": 0,
+  "both_win": 0,
+  "both_fail": 3
+}

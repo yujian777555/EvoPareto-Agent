@@ -1,0 +1,14 @@
+{
+  "stage": "STAGE1_8",
+  "status": "COMPLETED",
+  "executed_episodes": 6,
+  "current_success": 0,
+  "grounded_success": 0,
+  "total_http": 180,
+  "total_cost_usd": 0.0247782,
+  "settled_ok": 180,
+  "retries": 0,
+  "billing_blocked": false,
+  "exec_git_sha": "a29a130c126712388fc86c6e1234284c2d1e0a90",
+  "final_decision": "GROUNDED_SOLVABILITY_NOT_ESTABLISHED"
+}

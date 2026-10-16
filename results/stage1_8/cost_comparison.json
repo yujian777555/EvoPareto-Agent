@@ -1,0 +1,30 @@
+{
+  "current": {
+    "n": 3,
+    "won": 0,
+    "mean_steps": 30.0,
+    "mean_cost_usd": 0.0029612,
+    "mean_tokens_in": 9316.0,
+    "mean_tokens_out": 138.66666666666666,
+    "mean_http": 30.0,
+    "mean_loop_occ": 21.666666666666668,
+    "cost_per_success": null
+  },
+  "grounded_planner_v1": {
+    "n": 3,
+    "won": 0,
+    "mean_steps": 30.0,
+    "mean_cost_usd": 0.0052982,
+    "mean_tokens_in": 16942.0,
+    "mean_tokens_out": 179.66666666666666,
+    "mean_http": 30.0,
+    "mean_loop_occ": 26.333333333333332,
+    "cost_per_success": null
+  },
+  "total_http": 180,
+  "total_tokens_in": 78774,
+  "total_tokens_out": 955,
+  "total_estimated_cost_usd": 0.0247782,
+  "cost_per_success_current": null,
+  "cost_per_success_grounded": null
+}

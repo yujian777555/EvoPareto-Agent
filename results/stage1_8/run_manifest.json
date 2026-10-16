@@ -1,0 +1,20 @@
+{
+  "exec_git_sha": "a29a130c126712388fc86c6e1234284c2d1e0a90",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "budget_caps": {
+    "episodes_max": 6,
+    "physical_http_cap": 200,
+    "estimated_cost_cap_usd": 0.04,
+    "scope": "batch total"
+  },
+  "genome": {
+    "id": "G1",
+    "planner_strategy": "cot",
+    "memory_strategy": "short_term",
+    "reflection_strategy": "self_critique",
+    "tool_policy": "balanced",
+    "reasoning_budget": 64
+  },
+  "prompt_template": "STAGE1_8_GROUNDED_PROMPT_V1",
+  "started_at": "2026-10-16T05:54:23Z"
+}
