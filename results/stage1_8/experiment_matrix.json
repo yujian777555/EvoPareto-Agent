@@ -1,0 +1,54 @@
+{
+  "n_episodes": 6,
+  "shuffle_seed": 2026,
+  "combinations": [
+    {
+      "exec_order": 1,
+      "task_index": 0,
+      "runtime_variant": "grounded_planner_v1",
+      "genome_id": "G1",
+      "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+      "episode_id": "t0_grounded_planner_v1"
+    },
+    {
+      "exec_order": 2,
+      "task_index": 0,
+      "runtime_variant": "current",
+      "genome_id": "G1",
+      "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+      "episode_id": "t0_current"
+    },
+    {
+      "exec_order": 3,
+      "task_index": 10,
+      "runtime_variant": "current",
+      "genome_id": "G1",
+      "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Laptop-None-DeskLamp-309/trial_T20190907_185713_398582",
+      "episode_id": "t10_current"
+    },
+    {
+      "exec_order": 4,
+      "task_index": 10,
+      "runtime_variant": "grounded_planner_v1",
+      "genome_id": "G1",
+      "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Laptop-None-DeskLamp-309/trial_T20190907_185713_398582",
+      "episode_id": "t10_grounded_planner_v1"
+    },
+    {
+      "exec_order": 5,
+      "task_index": 20,
+      "runtime_variant": "grounded_planner_v1",
+      "genome_id": "G1",
+      "game_id": "/data/json_2.1.1/valid_train/pick_and_place_simple-AlarmClock-None-Dresser-319/trial_T20190910_195319_108102",
+      "episode_id": "t20_grounded_planner_v1"
+    },
+    {
+      "exec_order": 6,
+      "task_index": 20,
+      "runtime_variant": "current",
+      "genome_id": "G1",
+      "game_id": "/data/json_2.1.1/valid_train/pick_and_place_simple-AlarmClock-None-Dresser-319/trial_T20190910_195319_108102",
+      "episode_id": "t20_current"
+    }
+  ]
+}

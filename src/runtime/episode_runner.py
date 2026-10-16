@@ -146,12 +146,12 @@ class EpisodeRunner:
             w = ninfos.get("won")
             if w is not None:
                 won = bool(w[0] if isinstance(w, (list, tuple)) else w)
-            # shared_repaired: record feedback for the next decision
-            if hasattr(agent, "observe"):
-                agent.observe(action, last_obs, str(o0))
             adm_after = list(ninfos.get("admissible_commands") or [])
             if adm_after and isinstance(adm_after[0], (list, tuple)):
                 adm_after = list(adm_after[0])
+            # A2: observe with NEXT admissible set (not the stale pre-step cache)
+            if hasattr(agent, "observe"):
+                agent.observe(action, last_obs, str(o0), admissible_after=adm_after)
             trajectory.append({
                 "step": t + 1,
                 "observation_before": last_obs[:2000],

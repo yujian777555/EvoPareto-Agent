@@ -1,0 +1,16 @@
+{
+  "gates": {
+    "GATE1_SOLVABILITY": "PASS if grounded has >=1 native won",
+    "GATE2_RELATIVE": "grounded_only_wins / current_only_wins / both",
+    "GATE3_COST": "report means; cost_per_success undefined if 0 wins",
+    "GATE4_PLANNING_BEHAVIOR": "auxiliary only"
+  },
+  "decision_types": [
+    "GROUNDED_SOLVABILITY_SIGNAL_OBSERVED",
+    "AB_INCONCLUSIVE",
+    "GROUNDED_SOLVABILITY_NOT_ESTABLISHED",
+    "OFFLINE_BLOCKED",
+    "SAFETY_STOP"
+  ],
+  "note": "3 debug tasks; exploratory only — not paper generalization"
+}

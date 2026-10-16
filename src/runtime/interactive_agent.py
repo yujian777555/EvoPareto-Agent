@@ -84,8 +84,13 @@ class InteractiveAgent:
         self.repaired_prompt_blocks: List[str] = []
 
     def observe(self, action: str, observation_before: str, observation_after: str, *,
-                parse_ok: bool = True, used_fallback: bool = False) -> None:
-        """Record environment feedback after a step (shared_repaired / grounded)."""
+                parse_ok: bool = True, used_fallback: bool = False,
+                admissible_after: Optional[Sequence[str]] = None) -> None:
+        """Record environment feedback after a step.
+
+        admissible_after = legal commands AFTER this step (A2). Falls back to
+        the last-seen set only if not provided (legacy callers).
+        """
         if self._recorder is None:
             return
         from src.diagnostics.shared_repair import StepRecord, goal_state_tracker
@@ -105,10 +110,13 @@ class InteractiveAgent:
             self._task_type or "", self._recorder, self._last_goal or ""
         )
         self._last_observation = observation_after
+        adm_now = list(admissible_after) if admissible_after is not None else getattr(self, "_last_admissible", None)
+        if admissible_after is not None:
+            self._last_admissible = list(admissible_after)
         if self._planner is not None:
             self._planner.update_from_feedback(
                 action, observation_before, observation_after,
-                admissible=getattr(self, "_last_admissible", None),
+                admissible=adm_now,
             )
 
     def select_action(

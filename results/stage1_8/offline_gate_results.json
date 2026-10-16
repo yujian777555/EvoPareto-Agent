@@ -1,0 +1,34 @@
+{
+  "GATE_A_STATE_CORRECTNESS": {
+    "result": "PASS",
+    "tests": "tests/test_stage1_8_state.py (15) + prior suites",
+    "wrong_place_not_satisfied": true,
+    "release_reopens_acquire": true,
+    "unconfirmed_place_safe": true,
+    "native_won_only_from_env": true
+  },
+  "GATE_B_ADMISSIBLE_SYNC": {
+    "result": "PASS",
+    "tests": "test_new_use_action_seen_after_navigation, test_stale_use_not_available_after_leave",
+    "observe_receives_admissible_after": true
+  },
+  "GATE_C_RUNTIME_ISOLATION": {
+    "result": "PASS",
+    "current_unchanged": true,
+    "shared_repaired_unchanged": true,
+    "grounded_corrected": true
+  },
+  "GATE_D_NATIVE_ENV": {
+    "result": "PASS",
+    "scripted": "3/3 won=true",
+    "negative": "3/3 stay false",
+    "source": "results/stage1_7_r1/native_offline_results.json (rerun after fixes)"
+  },
+  "GATE_E_NO_ORACLE": {
+    "result": "PASS",
+    "runtime_source_scan": "no traj_data/high_pddl/expert maps in runtime imports",
+    "expert_scripts_isolated": true
+  },
+  "all_gates_pass": true,
+  "real_api_calls": 0
+}

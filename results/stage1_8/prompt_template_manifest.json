@@ -1,0 +1,9 @@
+{
+  "version": "STAGE1_8_GROUNDED_PROMPT_V1",
+  "frozen": true,
+  "current": "legacy Stage 1 prompt (unchanged)",
+  "grounded_planner_v1": "legacy + Active Subgoal + World Facts + Legal Action Candidates",
+  "no_expert_injection": true,
+  "no_extra_llm_calls": true,
+  "llm_chooses_final_action": true
+}

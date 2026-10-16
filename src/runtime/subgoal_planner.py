@@ -172,11 +172,12 @@ class SubgoalPlanner:
         self.transition_log.append({"kind": sg.kind, "from": prev, "to": status,
                                     "evidence": evidence[:120]})
 
-    # ---- B1: consistent reconciliation from world facts ----
+    # ---- B1/A3: consistent reconciliation from world facts ----
     def _reconcile(self) -> None:
-        """Satisfy subgoals whose preconditions are already confirmed.
+        """Satisfy or REOPEN subgoals from confirmed current facts.
 
-        Never uses unconfirmed guesses. Clears contradictions to UNKNOWN.
+        SATISFIED is not monotonic: release / wrong-place reopens later steps.
+        Never uses unconfirmed guesses.
         """
         g = self.goal_spec
         obj = (g.target_object or "").lower()
@@ -184,21 +185,30 @@ class SubgoalPlanner:
         tool = (g.target_receptacle or "").lower().replace(" ", "")
         held = any(obj and obj in h.lower().replace(" ", "") for h in self.held) or \
             self.world_facts.get(f"{obj_key}_held") is True
-        discovered = (
+        ever_discovered = (
             self.world_facts.get(f"{obj_key}_seen") is True
             or self.exploration.found_target_at is not None
-            or held
         )
+        discovered = ever_discovered or held
         light_on = self.world_facts.get("light_on") is True
-        placed = self.world_facts.get(f"{obj_key}_placed") is True
+        goal_placed = self.world_facts.get("goal_placement_satisfied") is True
+        physical_release = self.world_facts.get("object_released") is True
         tool_visible = self.world_facts.get(f"{tool}_visible") is True if tool else False
 
         for sg in self.subgoals:
-            if sg.status == SATISFIED:
-                continue
             k = sg.kind
+            # A3: allow reopening SATISFIED when current preconditions fail
+            if sg.status == SATISFIED:
+                if k == "ACQUIRE_TARGET" and not held and not goal_placed and (
+                    physical_release or self.world_facts.get(f"{obj_key}_held") is False
+                ):
+                    self._set_status(sg, PENDING, "reopen: no longer holding target")
+                elif k == "PLACE_TARGET" and not goal_placed and physical_release:
+                    self._set_status(sg, PENDING, "reopen: wrong/incomplete placement")
+                elif k == "USE_TOOL" and not light_on and self.world_facts.get("light_on") is False:
+                    self._set_status(sg, PENDING, "reopen: light not on")
+                continue
             if k == "EXPLORE":
-                # B2: one visit is not done; done when target seen OR all visible inspected
                 if discovered:
                     self._set_status(sg, SATISFIED, "explore: target evidence present")
             elif k == "LOCATE_TARGET":
@@ -208,25 +218,24 @@ class SubgoalPlanner:
                 if held:
                     self._set_status(sg, SATISFIED, f"holding {g.target_object}")
             elif k == "LOCATE_TOOL":
-                if light_on or tool_visible or (tool and self._tool_use_available()):
+                if light_on or tool_visible or self._tool_use_available():
                     self._set_status(sg, SATISFIED, "tool visible/usable")
             elif k == "LOCATE_DEST":
                 if self.world_facts.get(f"{(g.target_receptacle or '').lower().replace(' ','')}_visible") is True:
                     self._set_status(sg, SATISFIED, "destination visible")
-                elif placed:
+                elif goal_placed:
                     self._set_status(sg, SATISFIED, "already placed")
             elif k == "USE_TOOL":
                 if light_on:
                     self._set_status(sg, SATISFIED, "light on confirmed")
             elif k == "PLACE_TARGET":
-                if placed:
-                    self._set_status(sg, SATISFIED, "placement confirmed")
+                if goal_placed:
+                    self._set_status(sg, SATISFIED, "goal placement confirmed")
             elif k == "VERIFY_SUCCESS":
                 if self.world_facts.get("native_won") is True:
                     self._set_status(sg, SATISFIED, "native won")
 
-        # B5: conflicts → UNKNOWN not optimistic
-        if self.world_facts.get(f"{obj_key}_held") is True and placed:
+        if self.world_facts.get(f"{obj_key}_held") is True and goal_placed:
             self.world_facts[f"{obj_key}_held"] = UNKNOWN
 
     def _tool_use_available(self) -> bool:
@@ -293,27 +302,39 @@ class SubgoalPlanner:
                 if obj_key:
                     self.world_facts[f"{obj_key}_held"] = False
 
-        # place (B4): only release when feedback confirms
+        # place (A1): physical release ≠ goal placement
         if act.action_type == "PLACE":
             obj_cmd = (act.object or "").lower().replace(" ", "")
             tgt_cmd = (act.target or "").lower().replace(" ", "")
             confirmed = any(w in after for w in ("you move", "you put", "you place", "you drop"))
+            obj_match = bool(obj_key) and (
+                obj_key in obj_cmd or obj_key in after.replace(" ", "") or obj_cmd in obj_key
+            )
+            dest_match = bool(dest) and (
+                dest in tgt_cmd or dest in after.replace(" ", "") or tgt_cmd in dest
+            )
             if confirmed:
-                if obj and obj in [h.lower() for h in self.held]:
-                    self.held = [h for h in self.held if obj not in h.lower()]
-                elif act.object and act.object in self.held:
+                # physical release always on confirmed place
+                if act.object and act.object in self.held:
                     self.held.remove(act.object)
+                elif obj:
+                    self.held = [h for h in self.held if obj not in h.lower()]
                 self.world_facts[f"{obj_key}_held"] = False
-                if obj_key and obj_key in after.replace(" ", "") or obj_key in obj_cmd:
-                    if dest and (dest in after.replace(" ", "") or dest in tgt_cmd):
-                        self.world_facts[f"{obj_key}_placed"] = True
-                        self.world_facts[f"{obj_key}_placed_at"] = act.target
-                    else:
-                        self.world_facts[f"{obj_key}_placed"] = True  # moved somewhere confirmed
+                self.world_facts["object_released"] = True
+                self.world_facts[f"{obj_key}_released"] = True
                 if act.target:
-                    self.world_facts[f"{(act.target or '').lower().replace(' ','')}_visible"] = True
+                    self.world_facts[f"{tgt_cmd}_visible"] = True
+                # goal placement ONLY if object AND destination match GoalSpec
+                if obj_match and dest_match and g.required_relation in ("in", "on", "to", UNKNOWN, ""):
+                    self.world_facts["goal_placement_satisfied"] = True
+                    self.world_facts[f"{obj_key}_placed"] = True
+                    self.world_facts[f"{obj_key}_placed_at"] = act.target
+                else:
+                    # wrong object or wrong destination: released but goal NOT satisfied
+                    self.world_facts["goal_placement_satisfied"] = False
+                    self.world_facts[f"{obj_key}_placed"] = False
+                    self.world_facts[f"{obj_key}_placed_wrong"] = act.target or act.object
             else:
-                # unconfirmed place: keep holding as UNKNOWN at worst
                 if self.world_facts.get(f"{obj_key}_held") is True:
                     self.world_facts[f"{obj_key}_held"] = UNKNOWN
 
