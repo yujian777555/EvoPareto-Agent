@@ -1,7 +1,0 @@
-{
-  "run_id": "c91d8c584a76",
-  "exit_code": 0,
-  "search_loop": "PASS",
-  "failure_exit_code_enforced": true,
-  "note": "e2e mock sets no explicit non-zero exit on FAIL \u2014 patched below if needed"
-}

@@ -1,0 +1,21 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "archive_path": "C:\\Users\\\u4e8e\u8230\\Downloads\\results.tar.gz",
+  "archive_sha256": "F460F9C9218216F6FBAF553F4F215248317B7F37DD715AE146CD38199EABE5F7",
+  "archive_members": 1720,
+  "has_symlink": false,
+  "has_absolute": false,
+  "has_traversal": false,
+  "negative_tests": {
+    "traversal": "REJECTED:TRAVERSAL:../escape.txt",
+    "absolute": "REJECTED:ABSOLUTE_PATH:/abs.txt",
+    "windows_absolute": "REJECTED:ABSOLUTE_PATH:C:\\evil.txt",
+    "symlink": "REJECTED:LINK:link",
+    "hardlink": "REJECTED:LINK:hlink",
+    "special_fifo": "REJECTED:SPECIAL_FILE:fifo",
+    "overwrite": "REJECTED:OVERWRITE:a.txt",
+    "file_too_big": "REJECTED:FILE_TOO_BIG:big.bin:53477376"
+  },
+  "all_rejected": true,
+  "verdict": "ARCHIVE_SAFETY_PASS"
+}

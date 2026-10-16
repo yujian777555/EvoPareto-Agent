@@ -4,503 +4,610 @@
   "same_parent_repeats": 28,
   "cross_parent_repeats": 1,
   "cross_run_repeats": 7,
-  "note": "AFlow check_modification is per-father local; cross-parent repeats may be by design",
   "groups": [
     {
-      "modification": "Add an AnswerGenerate operator to generate a step-by-step solution, and then use the Custom operator to refine and forma",
+      "modification": "Add an AnswerGenerate operator to generate a step-by-step solution, and then use the Custom operator to refine and format the answer. This modification aims to ",
       "n_occurrences": 3,
-      "rounds": [
+      "round_ids": [
         2,
         6,
         14
       ],
-      "fathers": [
-        1,
-        1,
-        1
+      "father_ids": [
+        "1",
+        "1",
+        "1"
       ],
-      "before": [
+      "before_scores": [
         0.06093614855961649,
         0.06093614855961649,
         0.06093614855961649
       ],
-      "after": [
+      "after_scores": [
         0.7403921568627452,
         0.5110224089635853,
         0.5043347338935573
       ],
-      "benchmarks": [
+      "benchmark": [
         "DROP"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a ScEnsemble operator to improve answer selection by generating multiple solutions and choosing the most frequent on",
+      "modification": "Add a ScEnsemble operator to improve answer selection by generating multiple solutions and choosing the most frequent one.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         4,
         10
       ],
-      "fathers": [
-        2,
-        2
+      "father_ids": [
+        "2",
+        "2"
       ],
-      "before": [
+      "before_scores": [
         0.7403921568627451,
         0.7403921568627451
       ],
-      "after": [
+      "after_scores": [
         0.7289215686274508,
         0.7624509803921569
       ],
-      "benchmarks": [
+      "benchmark": [
         "DROP"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a ScEnsemble operator to generate multiple solutions and select the most frequent one. This can help improve the acc",
+      "modification": "Add a ScEnsemble operator to generate multiple solutions and select the most frequent one. This can help improve the accuracy of the final answer by considering",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         13,
         20
       ],
-      "fathers": [
-        2,
-        2
+      "father_ids": [
+        "2",
+        "2"
       ],
-      "before": [
+      "before_scores": [
         0.7403921568627451,
         0.7403921568627451
       ],
-      "after": [
+      "after_scores": [
         0.7403921568627452,
         0.7246078431372548
       ],
-      "benchmarks": [
+      "benchmark": [
         "DROP"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
       "modification": "Add a review step to double-check the calculated answer and format the output consistently.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         2,
         18
       ],
-      "fathers": [
-        1,
-        1
+      "father_ids": [
+        "1",
+        "1"
       ],
-      "before": [
+      "before_scores": [
         0.778,
         0.778
       ],
-      "after": [
+      "after_scores": [
         0.866,
         0.8559999999999999
       ],
-      "benchmarks": [
+      "benchmark": [
         "GSM8K"
-      ]
+      ],
+      "variant": [
+        "ablation_graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
       "modification": "Modify the Custom operator to include a specific instruction for answer extraction and formatting.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         4,
         19
       ],
-      "fathers": [
-        1,
-        1
+      "father_ids": [
+        "1",
+        "1"
       ],
-      "before": [
+      "before_scores": [
         0.778,
         0.778
       ],
-      "after": [
+      "after_scores": [
         0.858,
         0.866
       ],
-      "benchmarks": [
+      "benchmark": [
         "GSM8K"
-      ]
+      ],
+      "variant": [
+        "ablation_graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Modify the custom prompt to emphasize step-by-step problem-solving and include a final verification step. Add a loop to ",
+      "modification": "Modify the custom prompt to emphasize step-by-step problem-solving and include a final verification step. Add a loop to generate multiple solutions and use the ",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         10,
         10
       ],
-      "fathers": [
-        8,
-        8
+      "father_ids": [
+        "8",
+        "8"
       ],
-      "before": [
+      "before_scores": [
         0.8880000000000001,
         0.8880000000000001
       ],
-      "after": [
+      "after_scores": [
         0.898,
         0.898
       ],
-      "benchmarks": [
+      "benchmark": [
         "GSM8K"
-      ]
+      ],
+      "variant": [
+        "graphs",
+        "graphs_test"
+      ],
+      "same_parent": true,
+      "cross_run": true
     },
     {
-      "modification": "Add an AnswerGenerate operator to generate a step-by-step thought process and initial answer, then use Custom to refine ",
+      "modification": "Add an AnswerGenerate operator to generate a step-by-step thought process and initial answer, then use Custom to refine and format the answer.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         2,
         18
       ],
-      "fathers": [
-        1,
-        1
+      "father_ids": [
+        "1",
+        "1"
       ],
-      "before": [
+      "before_scores": [
         0.15788200880149736,
         0.15788200880149736
       ],
-      "after": [
+      "after_scores": [
         0.38552912634523456,
         0.18496850883118826
       ],
-      "benchmarks": [
+      "benchmark": [
         "HotpotQA"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a ScEnsemble operator to generate multiple answers and select the best one. Modify the Custom operator to focus on a",
+      "modification": "Add a ScEnsemble operator to generate multiple answers and select the best one. Modify the Custom operator to focus on answer formatting and conciseness.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         3,
         3
       ],
-      "fathers": [
-        2,
-        2
+      "father_ids": [
+        "2",
+        "2"
       ],
-      "before": [
+      "before_scores": [
         0.38552912634523456,
         0.38552912634523456
       ],
-      "after": [
+      "after_scores": [
         0.6152391725921138,
         0.6152391725921138
       ],
-      "benchmarks": [
+      "benchmark": [
         "HotpotQA"
-      ]
+      ],
+      "variant": [
+        "graphs",
+        "graphs_test"
+      ],
+      "same_parent": true,
+      "cross_run": true
     },
     {
       "modification": "Add a Test operator after the CustomCodeGenerate to validate and potentially improve the generated solution.",
       "n_occurrences": 4,
-      "rounds": [
+      "round_ids": [
         2,
         5,
         11,
         21
       ],
-      "fathers": [
-        1,
-        1,
-        1,
-        1
+      "father_ids": [
+        "1",
+        "1",
+        "1",
+        "1"
       ],
-      "before": [
+      "before_scores": [
         0.9333333333333333,
         0.9333333333333333,
         0.9333333333333333,
         0.9333333333333333
       ],
-      "after": [
+      "after_scores": [
         0.9066666666666666,
         0.9400000000000001,
         0.9200000000000002,
         0.9466666666666667
       ],
-      "benchmarks": [
+      "benchmark": [
         "HumanEval"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a review step using the Custom operator after the CustomCodeGenerate to validate and potentially improve the generat",
+      "modification": "Add a review step using the Custom operator after the CustomCodeGenerate to validate and potentially improve the generated solution.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         3,
         18
       ],
-      "fathers": [
-        1,
-        1
+      "father_ids": [
+        "1",
+        "1"
       ],
-      "before": [
+      "before_scores": [
         0.9333333333333333,
         0.9333333333333333
       ],
-      "after": [
+      "after_scores": [
         0.6533333333333333,
         0.9
       ],
-      "benchmarks": [
+      "benchmark": [
         "HumanEval"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a review step after generating the initial solution to catch and fix any obvious errors before running the test. Thi",
+      "modification": "Add a review step after generating the initial solution to catch and fix any obvious errors before running the test. This can potentially reduce the number of f",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         9,
         15
       ],
-      "fathers": [
-        8,
-        8
+      "father_ids": [
+        "8",
+        "8"
       ],
-      "before": [
+      "before_scores": [
         0.9266666666666667,
         0.9266666666666667
       ],
-      "after": [
+      "after_scores": [
         0.8866666666666667,
         0.8733333333333334
       ],
-      "benchmarks": [
+      "benchmark": [
         "HumanEval"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a review step using the Custom operator to analyze the generated solution before testing. This will help identify po",
+      "modification": "Add a review step using the Custom operator to analyze the generated solution before testing. This will help identify potential issues and improve the solution ",
       "n_occurrences": 4,
-      "rounds": [
+      "round_ids": [
         10,
         12,
         16,
         19
       ],
-      "fathers": [
-        5,
-        5,
-        5,
-        5
+      "father_ids": [
+        "5",
+        "5",
+        "5",
+        "5"
       ],
-      "before": [
+      "before_scores": [
         0.9400000000000001,
         0.9400000000000001,
         0.9400000000000001,
         0.9400000000000001
       ],
-      "after": [
+      "after_scores": [
         0.9066666666666666,
         0.8866666666666667,
         0.9533333333333334,
         0.9333333333333333
       ],
-      "benchmarks": [
+      "benchmark": [
         "HumanEval"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a review step using the Custom operator to analyze and improve the generated solution before testing it. This can he",
+      "modification": "Add a review step using the Custom operator to analyze and improve the generated solution before testing it. This can help catch potential issues and enhance th",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         13,
         14
       ],
-      "fathers": [
-        11,
-        11
+      "father_ids": [
+        "11",
+        "11"
       ],
-      "before": [
+      "before_scores": [
         0.9199999999999999,
         0.9199999999999999
       ],
-      "after": [
+      "after_scores": [
         0.8866666666666667,
         0.9466666666666667
       ],
-      "benchmarks": [
+      "benchmark": [
         "HumanEval"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a ScEnsemble operator to improve the reliability of the final answer by generating multiple solutions and selecting ",
+      "modification": "Add a ScEnsemble operator to improve the reliability of the final answer by generating multiple solutions and selecting the most consistent one.",
       "n_occurrences": 3,
-      "rounds": [
+      "round_ids": [
         3,
         6,
         7
       ],
-      "fathers": [
-        2,
-        2,
-        2
+      "father_ids": [
+        "2",
+        "2",
+        "2"
       ],
-      "before": [
+      "before_scores": [
         0.5243697478991597,
         0.5243697478991597,
         0.5243697478991597
       ],
-      "after": [
+      "after_scores": [
         0.5277310924369747,
         0.4722689075630252,
         0.5243697478991597
       ],
-      "benchmarks": [
+      "benchmark": [
         "MATH"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a new Custom operator to generate a detailed step-by-step solution, and modify the ScEnsemble operator to compare an",
+      "modification": "Add a new Custom operator to generate a detailed step-by-step solution, and modify the ScEnsemble operator to compare and select the best solution from multiple",
       "n_occurrences": 3,
-      "rounds": [
+      "round_ids": [
         5,
         9,
         5
       ],
-      "fathers": [
-        3,
-        3,
-        3
+      "father_ids": [
+        "3",
+        "3",
+        "3"
       ],
-      "before": [
+      "before_scores": [
         0.5277310924369748,
         0.5277310924369748,
         0.5277310924369748
       ],
-      "after": [
+      "after_scores": [
         0.5512605042016807,
         0.5378151260504201,
         0.5512605042016807
       ],
-      "benchmarks": [
+      "benchmark": [
         "MATH"
-      ]
+      ],
+      "variant": [
+        "graphs",
+        "graphs_test"
+      ],
+      "same_parent": true,
+      "cross_run": true
     },
     {
-      "modification": "Add a new Custom operator to generate multiple solution approaches, then use ScEnsemble to select the best solution. Thi",
+      "modification": "Add a new Custom operator to generate multiple solution approaches, then use ScEnsemble to select the best solution. This will increase the diversity of solutio",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         12,
         16
       ],
-      "fathers": [
-        9,
-        9
+      "father_ids": [
+        "9",
+        "9"
       ],
-      "before": [
+      "before_scores": [
         0.5378151260504203,
         0.5378151260504203
       ],
-      "after": [
+      "after_scores": [
         0.0,
         0.5210084033613446
       ],
-      "benchmarks": [
+      "benchmark": [
         "MATH"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a Test operator to check and potentially modify the generated solution before returning it. This will help improve t",
+      "modification": "Add a Test operator to check and potentially modify the generated solution before returning it. This will help improve the accuracy of the final output.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         2,
         3
       ],
-      "fathers": [
-        1,
-        1
+      "father_ids": [
+        "1",
+        "1"
       ],
-      "before": [
+      "before_scores": [
         0.727906976744186,
         0.727906976744186
       ],
-      "after": [
+      "after_scores": [
         0.8348837209302327,
         0.7232558139534884
       ],
-      "benchmarks": [
+      "benchmark": [
         "MBPP"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     },
     {
-      "modification": "Add a ScEnsemble operator to generate multiple solutions and select the best one before testing. This will help improve ",
+      "modification": "Add a ScEnsemble operator to generate multiple solutions and select the best one before testing. This will help improve the quality of the initial solution befo",
       "n_occurrences": 4,
-      "rounds": [
+      "round_ids": [
         10,
         14,
         17,
         14
       ],
-      "fathers": [
-        2,
-        2,
-        2,
-        2
+      "father_ids": [
+        "2",
+        "2",
+        "2",
+        "2"
       ],
-      "before": [
+      "before_scores": [
         0.8348837209302327,
         0.8348837209302327,
         0.8348837209302327,
         0.8348837209302327
       ],
-      "after": [
+      "after_scores": [
         0.8302325581395349,
         0.8325581395348838,
         0.8325581395348836,
         0.8325581395348838
       ],
-      "benchmarks": [
+      "benchmark": [
         "MBPP"
-      ]
+      ],
+      "variant": [
+        "graphs",
+        "graphs_test"
+      ],
+      "same_parent": true,
+      "cross_run": true
     },
     {
       "modification": "Add a review step using the Custom operator to evaluate and improve the best solution before testing.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         11,
         19
       ],
-      "fathers": [
-        10,
-        14
+      "father_ids": [
+        "10",
+        "14"
       ],
-      "before": [
+      "before_scores": [
         0.8302325581395349,
         0.8325581395348838
       ],
-      "after": [
+      "after_scores": [
         0.6465116279069768,
         0.5930232558139534
       ],
-      "benchmarks": [
+      "benchmark": [
         "MBPP"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": false,
+      "cross_run": false
     },
     {
-      "modification": "Add a new Custom operator to generate test cases before the final test step. This will help ensure the solution is teste",
+      "modification": "Add a new Custom operator to generate test cases before the final test step. This will help ensure the solution is tested more thoroughly before submission.",
       "n_occurrences": 2,
-      "rounds": [
+      "round_ids": [
         18,
         20
       ],
-      "fathers": [
-        14,
-        14
+      "father_ids": [
+        "14",
+        "14"
       ],
-      "before": [
+      "before_scores": [
         0.8325581395348838,
         0.8325581395348838
       ],
-      "after": [
+      "after_scores": [
         0.7930232558139536,
         0.0
       ],
-      "benchmarks": [
+      "benchmark": [
         "MBPP"
-      ]
+      ],
+      "variant": [
+        "graphs"
+      ],
+      "same_parent": true,
+      "cross_run": false
     }
-  ]
+  ],
+  "normalized_text_repeats": 29,
+  "normalized_text_groups": 20,
+  "note": "AFlow check_modification dedups exact strings within a father node's local experience. cross_parent_repeats may be by-design (independent lineages), not proven bug. same_parent_repeats within one father would indicate local dedup weakness.",
+  "evidence_class": "DERIVED_STATISTICS"
 }

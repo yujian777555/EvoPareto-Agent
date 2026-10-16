@@ -1,21 +1,87 @@
-# Micro Pilot Application (NOT executed)
+# Micro Pilot Application (Task I) — NOT EXECUTED
 
-Model: **deepseek-flash** · pricing source: api-docs.deepseek.com
-(peak $0.30/1M in, $1.20/1M out) · verified 2026-10-16.
+**Status:** APPLICATION_NOT_EXECUTED
+**Real LLM calls this stage:** 0
+**Real API cost this stage:** $0
 
-Benchmark: GSM8K official tasks (20 tasks). Search: 3 rounds × sample=2.
+## Fixed experimental identity
 
-| Cap | Value |
+| Field | Value |
 |---|---|
+| model_id | **deepseek-flash** (DeepSeek-V4.1-Flash) |
+| pricing_source | https://api-docs.deepseek.com/quick_start/pricing |
+| price_verified_at | 2026-10-16 |
+| benchmark | GSM8K official tasks |
+| task_ids | first 20 official GSM8K test tasks (fixed list, hashed at pilot start) |
+| search_rounds | 3 |
 | max_candidates | 3 |
+| sample_per_task | 2 |
 | max_physical_requests | 300 |
-| max_input_tokens | 2,000,000 |
-| max_output_tokens | 200,000 |
-| max_total_cost | **$5.00** |
+| max_input_tokens | 2000000 |
+| max_output_tokens | 200000 |
+| **max_total_cost** | **$5.0** |
 
-Derived from: optimize LLM ~1 call/round (2k in, 0.5k out) + exec LLM
-3×20×2 calls (~800 in, 200 out each) ≈ 123 logical ≈ 300 HTTP with retries.
-Worst-case cost ≈ 2.2M tokens × peak ≈ $0.93 → **$5 cap is safe**.
+## Pricing (verified 2026-10-16)
 
-Stop: budget cap · billing-blocked · crash (keep partial). All requests via
-Provider Gateway + SQLite ledger. Sandbox: docker --network none.
+{
+  "input_cache_miss_peak": 0.3,
+  "input_cache_miss_offpeak": 0.15,
+  "input_cache_hit_peak": 0.006,
+  "input_cache_hit_offpeak": 0.003,
+  "output_peak": 1.2,
+  "output_offpeak": 0.6
+}
+
+Peak: 01:00-04:00 and 06:00-10:00 UTC Mon-Fri (excl. CN holidays)
+
+## Budget derivation
+
+{
+  "optimizer_llm": "1 call/round x 3 rounds; ~2000 in + 500 out tokens each",
+  "workflow_exec_llm": "3 rounds x 20 tasks x sample=2 = 120 calls; ~800 in + 200 out each",
+  "evaluation_calls": "0 (offline scoring of model outputs against gold)",
+  "failure_retries": "budgeted inside max_physical_requests=300",
+  "cache_usage": "counted as cache-miss worst case",
+  "logical_requests_estimate": 123,
+  "worst_case_tokens": {
+    "input": 2000000,
+    "output": 200000
+  },
+  "worst_case_cost_peak_usd": 0.84,
+  "headroom_vs_cap": "worst-case ~$0.84 << $5.00 cap; hard stop on budget gate"
+}
+
+Worst-case cost ≈ **$0.84** at peak
+cache-miss rates — well under the $5 hard cap. If $5 becomes insufficient the pilot is
+**shrunk**, never over-budget.
+
+## Request classes
+
+{
+  "search_optimizer_calls": 3,
+  "workflow_execution_calls": 120,
+  "evaluation_calls": 0,
+  "failure_retries": "counted inside physical cap",
+  "cache_related_usage": "billed at cache-miss worst case"
+}
+
+## Protocol
+
+{
+  "initial_workflow": "frozen official GSM8K round_1",
+  "verify_nonzero_initial": true,
+  "save_every_candidate": true,
+  "check_mutation_executable": true,
+  "statistical_power_target": "NOT a power analysis; minimal viable search only"
+}
+
+## Preconditions
+
+[
+  "Planner explicit authorization",
+  "GATE_D remains PASS at run time",
+  "API key present only inside gateway process, not in generated code"
+]
+
+**This stage does not execute the pilot.** It only fixes the protocol and the budget
+ceiling for Planner authorization.

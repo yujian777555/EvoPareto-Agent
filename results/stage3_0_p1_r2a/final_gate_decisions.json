@@ -3,7 +3,14 @@
   "GATE_B_SCIENTIFIC_EVIDENCE": "PASS (correlational claims bounded)",
   "GATE_C_MOCK_RELIABILITY": "PASS",
   "GATE_D_SAFETY_BUDGET": "PASS",
-  "GATE_E_PILOT_READINESS": "PASS (awaiting authorization)",
+  "GATE_E_PILOT_READINESS": "AWAITING_AUTHORIZATION",
   "FINAL_DECISION": "READY_FOR_LEVEL3_MICRO_PILOT_APPROVAL",
-  "real_llm_calls": 0
+  "real_llm_calls": 0,
+  "real_api_cost_usd": 0,
+  "per_gate": {
+    "archive": "ARCHIVE_SAFETY_PASS",
+    "provider_gateway": "BUDGET_GATE_PASS",
+    "sandbox": "SANDBOX_GATE_PASS",
+    "mock": "MOCK_RELIABILITY_PASS"
+  }
 }

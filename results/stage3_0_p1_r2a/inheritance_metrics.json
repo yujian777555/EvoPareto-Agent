@@ -1,10 +1,2216 @@
 {
-  "n_success_children": 41,
-  "successful_child_reselection_rate": 0.7073170731707317,
-  "successful_child_offspring_mean": 2.2439024390243905,
-  "n_fail_children": 103,
-  "fail_child_reselection_rate": 0.0970873786407767,
-  "fail_child_offspring_mean": 0.21359223300970873,
+  "evidence_class": "DERIVED_STATISTICS",
+  "definition": {
+    "child": "the round produced by the mutation (same round id as the experience record)",
+    "reselection": "that child's round id later appears as 'father node' of another round in same (benchmark,variant)",
+    "descendant_score_retention": "share of direct offspring whose after >= child's after",
+    "structural_component_retention": "share of success children with >=1 offspring having identical graph.py SHA-256"
+  },
+  "success_children": {
+    "tag": "success_children_search",
+    "n": 38,
+    "successful_child_reselection_rate": 0.7631578947368421,
+    "successful_child_offspring_count_mean": 2.4210526315789473,
+    "successful_child_offspring_count_median": 2.0,
+    "lineage_survival_depth_mean": 3.5,
+    "lineage_survival_depth_max": 9,
+    "descendant_score_retention_mean": 0.32318007662835246,
+    "structural_component_retention_rate": 0.0,
+    "records": [
+      {
+        "child_round": 2,
+        "father": 1,
+        "before": 0.06093614855961649,
+        "after": 0.7403921568627452,
+        "succeed_flag": true,
+        "n_offspring": 5,
+        "offspring_rounds": [
+          4,
+          9,
+          10,
+          13,
+          20
+        ],
+        "offspring_after": [
+          0.7289215686274508,
+          0.049021141822636304,
+          0.7624509803921569,
+          0.7403921568627452,
+          0.7246078431372548
+        ],
+        "offspring_delta_vs_child": [
+          -0.011470588235294343,
+          -0.6913710150401089,
+          0.022058823529411686,
+          0.0,
+          -0.015784313725490384
+        ],
+        "graph_sha256": "0c270ce94179f0e0"
+      },
+      {
+        "child_round": 6,
+        "father": 1,
+        "before": 0.06093614855961649,
+        "after": 0.5110224089635853,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "6233bb4742a741d1"
+      },
+      {
+        "child_round": 10,
+        "father": 2,
+        "before": 0.7403921568627451,
+        "after": 0.7624509803921569,
+        "succeed_flag": true,
+        "n_offspring": 5,
+        "offspring_rounds": [
+          15,
+          17,
+          18,
+          19,
+          21
+        ],
+        "offspring_after": [
+          0.6607843137254901,
+          0.6897058823529412,
+          0.7230392156862744,
+          0.5920092057481131,
+          0.07026002562471038
+        ],
+        "offspring_delta_vs_child": [
+          -0.1016666666666668,
+          -0.0727450980392157,
+          -0.03941176470588248,
+          -0.17044177464404375,
+          -0.6921909547674465
+        ],
+        "graph_sha256": "0f4bd1a06a466d5f"
+      },
+      {
+        "child_round": 13,
+        "father": 2,
+        "before": 0.7403921568627451,
+        "after": 0.7403921568627452,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "ceb0595c0eea9a4d"
+      },
+      {
+        "child_round": 14,
+        "father": 1,
+        "before": 0.06093614855961649,
+        "after": 0.5043347338935573,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "7c9288255125ea23"
+      },
+      {
+        "child_round": 2,
+        "father": 1,
+        "before": 0.778,
+        "after": 0.866,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          3
+        ],
+        "offspring_after": [
+          0.8699999999999999
+        ],
+        "offspring_delta_vs_child": [
+          0.0039999999999998925
+        ],
+        "graph_sha256": "8b141fdde89e6104"
+      },
+      {
+        "child_round": 3,
+        "father": 2,
+        "before": 0.866,
+        "after": 0.8699999999999999,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          9
+        ],
+        "offspring_after": [
+          0.8779999999999999
+        ],
+        "offspring_delta_vs_child": [
+          0.008000000000000007
+        ],
+        "graph_sha256": "5078c20e720390d4"
+      },
+      {
+        "child_round": 4,
+        "father": 1,
+        "before": 0.778,
+        "after": 0.858,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          5
+        ],
+        "offspring_after": [
+          0.874
+        ],
+        "offspring_delta_vs_child": [
+          0.016000000000000014
+        ],
+        "graph_sha256": "aff6b9b7c6479eb6"
+      },
+      {
+        "child_round": 5,
+        "father": 4,
+        "before": 0.858,
+        "after": 0.874,
+        "succeed_flag": true,
+        "n_offspring": 3,
+        "offspring_rounds": [
+          6,
+          7,
+          12
+        ],
+        "offspring_after": [
+          0.8800000000000001,
+          0.8560000000000001,
+          0.8639999999999999
+        ],
+        "offspring_delta_vs_child": [
+          0.006000000000000116,
+          -0.017999999999999905,
+          -0.01000000000000012
+        ],
+        "graph_sha256": "fa8cb3a7a91155be"
+      },
+      {
+        "child_round": 6,
+        "father": 5,
+        "before": 0.874,
+        "after": 0.8800000000000001,
+        "succeed_flag": true,
+        "n_offspring": 3,
+        "offspring_rounds": [
+          8,
+          16,
+          21
+        ],
+        "offspring_after": [
+          0.858,
+          0.8640000000000001,
+          0.86
+        ],
+        "offspring_delta_vs_child": [
+          -0.02200000000000013,
+          -0.016000000000000014,
+          -0.02000000000000013
+        ],
+        "graph_sha256": "d875fdbd140a2c5e"
+      },
+      {
+        "child_round": 9,
+        "father": 3,
+        "before": 0.8699999999999999,
+        "after": 0.8779999999999999,
+        "succeed_flag": true,
+        "n_offspring": 6,
+        "offspring_rounds": [
+          10,
+          11,
+          13,
+          14,
+          15,
+          17
+        ],
+        "offspring_after": [
+          0.734,
+          0.77,
+          0.852,
+          0.8459999999999999,
+          0.8560000000000001,
+          0.8780000000000001
+        ],
+        "offspring_delta_vs_child": [
+          -0.1439999999999999,
+          -0.10799999999999987,
+          -0.025999999999999912,
+          -0.03200000000000003,
+          -0.021999999999999797,
+          2.220446049250313e-16
+        ],
+        "graph_sha256": "5ef12e6f7b2cc32a"
+      },
+      {
+        "child_round": 17,
+        "father": 9,
+        "before": 0.8779999999999999,
+        "after": 0.8780000000000001,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          20
+        ],
+        "offspring_after": [
+          0.8700000000000001
+        ],
+        "offspring_delta_vs_child": [
+          -0.008000000000000007
+        ],
+        "graph_sha256": "5fc31292a8cc6b3f"
+      },
+      {
+        "child_round": 18,
+        "father": 1,
+        "before": 0.778,
+        "after": 0.8559999999999999,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "487b6e1ec3e6225d"
+      },
+      {
+        "child_round": 19,
+        "father": 1,
+        "before": 0.778,
+        "after": 0.866,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "55f441391624e045"
+      },
+      {
+        "child_round": 2,
+        "father": 1,
+        "before": 0.778,
+        "after": 0.826,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          3
+        ],
+        "offspring_after": [
+          0.8720000000000001
+        ],
+        "offspring_delta_vs_child": [
+          0.04600000000000015
+        ],
+        "graph_sha256": "6f4bbbf1a33a3bfa"
+      },
+      {
+        "child_round": 3,
+        "father": 2,
+        "before": 0.826,
+        "after": 0.8720000000000001,
+        "succeed_flag": true,
+        "n_offspring": 3,
+        "offspring_rounds": [
+          4,
+          6,
+          8
+        ],
+        "offspring_after": [
+          0.868,
+          0.868,
+          0.8880000000000001
+        ],
+        "offspring_delta_vs_child": [
+          -0.004000000000000115,
+          -0.004000000000000115,
+          0.016000000000000014
+        ],
+        "graph_sha256": "2bbe62f6562f6430"
+      },
+      {
+        "child_round": 8,
+        "father": 3,
+        "before": 0.8720000000000001,
+        "after": 0.8880000000000001,
+        "succeed_flag": true,
+        "n_offspring": 9,
+        "offspring_rounds": [
+          9,
+          10,
+          11,
+          12,
+          14,
+          18,
+          19,
+          22,
+          24
+        ],
+        "offspring_after": [
+          0.8800000000000001,
+          0.898,
+          0.852,
+          0.8800000000000001,
+          0.8699999999999999,
+          0.8880000000000001,
+          0.8539999999999999,
+          0.884,
+          0.86
+        ],
+        "offspring_delta_vs_child": [
+          -0.008000000000000007,
+          0.009999999999999898,
+          -0.03600000000000014,
+          -0.008000000000000007,
+          -0.018000000000000238,
+          0.0,
+          -0.03400000000000025,
+          -0.004000000000000115,
+          -0.028000000000000136
+        ],
+        "graph_sha256": "bd369b11c97ca4bc"
+      },
+      {
+        "child_round": 10,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.898,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          13
+        ],
+        "offspring_after": [
+          0.906
+        ],
+        "offspring_delta_vs_child": [
+          0.008000000000000007
+        ],
+        "graph_sha256": "ca9a7adedaf19221"
+      },
+      {
+        "child_round": 13,
+        "father": 10,
+        "before": 0.898,
+        "after": 0.906,
+        "succeed_flag": true,
+        "n_offspring": 7,
+        "offspring_rounds": [
+          15,
+          16,
+          17,
+          20,
+          21,
+          23,
+          25
+        ],
+        "offspring_after": [
+          0.8800000000000001,
+          0.874,
+          0.8779999999999999,
+          0.8779999999999999,
+          0.874,
+          0.8140000000000001,
+          0.8860000000000001
+        ],
+        "offspring_delta_vs_child": [
+          -0.025999999999999912,
+          -0.03200000000000003,
+          -0.028000000000000136,
+          -0.028000000000000136,
+          -0.03200000000000003,
+          -0.09199999999999997,
+          -0.019999999999999907
+        ],
+        "graph_sha256": "788a9a483c0aa2d1"
+      },
+      {
+        "child_round": 2,
+        "father": 1,
+        "before": 0.15788200880149736,
+        "after": 0.38552912634523456,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          3
+        ],
+        "offspring_after": [
+          0.6152391725921138
+        ],
+        "offspring_delta_vs_child": [
+          0.22971004624687924
+        ],
+        "graph_sha256": "e43be87117516eef"
+      },
+      {
+        "child_round": 3,
+        "father": 2,
+        "before": 0.38552912634523456,
+        "after": 0.6152391725921138,
+        "succeed_flag": true,
+        "n_offspring": 4,
+        "offspring_rounds": [
+          4,
+          5,
+          8,
+          13
+        ],
+        "offspring_after": [
+          0.5935227485643086,
+          0.6106678125795773,
+          0.6009556130144366,
+          0.6102520028990617
+        ],
+        "offspring_delta_vs_child": [
+          -0.02171642402780516,
+          -0.004571360012536552,
+          -0.01428355957767724,
+          -0.004987169693052129
+        ],
+        "graph_sha256": "5b03bbec3b18b27f"
+      },
+      {
+        "child_round": 7,
+        "father": 6,
+        "before": 0.6100431268078326,
+        "after": 0.6156016532487121,
+        "succeed_flag": true,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          10,
+          12
+        ],
+        "offspring_after": [
+          0.6218939883645767,
+          0.6138544951780245
+        ],
+        "offspring_delta_vs_child": [
+          0.006292335115864578,
+          -0.0017471580706875933
+        ],
+        "graph_sha256": "b833ea45947c1b5d"
+      },
+      {
+        "child_round": 10,
+        "father": 7,
+        "before": 0.6156016532487121,
+        "after": 0.6218939883645767,
+        "succeed_flag": true,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          11,
+          14
+        ],
+        "offspring_after": [
+          0.6056194785606551,
+          0.617469230116289
+        ],
+        "offspring_delta_vs_child": [
+          -0.016274509803921533,
+          -0.004424758248287697
+        ],
+        "graph_sha256": "c94a93b4fa8db368"
+      },
+      {
+        "child_round": 15,
+        "father": 14,
+        "before": 0.617469230116289,
+        "after": 0.6201203698262521,
+        "succeed_flag": true,
+        "n_offspring": 3,
+        "offspring_rounds": [
+          17,
+          19,
+          20
+        ],
+        "offspring_after": [
+          0.609809128779717,
+          0.5912117457705692,
+          0.6186813186813187
+        ],
+        "offspring_delta_vs_child": [
+          -0.010311241046535025,
+          -0.02890862405568284,
+          -0.0014390511449333676
+        ],
+        "graph_sha256": "f5ae99530ba0223a"
+      },
+      {
+        "child_round": 16,
+        "father": 14,
+        "before": 0.617469230116289,
+        "after": 0.6326012712777418,
+        "succeed_flag": true,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          21
+        ],
+        "offspring_after": [
+          0.6208925878043525
+        ],
+        "offspring_delta_vs_child": [
+          -0.01170868347338927
+        ],
+        "graph_sha256": "1466ac3dbdbfaac3"
+      },
+      {
+        "child_round": 18,
+        "father": 1,
+        "before": 0.15788200880149736,
+        "after": 0.18496850883118826,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "8ab63c744c820133"
+      },
+      {
+        "child_round": 5,
+        "father": 1,
+        "before": 0.9333333333333333,
+        "after": 0.9400000000000001,
+        "succeed_flag": true,
+        "n_offspring": 4,
+        "offspring_rounds": [
+          10,
+          12,
+          16,
+          19
+        ],
+        "offspring_after": [
+          0.9066666666666666,
+          0.8866666666666667,
+          0.9533333333333334,
+          0.9333333333333333
+        ],
+        "offspring_delta_vs_child": [
+          -0.03333333333333344,
+          -0.053333333333333344,
+          0.013333333333333308,
+          -0.00666666666666671
+        ],
+        "graph_sha256": "e59fe265833434ce"
+      },
+      {
+        "child_round": 8,
+        "father": 2,
+        "before": 0.9066666666666666,
+        "after": 0.9266666666666667,
+        "succeed_flag": true,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          9,
+          15
+        ],
+        "offspring_after": [
+          0.8866666666666667,
+          0.8733333333333334
+        ],
+        "offspring_delta_vs_child": [
+          -0.040000000000000036,
+          -0.053333333333333344
+        ],
+        "graph_sha256": "42e3f9c235d9213a"
+      },
+      {
+        "child_round": 14,
+        "father": 11,
+        "before": 0.9199999999999999,
+        "after": 0.9466666666666667,
+        "succeed_flag": true,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          17,
+          20
+        ],
+        "offspring_after": [
+          0.9333333333333333,
+          0.9266666666666667
+        ],
+        "offspring_delta_vs_child": [
+          -0.013333333333333308,
+          -0.019999999999999907
+        ],
+        "graph_sha256": "ab61ee118c473113"
+      },
+      {
+        "child_round": 16,
+        "father": 5,
+        "before": 0.9400000000000001,
+        "after": 0.9533333333333334,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "95869e3a5d6f71e1"
+      },
+      {
+        "child_round": 21,
+        "father": 1,
+        "before": 0.9333333333333333,
+        "after": 0.9466666666666667,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "4bfa3b5b758576f6"
+      },
+      {
+        "child_round": 2,
+        "father": 1,
+        "before": 0.4873949579831933,
+        "after": 0.5243697478991597,
+        "succeed_flag": true,
+        "n_offspring": 3,
+        "offspring_rounds": [
+          3,
+          6,
+          7
+        ],
+        "offspring_after": [
+          0.5277310924369747,
+          0.4722689075630252,
+          0.5243697478991597
+        ],
+        "offspring_delta_vs_child": [
+          0.003361344537815003,
+          -0.05210084033613449,
+          0.0
+        ],
+        "graph_sha256": "449f3f0a30b572ca"
+      },
+      {
+        "child_round": 3,
+        "father": 2,
+        "before": 0.5243697478991597,
+        "after": 0.5277310924369747,
+        "succeed_flag": true,
+        "n_offspring": 6,
+        "offspring_rounds": [
+          4,
+          5,
+          9,
+          10,
+          13,
+          14
+        ],
+        "offspring_after": [
+          0.0,
+          0.5512605042016807,
+          0.5378151260504201,
+          0.5042016806722688,
+          0.5193277310924369,
+          0.5310924369747899
+        ],
+        "offspring_delta_vs_child": [
+          -0.5277310924369747,
+          0.02352941176470602,
+          0.010084033613445453,
+          -0.02352941176470591,
+          -0.008403361344537785,
+          0.003361344537815225
+        ],
+        "graph_sha256": "3aff47aaca2466ce"
+      },
+      {
+        "child_round": 5,
+        "father": 3,
+        "before": 0.5277310924369748,
+        "after": 0.5512605042016807,
+        "succeed_flag": true,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          17,
+          19
+        ],
+        "offspring_after": [
+          0.0,
+          0.5445378151260505
+        ],
+        "offspring_delta_vs_child": [
+          -0.5512605042016807,
+          -0.006722689075630228
+        ],
+        "graph_sha256": "0d67e403d959b271"
+      },
+      {
+        "child_round": 9,
+        "father": 3,
+        "before": 0.5277310924369748,
+        "after": 0.5378151260504201,
+        "succeed_flag": true,
+        "n_offspring": 4,
+        "offspring_rounds": [
+          11,
+          12,
+          16,
+          20
+        ],
+        "offspring_after": [
+          0.5159663865546219,
+          0.0,
+          0.5210084033613446,
+          0.5210084033613446
+        ],
+        "offspring_delta_vs_child": [
+          -0.02184873949579824,
+          -0.5378151260504201,
+          -0.01680672268907557,
+          -0.01680672268907557
+        ],
+        "graph_sha256": "b8c15d55391364c7"
+      },
+      {
+        "child_round": 14,
+        "father": 3,
+        "before": 0.5277310924369748,
+        "after": 0.5310924369747899,
+        "succeed_flag": true,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          15,
+          18
+        ],
+        "offspring_after": [
+          0.5243697478991596,
+          0.5176470588235293
+        ],
+        "offspring_delta_vs_child": [
+          -0.006722689075630339,
+          -0.013445378151260567
+        ],
+        "graph_sha256": "65f2849fcc7d6c7c"
+      },
+      {
+        "child_round": 2,
+        "father": 1,
+        "before": 0.727906976744186,
+        "after": 0.8348837209302327,
+        "succeed_flag": true,
+        "n_offspring": 7,
+        "offspring_rounds": [
+          4,
+          5,
+          7,
+          10,
+          12,
+          14,
+          17
+        ],
+        "offspring_after": [
+          0.5906976744186047,
+          0.8209302325581396,
+          0.5651162790697675,
+          0.8302325581395349,
+          0.5744186046511628,
+          0.8325581395348838,
+          0.8325581395348836
+        ],
+        "offspring_delta_vs_child": [
+          -0.244186046511628,
+          -0.013953488372093092,
+          -0.2697674418604652,
+          -0.0046511627906977715,
+          -0.2604651162790699,
+          -0.0023255813953488857,
+          -0.002325581395349108
+        ],
+        "graph_sha256": "838cf071f757f542"
+      },
+      {
+        "child_round": 15,
+        "father": 10,
+        "before": 0.8302325581395349,
+        "after": 0.841860465116279,
+        "succeed_flag": true,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "b7037cbbaca15441"
+      }
+    ]
+  },
+  "fail_children": {
+    "tag": "fail_children_search",
+    "n": 102,
+    "successful_child_reselection_rate": 0.09803921568627451,
+    "successful_child_offspring_count_mean": 0.21568627450980393,
+    "successful_child_offspring_count_median": 0.0,
+    "lineage_survival_depth_mean": 4.431372549019608,
+    "lineage_survival_depth_max": 10,
+    "descendant_score_retention_mean": 0.38333333333333336,
+    "structural_component_retention_rate": 0.0,
+    "records": [
+      {
+        "child_round": 4,
+        "father": 2,
+        "before": 0.7403921568627451,
+        "after": 0.7289215686274508,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "0096ff6976326249"
+      },
+      {
+        "child_round": 5,
+        "father": 3,
+        "before": 0.7404901960784314,
+        "after": 0.7094965297695995,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "2171b82d31ffb3eb"
+      },
+      {
+        "child_round": 7,
+        "father": 3,
+        "before": 0.7404901960784314,
+        "after": 0.040381896006269284,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "6a32b7023f54e501"
+      },
+      {
+        "child_round": 8,
+        "father": 3,
+        "before": 0.7404901960784314,
+        "after": 0.7251705029838021,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "33e079dfeb97574c"
+      },
+      {
+        "child_round": 9,
+        "father": 2,
+        "before": 0.7403921568627451,
+        "after": 0.049021141822636304,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "7ea09f75a5958ffa"
+      },
+      {
+        "child_round": 11,
+        "father": 3,
+        "before": 0.7404901960784314,
+        "after": 0.2562216095371586,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "6a4e95199d7c8e83"
+      },
+      {
+        "child_round": 12,
+        "father": 3,
+        "before": 0.7404901960784314,
+        "after": 0.7394117647058824,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "26104e98b79a28c1"
+      },
+      {
+        "child_round": 15,
+        "father": 10,
+        "before": 0.7624509803921568,
+        "after": 0.6607843137254901,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "118de5770c8b7577"
+      },
+      {
+        "child_round": 16,
+        "father": 3,
+        "before": 0.7404901960784314,
+        "after": 0.6228758169934641,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d526ad0a17f90990"
+      },
+      {
+        "child_round": 17,
+        "father": 10,
+        "before": 0.7624509803921568,
+        "after": 0.6897058823529412,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "50197a3e0d6e64f9"
+      },
+      {
+        "child_round": 18,
+        "father": 10,
+        "before": 0.7624509803921568,
+        "after": 0.7230392156862744,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "daa81af1e773e468"
+      },
+      {
+        "child_round": 19,
+        "father": 10,
+        "before": 0.7624509803921568,
+        "after": 0.5920092057481131,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "fd830a0dc68c565a"
+      },
+      {
+        "child_round": 20,
+        "father": 2,
+        "before": 0.7403921568627451,
+        "after": 0.7246078431372548,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "37b0674640e10bf5"
+      },
+      {
+        "child_round": 21,
+        "father": 10,
+        "before": 0.7624509803921568,
+        "after": 0.07026002562471038,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "930318e2a8e42c08"
+      },
+      {
+        "child_round": 7,
+        "father": 5,
+        "before": 0.874,
+        "after": 0.8560000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "ff60b7a750ab6595"
+      },
+      {
+        "child_round": 8,
+        "father": 6,
+        "before": 0.8800000000000001,
+        "after": 0.858,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "87c22eca2213fca1"
+      },
+      {
+        "child_round": 10,
+        "father": 9,
+        "before": 0.8779999999999999,
+        "after": 0.734,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "c449beca323a0bc1"
+      },
+      {
+        "child_round": 11,
+        "father": 9,
+        "before": 0.8779999999999999,
+        "after": 0.77,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "2cadcd4e68ceae3c"
+      },
+      {
+        "child_round": 12,
+        "father": 5,
+        "before": 0.874,
+        "after": 0.8639999999999999,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d1a0f4b1384347ae"
+      },
+      {
+        "child_round": 13,
+        "father": 9,
+        "before": 0.8779999999999999,
+        "after": 0.852,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "c70ef5db381ecf06"
+      },
+      {
+        "child_round": 14,
+        "father": 9,
+        "before": 0.8779999999999999,
+        "after": 0.8459999999999999,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "6d8d606de198298c"
+      },
+      {
+        "child_round": 15,
+        "father": 9,
+        "before": 0.8779999999999999,
+        "after": 0.8560000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "8b6f7501c503e059"
+      },
+      {
+        "child_round": 16,
+        "father": 6,
+        "before": 0.8800000000000001,
+        "after": 0.8640000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "87dc4f283c8b4cc8"
+      },
+      {
+        "child_round": 20,
+        "father": 17,
+        "before": 0.8779999999999999,
+        "after": 0.8700000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "f6894aad51161237"
+      },
+      {
+        "child_round": 21,
+        "father": 6,
+        "before": 0.8800000000000001,
+        "after": 0.86,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "8d8abdd2318c4bbe"
+      },
+      {
+        "child_round": 4,
+        "father": 3,
+        "before": 0.8720000000000001,
+        "after": 0.868,
+        "succeed_flag": false,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          5,
+          7
+        ],
+        "offspring_after": [
+          0.758,
+          0.868
+        ],
+        "offspring_delta_vs_child": [
+          -0.10999999999999999,
+          0.0
+        ],
+        "graph_sha256": "303f247e768d35f7"
+      },
+      {
+        "child_round": 5,
+        "father": 4,
+        "before": 0.868,
+        "after": 0.758,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "b063b54d94dea224"
+      },
+      {
+        "child_round": 6,
+        "father": 3,
+        "before": 0.8720000000000001,
+        "after": 0.868,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "bf49dc59274355d2"
+      },
+      {
+        "child_round": 7,
+        "father": 4,
+        "before": 0.868,
+        "after": 0.868,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "ced4054b86af46e9"
+      },
+      {
+        "child_round": 9,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.8800000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "ef7a2d6332f25bf7"
+      },
+      {
+        "child_round": 11,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.852,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "3fa25d7441b2f189"
+      },
+      {
+        "child_round": 12,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.8800000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "5f2349321e4974f1"
+      },
+      {
+        "child_round": 14,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.8699999999999999,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "114e0e74bdf83f05"
+      },
+      {
+        "child_round": 15,
+        "father": 13,
+        "before": 0.906,
+        "after": 0.8800000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "906a851c5da38515"
+      },
+      {
+        "child_round": 16,
+        "father": 13,
+        "before": 0.906,
+        "after": 0.874,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "c52e6748fa0b8b8e"
+      },
+      {
+        "child_round": 17,
+        "father": 13,
+        "before": 0.906,
+        "after": 0.8779999999999999,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "ec5d7c30d8070ab4"
+      },
+      {
+        "child_round": 18,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.8880000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "f6cb94316f547282"
+      },
+      {
+        "child_round": 19,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.8539999999999999,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "cf3a3c4dee93912b"
+      },
+      {
+        "child_round": 20,
+        "father": 13,
+        "before": 0.906,
+        "after": 0.8779999999999999,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "a3b4f0d10c1f13cf"
+      },
+      {
+        "child_round": 21,
+        "father": 13,
+        "before": 0.906,
+        "after": 0.874,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "7d4f7d870c14e47d"
+      },
+      {
+        "child_round": 22,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.884,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "87f9e2b3617378cd"
+      },
+      {
+        "child_round": 23,
+        "father": 13,
+        "before": 0.906,
+        "after": 0.8140000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "94c8aa8117dc7f9f"
+      },
+      {
+        "child_round": 24,
+        "father": 8,
+        "before": 0.8880000000000001,
+        "after": 0.86,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "5f18f4e9c2a15def"
+      },
+      {
+        "child_round": 25,
+        "father": 13,
+        "before": 0.906,
+        "after": 0.8860000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d865e5067f38def1"
+      },
+      {
+        "child_round": 4,
+        "father": 3,
+        "before": 0.6152391725921137,
+        "after": 0.5935227485643086,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "cd1742e5558ecbc7"
+      },
+      {
+        "child_round": 5,
+        "father": 3,
+        "before": 0.6152391725921137,
+        "after": 0.6106678125795773,
+        "succeed_flag": false,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          6,
+          9
+        ],
+        "offspring_after": [
+          0.6100431268078327,
+          0.5416263095804618
+        ],
+        "offspring_delta_vs_child": [
+          -0.0006246857717445709,
+          -0.06904150299911549
+        ],
+        "graph_sha256": "0691b3bfca42de7f"
+      },
+      {
+        "child_round": 6,
+        "father": 5,
+        "before": 0.6106678125795773,
+        "after": 0.6100431268078327,
+        "succeed_flag": false,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          7
+        ],
+        "offspring_after": [
+          0.6156016532487121
+        ],
+        "offspring_delta_vs_child": [
+          0.005558526440879397
+        ],
+        "graph_sha256": "5d445366aaf6b3fc"
+      },
+      {
+        "child_round": 8,
+        "father": 3,
+        "before": 0.6152391725921137,
+        "after": 0.6009556130144366,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "55bab32b2398e50b"
+      },
+      {
+        "child_round": 9,
+        "father": 5,
+        "before": 0.6106678125795773,
+        "after": 0.5416263095804618,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d478993f56c11874"
+      },
+      {
+        "child_round": 11,
+        "father": 10,
+        "before": 0.6218939883645765,
+        "after": 0.6056194785606551,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "76edac932ab7127a"
+      },
+      {
+        "child_round": 12,
+        "father": 7,
+        "before": 0.6156016532487121,
+        "after": 0.6138544951780245,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "cf095cea273839d5"
+      },
+      {
+        "child_round": 13,
+        "father": 3,
+        "before": 0.6152391725921137,
+        "after": 0.6102520028990617,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "0071b41df25c7687"
+      },
+      {
+        "child_round": 14,
+        "father": 10,
+        "before": 0.6218939883645765,
+        "after": 0.617469230116289,
+        "succeed_flag": false,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          15,
+          16
+        ],
+        "offspring_after": [
+          0.6201203698262521,
+          0.6326012712777418
+        ],
+        "offspring_delta_vs_child": [
+          0.002651139709963113,
+          0.015132041161452836
+        ],
+        "graph_sha256": "95b3968aef7514f5"
+      },
+      {
+        "child_round": 17,
+        "father": 15,
+        "before": 0.6201203698262521,
+        "after": 0.609809128779717,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "9c69f201fcb127e2"
+      },
+      {
+        "child_round": 19,
+        "father": 15,
+        "before": 0.6201203698262521,
+        "after": 0.5912117457705692,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "c26d8468b6e239f7"
+      },
+      {
+        "child_round": 20,
+        "father": 15,
+        "before": 0.6201203698262521,
+        "after": 0.6186813186813187,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "42cbf3cbec81e8f2"
+      },
+      {
+        "child_round": 21,
+        "father": 16,
+        "before": 0.6326012712777419,
+        "after": 0.6208925878043525,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "7e1e2581c84b3382"
+      },
+      {
+        "child_round": 2,
+        "father": 1,
+        "before": 0.9333333333333333,
+        "after": 0.9066666666666666,
+        "succeed_flag": false,
+        "n_offspring": 3,
+        "offspring_rounds": [
+          4,
+          6,
+          8
+        ],
+        "offspring_after": [
+          0.8533333333333333,
+          0.8666666666666666,
+          0.9266666666666667
+        ],
+        "offspring_delta_vs_child": [
+          -0.053333333333333344,
+          -0.040000000000000036,
+          0.02000000000000013
+        ],
+        "graph_sha256": "101619789be5d62f"
+      },
+      {
+        "child_round": 3,
+        "father": 1,
+        "before": 0.9333333333333333,
+        "after": 0.6533333333333333,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "5bb6ce64aee8788c"
+      },
+      {
+        "child_round": 4,
+        "father": 2,
+        "before": 0.9066666666666666,
+        "after": 0.8533333333333333,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "0f62c987a7475a63"
+      },
+      {
+        "child_round": 6,
+        "father": 2,
+        "before": 0.9066666666666666,
+        "after": 0.8666666666666666,
+        "succeed_flag": false,
+        "n_offspring": 1,
+        "offspring_rounds": [
+          7
+        ],
+        "offspring_after": [
+          0.8400000000000001
+        ],
+        "offspring_delta_vs_child": [
+          -0.026666666666666505
+        ],
+        "graph_sha256": "31d408b64c557162"
+      },
+      {
+        "child_round": 7,
+        "father": 6,
+        "before": 0.8666666666666668,
+        "after": 0.8400000000000001,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "9d3af574902b2aa1"
+      },
+      {
+        "child_round": 9,
+        "father": 8,
+        "before": 0.9266666666666667,
+        "after": 0.8866666666666667,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "74458bff04b638fb"
+      },
+      {
+        "child_round": 10,
+        "father": 5,
+        "before": 0.9400000000000001,
+        "after": 0.9066666666666666,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "61581a13e11c8700"
+      },
+      {
+        "child_round": 11,
+        "father": 1,
+        "before": 0.9333333333333333,
+        "after": 0.9200000000000002,
+        "succeed_flag": false,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          13,
+          14
+        ],
+        "offspring_after": [
+          0.8866666666666667,
+          0.9466666666666667
+        ],
+        "offspring_delta_vs_child": [
+          -0.03333333333333344,
+          0.026666666666666505
+        ],
+        "graph_sha256": "32bf25a2e2239b81"
+      },
+      {
+        "child_round": 12,
+        "father": 5,
+        "before": 0.9400000000000001,
+        "after": 0.8866666666666667,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "dd566bfe5bf0709a"
+      },
+      {
+        "child_round": 13,
+        "father": 11,
+        "before": 0.9199999999999999,
+        "after": 0.8866666666666667,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "1a1587d8b6489b05"
+      },
+      {
+        "child_round": 15,
+        "father": 8,
+        "before": 0.9266666666666667,
+        "after": 0.8733333333333334,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "938cdfd4908c7b23"
+      },
+      {
+        "child_round": 17,
+        "father": 14,
+        "before": 0.9466666666666667,
+        "after": 0.9333333333333333,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "8df4ead33f71c225"
+      },
+      {
+        "child_round": 18,
+        "father": 1,
+        "before": 0.9333333333333333,
+        "after": 0.9,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "cf15364b5e6e6b61"
+      },
+      {
+        "child_round": 19,
+        "father": 5,
+        "before": 0.9400000000000001,
+        "after": 0.9333333333333333,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d5b0bc966d358ba3"
+      },
+      {
+        "child_round": 20,
+        "father": 14,
+        "before": 0.9466666666666667,
+        "after": 0.9266666666666667,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "5b5d4dba8446988c"
+      },
+      {
+        "child_round": 4,
+        "father": 3,
+        "before": 0.5277310924369748,
+        "after": 0.0,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "ff51aad2acb8b7ca"
+      },
+      {
+        "child_round": 6,
+        "father": 2,
+        "before": 0.5243697478991597,
+        "after": 0.4722689075630252,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "542fb0cb27494d5c"
+      },
+      {
+        "child_round": 7,
+        "father": 2,
+        "before": 0.5243697478991597,
+        "after": 0.5243697478991597,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "1e44d483fbf5753d"
+      },
+      {
+        "child_round": 8,
+        "father": 1,
+        "before": 0.4873949579831933,
+        "after": 0.4336134453781512,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "78e05870efd10b15"
+      },
+      {
+        "child_round": 10,
+        "father": 3,
+        "before": 0.5277310924369748,
+        "after": 0.5042016806722688,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "03c393c8f7a7c436"
+      },
+      {
+        "child_round": 11,
+        "father": 9,
+        "before": 0.5378151260504203,
+        "after": 0.5159663865546219,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "fe153b6f0ca5381c"
+      },
+      {
+        "child_round": 12,
+        "father": 9,
+        "before": 0.5378151260504203,
+        "after": 0.0,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "915bc83c21c2d4b3"
+      },
+      {
+        "child_round": 13,
+        "father": 3,
+        "before": 0.5277310924369748,
+        "after": 0.5193277310924369,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "0ec24ce887a02a98"
+      },
+      {
+        "child_round": 15,
+        "father": 14,
+        "before": 0.5310924369747899,
+        "after": 0.5243697478991596,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "551cf94465c4c634"
+      },
+      {
+        "child_round": 16,
+        "father": 9,
+        "before": 0.5378151260504203,
+        "after": 0.5210084033613446,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "3e4b1cf31e1b8835"
+      },
+      {
+        "child_round": 17,
+        "father": 5,
+        "before": 0.5512605042016807,
+        "after": 0.0,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "ff87215b59cb0be4"
+      },
+      {
+        "child_round": 18,
+        "father": 14,
+        "before": 0.5310924369747899,
+        "after": 0.5176470588235293,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "9078da556e33b40f"
+      },
+      {
+        "child_round": 19,
+        "father": 5,
+        "before": 0.5512605042016807,
+        "after": 0.5445378151260505,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "386ce9ea4809928d"
+      },
+      {
+        "child_round": 20,
+        "father": 9,
+        "before": 0.5378151260504203,
+        "after": 0.5210084033613446,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "a60f1f5ed13297bb"
+      },
+      {
+        "child_round": 3,
+        "father": 1,
+        "before": 0.727906976744186,
+        "after": 0.7232558139534884,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "eec3d65eab6fdcf5"
+      },
+      {
+        "child_round": 4,
+        "father": 2,
+        "before": 0.8348837209302327,
+        "after": 0.5906976744186047,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d5d0f1284cb77d47"
+      },
+      {
+        "child_round": 5,
+        "father": 2,
+        "before": 0.8348837209302327,
+        "after": 0.8209302325581396,
+        "succeed_flag": false,
+        "n_offspring": 3,
+        "offspring_rounds": [
+          6,
+          8,
+          13
+        ],
+        "offspring_after": [
+          0.7534883720930232,
+          0.8186046511627907,
+          0.8116279069767443
+        ],
+        "offspring_delta_vs_child": [
+          -0.06744186046511635,
+          -0.0023255813953488857,
+          -0.009302325581395321
+        ],
+        "graph_sha256": "dd901dddd818767d"
+      },
+      {
+        "child_round": 6,
+        "father": 5,
+        "before": 0.8209302325581396,
+        "after": 0.7534883720930232,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d2810de1341769d4"
+      },
+      {
+        "child_round": 7,
+        "father": 2,
+        "before": 0.8348837209302327,
+        "after": 0.5651162790697675,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "b9bbf668fa1169f1"
+      },
+      {
+        "child_round": 8,
+        "father": 5,
+        "before": 0.8209302325581396,
+        "after": 0.8186046511627907,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "b8582ef9a9391017"
+      },
+      {
+        "child_round": 10,
+        "father": 2,
+        "before": 0.8348837209302327,
+        "after": 0.8302325581395349,
+        "succeed_flag": false,
+        "n_offspring": 2,
+        "offspring_rounds": [
+          11,
+          15
+        ],
+        "offspring_after": [
+          0.6465116279069768,
+          0.841860465116279
+        ],
+        "offspring_delta_vs_child": [
+          -0.1837209302325581,
+          0.011627906976744096
+        ],
+        "graph_sha256": "3e7fe5ce5b555ecc"
+      },
+      {
+        "child_round": 11,
+        "father": 10,
+        "before": 0.8302325581395349,
+        "after": 0.6465116279069768,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "377bb0e58bbdf844"
+      },
+      {
+        "child_round": 12,
+        "father": 2,
+        "before": 0.8348837209302327,
+        "after": 0.5744186046511628,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "d8f6e98e6dd74a14"
+      },
+      {
+        "child_round": 13,
+        "father": 5,
+        "before": 0.8209302325581396,
+        "after": 0.8116279069767443,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "3f52fe9deb3baa9d"
+      },
+      {
+        "child_round": 14,
+        "father": 2,
+        "before": 0.8348837209302327,
+        "after": 0.8325581395348838,
+        "succeed_flag": false,
+        "n_offspring": 4,
+        "offspring_rounds": [
+          16,
+          18,
+          19,
+          20
+        ],
+        "offspring_after": [
+          0.786046511627907,
+          0.7930232558139536,
+          0.5930232558139534,
+          0.0
+        ],
+        "offspring_delta_vs_child": [
+          -0.04651162790697683,
+          -0.03953488372093017,
+          -0.23953488372093035,
+          -0.8325581395348838
+        ],
+        "graph_sha256": "b604835098807637"
+      },
+      {
+        "child_round": 16,
+        "father": 14,
+        "before": 0.8325581395348838,
+        "after": 0.786046511627907,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "27e94a54b7d92648"
+      },
+      {
+        "child_round": 17,
+        "father": 2,
+        "before": 0.8348837209302327,
+        "after": 0.8325581395348836,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "31c596296e79423f"
+      },
+      {
+        "child_round": 18,
+        "father": 14,
+        "before": 0.8325581395348838,
+        "after": 0.7930232558139536,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "c0bd0eb2851dd78b"
+      },
+      {
+        "child_round": 19,
+        "father": 14,
+        "before": 0.8325581395348838,
+        "after": 0.5930232558139534,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "e1e63a91e77bba84"
+      },
+      {
+        "child_round": 20,
+        "father": 14,
+        "before": 0.8325581395348838,
+        "after": 0.0,
+        "succeed_flag": false,
+        "n_offspring": 0,
+        "offspring_rounds": [],
+        "offspring_after": [],
+        "offspring_delta_vs_child": [],
+        "graph_sha256": "e1dc1f8f5cc5cca1"
+      }
+    ]
+  },
+  "matched_controls_by_creation_round": [
+    {
+      "creation_round_quartile": 0,
+      "n_success": 14,
+      "n_fail": 13,
+      "mean_offspring_success": 3.0,
+      "mean_offspring_fail": 0.7692307692307693,
+      "reselection_success": 1.0,
+      "reselection_fail": 0.3076923076923077
+    },
+    {
+      "creation_round_quartile": 1,
+      "n_success": 10,
+      "n_fail": 24,
+      "mean_offspring_success": 3.4,
+      "mean_offspring_fail": 0.16666666666666666,
+      "reselection_success": 0.9,
+      "reselection_fail": 0.125
+    },
+    {
+      "creation_round_quartile": 2,
+      "n_success": 7,
+      "n_fail": 28,
+      "mean_offspring_success": 2.0,
+      "mean_offspring_fail": 0.2857142857142857,
+      "reselection_success": 0.5714285714285714,
+      "reselection_fail": 0.10714285714285714
+    },
+    {
+      "creation_round_quartile": 3,
+      "n_success": 7,
+      "n_fail": 37,
+      "mean_offspring_success": 0.2857142857142857,
+      "mean_offspring_fail": 0.0,
+      "reselection_success": 0.2857142857142857,
+      "reselection_fail": 0.0
+    }
+  ],
   "behavioral_inheritance": "BEHAVIORAL_INHERITANCE_NOT_ESTABLISHED",
-  "note": "reselection = child round later appears as father; not proof of capability retention"
+  "behavioral_note": "graph text / parent-child links alone cannot establish capability retention on new tasks",
+  "verdict": "INHERITANCE_PARTIALLY_SUPPORTED",
+  "causal_caveat": "Early children have more remaining selection opportunities; matched quartiles reduce but do not eliminate survivorship. Observational only."
 }

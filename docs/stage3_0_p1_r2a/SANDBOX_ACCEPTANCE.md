@@ -1,16 +1,24 @@
-# Sandbox Acceptance
+# Sandbox Acceptance (Task G)
 
-{
-  "untrusted_code_network_denied": "Docker run with --network none (to be applied at pilot)",
-  "host_credentials_inaccessible": "env keys stripped in container (to be applied)",
-  "fs_restriction": "CONTAINED",
-  "docker_socket_inaccessible": "verify no /var/run/docker.sock mount at pilot",
-  "execution_timeout_enforced": "subprocess timeout param (implemented in extract/generate)",
-  "memory_limit_enforced": "Docker --memory at pilot",
-  "process_limit_enforced": "Docker --pids-limit at pilot",
-  "verdict": "SANDBOX_POLICY_DEFINED"
-}
+**Evidence class:** MOCK_TEST (real Docker negative tests)
+**engine:** docker / image `python:3.10-slim`
+**verdict = SANDBOX_GATE_PASS**
 
-**Verdict: SANDBOX_POLICY_DEFINED** — Docker `--network none`, stripped env,
-`--memory`, `--pids-limit`, no docker.sock mount. Negative tests to be run in
-the container at pilot start. Local tempdir is NOT a system sandbox.
+| Requirement | Result | Raw |
+|---|---|---|
+| untrusted_code_network_denied | PASS | `NET_DENIED:OSError
+` |
+| host_credentials_inaccessible | PASS | `SECRET=<absent>
+` |
+| host_filesystem_restricted | PASS | `SEEN False False ['home', 'srv', 'etc', 'var', 'opt', 'sys', 'boot', 'sbin', 'de` |
+| docker_socket_inaccessible | PASS | |
+| execution_timeout_enforced | PASS | |
+| memory_limit_enforced | PASS | |
+| process_limit_enforced | PASS | |
+
+Real Docker negative tests. Pilot must use: docker run --network none --memory 256m --pids-limit 64 with env keys stripped and no docker.sock mount.
+
+Local `tempfile` directories are **not** a system sandbox. Real isolation is Docker
+with `--network none`, stripped environment, memory and pids limits, and no
+`/var/run/docker.sock` mount. All checks above were executed as negative tests in
+this stage — not merely written as policy.

@@ -1,16 +1,70 @@
 {
-  "status": "NOT_AUTHORIZED",
-  "model": "deepseek-flash",
-  "pricing_source": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "evidence_class": "HYPOTHESIS_ONLY",
+  "status": "APPLICATION_NOT_EXECUTED",
+  "real_llm_calls": 0,
+  "real_api_cost_usd": 0,
+  "model_id": "deepseek-flash",
+  "model_version": "DeepSeek-V4.1-Flash",
+  "pricing_source": "https://api-docs.deepseek.com/quick_start/pricing",
   "price_verified_at": "2026-10-16",
-  "benchmark": "GSM8K official",
-  "task_count": 20,
+  "pricing_per_1m_tokens_usd": {
+    "input_cache_miss_peak": 0.3,
+    "input_cache_miss_offpeak": 0.15,
+    "input_cache_hit_peak": 0.006,
+    "input_cache_hit_offpeak": 0.003,
+    "output_peak": 1.2,
+    "output_offpeak": 0.6
+  },
+  "peak_hours_utc": "01:00-04:00 and 06:00-10:00 UTC Mon-Fri (excl. CN holidays)",
+  "benchmark": "GSM8K official tasks",
+  "task_ids": "first 20 official GSM8K test tasks (fixed list, hashed at pilot start)",
   "search_rounds": 3,
   "max_candidates": 3,
+  "sample_per_task": 2,
   "max_physical_requests": 300,
   "max_input_tokens": 2000000,
   "max_output_tokens": 200000,
-  "max_total_cost_usd": 5.0,
-  "estimated_cost_usd": 0.93,
-  "fail_closed": "SQLite PhysicalBudgetGate"
+  "max_total_cost": 5.0,
+  "budget_derivation": {
+    "optimizer_llm": "1 call/round x 3 rounds; ~2000 in + 500 out tokens each",
+    "workflow_exec_llm": "3 rounds x 20 tasks x sample=2 = 120 calls; ~800 in + 200 out each",
+    "evaluation_calls": "0 (offline scoring of model outputs against gold)",
+    "failure_retries": "budgeted inside max_physical_requests=300",
+    "cache_usage": "counted as cache-miss worst case",
+    "logical_requests_estimate": 123,
+    "worst_case_tokens": {
+      "input": 2000000,
+      "output": 200000
+    },
+    "worst_case_cost_peak_usd": 0.84,
+    "headroom_vs_cap": "worst-case ~$0.84 << $5.00 cap; hard stop on budget gate"
+  },
+  "request_classes": {
+    "search_optimizer_calls": 3,
+    "workflow_execution_calls": 120,
+    "evaluation_calls": 0,
+    "failure_retries": "counted inside physical cap",
+    "cache_related_usage": "billed at cache-miss worst case"
+  },
+  "stop_conditions": [
+    "budget cap reached",
+    "billing_blocked set",
+    "crash (keep partial results)"
+  ],
+  "routing": {
+    "all_llm_via": "Provider Gateway (AsyncLLM base_url override + PhysicalBudgetGate)",
+    "sandbox": "docker run --network none --memory 256m --pids-limit 64, env keys stripped"
+  },
+  "protocol_fixed": {
+    "initial_workflow": "frozen official GSM8K round_1",
+    "verify_nonzero_initial": true,
+    "save_every_candidate": true,
+    "check_mutation_executable": true,
+    "statistical_power_target": "NOT a power analysis; minimal viable search only"
+  },
+  "prerequisites_before_execution": [
+    "Planner explicit authorization",
+    "GATE_D remains PASS at run time",
+    "API key present only inside gateway process, not in generated code"
+  ]
 }

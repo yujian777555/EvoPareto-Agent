@@ -1,0 +1,25 @@
+{
+  "evidence_class": "DERIVED_STATISTICS",
+  "RAW_TEXT_DIVERSITY": {
+    "unique_sha256": 146,
+    "n_with_graph": 155,
+    "ratio": 0.9419354838709677
+  },
+  "NORMALIZED_AST_DIVERSITY": {
+    "unique_ast_sha256": 146,
+    "n_parsed": 155,
+    "ratio": 0.9419354838709677,
+    "note": "string literals and identifier names normalized; control-flow structure preserved"
+  },
+  "OPERATOR_COMPOSITION_DIVERSITY": {
+    "unique_compositions": 9,
+    "n_parsed": 155,
+    "ratio": 0.05806451612903226
+  },
+  "LINEAGE_DIVERSITY": "see lineage_metrics.json",
+  "BEHAVIORAL_DIVERSITY": {
+    "status": "NOT_AVAILABLE",
+    "reason": "no comparable per-sample execution traces in official archive"
+  },
+  "caveat": "AST difference != capability difference; only structural text diversity is established"
+}

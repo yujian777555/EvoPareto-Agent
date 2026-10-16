@@ -71,7 +71,13 @@ class MockEvaluator:
         return s, 0.0, 0.0
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    import argparse, hashlib
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--run-id", default=None)
+    args = ap.parse_args(argv)
+    run_id = args.run_id or hashlib.sha256(os.urandom(16)).hexdigest()[:12]
+
     sys.path.insert(0, str(AFLOW))
     import scripts.optimizer as opt_mod
     import scripts.evaluator as ev_mod
@@ -85,6 +91,7 @@ def main() -> int:
     from scripts.optimizer import Optimizer
 
     result = {
+        "run_id": run_id,
         "official_search_loop": "NOT_RUN",
         "rounds_completed": 0,
         "selections": [], "modifications": [], "scores": [],
@@ -160,6 +167,8 @@ def main() -> int:
     out = ROOT / "results" / "stage3_0_p1_r1"
     out.mkdir(parents=True, exist_ok=True)
     (out / "mock_execution_trace.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+    if result.get("official_search_loop") != "PASS":
+        return 1
     return 0
 
 

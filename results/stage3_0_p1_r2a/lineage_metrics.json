@@ -1,179 +1,334 @@
 {
-  "DROP/graphs": {
-    "n_children": 21,
-    "parent_selection_frequency": {
-      "None": 2,
-      "1": 3,
-      "2": 5,
-      "3": 6,
-      "10": 5
+  "per_variant": {
+    "DROP/graphs": {
+      "n_children": 21,
+      "parent_selection_frequency": {
+        "None": 2,
+        "1": 3,
+        "2": 5,
+        "3": 6,
+        "10": 5
+      },
+      "selection_entropy_bits": 1.5432335250170632,
+      "effective_parent_count": 2.9144699467277295,
+      "max_father_share": 0.2857142857142857,
+      "lineage_concentration_top2_share": 0.5238095238095238,
+      "lineage_depth_distribution": {
+        "1": 2,
+        "2": 9,
+        "3": 5,
+        "4": 5
+      },
+      "score_at_selection_mean": 0.5573947238787283,
+      "round_at_selection_mean": 11.0,
+      "remaining_selection_opportunities_mean": 10.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
     },
-    "selection_entropy_bits": 1.5432335250170632,
-    "effective_parent_count": 2.9144699467277295,
-    "max_father_share": 0.2857142857142857,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+    "DROP/graphs_test": {
+      "n_children": 1,
+      "parent_selection_frequency": {
+        "None": 1
+      },
+      "selection_entropy_bits": -0.0,
+      "effective_parent_count": 1.0,
+      "max_father_share": 1.0,
+      "lineage_concentration_top2_share": 1.0,
+      "lineage_depth_distribution": {
+        "1": 1
+      },
+      "score_at_selection_mean": null,
+      "round_at_selection_mean": 3.0,
+      "remaining_selection_opportunities_mean": 0.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "GSM8K/ablation_graphs": {
+      "n_children": 21,
+      "parent_selection_frequency": {
+        "None": 1,
+        "1": 4,
+        "2": 1,
+        "4": 1,
+        "5": 3,
+        "6": 3,
+        "3": 1,
+        "9": 6,
+        "17": 1
+      },
+      "selection_entropy_bits": 1.954645866682635,
+      "effective_parent_count": 3.8762076717815037,
+      "max_father_share": 0.2857142857142857,
+      "lineage_concentration_top2_share": 0.47619047619047616,
+      "lineage_depth_distribution": {
+        "1": 1,
+        "2": 4,
+        "3": 2,
+        "4": 4,
+        "5": 9,
+        "6": 1
+      },
+      "score_at_selection_mean": 0.8528,
+      "round_at_selection_mean": 11.0,
+      "remaining_selection_opportunities_mean": 10.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "GSM8K/graphs": {
+      "n_children": 25,
+      "parent_selection_frequency": {
+        "None": 1,
+        "1": 1,
+        "2": 1,
+        "3": 3,
+        "4": 2,
+        "8": 9,
+        "10": 1,
+        "13": 7
+      },
+      "selection_entropy_bits": 1.6957348862067052,
+      "effective_parent_count": 3.239418554951364,
+      "max_father_share": 0.36,
+      "lineage_concentration_top2_share": 0.64,
+      "lineage_depth_distribution": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 3,
+        "5": 11,
+        "6": 1,
+        "7": 7
+      },
+      "score_at_selection_mean": 0.8668333333333335,
+      "round_at_selection_mean": 13.0,
+      "remaining_selection_opportunities_mean": 12.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "GSM8K/graphs_test": {
+      "n_children": 1,
+      "parent_selection_frequency": {
+        "8": 1
+      },
+      "selection_entropy_bits": -0.0,
+      "effective_parent_count": 1.0,
+      "max_father_share": 1.0,
+      "lineage_concentration_top2_share": 1.0,
+      "lineage_depth_distribution": {
+        "1": 1
+      },
+      "score_at_selection_mean": 0.898,
+      "round_at_selection_mean": 10.0,
+      "remaining_selection_opportunities_mean": 0.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "HotpotQA/graphs": {
+      "n_children": 21,
+      "parent_selection_frequency": {
+        "None": 1,
+        "1": 2,
+        "2": 1,
+        "3": 4,
+        "5": 2,
+        "6": 1,
+        "7": 2,
+        "10": 2,
+        "14": 2,
+        "15": 3,
+        "16": 1
+      },
+      "selection_entropy_bits": 2.2934516702908825,
+      "effective_parent_count": 4.902275862452508,
+      "max_father_share": 0.19047619047619047,
+      "lineage_concentration_top2_share": 0.3333333333333333,
+      "lineage_depth_distribution": {
+        "1": 1,
+        "2": 2,
+        "3": 1,
+        "4": 4,
+        "5": 2,
+        "6": 1,
+        "7": 2,
+        "8": 2,
+        "9": 2,
+        "10": 4
+      },
+      "score_at_selection_mean": 0.5760279844411211,
+      "round_at_selection_mean": 11.0,
+      "remaining_selection_opportunities_mean": 10.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "HotpotQA/graphs_test": {
+      "n_children": 1,
+      "parent_selection_frequency": {
+        "2": 1
+      },
+      "selection_entropy_bits": -0.0,
+      "effective_parent_count": 1.0,
+      "max_father_share": 1.0,
+      "lineage_concentration_top2_share": 1.0,
+      "lineage_depth_distribution": {
+        "1": 1
+      },
+      "score_at_selection_mean": 0.6152391725921138,
+      "round_at_selection_mean": 3.0,
+      "remaining_selection_opportunities_mean": 0.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "HumanEval/graphs": {
+      "n_children": 21,
+      "parent_selection_frequency": {
+        "None": 1,
+        "1": 6,
+        "2": 3,
+        "6": 1,
+        "8": 2,
+        "5": 4,
+        "11": 2,
+        "14": 2
+      },
+      "selection_entropy_bits": 1.9135484277609516,
+      "effective_parent_count": 3.767345709148686,
+      "max_father_share": 0.2857142857142857,
+      "lineage_concentration_top2_share": 0.47619047619047616,
+      "lineage_depth_distribution": {
+        "1": 1,
+        "2": 6,
+        "3": 9,
+        "4": 5
+      },
+      "score_at_selection_mean": 0.8943333333333333,
+      "round_at_selection_mean": 11.0,
+      "remaining_selection_opportunities_mean": 10.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "HumanEval/graphs_test": {
+      "n_children": 1,
+      "parent_selection_frequency": {
+        "None": 1
+      },
+      "selection_entropy_bits": -0.0,
+      "effective_parent_count": 1.0,
+      "max_father_share": 1.0,
+      "lineage_concentration_top2_share": 1.0,
+      "lineage_depth_distribution": {
+        "1": 1
+      },
+      "score_at_selection_mean": null,
+      "round_at_selection_mean": 5.0,
+      "remaining_selection_opportunities_mean": 0.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "MATH/graphs": {
+      "n_children": 20,
+      "parent_selection_frequency": {
+        "None": 1,
+        "1": 2,
+        "2": 3,
+        "3": 6,
+        "9": 4,
+        "14": 2,
+        "5": 2
+      },
+      "selection_entropy_bits": 1.8082095630933963,
+      "effective_parent_count": 3.5020739863310544,
+      "max_father_share": 0.3,
+      "lineage_concentration_top2_share": 0.5,
+      "lineage_depth_distribution": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 6,
+        "5": 8
+      },
+      "score_at_selection_mean": 0.4352941176470588,
+      "round_at_selection_mean": 10.5,
+      "remaining_selection_opportunities_mean": 9.5,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "MATH/graphs_test": {
+      "n_children": 1,
+      "parent_selection_frequency": {
+        "3": 1
+      },
+      "selection_entropy_bits": -0.0,
+      "effective_parent_count": 1.0,
+      "max_father_share": 1.0,
+      "lineage_concentration_top2_share": 1.0,
+      "lineage_depth_distribution": {
+        "1": 1
+      },
+      "score_at_selection_mean": 0.5512605042016807,
+      "round_at_selection_mean": 5.0,
+      "remaining_selection_opportunities_mean": 0.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "MBPP/graphs": {
+      "n_children": 20,
+      "parent_selection_frequency": {
+        "None": 2,
+        "1": 2,
+        "2": 7,
+        "5": 3,
+        "10": 2,
+        "14": 4
+      },
+      "selection_entropy_bits": 1.664668851692453,
+      "effective_parent_count": 3.1704087446806657,
+      "max_father_share": 0.35,
+      "lineage_concentration_top2_share": 0.55,
+      "lineage_depth_distribution": {
+        "1": 2,
+        "2": 2,
+        "3": 7,
+        "4": 9
+      },
+      "score_at_selection_mean": 0.7027131782945736,
+      "round_at_selection_mean": 10.5,
+      "remaining_selection_opportunities_mean": 9.5,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    },
+    "MBPP/graphs_test": {
+      "n_children": 1,
+      "parent_selection_frequency": {
+        "2": 1
+      },
+      "selection_entropy_bits": -0.0,
+      "effective_parent_count": 1.0,
+      "max_father_share": 1.0,
+      "lineage_concentration_top2_share": 1.0,
+      "lineage_depth_distribution": {
+        "1": 1
+      },
+      "score_at_selection_mean": 0.8325581395348838,
+      "round_at_selection_mean": 14.0,
+      "remaining_selection_opportunities_mean": 0.0,
+      "selection_probability_reconstruction": "SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE",
+      "selection_probability_note": "AFlow select_round uses lambda*uniform+(1-lambda)*softmax(alpha*score) over top-k; official archive does not store full per-round candidate set or k/alpha/lambda per run."
+    }
   },
-  "DROP/graphs_test": {
-    "n_children": 1,
-    "parent_selection_frequency": {
-      "None": 1
-    },
-    "selection_entropy_bits": -0.0,
-    "effective_parent_count": 1.0,
-    "max_father_share": 1.0,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "GSM8K/ablation_graphs": {
-    "n_children": 21,
-    "parent_selection_frequency": {
-      "None": 1,
-      "1": 4,
-      "2": 1,
-      "4": 1,
-      "5": 3,
-      "6": 3,
-      "3": 1,
-      "9": 6,
-      "17": 1
-    },
-    "selection_entropy_bits": 1.954645866682635,
-    "effective_parent_count": 3.8762076717815037,
-    "max_father_share": 0.2857142857142857,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "GSM8K/graphs": {
-    "n_children": 25,
-    "parent_selection_frequency": {
-      "None": 1,
-      "1": 1,
-      "2": 1,
-      "3": 3,
-      "4": 2,
-      "8": 9,
-      "10": 1,
-      "13": 7
-    },
-    "selection_entropy_bits": 1.6957348862067052,
-    "effective_parent_count": 3.239418554951364,
-    "max_father_share": 0.36,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "GSM8K/graphs_test": {
-    "n_children": 1,
-    "parent_selection_frequency": {
-      "8": 1
-    },
-    "selection_entropy_bits": -0.0,
-    "effective_parent_count": 1.0,
-    "max_father_share": 1.0,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "HotpotQA/graphs": {
-    "n_children": 21,
-    "parent_selection_frequency": {
-      "None": 1,
-      "1": 2,
-      "2": 1,
-      "3": 4,
-      "5": 2,
-      "6": 1,
-      "7": 2,
-      "10": 2,
-      "14": 2,
-      "15": 3,
-      "16": 1
-    },
-    "selection_entropy_bits": 2.2934516702908825,
-    "effective_parent_count": 4.902275862452508,
-    "max_father_share": 0.19047619047619047,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "HotpotQA/graphs_test": {
-    "n_children": 1,
-    "parent_selection_frequency": {
-      "2": 1
-    },
-    "selection_entropy_bits": -0.0,
-    "effective_parent_count": 1.0,
-    "max_father_share": 1.0,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "HumanEval/graphs": {
-    "n_children": 21,
-    "parent_selection_frequency": {
-      "None": 1,
-      "1": 6,
-      "2": 3,
-      "6": 1,
-      "8": 2,
-      "5": 4,
-      "11": 2,
-      "14": 2
-    },
-    "selection_entropy_bits": 1.9135484277609516,
-    "effective_parent_count": 3.767345709148686,
-    "max_father_share": 0.2857142857142857,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "HumanEval/graphs_test": {
-    "n_children": 1,
-    "parent_selection_frequency": {
-      "None": 1
-    },
-    "selection_entropy_bits": -0.0,
-    "effective_parent_count": 1.0,
-    "max_father_share": 1.0,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "MATH/graphs": {
-    "n_children": 20,
-    "parent_selection_frequency": {
-      "None": 1,
-      "1": 2,
-      "2": 3,
-      "3": 6,
-      "9": 4,
-      "14": 2,
-      "5": 2
-    },
-    "selection_entropy_bits": 1.8082095630933963,
-    "effective_parent_count": 3.5020739863310544,
-    "max_father_share": 0.3,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "MATH/graphs_test": {
-    "n_children": 1,
-    "parent_selection_frequency": {
-      "3": 1
-    },
-    "selection_entropy_bits": -0.0,
-    "effective_parent_count": 1.0,
-    "max_father_share": 1.0,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "MBPP/graphs": {
-    "n_children": 20,
-    "parent_selection_frequency": {
-      "None": 2,
-      "1": 2,
-      "2": 7,
-      "5": 3,
-      "10": 2,
-      "14": 4
-    },
-    "selection_entropy_bits": 1.664668851692453,
-    "effective_parent_count": 3.1704087446806657,
-    "max_father_share": 0.35,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
-  },
-  "MBPP/graphs_test": {
-    "n_children": 1,
-    "parent_selection_frequency": {
-      "2": 1
-    },
-    "selection_entropy_bits": -0.0,
-    "effective_parent_count": 1.0,
-    "max_father_share": 1.0,
-    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  "plateau_analysis": {
+    "competing_explanations": [
+      "TASK_SCORE_NEAR_CEILING",
+      "CANDIDATE_GENERATION_QUALITY_INSUFFICIENT",
+      "HIGH_SCORE_PARENT_OVERCONCENTRATION",
+      "EVALUATION_NOISE",
+      "SMALL_TASK_SAMPLE",
+      "SEARCH_BUDGET_EXHAUSTED",
+      "DUPLICATE_OR_INVALID_MUTATIONS",
+      "LOCAL_SEARCH_SPACE_SATURATION"
+    ],
+    "status": "PLATEAU_CAUSE_NOT_ISOLATED",
+    "note": "best-so-far curve alone cannot discriminate these",
+    "counterfactual_boundary": "Untried parent-mutation combinations have NO observed reward. Claims that 'diversity search would yield higher performance' are NOT_SUPPORTED by historical logs.",
+    "premature_convergence_causally_established": false
   }
 }

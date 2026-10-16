@@ -1,0 +1,14 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "run_id": "d37d06202700",
+  "exit_code": 0,
+  "search_loop": "PASS",
+  "trace_run_id": "d37d06202700",
+  "fresh_trace": true,
+  "events_verified": true,
+  "failure_exit_code_enforced": true,
+  "negative_exit_code": 1,
+  "negative_stdout_tail": "",
+  "old_result_cannot_pass": true,
+  "verdict": "MOCK_RELIABILITY_PASS"
+}

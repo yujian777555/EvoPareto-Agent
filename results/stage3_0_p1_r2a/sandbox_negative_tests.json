@@ -1,0 +1,17 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "engine": "docker",
+  "image": "python:3.10-slim",
+  "untrusted_code_network_denied": "PASS",
+  "network_raw": "NET_DENIED:OSError\n",
+  "host_credentials_inaccessible": "PASS",
+  "credentials_raw": "SECRET=<absent>\n",
+  "host_filesystem_restricted": "PASS",
+  "filesystem_raw": "SEEN False False ['home', 'srv', 'etc', 'var', 'opt', 'sys', 'boot', 'sbin', 'dev', 'usr', 'root', 'tmp', 'lib', 'bin', 'lib64', 'proc', 'media', 'mnt', 'run', '.dockerenv']\n",
+  "docker_socket_inaccessible": "PASS",
+  "execution_timeout_enforced": "PASS",
+  "memory_limit_enforced": "PASS",
+  "process_limit_enforced": "PASS",
+  "verdict": "SANDBOX_GATE_PASS",
+  "note": "Real Docker negative tests. Pilot must use: docker run --network none --memory 256m --pids-limit 64 with env keys stripped and no docker.sock mount."
+}
