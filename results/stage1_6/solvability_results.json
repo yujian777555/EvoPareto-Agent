@@ -1,0 +1,14 @@
+{
+  "current_success": 0,
+  "repaired_success": 0,
+  "current_by_task": {
+    "0": 0,
+    "10": 0,
+    "20": 0
+  },
+  "repaired_by_task": {
+    "0": 0,
+    "10": 0,
+    "20": 0
+  }
+}

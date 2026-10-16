@@ -1,0 +1,24 @@
+{
+  "stage": "STAGE1_6_AB",
+  "status": "COMPLETED",
+  "executed_episodes": 12,
+  "current_success": 0,
+  "repaired_success": 0,
+  "total_http": 360,
+  "total_tokens_in": 124136,
+  "total_tokens_out": 1873,
+  "total_cost_usd": 0.03948840000000012,
+  "settled_ok": 360,
+  "settled_failed": 0,
+  "retries": 0,
+  "billing_blocked": false,
+  "exec_git_sha": "f73299189c2b5bd92569c1b15f108e2eec9f7b38",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "gates": {
+    "G1": "FAIL",
+    "G2": "REPAIR_NOT_SUPPORTED",
+    "G3": "PASS",
+    "G4": "AUXILIARY_ONLY"
+  },
+  "final_decision": "SHARED_REPAIR_INSUFFICIENT"
+}

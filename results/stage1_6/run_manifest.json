@@ -1,0 +1,27 @@
+{
+  "stage": "STAGE1_6_AB",
+  "exec_git_sha": "f73299189c2b5bd92569c1b15f108e2eec9f7b38",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "genome": {
+    "id": "G1",
+    "planner_strategy": "cot",
+    "memory_strategy": "short_term",
+    "reflection_strategy": "self_critique",
+    "tool_policy": "balanced",
+    "reasoning_budget": 64
+  },
+  "runtime_variants": [
+    "current",
+    "shared_repaired"
+  ],
+  "budget_caps": {
+    "episodes_max": 12,
+    "physical_http_cap": 400,
+    "estimated_cost_cap_usd": 0.08,
+    "scope": "batch total"
+  },
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "prompt_template": "STAGE1_6_PROMPT_V1",
+  "started_at": "2026-10-16T04:36:34Z",
+  "n_matrix": 12
+}

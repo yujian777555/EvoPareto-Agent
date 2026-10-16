@@ -1,0 +1,67 @@
+{
+  "pairs": [
+    {
+      "task_index": 0,
+      "repeat_id": 1,
+      "current_won": false,
+      "repaired_won": false,
+      "current_cost": 0.0025839,
+      "repaired_cost": 0.0033662999999999987,
+      "current_steps": 30,
+      "repaired_steps": 30
+    },
+    {
+      "task_index": 0,
+      "repeat_id": 2,
+      "current_won": false,
+      "repaired_won": false,
+      "current_cost": 0.0027090000000000005,
+      "repaired_cost": 0.003406499999999999,
+      "current_steps": 30,
+      "repaired_steps": 30
+    },
+    {
+      "task_index": 10,
+      "repeat_id": 1,
+      "current_won": false,
+      "repaired_won": false,
+      "current_cost": 0.0030207000000000003,
+      "repaired_cost": 0.0036572999999999996,
+      "current_steps": 28,
+      "repaired_steps": 30
+    },
+    {
+      "task_index": 10,
+      "repeat_id": 2,
+      "current_won": false,
+      "repaired_won": false,
+      "current_cost": 0.0030455999999999994,
+      "repaired_cost": 0.003702,
+      "current_steps": 29,
+      "repaired_steps": 30
+    },
+    {
+      "task_index": 20,
+      "repeat_id": 1,
+      "current_won": false,
+      "repaired_won": false,
+      "current_cost": 0.003152999999999999,
+      "repaired_cost": 0.0037812,
+      "current_steps": 30,
+      "repaired_steps": 30
+    },
+    {
+      "task_index": 20,
+      "repeat_id": 2,
+      "current_won": false,
+      "repaired_won": false,
+      "current_cost": 0.0032156999999999993,
+      "repaired_cost": 0.0038472000000000003,
+      "current_steps": 29,
+      "repaired_steps": 30
+    }
+  ],
+  "paired_repaired_only_wins": 0,
+  "paired_current_only_wins": 0,
+  "paired_ties": 6
+}

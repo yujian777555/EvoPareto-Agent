@@ -1,0 +1,24 @@
+{
+  "GATE1_REPAIRED_SOLVABILITY": {
+    "result": "FAIL",
+    "repaired_success": 0
+  },
+  "GATE2_PAIRED_IMPROVEMENT": {
+    "result": "REPAIR_NOT_SUPPORTED",
+    "rep_only": 0,
+    "cur_only": 0
+  },
+  "GATE3_COST_SAFETY": {
+    "result": "PASS",
+    "ratio": 1.215524034672971
+  },
+  "GATE4_LOOP_REDUCTION": {
+    "result": "AUXILIARY_ONLY",
+    "current_mean_loop_occurrences": 18.333333333333332,
+    "repaired_mean_loop_occurrences": 18.333333333333332,
+    "current_mean_repetition_ratio": 0.7959085933223863,
+    "repaired_mean_repetition_ratio": 0.7722222222222223,
+    "note": "auxiliary diagnostic — does not replace native won"
+  },
+  "FINAL_DECISION": "SHARED_REPAIR_INSUFFICIENT"
+}

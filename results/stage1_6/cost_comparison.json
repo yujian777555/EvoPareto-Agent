@@ -1,0 +1,30 @@
+{
+  "current": {
+    "n": 6,
+    "won": 0,
+    "mean_cost_usd": 0.0029546499999999996,
+    "median_cost_usd": 0.0030455999999999994,
+    "mean_tokens_in": 9252.166666666666,
+    "mean_tokens_out": 149.16666666666666,
+    "mean_steps": 29.333333333333332,
+    "mean_llm_calls": 30.0,
+    "mean_loop_occurrences": 18.333333333333332,
+    "mean_repetition_ratio": 0.7959085933223863,
+    "cost_per_success": null
+  },
+  "shared_repaired": {
+    "n": 6,
+    "won": 0,
+    "mean_cost_usd": 0.00362675,
+    "median_cost_usd": 0.003702,
+    "mean_tokens_in": 11437.166666666666,
+    "mean_tokens_out": 163.0,
+    "mean_steps": 30.0,
+    "mean_llm_calls": 30.0,
+    "mean_loop_occurrences": 18.333333333333332,
+    "mean_repetition_ratio": 0.7722222222222223,
+    "cost_per_success": null
+  },
+  "median_cost_ratio_repaired_over_current": 1.215524034672971,
+  "cost_safety_pass": true
+}
