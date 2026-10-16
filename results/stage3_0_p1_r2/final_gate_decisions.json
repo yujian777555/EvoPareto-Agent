@@ -1,0 +1,10 @@
+{
+  "DATA_RECOVERY": "PASS (1538 files, 155 rounds, 6 benchmarks)",
+  "Q_A_SUCCESSION": "weak inheritance; 39 up vs 100 down; local dedup (18 dups)",
+  "Q_B_DIVERSITY": "graph diversity 1.0 but lineage collapse; early plateau",
+  "MOCK_SANDBOX": "PASS (tmpdir isolation, MockLLM, no network)",
+  "BUDGET_GATE": "SQLite gate reused from earlier stages",
+  "MICRO_PILOT_READY": "YES \u2014 needs Planner authorization (\u2264$5)",
+  "FINAL_DECISION": "READY_FOR_MICRO_PILOT_REVIEW",
+  "real_llm_calls": 0
+}

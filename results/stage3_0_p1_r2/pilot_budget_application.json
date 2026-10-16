@@ -1,0 +1,21 @@
+{
+  "status": "NOT_AUTHORIZED \u2014 awaiting Planner",
+  "model": "deepseek-flash",
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "benchmark": "GSM8K subset (20 tasks, held out from tuning)",
+  "search_rounds": 3,
+  "sample_parents": 2,
+  "logical_calls_estimate": "~3 optimize + 3x20x2 exec \u2248 123",
+  "expected_http_requests": 300,
+  "expected_input_tokens": 2000000,
+  "expected_output_tokens": 200000,
+  "expected_cost_usd": 2.5,
+  "hard_cost_cap_usd": 5.0,
+  "stop_conditions": [
+    "SQLite PhysicalBudgetGate cap reached",
+    "billing blocked / unknown cost",
+    "crash \u2014 keep partial results, no reset"
+  ],
+  "baseline_comparison": "stock AFlow @ 3f457218 vs historical results baseline",
+  "purpose": "measure real duplicate/invalid/upgrade rates under logged search"
+}

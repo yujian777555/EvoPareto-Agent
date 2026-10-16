@@ -1,0 +1,80 @@
+{
+  "DROP/graphs": {
+    "n_round_dirs": 21,
+    "has_experience": 19,
+    "has_results": true,
+    "has_logs": 21
+  },
+  "DROP/graphs_test": {
+    "n_round_dirs": 1,
+    "has_experience": 0,
+    "has_results": false,
+    "has_logs": 1
+  },
+  "GSM8K/ablation_graphs": {
+    "n_round_dirs": 21,
+    "has_experience": 20,
+    "has_results": true,
+    "has_logs": 21
+  },
+  "GSM8K/graphs": {
+    "n_round_dirs": 25,
+    "has_experience": 24,
+    "has_results": true,
+    "has_logs": 25
+  },
+  "GSM8K/graphs_test": {
+    "n_round_dirs": 1,
+    "has_experience": 1,
+    "has_results": false,
+    "has_logs": 1
+  },
+  "HotpotQA/graphs": {
+    "n_round_dirs": 21,
+    "has_experience": 20,
+    "has_results": false,
+    "has_logs": 21
+  },
+  "HotpotQA/graphs_test": {
+    "n_round_dirs": 1,
+    "has_experience": 1,
+    "has_results": false,
+    "has_logs": 1
+  },
+  "HumanEval/graphs": {
+    "n_round_dirs": 21,
+    "has_experience": 20,
+    "has_results": true,
+    "has_logs": 21
+  },
+  "HumanEval/graphs_test": {
+    "n_round_dirs": 1,
+    "has_experience": 0,
+    "has_results": false,
+    "has_logs": 1
+  },
+  "MATH/graphs": {
+    "n_round_dirs": 20,
+    "has_experience": 19,
+    "has_results": true,
+    "has_logs": 17
+  },
+  "MATH/graphs_test": {
+    "n_round_dirs": 1,
+    "has_experience": 1,
+    "has_results": false,
+    "has_logs": 1
+  },
+  "MBPP/graphs": {
+    "n_round_dirs": 20,
+    "has_experience": 18,
+    "has_results": true,
+    "has_logs": 18
+  },
+  "MBPP/graphs_test": {
+    "n_round_dirs": 1,
+    "has_experience": 1,
+    "has_results": false,
+    "has_logs": 1
+  }
+}
