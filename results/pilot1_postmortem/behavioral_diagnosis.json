@@ -2,30 +2,33 @@
   "goal_progress": {
     "goal": "look at book under the desklamp.",
     "won": false,
-    "obs_mentions_book": true,
-    "obs_mentions_desklamp_or_lamp": true,
+    "task_description_present_in_obs": true,
+    "object_discovery_rule": "task-description lines ('Your task is to: ...') are stripped before any object-discovery test; keyword presence in the goal wording is NOT evidence of seeing the object",
+    "book_discovered_in_env_feedback": false,
+    "desklamp_discovered_in_env_feedback": false,
     "any_open_container_action": false,
     "any_take_or_pick_action": false,
     "any_use_light_action": false,
     "any_action_text_contains_book": false,
-    "objects_surfaced_in_obs": [
-      "book",
+    "objects_surfaced_in_env_feedback": [
+      "bed",
       "cellphone",
       "desk",
-      "desklamp",
       "drawer",
+      "garbagecan",
       "keychain",
       "laptop",
       "pen",
       "safe",
-      "shelf"
+      "shelf",
+      "sidetable"
     ],
-    "book_location_known_from_trajectory": true,
-    "book_location_status": "seen_in_observation",
-    "desklamp_location_status": "seen_in_observation",
+    "book_location_status": "UNKNOWN_FROM_TRAJECTORY",
+    "desklamp_location_status": "UNKNOWN_FROM_TRAJECTORY",
+    "book_location_known_from_trajectory": false,
     "agent_acted_on_goal_terms": false,
     "looped_around_desk_shelf": true,
-    "note": "Do not infer book position from failure. UNKNOWN_FROM_TRAJECTORY means the 29-step trace never surfaced the object."
+    "note": "Do not infer object position from failure. UNKNOWN_FROM_TRAJECTORY means no environment feedback (excluding task-description text) ever surfaced the object."
   },
   "budget_decode": {
     "reasoning_budget": 64,
@@ -53,13 +56,26 @@
   "call_accounting": {
     "env_actions": 29,
     "llm_call_count": 30,
-    "reflection_count": 1,
-    "explanation": "29 select_action invocations produced 29 env actions; 1 invocation hit parse failure and reflected (2nd LLM call, also charges a budget step) => 30 LLM calls, 30 budget charges, max_steps=30 => budget_exhausted at the end of step 29"
+    "reflection_count": 1
   },
   "loop_metrics_summary": {
     "action_repetition_ratio": 0.8620689655172413,
     "max_consecutive_same_observation": 4,
+    "state_action_pair_repeat_count": 6,
     "state_action_loop_occurrences": 21,
-    "no_new_info_action_ratio": 0.27586206896551724
+    "rslr": 0.7241379310344828,
+    "no_new_info_action_ratio": 0.27586206896551724,
+    "obs_change_after_action_ratio": 0.7142857142857143
+  },
+  "consistency": {
+    "source_episode": "D:\\新建文件夹\\results\\pilot1_live_run\\pilot1_episode.json",
+    "T": 29,
+    "state_action_pair_repeat_count": 6,
+    "state_action_loop_occurrences": 21,
+    "obs_change_after_action_ratio": 0.7142857142857143,
+    "obs_change_count": 20,
+    "obs_change_denominator": 28,
+    "action_repetition_ratio": 0.8620689655172413,
+    "rslr": 0.7241379310344828
   }
 }

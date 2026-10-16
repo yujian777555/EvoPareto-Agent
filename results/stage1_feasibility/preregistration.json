@@ -1,0 +1,43 @@
+{
+  "title": "Stage 1 Genome Solvability & Multi-objective Signal Feasibility",
+  "frozen_before_results": true,
+  "design": "3 tasks x 3 genomes x 2 seeds = 18 episodes",
+  "gates": {
+    "GATE1_SOLVABILITY": {
+      "PASS": "at least 1 episode with native won=true among the 18",
+      "FAIL": "all won=false",
+      "on_fail": [
+        "do not expand to 36",
+        "do not start five-arm evolution",
+        "do not claim PEEM/PPEC ineffective",
+        "diagnose solvability via DecisionLog"
+      ]
+    },
+    "GATE2_GENOME_DISTINGUISHABILITY": {
+      "PASS_DESCRIPTIVE": "at least two paired (task_index, seed) blocks show differing won outcomes across genomes (pre-registered descriptive screen; NOT a KS p-value criterion)",
+      "COST_ONLY": "if won identical across genomes and only cost/length differ: call it cost distinguishability, NOT performance improvement",
+      "INCONCLUSIVE": "insufficient sample for either claim"
+    },
+    "GATE3_MULTIOBJECTIVE_SIGNAL": {
+      "PASS": ">=1 real success AND >=2 non-dominated (performance, cost) genome-level aggregates with meaningful tradeoff",
+      "DEGENERATE": "all performance = 0",
+      "INCONCLUSIVE": "single unstable success",
+      "rule": "cheaper failure is NOT better performance"
+    }
+  },
+  "final_decision_rule": {
+    "GATE1_FAIL": "STOP / SOLVABILITY_DIAGNOSIS",
+    "GATE1_PASS_GATE2_OR_3_INCONCLUSIVE": "REVIEW / NO AUTOMATIC EXPANSION",
+    "GATE1_3_SUPPORT": "REQUEST STAGE 2 APPROVAL"
+  },
+  "prohibitions": [
+    "no second batch of episodes",
+    "no extra genomes after results",
+    "no task re-selection after results",
+    "no parameter changes after results",
+    "no PEEM/PPEC modification",
+    "no five-arm evolution in Stage 1",
+    "no progress-proxy as formal performance",
+    "no silent auto-retry of failed episodes"
+  ]
+}

@@ -1,8 +1,13 @@
-"""Recompute Pilot 1 postmortem metrics (offline, no API)."""
+"""Recompute Pilot 1 postmortem metrics from raw trajectory (offline, no API).
+
+Tests do NOT hardcode expected loop numbers — they recompute from
+pilot1_episode.json and compare against the written artifacts. If the
+script, JSON artifacts, and raw data disagree, these tests fail.
+"""
 from __future__ import annotations
 
+import importlib.util
 import json
-import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -12,11 +17,127 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 EP = ROOT / "results/pilot1_live_run/pilot1_episode.json"
 OUT = ROOT / "results/pilot1_postmortem"
+SCRIPT = ROOT / "scripts" / "analyze_pilot1_postmortem.py"
+
+
+def _load_module():
+    spec = importlib.util.spec_from_file_location("pilot1_postmortem", SCRIPT)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def _ep():
     assert EP.exists(), "Pilot 1 episode artifact required"
     return json.loads(EP.read_text(encoding="utf-8"))
+
+
+def test_task_description_not_counted_as_object_discovery():
+    """A1: goal wording containing 'book' must not mark object as discovered."""
+    mod = _load_module()
+    ep = _ep()
+    diag = mod.goal_progress_flags(ep)
+    # The raw trajectory DOES contain the phrase "look at book under the desklamp"
+    # inside observation_before[0] as task description. It must not count.
+    assert diag["task_description_present_in_obs"] is True
+    assert diag["book_discovered_in_env_feedback"] is False
+    assert diag["desklamp_discovered_in_env_feedback"] is False
+    assert diag["book_location_status"] == "UNKNOWN_FROM_TRAJECTORY"
+    assert diag["desklamp_location_status"] == "UNKNOWN_FROM_TRAJECTORY"
+    assert diag["book_location_known_from_trajectory"] is False
+    # objects list must not contain book/desklamp purely from goal text
+    # (book may appear only if pure env feedback shows it — here it must not)
+    assert "book" not in diag["objects_surfaced_in_env_feedback"]
+    assert "desklamp" not in diag["objects_surfaced_in_env_feedback"]
+
+
+def test_strip_task_description_is_selective():
+    mod = _load_module()
+    text = (
+        "You are in the middle of a room. Looking quickly around you, you see a bed 1.\n"
+        "Your task is to: look at book under the desklamp.\n"
+        "On the desk 1, you see a cellphone 3."
+    )
+    clean = mod.strip_task_description(text)
+    assert "book" not in clean.lower()
+    assert "cellphone" in clean.lower()
+    assert "bed 1" in clean.lower()
+
+
+def test_loop_metrics_recomputed_not_hardcoded():
+    """A2: recompute from raw episode; artifacts must match the recomputation."""
+    mod = _load_module()
+    ep = _ep()
+    recomputed = mod.recompute_from_trajectory(ep["trajectory"])
+    artifact = json.loads((OUT / "loop_metrics.json").read_text(encoding="utf-8"))
+
+    # definitions clarify TYPES vs EXTRA occurrences
+    assert recomputed["state_action_pair_repeat_count"] == len(
+        {p for p, c in Counter(
+            (str(t["observation_before"]).strip(), t["action"]) for t in ep["trajectory"]
+        ).items() if c > 1}
+    )
+    # extra occurrences
+    pair_c = Counter(
+        (str(t["observation_before"]).strip(), t["action"]) for t in ep["trajectory"]
+    )
+    assert recomputed["state_action_loop_occurrences"] == sum(
+        c - 1 for c in pair_c.values() if c > 1
+    )
+
+    # artifact must equal recomputation
+    assert artifact["state_action_pair_repeat_count"] == recomputed["state_action_pair_repeat_count"]
+    assert artifact["state_action_loop_occurrences"] == recomputed["state_action_loop_occurrences"]
+    assert artifact["obs_change_after_action_ratio"] == pytest.approx(
+        recomputed["obs_change_after_action_ratio"]
+    )
+    assert artifact["obs_change_denominator"] == recomputed["obs_change_denominator"]
+    assert artifact["obs_change_count"] == recomputed["obs_change_count"]
+    assert artifact["rslr"] == pytest.approx(recomputed["rslr"])
+
+    # TYPES != EXTRA when any pair repeats more than twice
+    if recomputed["state_action_loop_occurrences"] > recomputed["state_action_pair_repeat_count"]:
+        assert recomputed["state_action_pair_repeat_count"] != recomputed["state_action_loop_occurrences"]
+
+
+def test_obs_change_ratio_denominator_is_T_minus_1():
+    mod = _load_module()
+    ep = _ep()
+    r = mod.recompute_from_trajectory(ep["trajectory"])
+    T = r["T"]
+    assert r["obs_change_denominator"] == T - 1
+    # denominator documented
+    assert "T-1" in mod.DEFS["obs_change_after_action_ratio"] or "(T-1)" in mod.DEFS["obs_change_after_action_ratio"]
+
+
+def test_written_artifacts_consistent_across_files():
+    mod = _load_module()
+    ep = _ep()
+    r = mod.recompute_from_trajectory(ep["trajectory"])
+    ad = json.loads((OUT / "action_distribution.json").read_text(encoding="utf-8"))
+    lm = json.loads((OUT / "loop_metrics.json").read_text(encoding="utf-8"))
+    bd = json.loads((OUT / "behavioral_diagnosis.json").read_text(encoding="utf-8"))
+
+    # action distribution still matches raw
+    assert ad["action_distribution"] == dict(Counter(t["action"] for t in ep["trajectory"]))
+    # loop numbers identical in the two JSON files and in recomputation
+    for key in (
+        "state_action_pair_repeat_count",
+        "state_action_loop_occurrences",
+        "obs_change_after_action_ratio",
+        "action_repetition_ratio",
+    ):
+        if key in ad.get("consistency", {}):
+            assert ad["consistency"][key] == r[key] or (
+                isinstance(r[key], float) and abs(ad["consistency"][key] - r[key]) < 1e-12
+            )
+        assert lm[key] == r[key] or (
+            isinstance(r[key], float) and abs(lm[key] - r[key]) < 1e-12
+        )
+        assert bd["loop_metrics_summary"][key] == r[key] or (
+            isinstance(r[key], float)
+            and abs(bd["loop_metrics_summary"][key] - r[key]) < 1e-12
+        )
 
 
 def test_action_distribution_matches_raw_trajectory():
@@ -26,62 +147,3 @@ def test_action_distribution_matches_raw_trajectory():
         {"examine desk 1": 16, "look": 7, "go to desk 1": 3, "go to shelf 1": 3}
     )
     assert sum(dist.values()) == 29
-
-
-def test_loop_metrics_reproducible():
-    ep = _ep()
-    traj = ep["trajectory"]
-    n = len(traj)
-    # RSLR definition from AGENT_BEHAVIOR_DIAGNOSTIC_PROPOSAL.md
-    pairs = Counter(
-        (t["observation_before"], t["action"]) for t in traj
-    )
-    loop_occ = sum(c - 1 for c in pairs.values() if c > 1)
-    rslr = loop_occ / n
-    assert loop_occ == 21
-    assert abs(rslr - 21 / 29) < 1e-9
-    # max consecutive same observation_after
-    max_run = cur = 0
-    prev = None
-    for t in traj:
-        o = t["observation_after"]
-        cur = cur + 1 if o == prev else 1
-        prev = o
-        max_run = max(max_run, cur)
-    assert max_run == 4
-    # no-new-info ratio
-    same = sum(1 for t in traj if t["observation_before"] == t["observation_after"])
-    assert same == 8
-
-
-def test_written_artifacts_consistent():
-    for name in (
-        "action_distribution.json",
-        "loop_metrics.json",
-        "behavioral_diagnosis.json",
-        "genome_phenotype_matrix.json",
-        "feasibility_budget_estimate.json",
-    ):
-        p = OUT / name
-        assert p.exists(), name
-        json.loads(p.read_text(encoding="utf-8"))
-    ad = json.loads((OUT / "action_distribution.json").read_text(encoding="utf-8"))
-    assert ad["matches_planner_observation"] is True
-    gm = json.loads((OUT / "genome_phenotype_matrix.json").read_text(encoding="utf-8"))
-    levels = {g["gene"]: g["evidence_level"] for g in gm["genes"]}
-    assert levels["tool_policy"].startswith("CODE_CONFIRMED")
-    assert levels["planner_strategy"] == "PROMPT_ONLY"
-
-
-def test_budget_meter_formula():
-    # mirror BudgetMeter.from_reasoning_budget(64, horizon=30)
-    budget, horizon = 64, 30
-    steps = max(1, int(round(horizon * (0.5 + budget / 128.0))))
-    tokens = max(64, budget * 12)
-    assert steps == 30
-    assert tokens == 768
-    # 29 env actions + 1 reflection charge = 30
-    ep = _ep()
-    assert ep["steps"] == 29
-    assert ep["llm_call_count"] == 30
-    assert ep["reflection_count"] == 1

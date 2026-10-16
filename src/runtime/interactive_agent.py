@@ -31,6 +31,13 @@ class DecisionLog:
     reflection_raw: str = ""
     chosen_action: str = ""
     used_fallback: bool = False
+    # --- observational only (Stage 1 DecisionLog). Do not affect decisions. ---
+    step_index: int = -1
+    reflection_trigger: str = ""  # "" | parse_failure
+    llm_calls: int = 0
+    tokens_in: int = 0
+    tokens_out: int = 0
+    estimated_cost_usd: float = 0.0
 
 
 class InteractiveAgent:
@@ -98,6 +105,7 @@ class InteractiveAgent:
         if action is None and self.genome.reflection_strategy != "none":
             self.reflection_count += 1
             log.reflected = True
+            log.reflection_trigger = "parse_failure"
             retry = (
                 "\n".join(prompt_lines)
                 + f"\nPrevious reply was invalid ({reason}). "

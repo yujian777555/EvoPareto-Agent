@@ -1,0 +1,94 @@
+{
+  "stage": "STAGE1_FEASIBILITY",
+  "objective_version": "candidate_2obj",
+  "objective_names": [
+    "performance",
+    "cost"
+  ],
+  "maximize": [
+    true,
+    false
+  ],
+  "performance_source": "native_won",
+  "cost_source": "tokens x frozen peak-conservative rates",
+  "model": "deepseek-flash",
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "environment": "ALFWorld TextWorld",
+  "split": "valid_train",
+  "horizon": 30,
+  "manifest_path": "results/native_alfworld/development_task_pool.json",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "task_indices": [
+    0,
+    10,
+    20
+  ],
+  "frozen_tasks": [
+    {
+      "task_index": 0,
+      "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+      "fingerprint": "75cb75cb4d34f61a",
+      "task_type_dir": "look_at_obj_in_light-Book-None-DeskLamp-302",
+      "task_type": "look_at_obj_in_light"
+    },
+    {
+      "task_index": 10,
+      "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Laptop-None-DeskLamp-309/trial_T20190907_185713_398582",
+      "fingerprint": "e9ee77fafb94ac02",
+      "task_type_dir": "look_at_obj_in_light-Laptop-None-DeskLamp-309",
+      "task_type": "look_at_obj_in_light"
+    },
+    {
+      "task_index": 20,
+      "game_id": "/data/json_2.1.1/valid_train/pick_and_place_simple-AlarmClock-None-Dresser-319/trial_T20190910_195319_108102",
+      "fingerprint": "d6025a28ba7abb4d",
+      "task_type_dir": "pick_and_place_simple-AlarmClock-None-Dresser-319",
+      "task_type": "pick_and_place_simple"
+    }
+  ],
+  "seeds": [
+    11,
+    23
+  ],
+  "genomes": [
+    {
+      "id": "G1",
+      "label": "pilot1_baseline",
+      "planner_strategy": "cot",
+      "memory_strategy": "short_term",
+      "reflection_strategy": "self_critique",
+      "tool_policy": "balanced",
+      "reasoning_budget": 64
+    },
+    {
+      "id": "G2",
+      "label": "longer_memory_planning_prompt",
+      "planner_strategy": "plan_and_solve",
+      "memory_strategy": "episodic",
+      "reflection_strategy": "none",
+      "tool_policy": "conservative",
+      "reasoning_budget": 64
+    },
+    {
+      "id": "G3",
+      "label": "lightweight_cost",
+      "planner_strategy": "direct",
+      "memory_strategy": "none",
+      "reflection_strategy": "none",
+      "tool_policy": "no_tools",
+      "reasoning_budget": 16
+    }
+  ],
+  "budget_caps": {
+    "episodes_max": 18,
+    "physical_http_cap": 650,
+    "estimated_cost_cap_usd": 0.11,
+    "scope": "batch total, not per-episode"
+  },
+  "rates": {
+    "input_cache_miss_per_1m": 0.3,
+    "output_per_1m": 1.2
+  },
+  "temperature": "not set (provider default); seed does not force determinism",
+  "shuffle_seed": 2026
+}

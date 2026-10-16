@@ -1,63 +1,96 @@
 """Pilot 1 behavioral postmortem — recomputable metrics from raw trajectory.
 
 All loop/stagnation metrics have explicit mathematical definitions.
-No real API calls. Reads only preserved Pilot 1 artifacts + source.
+No real API calls. Reads only preserved Pilot 1 artifacts.
+
+Object-discovery rule:
+  Task-description text ("Your task is to: ...") is NEVER counted as evidence
+  that the agent observed the target object in the environment. Only pure
+  environment feedback (observation text with task-description lines removed)
+  can surface an object.
 """
 from __future__ import annotations
 
-import ast
-import hashlib
 import json
 import re
 from collections import Counter
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 EP_PATH = ROOT / "results/pilot1_live_run/pilot1_episode.json"
 OUT = ROOT / "results/pilot1_postmortem"
 
 # ------------------------------------------------------------------ #
-# Metric definitions (documented, reproducible)
+# Metric definitions (single source of truth)
 # ------------------------------------------------------------------ #
 DEFS = {
+    "state_definition": (
+        "state at step t := observation_before[t] (the environment text the "
+        "agent saw when it chose action[t]), string-equal after .strip()"
+    ),
     "action_repetition_ratio": (
-        "1 - |unique actions| / |actions| ; range [0,1]; 1 = all identical"
+        "1 - |unique actions| / T ; T = number of environment actions"
     ),
     "max_consecutive_same_action": (
-        "max run-length of identical consecutive actions in the sequence"
+        "max run-length of identical consecutive actions"
     ),
     "max_consecutive_same_observation": (
         "max run-length of identical observation_after strings"
     ),
     "state_action_pair_repeat_count": (
-        "number of (observation_after[t-1] or obs_before[t], action[t]) pairs "
-        "that occur at least twice in the episode"
+        "NUMBER OF DISTINCT (state, action) pairs whose occurrence count >= 2. "
+        "This is a count of pair TYPES, not of extra occurrences."
     ),
     "state_action_loop_occurrences": (
-        "total occurrences beyond the first of every repeated "
-        "(state, action) pair = sum_{pairs with count>1} (count-1)"
+        "EXTRA occurrences beyond the first of every repeated (state, action) "
+        "pair = sum_{p: count(p)>1} (count(p) - 1). "
+        "This is an occurrence count, not a type count."
     ),
     "no_new_info_action_ratio": (
-        "fraction of steps where observation_after == observation_before "
-        "(environment returned identical text)"
+        "fraction of steps t where observation_after[t] == observation_before[t] "
+        "(denominator T)"
     ),
     "obs_change_after_action_ratio": (
-        "fraction of steps where observation_after != previous observation_after"
+        "fraction of consecutive comparison slots where "
+        "observation_after[t] != observation_after[t-1]. "
+        "Denominator is T-1 (pairs of consecutive steps), numerator is the "
+        "number of those pairs that differ. Undefined for T<2."
+    ),
+    "rslr_repeated_state_action_loop_rate": (
+        "state_action_loop_occurrences / T"
     ),
     "unique_location_visit_count": (
-        "number of distinct ALFWorld location tokens observed as current place "
-        "(desk/shelf/bed/drawer/...)"
+        "number of distinct ALFWorld location tokens seen in environment "
+        "feedback or targeted by 'go to' actions"
     ),
     "half_behavior_divergence": (
-        "1 - Jaccard(first_half_action_multiset_keys, second_half_action_multiset_keys) "
-        "using action identity (not counts); 0 = identical action sets"
+        "1 - Jaccard(action SET of first half, action SET of second half); "
+        "0 = identical action sets"
     ),
 }
 
+TASK_DESC_RE = re.compile(
+    r"^\s*your task is to:.*$", re.I | re.M
+)
+
+
+def strip_task_description(text: str) -> str:
+    """Remove task-description lines so goal wording is not object evidence."""
+    return TASK_DESC_RE.sub("", text or "")
+
+
+def env_object_terms(text: str) -> List[str]:
+    """Object terms appearing in PURE environment feedback only."""
+    clean = strip_task_description(text).lower()
+    return re.findall(
+        r"\b(?:book|desklamp|desk lamp|cellphone|keychain|laptop|pen|"
+        r"shelf|desk|drawer|safe|garbagecan|sidetable|bed|lamp)\b",
+        clean,
+    )
+
 
 def _loc_tokens(text: str) -> List[str]:
-    """Extract location-ish nouns from observation text."""
     return re.findall(
         r"\b(?:desk|shelf|bed|drawer|garbagecan|safe|sidetable|table|counter|stove|sink|toilet|bathtub|mirror)\s+\d+\b",
         text or "",
@@ -65,12 +98,12 @@ def _loc_tokens(text: str) -> List[str]:
     )
 
 
-def analyze(ep: Dict[str, Any]) -> Dict[str, Any]:
-    traj = ep.get("trajectory") or []
-    n = len(traj)
-    actions = [str(t.get("action") or "") for t in traj]
-    obs_before = [str(t.get("observation_before") or "") for t in traj]
-    obs_after = [str(t.get("observation_after") or "") for t in traj]
+def recompute_from_trajectory(trajectory: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Single function that computes every loop metric from raw steps."""
+    n = len(trajectory)
+    actions = [str(t.get("action") or "") for t in trajectory]
+    obs_before = [str(t.get("observation_before") or "").strip() for t in trajectory]
+    obs_after = [str(t.get("observation_after") or "").strip() for t in trajectory]
 
     dist = Counter(actions)
     unique_actions = sorted(dist)
@@ -80,182 +113,163 @@ def analyze(ep: Dict[str, Any]) -> Dict[str, Any]:
     max_run_a = cur = 0
     prev = None
     for a in actions:
-        if a == prev:
-            cur += 1
-        else:
-            cur = 1
-            prev = a
+        cur = cur + 1 if a == prev else 1
+        prev = a
         max_run_a = max(max_run_a, cur)
 
     # max consecutive same observation_after
     max_run_o = cur = 0
     prev = None
     for o in obs_after:
-        if o == prev:
-            cur += 1
-        else:
-            cur = 1
-            prev = o
+        cur = cur + 1 if o == prev else 1
+        prev = o
         max_run_o = max(max_run_o, cur)
 
-    # state-action pairs: state = observation_before at step t (state the agent saw)
-    pair_counter: Counter = Counter()
-    for t in range(n):
-        state = obs_before[t]
-        pair_counter[(state, actions[t])] += 1
+    # state = observation_before[t]
+    pair_counter: Counter = Counter(zip(obs_before, actions))
     repeated_pairs = {p: c for p, c in pair_counter.items() if c > 1}
-    loop_occurrences = sum(c - 1 for c in repeated_pairs.values())
+    pair_repeat_count = len(repeated_pairs)          # TYPES with count>=2
+    loop_occurrences = sum(c - 1 for c in repeated_pairs.values())  # EXTRA occurrences
 
-    # no-new-info: observation_after == observation_before
+    # no-new-info: obs_after == obs_before, denominator T
     no_new = sum(1 for t in range(n) if obs_after[t] == obs_before[t])
     no_new_ratio = no_new / n if n else 0.0
 
-    # observation changed vs previous after
-    obs_changed = 0
-    for t in range(1, n):
-        if obs_after[t] != obs_after[t - 1]:
-            obs_changed += 1
-    obs_change_ratio = (obs_changed / (n - 1)) if n > 1 else 0.0
-
-    # locations visited (from observation_after)
-    locs = []
-    for o in obs_after:
-        found = _loc_tokens(o)
-        # "you see X on the desk 1" / "arrive at desk 1" / room listing
-        locs.extend(found)
-    # also parse "go to <place>" actions
-    for a in actions:
-        m = re.match(r"go to (.+)", a)
-        if m:
-            locs.append(m.group(1).strip())
-    unique_locs = sorted(set(locs))
-
-    # half divergence
-    h = n // 2
-    first = set(actions[:h])
-    second = set(actions[h:])
-    if first or second:
-        jacc = len(first & second) / len(first | second)
-        half_div = 1.0 - jacc
+    # obs change between consecutive observation_after, denominator T-1
+    if n > 1:
+        obs_changed = sum(1 for t in range(1, n) if obs_after[t] != obs_after[t - 1])
+        obs_change_ratio = obs_changed / (n - 1)
+        obs_change_denominator = n - 1
     else:
-        half_div = 0.0
+        obs_changed = 0
+        obs_change_ratio = 0.0
+        obs_change_denominator = 0
 
-    # first/second half action dists
-    d1 = Counter(actions[:h])
-    d2 = Counter(actions[h:])
-
-    # reflection / llm accounting from episode fields
-    llm_calls = int(ep.get("llm_call_count") or 0)
-    api_calls = int(ep.get("api_calls") or 0)
-    reflection_count = int(ep.get("reflection_count") or 0)
-
-    # per-step token/cost: NOT present in Pilot 1 trajectory
-    per_step_tokens_available = any("tokens_in" in t for t in traj)
+    rslr = loop_occurrences / n if n else 0.0
 
     return {
-        "episode_meta": {
-            "git_sha": ep.get("git_sha"),
-            "game_id": ep.get("game_id"),
-            "goal": ep.get("goal"),
-            "won": ep.get("success"),
-            "termination_reason": ep.get("termination_reason"),
-            "steps": n,
-            "llm_call_count": llm_calls,
-            "api_calls": api_calls,
-            "reflection_count": reflection_count,
-            "tokens_in": ep.get("tokens_in"),
-            "tokens_out": ep.get("tokens_out"),
-            "cost_usd": ep.get("cost_usd"),
-            "genome": ep.get("genome"),
-        },
+        "T": n,
         "action_distribution": dict(dist),
         "unique_action_count": len(unique_actions),
         "unique_actions": unique_actions,
         "action_repetition_ratio": rep_ratio,
         "max_consecutive_same_action": max_run_a,
         "max_consecutive_same_observation": max_run_o,
-        "state_action_pair_repeat_count": len(repeated_pairs),
+        "state_action_pair_repeat_count": pair_repeat_count,
         "state_action_loop_occurrences": loop_occurrences,
-        "repeated_pair_details": [
-            {
-                "action": k[1],
-                "observation_before_preview": k[0][:80],
-                "count": v,
-            }
-            for k, v in sorted(repeated_pairs.items(), key=lambda x: -x[1])[:10]
-        ],
+        "rslr": rslr,
         "no_new_info_action_count": no_new,
         "no_new_info_action_ratio": no_new_ratio,
+        "obs_change_count": obs_changed,
+        "obs_change_denominator": obs_change_denominator,
         "obs_change_after_action_ratio": obs_change_ratio,
+        "repeated_pair_details": [
+            {"action": k[1], "observation_before_preview": k[0][:80], "count": v}
+            for k, v in sorted(repeated_pairs.items(), key=lambda x: -x[1])
+        ],
+    }
+
+
+def analyze(ep: Dict[str, Any]) -> Dict[str, Any]:
+    traj = ep.get("trajectory") or []
+    m = recompute_from_trajectory(traj)
+    n = m["T"]
+    actions = [str(t.get("action") or "") for t in traj]
+    obs_after = [str(t.get("observation_after") or "") for t in traj]
+
+    # locations from pure env feedback + go-to actions
+    locs: List[str] = []
+    for o in obs_after:
+        locs.extend(_loc_tokens(strip_task_description(o)))
+    for a in actions:
+        mm = re.match(r"go to (.+)", a)
+        if mm:
+            locs.append(mm.group(1).strip())
+    unique_locs = sorted(set(locs))
+
+    h = n // 2
+    first = set(actions[:h])
+    second = set(actions[h:])
+    half_div = 1.0 - (len(first & second) / len(first | second)) if (first or second) else 0.0
+
+    return {
+        **m,
         "unique_location_tokens": unique_locs,
         "unique_location_visit_count": len(unique_locs),
         "half_behavior_divergence": half_div,
         "first_half_size": h,
         "second_half_size": n - h,
-        "first_half_action_dist": dict(d1),
-        "second_half_action_dist": dict(d2),
-        "per_step_tokens_available": per_step_tokens_available,
-        "raw_llm_response_available": any("raw_response" in t for t in traj),
-        "parse_ok_available": any("parse_ok" in t for t in traj),
-        "used_fallback_available": any("used_fallback" in t for t in traj),
+        "first_half_action_dist": dict(Counter(actions[:h])),
+        "second_half_action_dist": dict(Counter(actions[h:])),
         "metric_definitions": DEFS,
     }
 
 
 def goal_progress_flags(ep: Dict[str, Any]) -> Dict[str, Any]:
-    """Evidence-based goal progress assessment from trajectory text only."""
+    """Object discovery from PURE environment feedback only.
+
+    Task-description text is explicitly excluded.
+    """
     traj = ep.get("trajectory") or []
-    goal = str(ep.get("goal") or "").lower()
-    blob = "\n".join(
-        [str(t.get("observation_before") or "") for t in traj]
-        + [str(t.get("observation_after") or "") for t in traj]
-    ).lower()
+    goal = str(ep.get("goal") or "")
+
+    # pure env feedback = observation text minus task-description lines
+    pure_env_parts: List[str] = []
+    task_desc_seen = False
+    for t in traj:
+        for key in ("observation_before", "observation_after"):
+            raw = str(t.get(key) or "")
+            if re.search(r"your task is to:", raw, re.I):
+                task_desc_seen = True
+            pure_env_parts.append(strip_task_description(raw))
+    pure_env = "\n".join(pure_env_parts).lower()
     actions = [str(t.get("action") or "").lower() for t in traj]
 
-    # Search evidence: does any observation mention a book / desklamp / lamp?
-    mentions_book = bool(re.search(r"\bbook\b", blob))
-    mentions_desklamp = bool(re.search(r"desklamp|desk lamp|desk-lamp", blob))
-    mentions_lamp = bool(re.search(r"\blamp\b|light", blob))
-    mentions_open = any(a.startswith(("open ", "take ", "pick", "use ", "turn on", "look at")) for a in actions)
+    # Object discovery: terms in PURE env feedback only
+    book_in_env = bool(re.search(r"\bbook\b", pure_env))
+    desklamp_in_env = bool(re.search(r"desklamp|desk lamp|desk-lamp", pure_env))
+    lamp_in_env = bool(re.search(r"\blamp\b", pure_env))
+
     opened_container = any(a.startswith("open ") for a in actions)
     took_item = any(a.startswith(("take ", "pick up")) for a in actions)
     used_light = any("lamp" in a or "light" in a or a.startswith("use ") for a in actions)
     searched_book_cmd = any("book" in a for a in actions)
 
-    # containers/locations seen in observations
-    seen_objs = sorted(set(re.findall(
-        r"\b(?:book|desklamp|desk lamp|cellphone|keychain|laptop|pen|shelf|desk|drawer|safe)\b",
-        blob,
-    )))
+    env_objs = sorted(set(env_object_terms("\n".join(str(t.get("observation_before") or "") for t in traj)
+                                           + "\n" + "\n".join(str(t.get("observation_after") or "") for t in traj))))
 
     return {
-        "goal": ep.get("goal"),
+        "goal": goal,
         "won": ep.get("success"),
-        "obs_mentions_book": mentions_book,
-        "obs_mentions_desklamp_or_lamp": mentions_desklamp or mentions_lamp,
+        "task_description_present_in_obs": task_desc_seen,
+        "object_discovery_rule": (
+            "task-description lines ('Your task is to: ...') are stripped before "
+            "any object-discovery test; keyword presence in the goal wording is "
+            "NOT evidence of seeing the object"
+        ),
+        "book_discovered_in_env_feedback": book_in_env,
+        "desklamp_discovered_in_env_feedback": desklamp_in_env or lamp_in_env,
         "any_open_container_action": opened_container,
         "any_take_or_pick_action": took_item,
         "any_use_light_action": used_light,
         "any_action_text_contains_book": searched_book_cmd,
-        "objects_surfaced_in_obs": seen_objs,
-        "book_location_known_from_trajectory": mentions_book,  # only if actually seen
-        "book_location_status": (
-            "seen_in_observation" if mentions_book else "UNKNOWN_FROM_TRAJECTORY"
-        ),
+        "objects_surfaced_in_env_feedback": env_objs,
+        "book_location_status": "seen_in_env_feedback" if book_in_env else "UNKNOWN_FROM_TRAJECTORY",
         "desklamp_location_status": (
-            "seen_in_observation" if (mentions_desklamp or mentions_lamp) else "UNKNOWN_FROM_TRAJECTORY"
+            "seen_in_env_feedback" if (desklamp_in_env or lamp_in_env) else "UNKNOWN_FROM_TRAJECTORY"
         ),
-        "agent_acted_on_goal_terms": searched_book_cmd or used_light or (mentions_book and opened_container),
-        "looped_around_desk_shelf": True,  # verified by action distribution
+        "book_location_known_from_trajectory": book_in_env,
+        "agent_acted_on_goal_terms": searched_book_cmd or used_light,
+        "looped_around_desk_shelf": True,
         "note": (
-            "Do not infer book position from failure. "
-            "UNKNOWN_FROM_TRAJECTORY means the 29-step trace never surfaced the object."
+            "Do not infer object position from failure. "
+            "UNKNOWN_FROM_TRAJECTORY means no environment feedback (excluding "
+            "task-description text) ever surfaced the object."
         ),
     }
 
 
 def budget_decode(reasoning_budget: int, horizon: int) -> Dict[str, Any]:
-    """Mirror BudgetMeter.from_reasoning_budget exactly."""
     steps = max(1, int(round(horizon * (0.5 + reasoning_budget / 128.0))))
     tokens = max(64, reasoning_budget * 12)
     return {
@@ -269,21 +283,11 @@ def budget_decode(reasoning_budget: int, horizon: int) -> Dict[str, Any]:
 
 
 def genome_phenotype_matrix() -> List[Dict[str, Any]]:
-    """Source-verified phenotype audit (see interactive_agent + behavioral_agent)."""
     return [
         {
             "gene": "planner_strategy",
             "changes_prompt": True,
-            "prompt_mechanism": (
-                "interactive_agent.select_action appends a strategy line only for "
-                "plan_and_solve / tree_search / reflexion; 'cot' and 'direct' get NO "
-                "strategy instruction beyond the label 'Planner: <name>'"
-            ),
             "changes_execution": False,
-            "execution_note": (
-                "BehavioralAgent._plan changes synthetic step tags (not used in native "
-                "ALFWorld EpisodeRunner path). InteractiveAgent has no plan structure."
-            ),
             "measurable_behavior_delta": "prompt-only for native path",
             "evidence_level": "PROMPT_ONLY",
             "source": "src/runtime/interactive_agent.py select_action prompt_lines",
@@ -291,126 +295,49 @@ def genome_phenotype_matrix() -> List[Dict[str, Any]]:
         {
             "gene": "memory_strategy",
             "changes_prompt": True,
-            "prompt_mechanism": "History block = MemoryStore.as_context() into prompt",
             "changes_execution": True,
-            "execution_note": (
-                "MemoryStore.write/read rules differ by strategy: none=disabled; "
-                "short_term=items[-1:] ONLY LAST ONE; other strategies=items[-k:] k=3. "
-                "Written item is only 'obs:<120 chars>' — NO action, feedback, or progress field."
-            ),
-            "measurable_behavior_delta": (
-                "short_term keeps 1 obs line; episodic/semantic/hybrid keep up to 3; "
-                "none keeps 0 — real prompt input difference"
-            ),
+            "measurable_behavior_delta": "short_term=1 obs line; episodic/semantic/hybrid<=3; none=0",
             "evidence_level": "CODE_CONFIRMED",
             "source": "src/runtime/behavioral_agent.py MemoryStore",
         },
         {
             "gene": "reflection_strategy",
             "changes_prompt": True,
-            "prompt_mechanism": "label line 'Reflection: <name>' in prompt",
             "changes_execution": True,
-            "execution_note": (
-                "InteractiveAgent reflects ONLY when parsed action is None "
-                "(parse failure) and strategy != 'none'. "
-                "A legal-but-stagnant action NEVER triggers reflection. "
-                "All non-none strategies share the SAME retry prompt — no per-strategy logic."
-            ),
-            "measurable_behavior_delta": (
-                "none vs non-none: extra LLM call on parse failure; "
-                "self_critique/pairwise/critic_model/iterative are behaviorally identical"
-            ),
+            "measurable_behavior_delta": "none vs retry-on-parse-fail; 4 names share one path",
             "evidence_level": "CODE_CONFIRMED",
-            "source": "src/runtime/interactive_agent.py select_action reflection block",
+            "source": "src/runtime/interactive_agent.py reflection block",
         },
         {
             "gene": "tool_policy",
             "changes_prompt": True,
-            "prompt_mechanism": "label line 'Tool policy: <name>' in prompt",
             "changes_execution": False,
-            "execution_note": (
-                "InteractiveAgent sets self.allow = ALLOW_TOOLS[...] but NEVER consults "
-                "self.allow when selecting ALFWorld actions. Admissible commands come from "
-                "the environment. ALLOW_TOOLS lists calculator/search/file_* which are NOT "
-                "ALFWorld verbs. tool_policy is a NO-OP on the native path."
-            ),
-            "measurable_behavior_delta": "none on native ALFWorld EpisodeRunner path",
+            "measurable_behavior_delta": "no-op on native ALFWorld path",
             "evidence_level": "CODE_CONFIRMED",
-            "source": "src/runtime/interactive_agent.py (self.allow unused) + ALLOW_TOOLS",
+            "source": "src/runtime/interactive_agent.py (self.allow unused)",
         },
         {
             "gene": "reasoning_budget",
             "changes_prompt": True,
-            "prompt_mechanism": "'Remaining budget steps: N' in prompt",
             "changes_execution": True,
-            "execution_note": (
-                "BudgetMeter.from_reasoning_budget: max_steps=round(horizon*(0.5+b/128)); "
-                "max_tokens=max(64, b*12). Each LLM call charges steps=1 (reflection "
-                "charges another step). Budget gates episode length, not reasoning depth."
-            ),
-            "measurable_behavior_delta": (
-                "changes max environment/LLM steps → changes cost and truncation; "
-                "does NOT change per-step decision quality"
-            ),
+            "measurable_behavior_delta": "max steps/tokens -> cost & truncation, not step quality",
             "evidence_level": "CODE_CONFIRMED",
             "source": "src/runtime/behavioral_agent.py BudgetMeter",
         },
     ]
 
 
-def feasibility_budget(pilot_tokens_in=8418, pilot_tokens_out=122, pilot_cost=0.0026718):
-    """Episode cost model for 6 tasks × 3 genomes × 2 seeds = 36 episodes."""
-    # Observed pilot: 30 HTTP, full horizon burn.
-    # Historical D2 range (from project records): 3-31 calls/ep, $0.0001-$0.0012/ep
-    # under OLD rates. Reprice historical low/high at NEW peak rates:
-    #   worst observed tokens similar to pilot
+def feasibility_budget(pilot_cost=0.0026718):
     per_ep = pilot_cost
-    # Conservative variants
-    median_http = 30
-    low_http, high_http = 3, 35
-    # cost scales roughly with tokens; use pilot as median
-    # low: few steps (early win or quick fail) ~ 3 HTTP, tokens ~ 1/10
-    low_cost = pilot_cost * (3 / 30) * 1.5  # slight premium for fixed overhead
-    high_cost = pilot_cost * (35 / 30) * 1.5  # extra retries/reflections margin
-    n_ep = 36
+    n_ep = 18  # Stage 1 approved scale
     return {
-        "design": "6 valid_train tasks x 3 genomes x 2 seeds = 36 episodes",
-        "assumptions": [
-            "model=deepseek-flash, rate_version=deepseek-flash-2026-10-peak-conservative-v1",
-            "horizon=30, same execution layer as Pilot 1",
-            "Pilot 1 observed: 30 HTTP, 8418 in, 122 out, $0.0026718 for 29 steps",
-            "per-request reservation 2000 in + 128 out peak; actual settles to real usage",
-            "no automatic retries; BillingBlocked stops the arm",
-            "estimated cost is LOCAL estimate, not provider invoice",
-        ],
-        "per_episode": {
-            "median_http": median_http,
-            "median_cost_usd": per_ep,
-            "median_tokens_in": pilot_tokens_in,
-            "median_tokens_out": pilot_tokens_out,
-            "low_http": low_http,
-            "low_cost_usd": low_cost,
-            "high_http": high_http,
-            "high_cost_usd": high_cost,
-        },
-        "totals_36_episodes": {
-            "median_http": median_http * n_ep,
+        "design": "3 tasks x 3 genomes x 2 seeds = 18 episodes",
+        "per_episode_median": {"http": 30, "cost_usd": per_ep},
+        "totals_18_episodes": {
+            "median_http": 540,
             "median_cost_usd": round(per_ep * n_ep, 6),
-            "low_http": low_http * n_ep,
-            "low_cost_usd": round(low_cost * n_ep, 6),
-            "high_http": high_http * n_ep,
-            "high_cost_usd": round(high_cost * n_ep, 6),
         },
-        "recommended_cap": {
-            "physical_http": 36 * high_http + 20,  # margin
-            "estimated_cost_usd": round(high_cost * n_ep * 1.25, 4),
-            "note": "cap must allow BillingBlocked fail-closed without mid-experiment top-up",
-        },
-        "scale_risk": (
-            "If all genomes fail (performance=0), 36 episodes still yield cost-difference "
-            "signal only — insufficient for Gate 2/3. Budget is acceptable; scientific risk "
-            "is zero-success degeneracy, not dollars."
-        ),
+        "approved_caps": {"episodes": 18, "physical_http": 650, "estimated_cost_usd": 0.11},
     }
 
 
@@ -418,6 +345,21 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     ep = json.loads(EP_PATH.read_text(encoding="utf-8"))
     metrics = analyze(ep)
+    diag = goal_progress_flags(ep)
+
+    # cross-check block: recomputed values that tests will re-derive
+    consistency = {
+        "source_episode": str(EP_PATH),
+        "T": metrics["T"],
+        "state_action_pair_repeat_count": metrics["state_action_pair_repeat_count"],
+        "state_action_loop_occurrences": metrics["state_action_loop_occurrences"],
+        "obs_change_after_action_ratio": metrics["obs_change_after_action_ratio"],
+        "obs_change_count": metrics["obs_change_count"],
+        "obs_change_denominator": metrics["obs_change_denominator"],
+        "action_repetition_ratio": metrics["action_repetition_ratio"],
+        "rslr": metrics["rslr"],
+    }
+
     (OUT / "action_distribution.json").write_text(
         json.dumps(
             {
@@ -431,20 +373,8 @@ def main() -> None:
                 "second_half_action_dist": metrics["second_half_action_dist"],
                 "first_half_size": metrics["first_half_size"],
                 "second_half_size": metrics["second_half_size"],
-                "steps": metrics["episode_meta"]["steps"],
-                "planner_observed_dist": {
-                    "examine desk 1": 16,
-                    "look": 7,
-                    "go to desk 1": 3,
-                    "go to shelf 1": 3,
-                },
-                "matches_planner_observation": metrics["action_distribution"]
-                == {
-                    "examine desk 1": 16,
-                    "look": 7,
-                    "go to desk 1": 3,
-                    "go to shelf 1": 3,
-                },
+                "steps": metrics["T"],
+                "consistency": consistency,
             },
             indent=2,
             ensure_ascii=False,
@@ -455,17 +385,22 @@ def main() -> None:
         json.dumps(
             {
                 "metric_definitions": DEFS,
+                "state_definition": DEFS["state_definition"],
                 "max_consecutive_same_action": metrics["max_consecutive_same_action"],
                 "max_consecutive_same_observation": metrics["max_consecutive_same_observation"],
                 "state_action_pair_repeat_count": metrics["state_action_pair_repeat_count"],
                 "state_action_loop_occurrences": metrics["state_action_loop_occurrences"],
+                "rslr": metrics["rslr"],
                 "repeated_pair_details": metrics["repeated_pair_details"],
                 "no_new_info_action_count": metrics["no_new_info_action_count"],
                 "no_new_info_action_ratio": metrics["no_new_info_action_ratio"],
+                "obs_change_count": metrics["obs_change_count"],
+                "obs_change_denominator": metrics["obs_change_denominator"],
                 "obs_change_after_action_ratio": metrics["obs_change_after_action_ratio"],
                 "unique_location_visit_count": metrics["unique_location_visit_count"],
                 "unique_location_tokens": metrics["unique_location_tokens"],
                 "action_repetition_ratio": metrics["action_repetition_ratio"],
+                "consistency": consistency,
             },
             indent=2,
             ensure_ascii=False,
@@ -475,15 +410,15 @@ def main() -> None:
     (OUT / "behavioral_diagnosis.json").write_text(
         json.dumps(
             {
-                "goal_progress": goal_progress_flags(ep),
+                "goal_progress": diag,
                 "budget_decode": budget_decode(
                     int((ep.get("genome") or {}).get("reasoning_budget", 64)), 30
                 ),
                 "observation_evidence": {
-                    "raw_llm_response_available": metrics["raw_llm_response_available"],
-                    "parse_ok_available": metrics["parse_ok_available"],
-                    "used_fallback_available": metrics["used_fallback_available"],
-                    "per_step_tokens_available": metrics["per_step_tokens_available"],
+                    "raw_llm_response_available": False,
+                    "parse_ok_available": False,
+                    "used_fallback_available": False,
+                    "per_step_tokens_available": False,
                     "not_observable_from_pilot1": [
                         "raw_llm_response",
                         "parse_ok",
@@ -495,22 +430,20 @@ def main() -> None:
                     ],
                 },
                 "call_accounting": {
-                    "env_actions": metrics["episode_meta"]["steps"],
-                    "llm_call_count": metrics["episode_meta"]["llm_call_count"],
-                    "reflection_count": metrics["episode_meta"]["reflection_count"],
-                    "explanation": (
-                        "29 select_action invocations produced 29 env actions; "
-                        "1 invocation hit parse failure and reflected (2nd LLM call, "
-                        "also charges a budget step) => 30 LLM calls, 30 budget charges, "
-                        "max_steps=30 => budget_exhausted at the end of step 29"
-                    ),
+                    "env_actions": metrics["T"],
+                    "llm_call_count": ep.get("llm_call_count"),
+                    "reflection_count": ep.get("reflection_count"),
                 },
                 "loop_metrics_summary": {
                     "action_repetition_ratio": metrics["action_repetition_ratio"],
                     "max_consecutive_same_observation": metrics["max_consecutive_same_observation"],
+                    "state_action_pair_repeat_count": metrics["state_action_pair_repeat_count"],
                     "state_action_loop_occurrences": metrics["state_action_loop_occurrences"],
+                    "rslr": metrics["rslr"],
                     "no_new_info_action_ratio": metrics["no_new_info_action_ratio"],
+                    "obs_change_after_action_ratio": metrics["obs_change_after_action_ratio"],
                 },
+                "consistency": consistency,
             },
             indent=2,
             ensure_ascii=False,
@@ -518,33 +451,19 @@ def main() -> None:
         encoding="utf-8",
     )
     (OUT / "genome_phenotype_matrix.json").write_text(
-        json.dumps(
-            {
-                "genes": genome_phenotype_matrix(),
-                "pilot1_genome": ep.get("genome"),
-                "note": (
-                    "PROMPT_ONLY != useless; it means no execution-mechanism change. "
-                    "Native path = InteractiveAgent via EpisodeRunner."
-                ),
-            },
-            indent=2,
-            ensure_ascii=False,
-        ),
+        json.dumps({"genes": genome_phenotype_matrix(), "pilot1_genome": ep.get("genome")}, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
     (OUT / "feasibility_budget_estimate.json").write_text(
         json.dumps(feasibility_budget(), indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
-    # console summary
-    print("ACTION DIST", metrics["action_distribution"])
-    print("rep_ratio", round(metrics["action_repetition_ratio"], 4))
-    print("max_run_action", metrics["max_consecutive_same_action"])
-    print("max_run_obs", metrics["max_consecutive_same_observation"])
-    print("loop_occurrences", metrics["state_action_loop_occurrences"])
-    print("no_new_info_ratio", round(metrics["no_new_info_action_ratio"], 4))
-    print("half_divergence", round(metrics["half_behavior_divergence"], 4))
-    print("locations", metrics["unique_location_tokens"])
+    print("pair_repeat_count(TYPES)", metrics["state_action_pair_repeat_count"])
+    print("loop_occurrences(EXTRA)", metrics["state_action_loop_occurrences"])
+    print("obs_change_ratio", metrics["obs_change_after_action_ratio"],
+          f"({metrics['obs_change_count']}/{metrics['obs_change_denominator']})")
+    print("book_location_status", diag["book_location_status"])
+    print("book_discovered_in_env_feedback", diag["book_discovered_in_env_feedback"])
     print("WROTE", OUT)
 
 

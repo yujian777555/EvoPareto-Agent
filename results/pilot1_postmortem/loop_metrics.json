@@ -1,19 +1,23 @@
 {
   "metric_definitions": {
-    "action_repetition_ratio": "1 - |unique actions| / |actions| ; range [0,1]; 1 = all identical",
-    "max_consecutive_same_action": "max run-length of identical consecutive actions in the sequence",
+    "state_definition": "state at step t := observation_before[t] (the environment text the agent saw when it chose action[t]), string-equal after .strip()",
+    "action_repetition_ratio": "1 - |unique actions| / T ; T = number of environment actions",
+    "max_consecutive_same_action": "max run-length of identical consecutive actions",
     "max_consecutive_same_observation": "max run-length of identical observation_after strings",
-    "state_action_pair_repeat_count": "number of (observation_after[t-1] or obs_before[t], action[t]) pairs that occur at least twice in the episode",
-    "state_action_loop_occurrences": "total occurrences beyond the first of every repeated (state, action) pair = sum_{pairs with count>1} (count-1)",
-    "no_new_info_action_ratio": "fraction of steps where observation_after == observation_before (environment returned identical text)",
-    "obs_change_after_action_ratio": "fraction of steps where observation_after != previous observation_after",
-    "unique_location_visit_count": "number of distinct ALFWorld location tokens observed as current place (desk/shelf/bed/drawer/...)",
-    "half_behavior_divergence": "1 - Jaccard(first_half_action_multiset_keys, second_half_action_multiset_keys) using action identity (not counts); 0 = identical action sets"
+    "state_action_pair_repeat_count": "NUMBER OF DISTINCT (state, action) pairs whose occurrence count >= 2. This is a count of pair TYPES, not of extra occurrences.",
+    "state_action_loop_occurrences": "EXTRA occurrences beyond the first of every repeated (state, action) pair = sum_{p: count(p)>1} (count(p) - 1). This is an occurrence count, not a type count.",
+    "no_new_info_action_ratio": "fraction of steps t where observation_after[t] == observation_before[t] (denominator T)",
+    "obs_change_after_action_ratio": "fraction of consecutive comparison slots where observation_after[t] != observation_after[t-1]. Denominator is T-1 (pairs of consecutive steps), numerator is the number of those pairs that differ. Undefined for T<2.",
+    "rslr_repeated_state_action_loop_rate": "state_action_loop_occurrences / T",
+    "unique_location_visit_count": "number of distinct ALFWorld location tokens seen in environment feedback or targeted by 'go to' actions",
+    "half_behavior_divergence": "1 - Jaccard(action SET of first half, action SET of second half); 0 = identical action sets"
   },
+  "state_definition": "state at step t := observation_before[t] (the environment text the agent saw when it chose action[t]), string-equal after .strip()",
   "max_consecutive_same_action": 4,
   "max_consecutive_same_observation": 4,
   "state_action_pair_repeat_count": 6,
   "state_action_loop_occurrences": 21,
+  "rslr": 0.7241379310344828,
   "repeated_pair_details": [
     {
       "action": "examine desk 1",
@@ -48,11 +52,24 @@
   ],
   "no_new_info_action_count": 8,
   "no_new_info_action_ratio": 0.27586206896551724,
+  "obs_change_count": 20,
+  "obs_change_denominator": 28,
   "obs_change_after_action_ratio": 0.7142857142857143,
   "unique_location_visit_count": 2,
   "unique_location_tokens": [
     "desk 1",
     "shelf 1"
   ],
-  "action_repetition_ratio": 0.8620689655172413
+  "action_repetition_ratio": 0.8620689655172413,
+  "consistency": {
+    "source_episode": "D:\\新建文件夹\\results\\pilot1_live_run\\pilot1_episode.json",
+    "T": 29,
+    "state_action_pair_repeat_count": 6,
+    "state_action_loop_occurrences": 21,
+    "obs_change_after_action_ratio": 0.7142857142857143,
+    "obs_change_count": 20,
+    "obs_change_denominator": 28,
+    "action_repetition_ratio": 0.8620689655172413,
+    "rslr": 0.7241379310344828
+  }
 }

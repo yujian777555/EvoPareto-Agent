@@ -84,15 +84,22 @@ class EpisodeRunner:
             "cost_usd": 0.0,
             "estimated_tokens": 0,
             "llm_call_count": 0,
+            "call_usage": [],  # observational DecisionLog journal
         }
 
         def usage_wrap(prompt: str) -> str:
             text, usage = parse_llm_return(self.llm_generate(prompt))
             state["llm_call_count"] += 1
             state["api_calls"] += int(usage.get("calls", 1))
-            state["tokens_in"] += int(usage.get("tokens_in", 0))
-            state["tokens_out"] += int(usage.get("tokens_out", 0))
-            state["cost_usd"] += float(usage.get("cost", 0.0) or usage.get("cost_usd", 0.0))
+            tin = int(usage.get("tokens_in", 0))
+            tout = int(usage.get("tokens_out", 0))
+            cost = float(usage.get("cost", 0.0) or usage.get("cost_usd", 0.0))
+            state["tokens_in"] += tin
+            state["tokens_out"] += tout
+            state["cost_usd"] += cost
+            state["call_usage"].append(
+                {"tokens_in": tin, "tokens_out": tout, "cost_usd": cost}
+            )
             if usage.get("tokens_in") is None and usage.get("actual_in") is None:
                 state["estimated_tokens"] += max(8, len(text) // 4)
             return text
@@ -111,7 +118,17 @@ class EpisodeRunner:
             adm = list(infos.get("admissible_commands") or [])
             if adm and isinstance(adm[0], (list, tuple)):
                 adm = list(adm[0])
+            calls_before = len(state["call_usage"])
             action = agent.select_action(str(o0), adm, goal=goal)
+            # Attach observational usage to the decision log just written.
+            if agent.decision_logs:
+                dl = agent.decision_logs[-1]
+                new_calls = state["call_usage"][calls_before:]
+                dl.step_index = t + 1
+                dl.llm_calls = len(new_calls)
+                dl.tokens_in = sum(c["tokens_in"] for c in new_calls)
+                dl.tokens_out = sum(c["tokens_out"] for c in new_calls)
+                dl.estimated_cost_usd = sum(c["cost_usd"] for c in new_calls)
             out = env_step([action])
             obs, scores, dones, ninfos = out[0], out[1], out[2], out[3]
             o0 = obs[0] if isinstance(obs, (list, tuple)) else obs
@@ -169,4 +186,25 @@ class EpisodeRunner:
             "llm_call_count": state["llm_call_count"],
             "reflection_count": agent.reflection_count,
             "trajectory": trajectory,
+            "decision_logs": [
+                {
+                    "step_index": d.step_index,
+                    "goal": d.goal,
+                    "observation_preview": d.observation_preview,
+                    "raw_llm_response": d.raw_response,
+                    "parsed_action": d.chosen_action,
+                    "parse_ok": d.parse_ok,
+                    "parse_failure_reason": d.parse_failure_reason,
+                    "used_fallback": d.used_fallback,
+                    "reflection_trigger": d.reflection_trigger,
+                    "reflection_response": d.reflection_raw,
+                    "executed_action": d.chosen_action,
+                    "llm_calls": d.llm_calls,
+                    "tokens_in": d.tokens_in,
+                    "tokens_out": d.tokens_out,
+                    "estimated_cost_usd": d.estimated_cost_usd,
+                }
+                for d in agent.decision_logs
+            ],
+            "call_usage_journal": state["call_usage"],
         }

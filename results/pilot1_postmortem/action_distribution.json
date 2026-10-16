@@ -30,11 +30,15 @@
   "first_half_size": 14,
   "second_half_size": 15,
   "steps": 29,
-  "planner_observed_dist": {
-    "examine desk 1": 16,
-    "look": 7,
-    "go to desk 1": 3,
-    "go to shelf 1": 3
-  },
-  "matches_planner_observation": true
+  "consistency": {
+    "source_episode": "D:\\新建文件夹\\results\\pilot1_live_run\\pilot1_episode.json",
+    "T": 29,
+    "state_action_pair_repeat_count": 6,
+    "state_action_loop_occurrences": 21,
+    "obs_change_after_action_ratio": 0.7142857142857143,
+    "obs_change_count": 20,
+    "obs_change_denominator": 28,
+    "action_repetition_ratio": 0.8620689655172413,
+    "rslr": 0.7241379310344828
+  }
 }

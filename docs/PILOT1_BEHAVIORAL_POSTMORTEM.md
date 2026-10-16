@@ -26,10 +26,10 @@ Matches Planner observation exactly (`results/pilot1_postmortem/action_distribut
 | Action repetition ratio | **0.862** | 1 − unique/total = 1 − 4/29 |
 | Max consecutive same action | **4** | longest identical-action run |
 | Max consecutive same observation | **4** | longest identical `observation_after` run |
-| State–action loop occurrences | **21** | Σ (count−1) over repeated (state, action) pairs |
-| Repeated (state, action) pair types | 8 | pairs with count ≥ 2 |
+| State–action loop **occurrences** | **21** | Σ (count−1) over repeated (state, action) pairs = EXTRA occurrences, not types |
+| Repeated (state, action) pair **types** | **6** | distinct (state, action) pairs with count ≥ 2 |
 | No-new-info action ratio | **0.276** (8/29) | steps where `observation_after == observation_before` |
-| Obs-change-after-action ratio | 0.643 | steps where `observation_after[t] ≠ observation_after[t−1]` |
+| Obs-change-after-action ratio | **0.714** (20/28) | consecutive pairs where `observation_after[t] != observation_after[t-1]`; denominator T-1 = 28 |
 | Unique locations visited | **2** (`desk 1`, `shelf 1`) | location tokens in obs / `go to` actions |
 | Half-behavior divergence | **0.0** | 1 − Jaccard(action sets of halves) |
 | Won | false | native `won` |

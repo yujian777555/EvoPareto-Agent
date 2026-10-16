@@ -1,35 +1,16 @@
 {
-  "design": "6 valid_train tasks x 3 genomes x 2 seeds = 36 episodes",
-  "assumptions": [
-    "model=deepseek-flash, rate_version=deepseek-flash-2026-10-peak-conservative-v1",
-    "horizon=30, same execution layer as Pilot 1",
-    "Pilot 1 observed: 30 HTTP, 8418 in, 122 out, $0.0026718 for 29 steps",
-    "per-request reservation 2000 in + 128 out peak; actual settles to real usage",
-    "no automatic retries; BillingBlocked stops the arm",
-    "estimated cost is LOCAL estimate, not provider invoice"
-  ],
-  "per_episode": {
-    "median_http": 30,
-    "median_cost_usd": 0.0026718,
-    "median_tokens_in": 8418,
-    "median_tokens_out": 122,
-    "low_http": 3,
-    "low_cost_usd": 0.00040077000000000005,
-    "high_http": 35,
-    "high_cost_usd": 0.00467565
+  "design": "3 tasks x 3 genomes x 2 seeds = 18 episodes",
+  "per_episode_median": {
+    "http": 30,
+    "cost_usd": 0.0026718
   },
-  "totals_36_episodes": {
-    "median_http": 1080,
-    "median_cost_usd": 0.096185,
-    "low_http": 108,
-    "low_cost_usd": 0.014428,
-    "high_http": 1260,
-    "high_cost_usd": 0.168323
+  "totals_18_episodes": {
+    "median_http": 540,
+    "median_cost_usd": 0.048092
   },
-  "recommended_cap": {
-    "physical_http": 1280,
-    "estimated_cost_usd": 0.2104,
-    "note": "cap must allow BillingBlocked fail-closed without mid-experiment top-up"
-  },
-  "scale_risk": "If all genomes fail (performance=0), 36 episodes still yield cost-difference signal only — insufficient for Gate 2/3. Budget is acceptable; scientific risk is zero-success degeneracy, not dollars."
+  "approved_caps": {
+    "episodes": 18,
+    "physical_http": 650,
+    "estimated_cost_usd": 0.11
+  }
 }

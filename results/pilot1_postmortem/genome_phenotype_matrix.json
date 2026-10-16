@@ -3,9 +3,7 @@
     {
       "gene": "planner_strategy",
       "changes_prompt": true,
-      "prompt_mechanism": "interactive_agent.select_action appends a strategy line only for plan_and_solve / tree_search / reflexion; 'cot' and 'direct' get NO strategy instruction beyond the label 'Planner: <name>'",
       "changes_execution": false,
-      "execution_note": "BehavioralAgent._plan changes synthetic step tags (not used in native ALFWorld EpisodeRunner path). InteractiveAgent has no plan structure.",
       "measurable_behavior_delta": "prompt-only for native path",
       "evidence_level": "PROMPT_ONLY",
       "source": "src/runtime/interactive_agent.py select_action prompt_lines"
@@ -13,40 +11,32 @@
     {
       "gene": "memory_strategy",
       "changes_prompt": true,
-      "prompt_mechanism": "History block = MemoryStore.as_context() into prompt",
       "changes_execution": true,
-      "execution_note": "MemoryStore.write/read rules differ by strategy: none=disabled; short_term=items[-1:] ONLY LAST ONE; other strategies=items[-k:] k=3. Written item is only 'obs:<120 chars>' — NO action, feedback, or progress field.",
-      "measurable_behavior_delta": "short_term keeps 1 obs line; episodic/semantic/hybrid keep up to 3; none keeps 0 — real prompt input difference",
+      "measurable_behavior_delta": "short_term=1 obs line; episodic/semantic/hybrid<=3; none=0",
       "evidence_level": "CODE_CONFIRMED",
       "source": "src/runtime/behavioral_agent.py MemoryStore"
     },
     {
       "gene": "reflection_strategy",
       "changes_prompt": true,
-      "prompt_mechanism": "label line 'Reflection: <name>' in prompt",
       "changes_execution": true,
-      "execution_note": "InteractiveAgent reflects ONLY when parsed action is None (parse failure) and strategy != 'none'. A legal-but-stagnant action NEVER triggers reflection. All non-none strategies share the SAME retry prompt — no per-strategy logic.",
-      "measurable_behavior_delta": "none vs non-none: extra LLM call on parse failure; self_critique/pairwise/critic_model/iterative are behaviorally identical",
+      "measurable_behavior_delta": "none vs retry-on-parse-fail; 4 names share one path",
       "evidence_level": "CODE_CONFIRMED",
-      "source": "src/runtime/interactive_agent.py select_action reflection block"
+      "source": "src/runtime/interactive_agent.py reflection block"
     },
     {
       "gene": "tool_policy",
       "changes_prompt": true,
-      "prompt_mechanism": "label line 'Tool policy: <name>' in prompt",
       "changes_execution": false,
-      "execution_note": "InteractiveAgent sets self.allow = ALLOW_TOOLS[...] but NEVER consults self.allow when selecting ALFWorld actions. Admissible commands come from the environment. ALLOW_TOOLS lists calculator/search/file_* which are NOT ALFWorld verbs. tool_policy is a NO-OP on the native path.",
-      "measurable_behavior_delta": "none on native ALFWorld EpisodeRunner path",
+      "measurable_behavior_delta": "no-op on native ALFWorld path",
       "evidence_level": "CODE_CONFIRMED",
-      "source": "src/runtime/interactive_agent.py (self.allow unused) + ALLOW_TOOLS"
+      "source": "src/runtime/interactive_agent.py (self.allow unused)"
     },
     {
       "gene": "reasoning_budget",
       "changes_prompt": true,
-      "prompt_mechanism": "'Remaining budget steps: N' in prompt",
       "changes_execution": true,
-      "execution_note": "BudgetMeter.from_reasoning_budget: max_steps=round(horizon*(0.5+b/128)); max_tokens=max(64, b*12). Each LLM call charges steps=1 (reflection charges another step). Budget gates episode length, not reasoning depth.",
-      "measurable_behavior_delta": "changes max environment/LLM steps → changes cost and truncation; does NOT change per-step decision quality",
+      "measurable_behavior_delta": "max steps/tokens -> cost & truncation, not step quality",
       "evidence_level": "CODE_CONFIRMED",
       "source": "src/runtime/behavioral_agent.py BudgetMeter"
     }
@@ -57,6 +47,5 @@
     "reflection_strategy": "self_critique",
     "tool_policy": "balanced",
     "reasoning_budget": 64
-  },
-  "note": "PROMPT_ONLY != useless; it means no execution-mechanism change. Native path = InteractiveAgent via EpisodeRunner."
+  }
 }
