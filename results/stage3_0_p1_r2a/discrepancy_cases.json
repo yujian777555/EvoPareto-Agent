@@ -1,0 +1,32 @@
+{
+  "n_discrepancies": 2,
+  "cause_counts": {
+    "zero_delta_flagged_succeed": 2
+  },
+  "cases": [
+    {
+      "benchmark": "DROP",
+      "variant": "graphs",
+      "round": 13,
+      "exp_path": "DROP\\graphs\\round_13\\experience.json",
+      "father": 2,
+      "before": 0.7403921568627451,
+      "after": 0.7403921568627452,
+      "succeed_flag": true,
+      "delta": 1.1102230246251565e-16,
+      "classification": "SUCCEED_TRUE_BUT_NOT_UPGRADE"
+    },
+    {
+      "benchmark": "GSM8K",
+      "variant": "ablation_graphs",
+      "round": 17,
+      "exp_path": "GSM8K\\ablation_graphs\\round_17\\experience.json",
+      "father": 9,
+      "before": 0.8779999999999999,
+      "after": 0.8780000000000001,
+      "succeed_flag": true,
+      "delta": 2.220446049250313e-16,
+      "classification": "SUCCEED_TRUE_BUT_NOT_UPGRADE"
+    }
+  ]
+}

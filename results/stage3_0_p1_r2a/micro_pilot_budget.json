@@ -1,0 +1,16 @@
+{
+  "status": "NOT_AUTHORIZED",
+  "model": "deepseek-flash",
+  "pricing_source": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "price_verified_at": "2026-10-16",
+  "benchmark": "GSM8K official",
+  "task_count": 20,
+  "search_rounds": 3,
+  "max_candidates": 3,
+  "max_physical_requests": 300,
+  "max_input_tokens": 2000000,
+  "max_output_tokens": 200000,
+  "max_total_cost_usd": 5.0,
+  "estimated_cost_usd": 0.93,
+  "fail_closed": "SQLite PhysicalBudgetGate"
+}

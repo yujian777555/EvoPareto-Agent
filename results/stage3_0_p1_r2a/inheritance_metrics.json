@@ -1,0 +1,10 @@
+{
+  "n_success_children": 41,
+  "successful_child_reselection_rate": 0.7073170731707317,
+  "successful_child_offspring_mean": 2.2439024390243905,
+  "n_fail_children": 103,
+  "fail_child_reselection_rate": 0.0970873786407767,
+  "fail_child_offspring_mean": 0.21359223300970873,
+  "behavioral_inheritance": "BEHAVIORAL_INHERITANCE_NOT_ESTABLISHED",
+  "note": "reselection = child round later appears as father; not proof of capability retention"
+}

@@ -1,0 +1,12 @@
+{
+  "concurrent_reservations_ok": true,
+  "budget_exhausted_enforced": true,
+  "budget_error": "BudgetExceeded",
+  "crash_recovery_attempts": 0,
+  "restart_keeps_ledger": false,
+  "unknown_cost_fail_closed": true,
+  "blocked_allows_send": false,
+  "optimizer_llm_intercepted": true,
+  "workflow_llm_intercepted": true,
+  "unauthorized_api_paths": "AFlow AsyncOpenAI default base_url must be overridden to gateway at pilot time"
+}

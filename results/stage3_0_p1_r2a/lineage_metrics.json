@@ -1,0 +1,179 @@
+{
+  "DROP/graphs": {
+    "n_children": 21,
+    "parent_selection_frequency": {
+      "None": 2,
+      "1": 3,
+      "2": 5,
+      "3": 6,
+      "10": 5
+    },
+    "selection_entropy_bits": 1.5432335250170632,
+    "effective_parent_count": 2.9144699467277295,
+    "max_father_share": 0.2857142857142857,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "DROP/graphs_test": {
+    "n_children": 1,
+    "parent_selection_frequency": {
+      "None": 1
+    },
+    "selection_entropy_bits": -0.0,
+    "effective_parent_count": 1.0,
+    "max_father_share": 1.0,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "GSM8K/ablation_graphs": {
+    "n_children": 21,
+    "parent_selection_frequency": {
+      "None": 1,
+      "1": 4,
+      "2": 1,
+      "4": 1,
+      "5": 3,
+      "6": 3,
+      "3": 1,
+      "9": 6,
+      "17": 1
+    },
+    "selection_entropy_bits": 1.954645866682635,
+    "effective_parent_count": 3.8762076717815037,
+    "max_father_share": 0.2857142857142857,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "GSM8K/graphs": {
+    "n_children": 25,
+    "parent_selection_frequency": {
+      "None": 1,
+      "1": 1,
+      "2": 1,
+      "3": 3,
+      "4": 2,
+      "8": 9,
+      "10": 1,
+      "13": 7
+    },
+    "selection_entropy_bits": 1.6957348862067052,
+    "effective_parent_count": 3.239418554951364,
+    "max_father_share": 0.36,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "GSM8K/graphs_test": {
+    "n_children": 1,
+    "parent_selection_frequency": {
+      "8": 1
+    },
+    "selection_entropy_bits": -0.0,
+    "effective_parent_count": 1.0,
+    "max_father_share": 1.0,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "HotpotQA/graphs": {
+    "n_children": 21,
+    "parent_selection_frequency": {
+      "None": 1,
+      "1": 2,
+      "2": 1,
+      "3": 4,
+      "5": 2,
+      "6": 1,
+      "7": 2,
+      "10": 2,
+      "14": 2,
+      "15": 3,
+      "16": 1
+    },
+    "selection_entropy_bits": 2.2934516702908825,
+    "effective_parent_count": 4.902275862452508,
+    "max_father_share": 0.19047619047619047,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "HotpotQA/graphs_test": {
+    "n_children": 1,
+    "parent_selection_frequency": {
+      "2": 1
+    },
+    "selection_entropy_bits": -0.0,
+    "effective_parent_count": 1.0,
+    "max_father_share": 1.0,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "HumanEval/graphs": {
+    "n_children": 21,
+    "parent_selection_frequency": {
+      "None": 1,
+      "1": 6,
+      "2": 3,
+      "6": 1,
+      "8": 2,
+      "5": 4,
+      "11": 2,
+      "14": 2
+    },
+    "selection_entropy_bits": 1.9135484277609516,
+    "effective_parent_count": 3.767345709148686,
+    "max_father_share": 0.2857142857142857,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "HumanEval/graphs_test": {
+    "n_children": 1,
+    "parent_selection_frequency": {
+      "None": 1
+    },
+    "selection_entropy_bits": -0.0,
+    "effective_parent_count": 1.0,
+    "max_father_share": 1.0,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "MATH/graphs": {
+    "n_children": 20,
+    "parent_selection_frequency": {
+      "None": 1,
+      "1": 2,
+      "2": 3,
+      "3": 6,
+      "9": 4,
+      "14": 2,
+      "5": 2
+    },
+    "selection_entropy_bits": 1.8082095630933963,
+    "effective_parent_count": 3.5020739863310544,
+    "max_father_share": 0.3,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "MATH/graphs_test": {
+    "n_children": 1,
+    "parent_selection_frequency": {
+      "3": 1
+    },
+    "selection_entropy_bits": -0.0,
+    "effective_parent_count": 1.0,
+    "max_father_share": 1.0,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "MBPP/graphs": {
+    "n_children": 20,
+    "parent_selection_frequency": {
+      "None": 2,
+      "1": 2,
+      "2": 7,
+      "5": 3,
+      "10": 2,
+      "14": 4
+    },
+    "selection_entropy_bits": 1.664668851692453,
+    "effective_parent_count": 3.1704087446806657,
+    "max_father_share": 0.35,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  },
+  "MBPP/graphs_test": {
+    "n_children": 1,
+    "parent_selection_frequency": {
+      "2": 1
+    },
+    "selection_entropy_bits": -0.0,
+    "effective_parent_count": 1.0,
+    "max_father_share": 1.0,
+    "plateau_note": "see best-score curve in prior stage; causality NOT established"
+  }
+}
