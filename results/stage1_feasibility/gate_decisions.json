@@ -1,0 +1,20 @@
+{
+  "GATE1_SOLVABILITY": {
+    "result": "FAIL",
+    "won_count": 0,
+    "episodes": 18,
+    "detail": "native won=true count among 18 episodes"
+  },
+  "GATE2_GENOME_DISTINGUISHABILITY": {
+    "result": "COST_DISTINGUISHABILITY_ONLY",
+    "won_difference_blocks": 0,
+    "cost_only_blocks": 6,
+    "criterion": ">=2 paired blocks with differing won (descriptive screen)"
+  },
+  "GATE3_MULTIOBJECTIVE_SIGNAL": {
+    "result": "DEGENERATE",
+    "all_performance_zero": true,
+    "non_dominated_count": 1
+  },
+  "FINAL_DECISION": "STOP / SOLVABILITY_DIAGNOSIS"
+}

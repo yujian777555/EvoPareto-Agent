@@ -1,0 +1,258 @@
+{
+  "n_paired_blocks": 6,
+  "won_difference_blocks": 0,
+  "cost_only_difference_blocks": 6,
+  "blocks": [
+    {
+      "task_index": 0,
+      "seed": 11,
+      "won_by_genome": {
+        "G1": false,
+        "G2": false,
+        "G3": false
+      },
+      "won_differs_across_genomes": false,
+      "cost_differs": true,
+      "classification": "cost_only_difference",
+      "detail": {
+        "G1": {
+          "won": false,
+          "cost_usd": 0.0027393000000000005,
+          "steps": 29,
+          "tokens_in": 8559,
+          "tokens_out": 143,
+          "llm_call_count": 30,
+          "reflection_count": 1
+        },
+        "G2": {
+          "won": false,
+          "cost_usd": 0.003255599999999999,
+          "steps": 30,
+          "tokens_in": 10364,
+          "tokens_out": 122,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G3": {
+          "won": false,
+          "cost_usd": 0.0014447999999999998,
+          "steps": 19,
+          "tokens_in": 4444,
+          "tokens_out": 93,
+          "llm_call_count": 19,
+          "reflection_count": 0
+        }
+      }
+    },
+    {
+      "task_index": 0,
+      "seed": 23,
+      "won_by_genome": {
+        "G1": false,
+        "G2": false,
+        "G3": false
+      },
+      "won_differs_across_genomes": false,
+      "cost_differs": true,
+      "classification": "cost_only_difference",
+      "detail": {
+        "G1": {
+          "won": false,
+          "cost_usd": 0.0024968999999999994,
+          "steps": 29,
+          "tokens_in": 7771,
+          "tokens_out": 138,
+          "llm_call_count": 30,
+          "reflection_count": 1
+        },
+        "G2": {
+          "won": false,
+          "cost_usd": 0.0033323999999999997,
+          "steps": 30,
+          "tokens_in": 10556,
+          "tokens_out": 138,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G3": {
+          "won": false,
+          "cost_usd": 0.0014916000000000003,
+          "steps": 19,
+          "tokens_in": 4672,
+          "tokens_out": 75,
+          "llm_call_count": 19,
+          "reflection_count": 0
+        }
+      }
+    },
+    {
+      "task_index": 10,
+      "seed": 11,
+      "won_by_genome": {
+        "G1": false,
+        "G2": false,
+        "G3": false
+      },
+      "won_differs_across_genomes": false,
+      "cost_differs": true,
+      "classification": "cost_only_difference",
+      "detail": {
+        "G1": {
+          "won": false,
+          "cost_usd": 0.0029858999999999997,
+          "steps": 28,
+          "tokens_in": 9349,
+          "tokens_out": 151,
+          "llm_call_count": 30,
+          "reflection_count": 2
+        },
+        "G2": {
+          "won": false,
+          "cost_usd": 0.0036800999999999995,
+          "steps": 30,
+          "tokens_in": 11803,
+          "tokens_out": 116,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G3": {
+          "won": false,
+          "cost_usd": 0.0016869000000000003,
+          "steps": 19,
+          "tokens_in": 5251,
+          "tokens_out": 93,
+          "llm_call_count": 19,
+          "reflection_count": 0
+        }
+      }
+    },
+    {
+      "task_index": 10,
+      "seed": 23,
+      "won_by_genome": {
+        "G1": false,
+        "G2": false,
+        "G3": false
+      },
+      "won_differs_across_genomes": false,
+      "cost_differs": true,
+      "classification": "cost_only_difference",
+      "detail": {
+        "G1": {
+          "won": false,
+          "cost_usd": 0.002977799999999999,
+          "steps": 30,
+          "tokens_in": 9394,
+          "tokens_out": 133,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G2": {
+          "won": false,
+          "cost_usd": 0.0036015,
+          "steps": 30,
+          "tokens_in": 11357,
+          "tokens_out": 162,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G3": {
+          "won": false,
+          "cost_usd": 0.0016488000000000002,
+          "steps": 19,
+          "tokens_in": 5152,
+          "tokens_out": 86,
+          "llm_call_count": 19,
+          "reflection_count": 0
+        }
+      }
+    },
+    {
+      "task_index": 20,
+      "seed": 11,
+      "won_by_genome": {
+        "G1": false,
+        "G2": false,
+        "G3": false
+      },
+      "won_differs_across_genomes": false,
+      "cost_differs": true,
+      "classification": "cost_only_difference",
+      "detail": {
+        "G1": {
+          "won": false,
+          "cost_usd": 0.0032105999999999997,
+          "steps": 30,
+          "tokens_in": 10042,
+          "tokens_out": 165,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G2": {
+          "won": false,
+          "cost_usd": 0.004055400000000001,
+          "steps": 30,
+          "tokens_in": 12302,
+          "tokens_out": 304,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G3": {
+          "won": false,
+          "cost_usd": 0.0018090000000000003,
+          "steps": 19,
+          "tokens_in": 5474,
+          "tokens_out": 139,
+          "llm_call_count": 19,
+          "reflection_count": 0
+        }
+      }
+    },
+    {
+      "task_index": 20,
+      "seed": 23,
+      "won_by_genome": {
+        "G1": false,
+        "G2": false,
+        "G3": false
+      },
+      "won_differs_across_genomes": false,
+      "cost_differs": true,
+      "classification": "cost_only_difference",
+      "detail": {
+        "G1": {
+          "won": false,
+          "cost_usd": 0.003154199999999999,
+          "steps": 30,
+          "tokens_in": 9866,
+          "tokens_out": 162,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G2": {
+          "won": false,
+          "cost_usd": 0.0039843,
+          "steps": 30,
+          "tokens_in": 12221,
+          "tokens_out": 265,
+          "llm_call_count": 30,
+          "reflection_count": 0
+        },
+        "G3": {
+          "won": false,
+          "cost_usd": 0.0016758000000000003,
+          "steps": 17,
+          "tokens_in": 4962,
+          "tokens_out": 156,
+          "llm_call_count": 17,
+          "reflection_count": 0
+        }
+      }
+    }
+  ],
+  "gate2_screen": {
+    "criterion": ">=2 paired blocks with differing won across genomes",
+    "won_difference_blocks": 0,
+    "result": "COST_DISTINGUISHABILITY_ONLY"
+  }
+}

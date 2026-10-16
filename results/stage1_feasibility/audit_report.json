@@ -1,0 +1,54 @@
+{
+  "stage": "STAGE1_FEASIBILITY",
+  "status": "COMPLETED",
+  "executed_episodes": 18,
+  "successful_episodes": 0,
+  "stopped_reason": "matrix_completed",
+  "exec_git_sha": "6694f78865dd4a960b312f76a3732b6c7613fe2d",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "ledger": {
+    "id": 1,
+    "max_physical": 650,
+    "max_cost_usd": 0.11,
+    "physical_attempts": 472,
+    "reserved_tickets": 0,
+    "settled_ok": 472,
+    "settled_failed": 0,
+    "reserved_cost": 0.0,
+    "spent_cost": 0.04923090000000005,
+    "tokens_in": 153539,
+    "tokens_out": 2641,
+    "retries": 0,
+    "meta": {},
+    "ticket_status_counts": {
+      "settled": 472
+    }
+  },
+  "total_http": 472,
+  "total_tokens_in": 153539,
+  "total_tokens_out": 2641,
+  "total_cost_usd": 0.04923090000000005,
+  "billing_blocked": false,
+  "auto_retries": 0,
+  "gates": {
+    "GATE1_SOLVABILITY": {
+      "result": "FAIL",
+      "won_count": 0,
+      "episodes": 18,
+      "detail": "native won=true count among 18 episodes"
+    },
+    "GATE2_GENOME_DISTINGUISHABILITY": {
+      "result": "COST_DISTINGUISHABILITY_ONLY",
+      "won_difference_blocks": 0,
+      "cost_only_blocks": 6,
+      "criterion": ">=2 paired blocks with differing won (descriptive screen)"
+    },
+    "GATE3_MULTIOBJECTIVE_SIGNAL": {
+      "result": "DEGENERATE",
+      "all_performance_zero": true,
+      "non_dominated_count": 1
+    },
+    "FINAL_DECISION": "STOP / SOLVABILITY_DIAGNOSIS"
+  },
+  "interpretation_limit": "Stage 1 feasibility only — not PEEM/PPEC evidence"
+}

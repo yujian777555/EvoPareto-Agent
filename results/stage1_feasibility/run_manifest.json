@@ -1,0 +1,18 @@
+{
+  "stage": "STAGE1_FEASIBILITY",
+  "exec_git_sha": "6694f78865dd4a960b312f76a3732b6c7613fe2d",
+  "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+  "rate_version": "deepseek-flash-2026-10-peak-conservative-v1",
+  "objective_version": "candidate_2obj",
+  "model": "deepseek-flash",
+  "horizon": 30,
+  "split": "valid_train",
+  "budget_caps": {
+    "episodes_max": 18,
+    "physical_http_cap": 650,
+    "estimated_cost_cap_usd": 0.11,
+    "scope": "batch total, not per-episode"
+  },
+  "n_matrix": 18,
+  "started_at": "2026-10-16T03:25:17Z"
+}

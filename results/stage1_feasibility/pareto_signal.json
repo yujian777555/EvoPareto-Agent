@@ -1,0 +1,34 @@
+{
+  "genome_aggregate_points": [
+    {
+      "genome_id": "G1",
+      "performance": 0.0,
+      "cost_usd": 0.0029274499999999994,
+      "n": 6
+    },
+    {
+      "genome_id": "G2",
+      "performance": 0.0,
+      "cost_usd": 0.00365155,
+      "n": 6
+    },
+    {
+      "genome_id": "G3",
+      "performance": 0.0,
+      "cost_usd": 0.00162615,
+      "n": 6
+    }
+  ],
+  "non_dominated_count": 1,
+  "non_dominated": [
+    {
+      "genome_id": "G3",
+      "performance": 0.0,
+      "cost_usd": 0.00162615,
+      "n": 6
+    }
+  ],
+  "all_performance_zero": true,
+  "signal": "DEGENERATE",
+  "note": "cheaper failure is NOT better performance; performance=0 for all cells"
+}

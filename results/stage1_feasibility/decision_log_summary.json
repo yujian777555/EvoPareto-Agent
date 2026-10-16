@@ -1,0 +1,96 @@
+{
+  "total_decisions": 468,
+  "parse_failures": 6,
+  "fallbacks": 6,
+  "reflections": 4,
+  "fallback_rate": 0.01282051282051282,
+  "parse_failure_rate": 0.01282051282051282,
+  "reflection_rate": 0.008547008547008548,
+  "decision_tokens_in": 153539,
+  "decision_tokens_out": 2641,
+  "decision_cost_usd": 0.04923090000000006,
+  "top_actions": [
+    [
+      "examine desk 1",
+      161
+    ],
+    [
+      "go to drawer 1",
+      68
+    ],
+    [
+      "go to dresser 1",
+      67
+    ],
+    [
+      "look",
+      50
+    ],
+    [
+      "go to desk 1",
+      43
+    ],
+    [
+      "go to shelf 1",
+      13
+    ],
+    [
+      "go to sidetable 1",
+      10
+    ],
+    [
+      "examine dresser 1",
+      10
+    ],
+    [
+      "open drawer 1",
+      7
+    ],
+    [
+      "go to drawer 2",
+      7
+    ],
+    [
+      "examine laptop 1",
+      5
+    ],
+    [
+      "use desklamp 1",
+      4
+    ],
+    [
+      "open drawer 2",
+      4
+    ],
+    [
+      "examine book 2",
+      3
+    ],
+    [
+      "examine sidetable 1",
+      3
+    ],
+    [
+      "move laptop 1 to desk 1",
+      3
+    ],
+    [
+      "move book 2 to desk 1",
+      2
+    ],
+    [
+      "take laptop 1 from desk 1",
+      2
+    ],
+    [
+      "take laptop 3 from desk 1",
+      1
+    ],
+    [
+      "take book 2 from sidetable 1",
+      1
+    ]
+  ],
+  "total_env_steps": 468,
+  "raw_llm_available": true
+}

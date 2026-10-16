@@ -1,0 +1,58 @@
+{
+  "G1": {
+    "n_episodes": 6,
+    "won_count": 0,
+    "won_rate": 0.0,
+    "mean_cost_usd": 0.0029274499999999994,
+    "mean_steps": 29.333333333333332,
+    "mean_tokens_in": 9163.5,
+    "mean_tokens_out": 148.66666666666666,
+    "mean_llm_calls": 30.0,
+    "mean_reflection_count": 0.6666666666666666,
+    "fallback_count": 0,
+    "parse_failure_count": 0,
+    "decision_log_count": 176
+  },
+  "G2": {
+    "n_episodes": 6,
+    "won_count": 0,
+    "won_rate": 0.0,
+    "mean_cost_usd": 0.00365155,
+    "mean_steps": 30.0,
+    "mean_tokens_in": 11433.833333333334,
+    "mean_tokens_out": 184.5,
+    "mean_llm_calls": 30.0,
+    "mean_reflection_count": 0.0,
+    "fallback_count": 3,
+    "parse_failure_count": 3,
+    "decision_log_count": 180
+  },
+  "G3": {
+    "n_episodes": 6,
+    "won_count": 0,
+    "won_rate": 0.0,
+    "mean_cost_usd": 0.00162615,
+    "mean_steps": 18.666666666666668,
+    "mean_tokens_in": 4992.5,
+    "mean_tokens_out": 107.0,
+    "mean_llm_calls": 18.666666666666668,
+    "mean_reflection_count": 0.0,
+    "fallback_count": 3,
+    "parse_failure_count": 3,
+    "decision_log_count": 112
+  },
+  "overall": {
+    "n_episodes": 18,
+    "won_count": 0,
+    "won_rate": 0.0,
+    "mean_cost_usd": 0.0027350499999999997,
+    "mean_steps": 26.0,
+    "mean_tokens_in": 8529.944444444445,
+    "mean_tokens_out": 146.72222222222223,
+    "mean_llm_calls": 26.22222222222222,
+    "mean_reflection_count": 0.2222222222222222,
+    "fallback_count": 6,
+    "parse_failure_count": 6,
+    "decision_log_count": 468
+  }
+}
