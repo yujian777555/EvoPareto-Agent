@@ -1,0 +1,39 @@
+{
+  "title": "FCEOL offline controlled experiment",
+  "frozen_before_run": true,
+  "seed": 42,
+  "task_gen_seed": 11,
+  "split_seed": 7,
+  "operators": [
+    "M1_INSERT_VERIFICATION",
+    "M2_ADD_FAILURE_RECOVERY",
+    "M3_CHANGE_TOOL_ROUTING",
+    "M4_MODIFY_CONTEXT_FLOW"
+  ],
+  "policies": [
+    "random",
+    "global_aos",
+    "fixed_map",
+    "fceol",
+    "shuffled",
+    "oracle"
+  ],
+  "splits": {
+    "train": "60%",
+    "dev": "20%",
+    "heldout": "20%"
+  },
+  "steps_per_task_train": 3,
+  "steps_per_task_heldout": 2,
+  "primary_metric": "mean_delta (paired child-parent reward)",
+  "secondary": [
+    "success_rate",
+    "negative_rate",
+    "operator_counts"
+  ],
+  "controls": [
+    "shuffled failure labels",
+    "oracle upper bound (isolated)"
+  ],
+  "real_llm_calls": 0
+}

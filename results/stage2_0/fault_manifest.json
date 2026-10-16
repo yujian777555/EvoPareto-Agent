@@ -1,0 +1,5 @@
+{
+  "ground_truth_faults_held_out_from_policy": true,
+  "n_fault_types": 5,
+  "diagnosis_rule": "symptom-based; <0.35 confidence \u2192 UNKNOWN"
+}

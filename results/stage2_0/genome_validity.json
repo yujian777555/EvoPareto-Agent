@@ -1,0 +1,7 @@
+{
+  "serialize_roundtrip": true,
+  "validate_rejects_broken": true,
+  "mutations_change_structure": true,
+  "evaluator_not_editable": true,
+  "tests": "tests/fceol/test_fceol_core.py"
+}

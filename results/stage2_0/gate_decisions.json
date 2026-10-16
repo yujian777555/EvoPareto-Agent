@@ -1,0 +1,9 @@
+{
+  "GATE_A_NOVELTY": "NOVELTY_WEAK",
+  "GATE_B_EXECUTABLE_GENOME": "PASS",
+  "GATE_C_FAILURE_CONDITIONED_LEARNING": "CONDITIONAL_BENEFIT_OBSERVED",
+  "fceol_vs_global_aos_heldout_delta": 0.15883750000000002,
+  "fceol_vs_shuffled_heldout_delta": 0.15090000000000003,
+  "FINAL_DECISION": "REFINE_MECHANISM",
+  "real_llm_calls": 0
+}

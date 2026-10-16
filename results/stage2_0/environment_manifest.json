@@ -1,0 +1,13 @@
+{
+  "env": "ControlledEnv (mock executable workflow)",
+  "tasks_per_fault": 8,
+  "fault_types": [
+    "FAULT_MISSING_VERIFY",
+    "FAULT_WRONG_RECOVERY",
+    "FAULT_TOOL_ROUTING",
+    "FAULT_CONTEXT_TRUNCATION",
+    "FAULT_PLAN_GAP"
+  ],
+  "symptom_ambiguity": "symptoms map to 2 candidate mechanisms each (non-injective)",
+  "leakage_control": "policy sees FailureEvidence only; fault_type stays in EvalResult"
+}

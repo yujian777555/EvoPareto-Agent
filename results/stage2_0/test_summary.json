@@ -1,0 +1,37 @@
+{
+  "train_mean_delta": {
+    "random": 0.060769444444444445,
+    "global_aos": -0.00777222222222222,
+    "fixed_map": -0.040280555555555556,
+    "fceol": 0.007002777777777771,
+    "shuffled": 0.03685555555555556,
+    "oracle": -0.30643333333333317
+  },
+  "heldout_mean_delta": {
+    "random": 0.0943,
+    "global_aos": -0.0165625,
+    "fixed_map": 0.08477499999999999,
+    "fceol": 0.142275,
+    "shuffled": -0.008625000000000008,
+    "oracle": -0.08552499999999999
+  },
+  "train_success_rate": {
+    "random": 0.7361111111111112,
+    "global_aos": 0.8333333333333334,
+    "fixed_map": 0.7638888888888888,
+    "fceol": 0.8888888888888888,
+    "shuffled": 0.7916666666666666,
+    "oracle": 0.5555555555555556
+  },
+  "heldout_success_rate": {
+    "random": 0.625,
+    "global_aos": 0.8125,
+    "fixed_map": 0.6875,
+    "fceol": 0.6875,
+    "shuffled": 0.3125,
+    "oracle": 0.6875
+  },
+  "fceol_vs_global_train_delta": 0.014774999999999991,
+  "fceol_vs_global_heldout_delta": 0.15883750000000002,
+  "fceol_vs_shuffled_heldout_delta": 0.15090000000000003
+}

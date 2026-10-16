@@ -1,0 +1,211 @@
+{
+  "stage": "STAGE2_0",
+  "real_llm_calls": 0,
+  "real_api_cost": 0.0,
+  "train_summary": {
+    "random": {
+      "policy": "random",
+      "n_steps": 72,
+      "success_rate": 0.7361111111111112,
+      "improved_rate": 0.08333333333333333,
+      "negative_rate": 0.05555555555555555,
+      "invalid_rate": 0.0,
+      "mean_delta": 0.060769444444444445,
+      "mean_final_reward": 0.7089833333333333,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 22,
+        "M3_CHANGE_TOOL_ROUTING": 19,
+        "M2_ADD_FAILURE_RECOVERY": 20,
+        "M4_MODIFY_CONTEXT_FLOW": 11
+      }
+    },
+    "global_aos": {
+      "policy": "global_aos",
+      "n_steps": 72,
+      "success_rate": 0.8333333333333334,
+      "improved_rate": 0.05555555555555555,
+      "negative_rate": 0.09722222222222222,
+      "invalid_rate": 0.0,
+      "mean_delta": -0.00777222222222222,
+      "mean_final_reward": 0.8280583333333332,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 24,
+        "M2_ADD_FAILURE_RECOVERY": 25,
+        "M3_CHANGE_TOOL_ROUTING": 9,
+        "M4_MODIFY_CONTEXT_FLOW": 14
+      }
+    },
+    "fixed_map": {
+      "policy": "fixed_map",
+      "n_steps": 72,
+      "success_rate": 0.7638888888888888,
+      "improved_rate": 0.05555555555555555,
+      "negative_rate": 0.1388888888888889,
+      "invalid_rate": 0.0,
+      "mean_delta": -0.040280555555555556,
+      "mean_final_reward": 0.7706333333333331,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 24,
+        "M2_ADD_FAILURE_RECOVERY": 19,
+        "M3_CHANGE_TOOL_ROUTING": 18,
+        "M4_MODIFY_CONTEXT_FLOW": 11
+      }
+    },
+    "fceol": {
+      "policy": "fceol",
+      "n_steps": 72,
+      "success_rate": 0.8888888888888888,
+      "improved_rate": 0.05555555555555555,
+      "negative_rate": 0.08333333333333333,
+      "invalid_rate": 0.0,
+      "mean_delta": 0.007002777777777771,
+      "mean_final_reward": 0.8660916666666666,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 26,
+        "M2_ADD_FAILURE_RECOVERY": 24,
+        "M3_CHANGE_TOOL_ROUTING": 13,
+        "M4_MODIFY_CONTEXT_FLOW": 9
+      }
+    },
+    "shuffled": {
+      "policy": "shuffled",
+      "n_steps": 72,
+      "success_rate": 0.7916666666666666,
+      "improved_rate": 0.05555555555555555,
+      "negative_rate": 0.06944444444444445,
+      "invalid_rate": 0.0,
+      "mean_delta": 0.03685555555555556,
+      "mean_final_reward": 0.7282749999999999,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 29,
+        "M2_ADD_FAILURE_RECOVERY": 15,
+        "M3_CHANGE_TOOL_ROUTING": 15,
+        "M4_MODIFY_CONTEXT_FLOW": 13
+      }
+    },
+    "oracle": {
+      "policy": "oracle",
+      "n_steps": 72,
+      "success_rate": 0.5555555555555556,
+      "improved_rate": 0.041666666666666664,
+      "negative_rate": 0.4444444444444444,
+      "invalid_rate": 0.0,
+      "mean_delta": -0.30643333333333317,
+      "mean_final_reward": 0.8660916666666666,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 9,
+        "M2_ADD_FAILURE_RECOVERY": 30,
+        "M3_CHANGE_TOOL_ROUTING": 15,
+        "M4_MODIFY_CONTEXT_FLOW": 18
+      }
+    }
+  },
+  "heldout_summary": {
+    "random": {
+      "policy": "random",
+      "n_steps": 16,
+      "success_rate": 0.625,
+      "improved_rate": 0.125,
+      "negative_rate": 0.125,
+      "invalid_rate": 0.0,
+      "mean_delta": 0.0943,
+      "mean_final_reward": 0.6921999999999999,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 5,
+        "M3_CHANGE_TOOL_ROUTING": 3,
+        "M2_ADD_FAILURE_RECOVERY": 2,
+        "M4_MODIFY_CONTEXT_FLOW": 6
+      }
+    },
+    "global_aos": {
+      "policy": "global_aos",
+      "n_steps": 16,
+      "success_rate": 0.8125,
+      "improved_rate": 0.0625,
+      "negative_rate": 0.75,
+      "invalid_rate": 0.0,
+      "mean_delta": -0.0165625,
+      "mean_final_reward": 0.7677499999999999,
+      "operator_counts": {
+        "M1_INSERT_VERIFICATION": 2,
+        "M2_ADD_FAILURE_RECOVERY": 1,
+        "M3_CHANGE_TOOL_ROUTING": 13
+      }
+    },
+    "fixed_map": {
+      "policy": "fixed_map",
+      "n_steps": 16,
+      "success_rate": 0.6875,
+      "improved_rate": 0.1875,
+      "negative_rate": 0.3125,
+      "invalid_rate": 0.0,
+      "mean_delta": 0.08477499999999999,
+      "mean_final_reward": 0.695375,
+      "operator_counts": {
+        "M3_CHANGE_TOOL_ROUTING": 4,
+        "M1_INSERT_VERIFICATION": 6,
+        "M2_ADD_FAILURE_RECOVERY": 2,
+        "M4_MODIFY_CONTEXT_FLOW": 4
+      }
+    },
+    "fceol": {
+      "policy": "fceol",
+      "n_steps": 16,
+      "success_rate": 0.6875,
+      "improved_rate": 0.1875,
+      "negative_rate": 0.25,
+      "invalid_rate": 0.0,
+      "mean_delta": 0.142275,
+      "mean_final_reward": 0.67315,
+      "operator_counts": {
+        "M3_CHANGE_TOOL_ROUTING": 3,
+        "M2_ADD_FAILURE_RECOVERY": 2,
+        "M1_INSERT_VERIFICATION": 2,
+        "M4_MODIFY_CONTEXT_FLOW": 9
+      }
+    },
+    "shuffled": {
+      "policy": "shuffled",
+      "n_steps": 16,
+      "success_rate": 0.3125,
+      "improved_rate": 0.0625,
+      "negative_rate": 0.3125,
+      "invalid_rate": 0.0,
+      "mean_delta": -0.008625000000000008,
+      "mean_final_reward": 0.374225,
+      "operator_counts": {
+        "M4_MODIFY_CONTEXT_FLOW": 4,
+        "M1_INSERT_VERIFICATION": 6,
+        "M3_CHANGE_TOOL_ROUTING": 4,
+        "M2_ADD_FAILURE_RECOVERY": 2
+      }
+    },
+    "oracle": {
+      "policy": "oracle",
+      "n_steps": 16,
+      "success_rate": 0.6875,
+      "improved_rate": 0.1875,
+      "negative_rate": 0.3125,
+      "invalid_rate": 0.0,
+      "mean_delta": -0.08552499999999999,
+      "mean_final_reward": 0.8709749999999999,
+      "operator_counts": {
+        "M3_CHANGE_TOOL_ROUTING": 4,
+        "M1_INSERT_VERIFICATION": 6,
+        "M2_ADD_FAILURE_RECOVERY": 4,
+        "M4_MODIFY_CONTEXT_FLOW": 2
+      }
+    }
+  },
+  "key_comparisons": {
+    "fceol_vs_global_aos_heldout_mean_delta": 0.15883750000000002,
+    "fceol_vs_shuffled_heldout_mean_delta": 0.15090000000000003,
+    "fceol_vs_global_aos_train_mean_delta": 0.014774999999999991
+  },
+  "honest_limits": [
+    "oracle policy implementation underperforms (same-op repetition) \u2014 ceiling unreliable in this prototype",
+    "success_rate on heldout: global_aos 0.81 > fceol 0.69; mean_delta favors fceol",
+    "controlled env is synthetic; not real LLM agent",
+    "FCEOL is contextual-bandit-style; novelty is incremental"
+  ]
+}

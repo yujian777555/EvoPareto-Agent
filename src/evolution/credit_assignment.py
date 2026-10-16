@@ -77,12 +77,21 @@ def objective_improvement(
     child: Sequence[float],
     spec: Optional[Any] = None,
 ) -> float:
-    """Signed improvement using ObjectiveSpec directions (default 5-obj)."""
+    """Signed improvement using ObjectiveSpec directions.
+
+    If spec is None, pick by dimension: 2-obj uses candidate_2obj
+    (performance↑, cost↓); 5-obj uses legacy_5obj. Never mix conventions.
+    """
     if spec is not None:
         return spec.improvement(parent, child)
-    from src.evaluation.objective_spec import SPEC_5
+    from src.evaluation.objective_spec import SPEC_2, SPEC_5
 
-    return SPEC_5.improvement(parent, child)
+    n = len(parent)
+    if n == 2:
+        return SPEC_2.improvement(parent, child)
+    if n == 5:
+        return SPEC_5.improvement(parent, child)
+    raise ValueError(f"unsupported objective dim {n}; pass explicit spec")
 
 
 def pareto_rank_change(
