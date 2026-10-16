@@ -1,0 +1,41 @@
+{
+  "official_search_loop": "PASS",
+  "rounds_completed": 4,
+  "selections": [
+    {
+      "round": 1,
+      "score": 0.5
+    },
+    {
+      "round": 2,
+      "score": 0.62
+    },
+    {
+      "round": 2,
+      "score": 0.62
+    }
+  ],
+  "modifications": [
+    "mock modification v1",
+    "mock modification v2",
+    "mock modification v3"
+  ],
+  "scores": [
+    0.5,
+    0.62,
+    0.55,
+    0.7
+  ],
+  "experience_files": 3,
+  "results_json_written": true,
+  "optimize_prompts_seen": 3,
+  "network_isolation": "MockLLM + MockEvaluator",
+  "generated_code_executed": false,
+  "sample_experience": {
+    "father node": 1,
+    "modification": "mock modification v1",
+    "before": 0.5,
+    "after": 0.62,
+    "succeed": true
+  }
+}

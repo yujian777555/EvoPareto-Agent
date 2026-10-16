@@ -1,0 +1,24 @@
+{
+  "selection_audit": {
+    "empirical_selection_freq_2000": {
+      "1": 0.1035,
+      "2": 0.7775,
+      "3": 0.119
+    },
+    "theoretical_mixed_probs_sorted_desc": [
+      0.10000429028772684,
+      0.7982648841108936,
+      0.10173082560137955
+    ],
+    "note": "sorted desc = [90,60,30] \u2192 probs align to those scores"
+  },
+  "experience_dedup_audit": {
+    "success_mod_blacklisted": true,
+    "failure_mod_blacklisted": true,
+    "novel_mod_accepted": true,
+    "format_bans_successes_too": true,
+    "format_bans_failures": true
+  },
+  "quantifiable_behavior": true,
+  "performance_impact_on_real_tasks": "NOT_ESTABLISHED (needs Level 3)"
+}

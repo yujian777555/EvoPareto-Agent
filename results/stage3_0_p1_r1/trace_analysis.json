@@ -1,0 +1,40 @@
+{
+  "REAL_TRACE_ANALYSIS": "REAL_TRACE_EVIDENCE_INSUFFICIENT",
+  "MOCK_TRACE_ANALYSIS": {
+    "e2e_search_loop": "PASS",
+    "rounds_completed": 4,
+    "selections": [
+      {
+        "round": 1,
+        "score": 0.5
+      },
+      {
+        "round": 2,
+        "score": 0.62
+      },
+      {
+        "round": 2,
+        "score": 0.62
+      }
+    ],
+    "scores": [
+      0.5,
+      0.62,
+      0.55,
+      0.7
+    ],
+    "experience_files": 3
+  },
+  "selection_distribution_2000": {
+    "1": 0.1035,
+    "2": 0.7775,
+    "3": 0.119
+  },
+  "experience_dedup": {
+    "success_mod_blacklisted": true,
+    "failure_mod_blacklisted": true,
+    "novel_mod_accepted": true,
+    "format_bans_successes_too": true,
+    "format_bans_failures": true
+  }
+}

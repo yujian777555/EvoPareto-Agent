@@ -1,0 +1,8 @@
+{
+  "official_traces_found": false,
+  "results_json_all_empty_across_git_history": true,
+  "logs_all_empty": true,
+  "scaffolding_only": true,
+  "evidence_class": "OFFICIAL_HISTORICAL_ARTIFACT",
+  "note": "REAL_TRACE_EVIDENCE_INSUFFICIENT \u2014 repo never shipped search logs"
+}
