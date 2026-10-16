@@ -47,6 +47,7 @@ class InteractiveAgent:
         llm_generate: Callable[[str], str],
         *,
         horizon: int = 20,
+        runtime_variant: str = "current",
     ) -> None:
         self.genome = genome
         self.llm_generate = llm_generate
@@ -55,6 +56,46 @@ class InteractiveAgent:
         self.allow = ALLOW_TOOLS.get(genome.tool_policy, frozenset())
         self.reflection_count = 0
         self.decision_logs: List[DecisionLog] = []
+        self.runtime_variant = runtime_variant  # "current" | "shared_repaired"
+        self._recorder = None
+        self._stagnation = None
+        self._goal_state = {}
+        self._task_type = ""
+        self._last_goal = ""
+        self._last_observation = ""
+        if runtime_variant == "shared_repaired":
+            from src.diagnostics.shared_repair import (
+                ActionObservationRecorder,
+                StagnationDetector,
+            )
+
+            self._recorder = ActionObservationRecorder()
+            self._stagnation = StagnationDetector()
+            self._goal_state = {}
+        self.repaired_prompt_blocks: List[str] = []
+
+    def observe(self, action: str, observation_before: str, observation_after: str, *,
+                parse_ok: bool = True, used_fallback: bool = False) -> None:
+        """Record environment feedback after a step (shared_repaired only)."""
+        if self._recorder is None:
+            return
+        from src.diagnostics.shared_repair import StepRecord, goal_state_tracker
+
+        step_index = len(self._recorder.events) + 1
+        self._recorder.record(
+            StepRecord(
+                step_index=step_index,
+                observation_before=observation_before,
+                action=action,
+                observation_after=observation_after,
+                parse_ok=parse_ok,
+                used_fallback=used_fallback,
+            )
+        )
+        self._goal_state = goal_state_tracker(
+            self._task_type or "", self._recorder, self._last_goal or ""
+        )
+        self._last_observation = observation_after
 
     def select_action(
         self,
@@ -64,6 +105,7 @@ class InteractiveAgent:
     ) -> str:
         if not goal:
             goal = "(no task goal provided)"
+        self._last_goal = goal
         if not self.budget.can_step():
             # Caller must stop the episode; return sentinel.
             raise BudgetExhaustedStop("budget_exhausted")
@@ -88,6 +130,24 @@ class InteractiveAgent:
             prompt_lines.append("Strategy: act, then revise if observation contradicts plan.")
         if mem:
             prompt_lines.append("History:\n" + mem)
+        # --- shared_repaired: verified progress / stagnation block ---
+        if self.runtime_variant == "shared_repaired" and self._recorder is not None:
+            from src.diagnostics.shared_repair import (
+                format_repaired_prompt_block,
+                StagnationDetector,
+            )
+
+            stag = self._stagnation.check(self._recorder) if self._stagnation else {}
+            gs = self._goal_state or {}
+            mem_k = 1 if self.genome.memory_strategy == "short_term" else (
+                0 if self.genome.memory_strategy == "none" else 3
+            )
+            block = format_repaired_prompt_block(
+                goal, self._recorder, stag, gs,
+                memory_k=mem_k if mem_k else None,
+            )
+            prompt_lines.append(block)
+            self.repaired_prompt_blocks.append(block)
         prompt_lines.append("Observation:\n" + (observation or "")[:800])
         prompt_lines.append("Admissible commands:")
         for a in list(admissible)[:40]:

@@ -1,0 +1,46 @@
+{
+  "gates": {
+    "GATE1_REPAIRED_SOLVABILITY": {
+      "PASS": ">=1 native_won=true in shared_repaired arm",
+      "FAIL": "all shared_repaired fail -> SHARED_REPAIR_INSUFFICIENT"
+    },
+    "GATE2_PAIRED_IMPROVEMENT": {
+      "PASS_DESCRIPTIVE": ">=2 paired (task, repeat) cells with repaired_win & current_fail",
+      "SOLVABILITY_SIGNAL_OBSERVED": "exactly 1 repaired-only win",
+      "IMPROVEMENT_INCONCLUSIVE": "mixed/unclear",
+      "REPAIR_NOT_SUPPORTED": "repaired worse or all fail",
+      "both_succeed_rule": "report paired results; equal successes != improvement"
+    },
+    "GATE3_COST_SAFETY": {
+      "PASS": "median_cost_repaired <= 1.5 * median_cost_current",
+      "FAIL": "COST_SAFETY_FAIL if exceeds",
+      "cost_per_success_note": "undefined (not 0) when a group has no successes"
+    },
+    "GATE4_LOOP_REDUCTION": {
+      "type": "auxiliary diagnostic only",
+      "metrics": [
+        "state_action_loop_rate",
+        "repeated_action_count",
+        "stagnation_event_count",
+        "unique_locations_visited",
+        "target_object_discovery",
+        "goal_completion"
+      ],
+      "rule": "never replaces native won"
+    }
+  },
+  "decision_rules": {
+    "SHARED_REPAIR_FEASIBILITY_SUPPORTED": "G1 pass + G2 descriptive pass",
+    "SOLVABILITY_OBSERVED_AB_INCONCLUSIVE": "success but no clear paired improvement",
+    "SHARED_REPAIR_INSUFFICIENT": "both arms fail",
+    "OFFLINE_BLOCKED_SAFETY_STOP": "offline gate or safety failure"
+  },
+  "prohibitions": [
+    "no G2/G3 expansion",
+    "no 24/36 episode expansion",
+    "no budget increase",
+    "no mid-experiment prompt edits",
+    "no Stage 1 as control arm",
+    "no expert actions into real agent"
+  ]
+}

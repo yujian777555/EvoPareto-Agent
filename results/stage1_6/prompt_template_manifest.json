@@ -1,0 +1,37 @@
+{
+  "version": "STAGE1_6_PROMPT_V1",
+  "frozen_before_real_requests": true,
+  "current_runtime": {
+    "description": "Stage 1 legacy prompt (unchanged)",
+    "includes": [
+      "Task Goal",
+      "Planner/Memory/Reflection/Tool labels",
+      "History (memory_strategy)",
+      "Observation",
+      "Admissible",
+      "Choose ONE"
+    ],
+    "excludes": [
+      "Observed Progress",
+      "Stagnation Warning",
+      "Recent Actions and Feedback"
+    ]
+  },
+  "shared_repaired_runtime": {
+    "description": "current prompt + verified progress block (format_repaired_prompt_block)",
+    "additional_block": "STAGE1_6_PROMPT_V1 format_repaired_prompt_block",
+    "memory_window_rule": "short_term -> k=1 history lines; none -> k=None; episodic/semantic/hybrid -> k=3",
+    "no_extra_llm_calls": true,
+    "no_forced_actions": true,
+    "no_oracle_fields": [
+      "traj_data",
+      "high_pddl",
+      "expert_actions",
+      "hidden_state"
+    ]
+  },
+  "code_refs": [
+    "src/diagnostics/shared_repair.py::format_repaired_prompt_block",
+    "src/runtime/interactive_agent.py::select_action"
+  ]
+}

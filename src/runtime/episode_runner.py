@@ -38,6 +38,7 @@ class EpisodeRunner:
         model: str = "deepseek-flash",
         experiment_id: str = "",
         git_sha: str = "",
+        runtime_variant: str = "current",
     ) -> None:
         self.genome = genome
         self.llm_generate = llm_generate
@@ -45,9 +46,15 @@ class EpisodeRunner:
         self.model = model
         self.experiment_id = experiment_id
         self.git_sha = git_sha
+        self.runtime_variant = runtime_variant
 
     def make_agent(self) -> InteractiveAgent:
-        return InteractiveAgent(self.genome, lambda p: parse_llm_return(self.llm_generate(p))[0], horizon=self.horizon)
+        return InteractiveAgent(
+            self.genome,
+            lambda p: parse_llm_return(self.llm_generate(p))[0],
+            horizon=self.horizon,
+            runtime_variant=self.runtime_variant,
+        )
 
     def extract_goal(self, observation: str, infos: Dict[str, Any]) -> str:
         for key in ("goal", "task_goal", "extra.goal"):
@@ -139,6 +146,9 @@ class EpisodeRunner:
             w = ninfos.get("won")
             if w is not None:
                 won = bool(w[0] if isinstance(w, (list, tuple)) else w)
+            # shared_repaired: record feedback for the next decision
+            if hasattr(agent, "observe"):
+                agent.observe(action, last_obs, str(o0))
             adm_after = list(ninfos.get("admissible_commands") or [])
             if adm_after and isinstance(adm_after[0], (list, tuple)):
                 adm_after = list(adm_after[0])
@@ -185,6 +195,7 @@ class EpisodeRunner:
             "estimated_tokens": state["estimated_tokens"],
             "llm_call_count": state["llm_call_count"],
             "reflection_count": agent.reflection_count,
+            "runtime_variant": self.runtime_variant,
             "trajectory": trajectory,
             "decision_logs": [
                 {
@@ -207,4 +218,13 @@ class EpisodeRunner:
                 for d in agent.decision_logs
             ],
             "call_usage_journal": state["call_usage"],
+            "repaired_state": (
+                {
+                    "recorder_summary": agent._recorder.summary(),
+                    "goal_state": agent._goal_state,
+                    "repaired_prompt_blocks": len(getattr(agent, "repaired_prompt_blocks", [])),
+                }
+                if getattr(agent, "_recorder", None) is not None
+                else None
+            ),
         }

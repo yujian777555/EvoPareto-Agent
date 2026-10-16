@@ -21,7 +21,7 @@ def test_recorder_tracks_locations_and_actions():
     s = r.summary()
     assert s["n_events"] == 2
     assert any("desk" in x for x in s["visited_locations"])
-    assert any("book" in x for x in s["acquired_objects"])
+    assert any("book" in x for x in s["held_objects"])
 
 
 def test_stagnation_detects_repeat():

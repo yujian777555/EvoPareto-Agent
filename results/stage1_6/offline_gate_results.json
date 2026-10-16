@@ -1,0 +1,96 @@
+{
+  "GATE_A_goal_state_correctness": {
+    "result": "PASS",
+    "tests": "tests/test_goal_state_evidence.py + tests/test_shared_repair.py",
+    "count": "19 passed",
+    "no_goal_text_as_discovery": true,
+    "no_command_name_as_success": true,
+    "hold_state_updates": true,
+    "no_oracle_leakage": true
+  },
+  "GATE_B_runtime_integration": {
+    "result": "PASS",
+    "tests": "tests/test_runtime_integration.py",
+    "current_prompt_unchanged": true,
+    "repaired_prompt_contains_block": true,
+    "no_extra_llm_calls": true,
+    "same_mock_action_sequence": true
+  },
+  "GATE_C_native_success_propagation": {
+    "result": "PASS",
+    "per_task": [
+      {
+        "task_index": 0,
+        "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+        "action_sequence": [
+          "go to sidetable 1",
+          "take book 2 from sidetable 1",
+          "go to sidetable 2",
+          "use desklamp 1"
+        ],
+        "executed": [
+          "go to sidetable 1",
+          "take book 2 from sidetable 1",
+          "go to sidetable 2",
+          "use desklamp 1"
+        ],
+        "native_won": true,
+        "episode_success": true,
+        "steps": 4,
+        "termination_reason": "won",
+        "status": "GATE_C_PASS",
+        "negative_success": false,
+        "negative_status": "NEG_PASS"
+      },
+      {
+        "task_index": 10,
+        "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Laptop-None-DeskLamp-309/trial_T20190907_185713_398582",
+        "action_sequence": [
+          "go to bed 1",
+          "take laptop 1 from bed 1",
+          "go to sidetable 1",
+          "use desklamp 1"
+        ],
+        "executed": [
+          "go to bed 1",
+          "take laptop 1 from bed 1",
+          "go to sidetable 1",
+          "use desklamp 1"
+        ],
+        "native_won": true,
+        "episode_success": true,
+        "steps": 4,
+        "termination_reason": "won",
+        "status": "GATE_C_PASS",
+        "negative_success": false,
+        "negative_status": "NEG_PASS"
+      },
+      {
+        "task_index": 20,
+        "game_id": "/data/json_2.1.1/valid_train/pick_and_place_simple-AlarmClock-None-Dresser-319/trial_T20190910_195319_108102",
+        "action_sequence": [
+          "go to shelf 3",
+          "take alarmclock 1 from shelf 3",
+          "go to dresser 1",
+          "move alarmclock 1 to dresser 1"
+        ],
+        "executed": [
+          "go to shelf 3",
+          "take alarmclock 1 from shelf 3",
+          "go to dresser 1",
+          "move alarmclock 1 to dresser 1"
+        ],
+        "native_won": true,
+        "episode_success": true,
+        "steps": 4,
+        "termination_reason": "won",
+        "status": "GATE_C_PASS",
+        "negative_success": false,
+        "negative_status": "NEG_PASS"
+      }
+    ],
+    "expert_sequences_are_offline_test_only": true
+  },
+  "all_gates_pass": true,
+  "real_api_calls_at_gate_time": 0
+}
