@@ -1,0 +1,68 @@
+[
+  {
+    "name": "HumanEval+/MBPP+ (EvalPlus)",
+    "solvable": "high for modern LLMs",
+    "objective": "test pass rate + cost",
+    "evolution_sensitive": "yes (prompt/pipeline changes move pass rate)",
+    "low_cost_pilot": "yes",
+    "community": "very high",
+    "leakage": "moderate (in training corpora)",
+    "rank": 1,
+    "role": "PRIMARY"
+  },
+  {
+    "name": "SWE-bench Verified subset",
+    "solvable": "partial",
+    "objective": "resolved rate + cost",
+    "evolution_sensitive": "yes",
+    "low_cost_pilot": "hard (docker, slow)",
+    "community": "very high",
+    "leakage": "GitHub contamination",
+    "rank": 3,
+    "role": "SECONDARY scale-up"
+  },
+  {
+    "name": "BFCL (tool calling)",
+    "solvable": "high",
+    "objective": "accuracy + cost",
+    "evolution_sensitive": "yes (tool policy genes)",
+    "low_cost_pilot": "yes",
+    "community": "high",
+    "leakage": "lower",
+    "rank": 2,
+    "role": "PRIMARY alternative"
+  },
+  {
+    "name": "GAIA",
+    "solvable": "mixed",
+    "objective": "exact match",
+    "evolution_sensitive": "uncertain",
+    "low_cost_pilot": "noisy",
+    "community": "high",
+    "leakage": "some",
+    "rank": 4,
+    "role": "eval only"
+  },
+  {
+    "name": "AgentBench / WebArena",
+    "solvable": "low for small models",
+    "objective": "task success",
+    "evolution_sensitive": "yes but 0/1 floors",
+    "low_cost_pilot": "no",
+    "community": "high",
+    "leakage": "varies",
+    "rank": 5,
+    "role": "NOT primary"
+  },
+  {
+    "name": "ALFWorld",
+    "solvable": "FAILED for our agent (0 wins across 36+ episodes)",
+    "objective": "native won + cost",
+    "evolution_sensitive": "blocked by 0 performance signal",
+    "low_cost_pilot": "no",
+    "community": "moderate",
+    "leakage": "low",
+    "rank": 6,
+    "role": "DROP as primary; optional stress test only"
+  }
+]

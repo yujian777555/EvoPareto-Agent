@@ -1,0 +1,31 @@
+{
+  "nsga3": {
+    "source": "src/evolution/nsga3.py (442 lines)",
+    "faithful": "Das-Dennis directions + non-dominated sort + niching (Deb & Jain style)",
+    "issue_2obj": "designed for >=5 objectives; project formal objective is candidate_2obj (2 objectives) — NSGA-II is the natural baseline; NSGA-III advantage NOT justified yet",
+    "noise": "no explicit evaluation-noise handling",
+    "duplicate_candidates": "no automatic dedup of identical genomes before eval",
+    "test_feedback_leak": "no test-set-in-the-loop in code paths reviewed"
+  },
+  "peem": {
+    "source": "src/evolution/pareto_experience.py + credit_assignment.py",
+    "what_is_stored": "per-mutation-type utility with exponential decay (lambda=0.35)",
+    "credit": "MV = a*improvement + b*HV + c*diversity + d*survival (weights 0.35/0.30/0.20/0.15)",
+    "vs_archive_replay": "stores OPERATOR utility statistics, not solutions — distinct from elite archive",
+    "vs_classic_AOS": "closely related to adaptive operator selection; Pareto-aware credit is incremental novelty",
+    "leakage": "uses child outcomes after evaluation (online credit) — no future oracle",
+    "quality_filter": "decay + prior smoothing; no explicit expiry of obsolete operators"
+  },
+  "ppec": {
+    "source": "src/evolution/preference_2d.py + preference_controller.py + reference_adapter.py",
+    "preference_representation": "fixed named presets success_first/cost_first/balanced OR fixed weight vector",
+    "control_channel": "reweight NSGA-III reference directions (eps+p_i mixing, L1 renorm) + weighted satisfaction score",
+    "adaptive?": "2D controller is NOT dynamic — preferences frozen; no closed-loop front tracking",
+    "oracle": "none; but 'controller' name oversells static preference biasing"
+  },
+  "joint": {
+    "complementarity": "PEEM mutates distribution; PPEC biases selection — orthogonal channels",
+    "risk": "both reduce to well-known AOS + preference MOEA components",
+    "ablation_needs": "PEEM only / PPEC only / both / archive-replay / fixed-weight baseline"
+  }
+}

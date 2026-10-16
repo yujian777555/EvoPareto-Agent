@@ -1,0 +1,46 @@
+{
+  "current_genes": {
+    "planner_strategy": "PROMPT_ONLY / tree_search UNIMPLEMENTED",
+    "memory_strategy": "EXECUTION_CONFIRMED (history window)",
+    "reflection_strategy": "EXECUTION_CONFIRMED but degenerate (none vs parse-retry)",
+    "tool_policy": "NO-OP on native ALFWorld path",
+    "reasoning_budget": "EXECUTION_CONFIRMED (steps/tokens)"
+  },
+  "executable_redesign_3_5_genes": [
+    {
+      "gene": "planning_depth",
+      "values": "0|1|2|3 subgoal expansions",
+      "exec": "how many subgoal layers before acting"
+    },
+    {
+      "gene": "verification_policy",
+      "values": "none|single|retry_until_stable",
+      "exec": "re-observe and compare after action"
+    },
+    {
+      "gene": "context_budget",
+      "values": "8|32|128 tokens history",
+      "exec": "prompt history window (distinct from reasoning_budget)"
+    },
+    {
+      "gene": "action_selection",
+      "values": "greedy|topk_sample|beam2",
+      "exec": "how LLM candidates are sampled among legal set"
+    },
+    {
+      "gene": "cost_gate",
+      "values": "lenient|strict",
+      "exec": "max tokens per call / stop threshold"
+    }
+  ],
+  "validation_protocol": {
+    "fixed_inputs": "same task set + same model + temperature 0",
+    "metrics": [
+      "action distribution JS divergence",
+      "token use",
+      "success",
+      "loop rate"
+    ],
+    "requirement": "genotype -> trace differences reproducible across seeds of the evaluator"
+  }
+}
