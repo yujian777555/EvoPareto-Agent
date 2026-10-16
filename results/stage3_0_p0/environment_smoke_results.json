@@ -1,0 +1,6 @@
+{
+  "static_import_test": "PASS (src/research/fceol_r1 + baseline_first skeleton)",
+  "mock_execution_test": "NOT_EXECUTED_THIS_ROUND",
+  "replayed_real_trace_analysis": "REAL_TRACE_EVIDENCE_UNAVAILABLE (no public AFlow traces pulled)",
+  "live_real_model_evaluation": "NOT_EXECUTED"
+}

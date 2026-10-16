@@ -1,0 +1,22 @@
+{
+  "candidate_A_failure_identifiability": {
+    "closest": [
+      "2610.14662 Does Failure Feedback Direct Agent Self-Modification?",
+      "2610.14977 EnactOpt",
+      "2610.12794 CoCoEvolve"
+    ],
+    "collision": "HIGH \u2014 2610.14662 asks nearly the same question",
+    "gap_if_any": "they measure directedness; a search policy that *chooses diagnose vs mutate* under identifiability is not fully built \u2014 but EnactOpt/CoCoEvolve adjacent"
+  },
+  "candidate_B_capability_inheritance": {
+    "closest": [
+      "2608.05810 When Self-Evolution Backfires (VaG)",
+      "2605.08887 Ace-Skill",
+      "2610.19843 LAGO",
+      "2610.14216 Cortex"
+    ],
+    "collision": "HIGH \u2014 skill admission/gating already published",
+    "gap_if_any": "activation-vs-added distinction (capability reachable/activated/executed) is finer than pool-size gating \u2014 but modest"
+  },
+  "verdict": "NEITHER gap is currently defensible without reproduction evidence"
+}

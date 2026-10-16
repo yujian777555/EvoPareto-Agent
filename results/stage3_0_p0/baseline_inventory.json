@@ -1,0 +1,23 @@
+{
+  "AFlow": {
+    "paper_id": "2410.10762",
+    "code": "https://github.com/FoundationAgents/AFlow",
+    "repro": "HIGH \u2014 code public, MCTS, 6 benchmarks",
+    "license": "check repo",
+    "role": "PRIMARY candidate"
+  },
+  "GEPA": {
+    "paper_id": "mentioned in 2610.14977/2610.15055 as baseline",
+    "repro": "MEDIUM \u2014 reflective prompt mutation; used as baseline in many 2026 papers",
+    "role": "control / mechanism reference"
+  },
+  "HarnessFix": {
+    "paper_id": "REFERENCE_UNVERIFIED (name only)",
+    "repro": "UNKNOWN \u2014 no verified arXiv hit this session",
+    "role": "cannot select without verification"
+  },
+  "mini-SWE-agent": {
+    "repro": "HIGH \u2014 used in LAGO/SWE-Duel; docker SWE-bench",
+    "role": "agent runtime platform"
+  }
+}
