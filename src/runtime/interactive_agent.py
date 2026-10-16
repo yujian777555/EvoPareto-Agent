@@ -75,10 +75,11 @@ class InteractiveAgent:
             self._stagnation = StagnationDetector()
             self._goal_state = {}
         if runtime_variant == "grounded_planner_v1":
-            from src.runtime.goal_grounding import parse_goal
+            from src.runtime.goal_grounding import GoalSpec, parse_goal
             from src.runtime.subgoal_planner import SubgoalPlanner
 
-            self._goal_spec = parse_goal("")
+            # A1: start UNSUPPORTED until a real goal arrives; rebuild on goal set
+            self._goal_spec = GoalSpec()
             self._planner = SubgoalPlanner(self._goal_spec)
         self.repaired_prompt_blocks: List[str] = []
 
@@ -174,11 +175,11 @@ class InteractiveAgent:
         elif self.runtime_variant == "grounded_planner_v1" and self._planner is not None:
             from src.runtime.goal_grounding import parse_goal
 
-            if self._goal_spec is None or self._goal_spec.raw_goal != goal:
-                self._goal_spec = parse_goal(goal)
-                self._planner.goal_spec = self._goal_spec
-            # task_family from GoalSpec feeds goal-state tracker
-            self._task_type = self._goal_spec.task_family or self._task_type
+            # A1: full rebuild when task actually changes; keep progress otherwise
+            new_spec = parse_goal(goal) if goal and "no task goal" not in goal else self._goal_spec
+            self._goal_spec = new_spec
+            self._planner.ensure_goal(new_spec)
+            self._task_type = new_spec.task_family or self._task_type
             block = self._planner.prompt_block(admissible)
             prompt_lines.append(block)
             self.repaired_prompt_blocks.append(block)

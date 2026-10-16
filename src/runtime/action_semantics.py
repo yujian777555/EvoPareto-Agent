@@ -131,34 +131,79 @@ def parse_admissible(commands) -> list:
     return out
 
 
-def relevant_candidates(admissible, goal_spec=None, subgoal=None, exclude_actions=None):
-    """Select legal candidates related to the active subgoal (never invents cmds)."""
+def relevant_candidates(admissible, goal_spec=None, subgoal=None, exclude_actions=None,
+                        held_objects=None):
+    """Select and rank legal candidates related to the active subgoal.
+
+    Target-relevant actions always outrank unrelated ones. Never invents
+    commands; output ⊆ input admissible.
+    """
     exclude = set(exclude_actions or [])
     specs = [s for s in parse_admissible(admissible) if s.raw_command not in exclude]
+    if not specs:
+        return []
     if subgoal is None:
         return specs
     kind = getattr(subgoal, "kind", "")
     target = getattr(subgoal, "target", "") or ""
     tn = target.lower().replace(" ", "")
-    matched = []
-    for s in specs:
+    goal_obj = ""
+    goal_recep = ""
+    if goal_spec is not None:
+        goal_obj = (getattr(goal_spec, "target_object", "") or "").lower().replace(" ", "")
+        goal_recep = (getattr(goal_spec, "target_receptacle", "") or "").lower().replace(" ", "")
+    held = [h.lower().replace(" ", "") for h in (held_objects or [])]
+
+    def relevance(s) -> float:
         blob = (s.object + " " + s.target + " " + s.source).lower().replace(" ", "")
-        if kind == "EXPLORE" and s.action_type == NAVIGATE:
-            matched.append(s)
-        elif kind in ("LOCATE_TARGET", "ACQUIRE_TARGET") and tn and tn in blob:
-            matched.append(s)
-        elif kind == "ACQUIRE_TARGET" and s.action_type == PICKUP:
-            matched.append(s)
-        elif kind == "LOCATE_TOOL" and s.action_type in (NAVIGATE, INSPECT):
-            matched.append(s)
-        elif kind == "USE_TOOL" and s.action_type == USE_TOOL:
-            matched.append(s)
-        elif kind == "PLACE_TARGET" and s.action_type == PLACE:
-            matched.append(s)
-        elif kind == "VERIFY_SUCCESS" and s.action_type in (LOOK, INSPECT, USE_TOOL, PLACE):
-            matched.append(s)
-    if matched:
-        return matched
-    # fallback: navigation helps discovery; then everything legal
-    nav = [s for s in specs if s.action_type == NAVIGATE]
-    return nav or specs
+        score = 0.0
+        # target object match is strongest
+        if goal_obj and goal_obj in blob:
+            score += 10
+        if tn and tn in blob:
+            score += 6
+        if goal_recep and goal_recep in blob:
+            score += 4
+        if kind == "EXPLORE":
+            if s.action_type == NAVIGATE:
+                score += 5
+        elif kind in ("LOCATE_TARGET", "ACQUIRE_TARGET"):
+            if s.action_type == PICKUP and goal_obj and goal_obj in blob:
+                score += 10
+            elif s.action_type == PICKUP:
+                score -= 4  # unrelated pickup
+            elif s.action_type == NAVIGATE:
+                score += 2
+        elif kind == "ACQUIRE_TARGET":
+            if s.action_type == PICKUP:
+                score += 8
+        elif kind in ("LOCATE_TOOL",):
+            if s.action_type == USE_TOOL:
+                score += 8
+            if s.action_type == NAVIGATE:
+                score += 3
+        elif kind == "USE_TOOL":
+            if s.action_type == USE_TOOL:
+                score += 10
+        elif kind == "LOCATE_DEST":
+            if s.action_type == NAVIGATE:
+                score += 5
+        elif kind == "PLACE_TARGET":
+            if s.action_type == PLACE:
+                score += 10
+                if goal_obj and goal_obj in blob:
+                    score += 4
+            elif s.action_type == PICKUP:
+                score -= 4
+        elif kind == "VERIFY_SUCCESS":
+            if s.action_type in (LOOK, INSPECT):
+                score += 3
+        return score
+
+    ranked = sorted(specs, key=lambda s: (-relevance(s), s.raw_command))
+    # keep only reasonably relevant unless nothing matches (then nav, then all)
+    top = [s for s in ranked if relevance(s) > 0]
+    if top:
+        return top
+    nav = [s for s in ranked if s.action_type == NAVIGATE]
+    return nav or ranked

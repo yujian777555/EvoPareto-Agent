@@ -1,0 +1,12 @@
+{
+  "GATE_A_PLANNER_INIT": "PASS",
+  "GATE_B_STATE_TRANSITION": "PASS",
+  "GATE_C_ACTION_RELEVANCE": "PASS",
+  "GATE_D_RUNTIME_ISOLATION": "PASS",
+  "GATE_E_NATIVE_OFFLINE": {
+    "scripted": "PASS",
+    "negative": "PASS",
+    "generic": "INCONCLUSIVE_OR_FAIL"
+  },
+  "FINAL": "READY_FOR_STAGE1_8_REVIEW"
+}

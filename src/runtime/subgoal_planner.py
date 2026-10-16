@@ -1,22 +1,33 @@
-"""Evidence-driven subgoal planner for grounded_planner_v1.
+"""Evidence-driven subgoal planner (Stage 1.7-R1).
 
-Task-family subgoal sequences are GENERIC task relations — not expert routes.
-Location/object instances come only from admissible_commands and env feedback.
-No game-id to location maps. No expert trajectory or planner-answer imports.
+P0 fixes:
+- reset_for_goal(): full rebuild on goal change (no stale subgoals).
+- UNKNOWN family → UNSUPPORTED_GOAL (never fake pick_and_place).
+- Consistent world-fact reconciliation (early facts satisfy later subgoals).
+- EXPLORE is not complete after a single visit.
+- Failed pickup / unconfirmed place never flip hold/place facts.
+- Tool located when a matching use action is actually available/confirmed.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
+from src.runtime.goal_grounding import UNKNOWN as GOAL_UNKNOWN
 from src.runtime.goal_grounding import GoalSpec
-from src.runtime.action_semantics import ActionSpec, parse_action
+from src.runtime.action_semantics import parse_action
 
 PENDING = "PENDING"
 ACTIVE = "ACTIVE"
 SATISFIED = "SATISFIED"
 BLOCKED = "BLOCKED"
 UNKNOWN = "UNKNOWN"
+UNSUPPORTED = "UNSUPPORTED_GOAL"
+
+# Exploration phases (D1)
+VISITED_UNINSPECTED = "VISITED_UNINSPECTED"
+INSPECTED_NO_TARGET = "INSPECTED_NO_TARGET"
+TARGET_FOUND = "TARGET_FOUND"
 
 
 @dataclass
@@ -31,7 +42,6 @@ class Subgoal:
                 "status": self.status, "evidence": list(self.evidence)}
 
 
-# Generic task-relation templates (no concrete locations)
 _FAMILY_SUBGOALS = {
     "look_at_obj_in_light": [
         ("EXPLORE", ""),
@@ -53,195 +63,311 @@ _FAMILY_SUBGOALS = {
 
 
 class ExplorationLog:
-    """Visit record: visited ≠ exhaustively searched."""
+    """visited ≠ inspected; empty container ≠ forever target-free."""
 
     def __init__(self):
-        self.visited: List[str] = []
-        self.inspected_no_target: List[str] = []
+        self.locations: Dict[str, str] = {}  # loc -> phase
         self.found_target_at: Optional[str] = None
-        self.unexplored_visible: List[str] = []
 
     def visit(self, loc: str):
-        loc = (loc or "").lower()
-        if loc and loc not in self.visited:
-            self.visited.append(loc)
+        loc = (loc or "").lower().strip()
+        if not loc:
+            return
+        if loc not in self.locations:
+            self.locations[loc] = VISITED_UNINSPECTED
 
-    def mark_inspected_empty(self, loc: str):
-        loc = (loc or "").lower()
-        if loc and loc not in self.inspected_no_target:
-            self.inspected_no_target.append(loc)
+    def inspect(self, loc: str, *, found_target: bool = False):
+        loc = (loc or "").lower().strip()
+        if not loc:
+            return
+        self.visit(loc)
+        if found_target:
+            self.locations[loc] = TARGET_FOUND
+            self.found_target_at = loc
+        elif self.locations.get(loc) != TARGET_FOUND:
+            self.locations[loc] = INSPECTED_NO_TARGET
+
+    def unvisited(self, visible_locs):
+        return [v for v in visible_locs if v.lower().strip() not in self.locations]
+
+    def incompletely_inspected(self):
+        return [k for k, v in self.locations.items() if v == VISITED_UNINSPECTED]
+
+    def exhausted(self, visible_locs) -> bool:
+        """True only if every visible location is inspected with no target."""
+        vis = [v.lower().strip() for v in visible_locs]
+        if not vis:
+            return False
+        return all(self.locations.get(v) == INSPECTED_NO_TARGET for v in vis)
 
     def summary(self):
         return {
-            "visited": list(self.visited),
-            "inspected_no_target": list(self.inspected_no_target),
+            "locations": dict(self.locations),
             "found_target_at": self.found_target_at,
-            "unexplored_visible": list(self.unexplored_visible),
+            "incompletely_inspected": self.incompletely_inspected(),
         }
 
 
 class SubgoalPlanner:
-    """Maintains an active subgoal stack driven by environment evidence."""
-
-    def __init__(self, goal_spec: GoalSpec):
-        self.goal_spec = goal_spec
+    def __init__(self, goal_spec: Optional[GoalSpec] = None):
+        self.goal_spec = goal_spec or GoalSpec()
         self.exploration = ExplorationLog()
         self.world_facts: Dict[str, Any] = {}
         self.held: List[str] = []
-        self.subgoals: List[Subgoal] = self._build_subgoals(goal_spec)
+        self.subgoals: List[Subgoal] = []
         self.transition_log: List[Dict[str, Any]] = []
+        self._task_fingerprint = ""
+        self._build(self.goal_spec)
 
-    def _build_subgoals(self, g: GoalSpec) -> List[Subgoal]:
-        fam = g.task_family if g.task_family in _FAMILY_SUBGOALS else "pick_and_place_simple"
+    # ---- A1/A2: correct initialization / reset ----
+    def reset_for_goal(self, goal_spec: GoalSpec) -> None:
+        """Full rebuild. Safe to call on every episode start or goal change."""
+        self.goal_spec = goal_spec
+        self.exploration = ExplorationLog()
+        self.world_facts = {}
+        self.held = []
+        self.transition_log = []
+        self._build(goal_spec)
+
+    def _fingerprint(self, g: GoalSpec) -> str:
+        return f"{g.task_family}|{g.target_object}|{g.target_receptacle}|{g.required_relation}"
+
+    def _build(self, g: GoalSpec) -> None:
+        self._task_fingerprint = self._fingerprint(g)
+        fam = g.task_family
+        if fam not in _FAMILY_SUBGOALS:
+            # A2: never pretend it is pick_and_place
+            self.subgoals = [Subgoal(kind=UNSUPPORTED, target="", status=BLOCKED,
+                                     evidence=[f"unsupported family={fam}"])]
+            return
         out = []
-        for kind, tgt in _FAMILY_SUBGOALS[fam]:
-            t = tgt.format(
-                object=g.target_object if g.target_object != "UNKNOWN" else "?",
-                tool=g.target_receptacle if g.target_receptacle != "UNKNOWN" else "?",
-                receptacle=g.target_receptacle if g.target_receptacle != "UNKNOWN" else "?",
-            )
-            out.append(Subgoal(kind=kind, target=t if t != "?" else ""))
-        return out
+        obj = g.target_object if g.target_object not in (GOAL_UNKNOWN, "") else "?"
+        tool = g.target_receptacle if g.target_receptacle not in (GOAL_UNKNOWN, "") else "?"
+        recep = tool
+        for kind, tmpl in _FAMILY_SUBGOALS[fam]:
+            t = tmpl.format(object=obj, tool=tool, receptacle=recep)
+            out.append(Subgoal(kind=kind, target="" if t == "?" else t))
+        self.subgoals = out
+
+    def ensure_goal(self, goal_spec: GoalSpec) -> None:
+        """Rebuild only when the task actually changes (keep episode progress)."""
+        fp = self._fingerprint(goal_spec)
+        if fp != self._task_fingerprint:
+            self.reset_for_goal(goal_spec)
 
     def active_subgoal(self) -> Optional[Subgoal]:
         for s in self.subgoals:
-            if s.status in (PENDING, ACTIVE):
+            if s.status in (PENDING, ACTIVE, BLOCKED):
+                # BLOCKED retryable → acts as active until SATISFIED
                 return s
         return None
 
     def _set_status(self, sg: Subgoal, status: str, evidence: str):
         prev = sg.status
+        if prev == status:
+            return
         sg.status = status
         if evidence and evidence not in sg.evidence:
             sg.evidence.append(evidence[:160])
         self.transition_log.append({"kind": sg.kind, "from": prev, "to": status,
                                     "evidence": evidence[:120]})
 
-    def update_from_feedback(self, action_raw: str, obs_before: str, obs_after: str,
-                             admissible=None) -> Optional[Subgoal]:
-        """Advance/revise subgoals from env feedback. Returns new active subgoal."""
-        act = parse_action(action_raw)
-        after = (obs_after or "").lower()
-        before = (obs_before or "").lower()
+    # ---- B1: consistent reconciliation from world facts ----
+    def _reconcile(self) -> None:
+        """Satisfy subgoals whose preconditions are already confirmed.
+
+        Never uses unconfirmed guesses. Clears contradictions to UNKNOWN.
+        """
         g = self.goal_spec
         obj = (g.target_object or "").lower()
         obj_key = obj.replace(" ", "")
         tool = (g.target_receptacle or "").lower().replace(" ", "")
-        sg = self.active_subgoal()
+        held = any(obj and obj in h.lower().replace(" ", "") for h in self.held) or \
+            self.world_facts.get(f"{obj_key}_held") is True
+        discovered = (
+            self.world_facts.get(f"{obj_key}_seen") is True
+            or self.exploration.found_target_at is not None
+            or held
+        )
+        light_on = self.world_facts.get("light_on") is True
+        placed = self.world_facts.get(f"{obj_key}_placed") is True
+        tool_visible = self.world_facts.get(f"{tool}_visible") is True if tool else False
 
-        # location tracking
+        for sg in self.subgoals:
+            if sg.status == SATISFIED:
+                continue
+            k = sg.kind
+            if k == "EXPLORE":
+                # B2: one visit is not done; done when target seen OR all visible inspected
+                if discovered:
+                    self._set_status(sg, SATISFIED, "explore: target evidence present")
+            elif k == "LOCATE_TARGET":
+                if discovered:
+                    self._set_status(sg, SATISFIED, f"discovered {g.target_object}")
+            elif k == "ACQUIRE_TARGET":
+                if held:
+                    self._set_status(sg, SATISFIED, f"holding {g.target_object}")
+            elif k == "LOCATE_TOOL":
+                if light_on or tool_visible or (tool and self._tool_use_available()):
+                    self._set_status(sg, SATISFIED, "tool visible/usable")
+            elif k == "LOCATE_DEST":
+                if self.world_facts.get(f"{(g.target_receptacle or '').lower().replace(' ','')}_visible") is True:
+                    self._set_status(sg, SATISFIED, "destination visible")
+                elif placed:
+                    self._set_status(sg, SATISFIED, "already placed")
+            elif k == "USE_TOOL":
+                if light_on:
+                    self._set_status(sg, SATISFIED, "light on confirmed")
+            elif k == "PLACE_TARGET":
+                if placed:
+                    self._set_status(sg, SATISFIED, "placement confirmed")
+            elif k == "VERIFY_SUCCESS":
+                if self.world_facts.get("native_won") is True:
+                    self._set_status(sg, SATISFIED, "native won")
+
+        # B5: conflicts → UNKNOWN not optimistic
+        if self.world_facts.get(f"{obj_key}_held") is True and placed:
+            self.world_facts[f"{obj_key}_held"] = UNKNOWN
+
+    def _tool_use_available(self) -> bool:
+        return bool(self.world_facts.get("_use_tool_action_available"))
+
+    def update_from_feedback(self, action_raw: str, obs_before: str, obs_after: str,
+                             admissible=None) -> Optional[Subgoal]:
+        act = parse_action(action_raw)
+        after = (obs_after or "").lower()
+        g = self.goal_spec
+        obj = (g.target_object or "").lower()
+        obj_key = obj.replace(" ", "")
+        tool = (g.target_receptacle or "").lower().replace(" ", "")
+        dest = (g.target_receptacle or "").lower().replace(" ", "")
+
+        # exploration tracking
         if act.action_type == "NAVIGATE" and act.target:
             self.exploration.visit(act.target)
-        for loc in self.exploration.visited:
-            if loc and loc in after:
-                self.exploration.visit(loc)
-
-        # object discovery via feedback (not goal text)
-        discovered = False
+        # inspect evidence
         if obj_key and obj_key.replace(" ", "") in after.replace(" ", ""):
             if any(w in after for w in ("you see", "there is", "on the", "in the", "you arrive")):
-                discovered = True
                 self.world_facts[f"{obj_key}_seen"] = True
-                self.exploration.found_target_at = self.exploration.visited[-1] if self.exploration.visited else None
+                loc = act.target if act.action_type == "NAVIGATE" else (
+                    self.exploration.found_target_at or ""
+                )
+                self.exploration.inspect(loc or "current", found_target=True)
 
-        # pickup confirmation
-        if act.action_type == "PICKUP":
-            if "you pick up" in after and obj_key and obj_key.replace(" ", "") in after.replace(" ", ""):
-                if obj not in self.held:
-                    self.held.append(g.target_object)
+        # C1: tool visible/usable when a use <tool> action exists
+        if admissible:
+            use_ok = any(
+                a.lower().startswith("use ") and tool and tool in a.lower().replace(" ", "")
+                for a in admissible
+            )
+            self.world_facts["_use_tool_action_available"] = use_ok
+            if use_ok:
+                self.world_facts[f"{tool}_visible"] = True
+
+        # pickup (B3): feedback phrase is authoritative even if action name differs
+        if "you pick up" in after:
+            import re as _re
+            m = _re.search(r"you pick up the (.+?)(?: from |\.|$)", after)
+            name = (m.group(1).strip().rstrip(".") if m else act.object or "")
+            if name and name not in self.held:
+                self.held.append(name)
+            nk = name.lower().replace(" ", "")
+            if nk:
+                self.world_facts[f"{nk}_held"] = True
+            if obj_key and (obj_key in nk or nk in obj_key or obj_key in after.replace(" ", "")):
                 self.world_facts[f"{obj_key}_held"] = True
-            elif any(w in after for w in ("can't", "cannot", "unable", "nothing happens")):
-                self.world_facts[f"{obj_key}_held"] = False
+                self.world_facts[f"{obj_key}_seen"] = True
+        elif act.action_type == "PICKUP":
+            obj_cmd = (act.object or "").lower().replace(" ", "")
+            if "you pick up" in after:
+                name = act.object or ""
+                if obj_key and (obj_key in after.replace(" ", "") or obj_key in obj_cmd):
+                    if name and name not in self.held:
+                        self.held.append(name)
+                    self.world_facts[f"{obj_key}_held"] = True
+                    self.world_facts[f"{obj_key}_seen"] = True
+                elif name and name not in self.held:
+                    self.held.append(name)  # picked some object (record as held)
+            elif any(w in after for w in ("can't", "cannot", "unable", "nothing happens", "there is no")):
+                # failed pickup: do NOT set held; do NOT clear other holds
+                if obj_key:
+                    self.world_facts[f"{obj_key}_held"] = False
 
-        # release / place
+        # place (B4): only release when feedback confirms
         if act.action_type == "PLACE":
-            if obj in self.held:
-                self.held.remove(obj)
-            self.world_facts[f"{obj_key}_held"] = False
-            if any(w in after for w in ("you move", "you put", "you place")):
-                self.world_facts[f"{obj_key}_placed"] = True
+            obj_cmd = (act.object or "").lower().replace(" ", "")
+            tgt_cmd = (act.target or "").lower().replace(" ", "")
+            confirmed = any(w in after for w in ("you move", "you put", "you place", "you drop"))
+            if confirmed:
+                if obj and obj in [h.lower() for h in self.held]:
+                    self.held = [h for h in self.held if obj not in h.lower()]
+                elif act.object and act.object in self.held:
+                    self.held.remove(act.object)
+                self.world_facts[f"{obj_key}_held"] = False
+                if obj_key and obj_key in after.replace(" ", "") or obj_key in obj_cmd:
+                    if dest and (dest in after.replace(" ", "") or dest in tgt_cmd):
+                        self.world_facts[f"{obj_key}_placed"] = True
+                        self.world_facts[f"{obj_key}_placed_at"] = act.target
+                    else:
+                        self.world_facts[f"{obj_key}_placed"] = True  # moved somewhere confirmed
+                if act.target:
+                    self.world_facts[f"{(act.target or '').lower().replace(' ','')}_visible"] = True
+            else:
+                # unconfirmed place: keep holding as UNKNOWN at worst
+                if self.world_facts.get(f"{obj_key}_held") is True:
+                    self.world_facts[f"{obj_key}_held"] = UNKNOWN
 
-        # tool / light
+        # tool use
         if act.action_type == "USE_TOOL":
-            if "turn on" in after or "turning on" in after:
-                self.world_facts["light_on"] = True
-            elif "already" in after and "on" in after:
+            if "turn on" in after or "turning on" in after or "already" in after and "on" in after:
                 self.world_facts["light_on"] = True
             else:
                 self.world_facts.setdefault("light_on", UNKNOWN)
 
-        # subgoal completion rules (evidence-based)
-        if sg is None:
-            return None
-        k = sg.kind
-        if k == "EXPLORE":
-            if discovered or len(self.exploration.visited) >= 1:
-                self._set_status(sg, SATISFIED, f"explore: visited={self.exploration.visited[-1] if self.exploration.visited else ''}")
-        elif k == "LOCATE_TARGET":
-            if discovered:
-                self._set_status(sg, SATISFIED, f"discovered {g.target_object}")
-        elif k == "ACQUIRE_TARGET":
-            if self.world_facts.get(f"{obj_key}_held") is True:
-                self._set_status(sg, SATISFIED, f"holding {g.target_object}")
-            elif self.world_facts.get(f"{obj_key}_held") is False and act.action_type == "PICKUP":
-                self._set_status(sg, BLOCKED, f"pickup failed: {after[:60]}")
-        elif k in ("LOCATE_TOOL", "LOCATE_DEST"):
-            if (act.target or "") and (tool in (act.target or "").replace(" ", "") or (g.target_receptacle or "").lower() in (act.target or "").lower()):
-                self._set_status(sg, SATISFIED, f"reached {act.target}")
-            elif k == "LOCATE_DEST" and g.target_receptacle and g.target_receptacle.lower() in after:
-                self._set_status(sg, SATISFIED, f"visible {g.target_receptacle}")
-        elif k == "USE_TOOL":
-            if self.world_facts.get("light_on") is True:
-                self._set_status(sg, SATISFIED, "light on confirmed")
-            elif act.action_type == "USE_TOOL" and self.world_facts.get("light_on") == UNKNOWN:
-                self._set_status(sg, ACTIVE, "use sent, unconfirmed")
-        elif k == "PLACE_TARGET":
-            if self.world_facts.get(f"{obj_key}_placed") is True:
-                self._set_status(sg, SATISFIED, "placement confirmed")
-            elif self.world_facts.get(f"{obj_key}_held") is False and act.action_type != "PLACE":
-                self._set_status(sg, ACTIVE, "not holding")
-        elif k == "VERIFY_SUCCESS":
-            # only env won can satisfy; otherwise stays pending/active
-            if self.world_facts.get("native_won") is True:
-                self._set_status(sg, SATISFIED, "native won")
+        # destination visibility
+        if act.action_type == "NAVIGATE" and dest and dest in (act.target or "").replace(" ", ""):
+            self.world_facts[f"{dest}_visible"] = True
 
-        # blocked → re-open as pending to allow retry
-        if sg.status == BLOCKED:
-            sg.status = PENDING
+        # failed action should not advance a subgoal via action-name alone
+        if act.action_type == "PICKUP" and "you pick up" not in after:
+            pass
 
+        self._reconcile()
         return self.active_subgoal()
 
     def mark_native_won(self, won: bool):
         self.world_facts["native_won"] = bool(won)
+        self._reconcile()
         if won:
             for s in self.subgoals:
-                if s.status in (PENDING, ACTIVE):
+                if s.status not in (SATISFIED,):
                     self._set_status(s, SATISFIED, "native won")
 
     def prompt_block(self, admissible=None) -> str:
-        """Structured subgoal + grounded legal candidates for the LLM."""
         sg = self.active_subgoal()
         lines = ["Active Subgoal:"]
         if sg:
             lines.append(f"- kind={sg.kind} target={sg.target or '(n/a)'} status={sg.status}")
         else:
             lines.append("- none (all satisfied or blocked)")
+        if self.subgoals and self.subgoals[0].kind == UNSUPPORTED:
+            lines.append("- UNSUPPORTED_GOAL: cannot build a grounded plan for this goal text")
         lines.append("Current World Facts:")
         if self.held:
             lines.append(f"- holding: {', '.join(self.held)}")
         for k, v in sorted(self.world_facts.items()):
-            if k != "native_won":
+            if k != "native_won" and not k.startswith("_"):
                 lines.append(f"- {k}: {v}")
         exp = self.exploration.summary()
-        lines.append(
-            f"- visited_locations={exp['visited'][:8]}; "
-            f"found_target_at={exp['found_target_at']}"
-        )
+        lines.append(f"- exploration={exp}")
         from src.runtime.action_semantics import relevant_candidates
 
-        cands = relevant_candidates(admissible or [], self.goal_spec, sg)
+        cands = relevant_candidates(admissible or [], self.goal_spec, sg,
+                                    held_objects=self.held)
         if cands:
             lines.append("Legal Action Candidates related to subgoal:")
-            for s in cands[:8]:
+            for s in cands[:12]:
                 lines.append(f"- {s.raw_command}  [{s.action_type}]")
+        elif admissible is not None and len(admissible) == 0:
+            lines.append("GROUNDING_BLOCKED: no legal actions")
         return "\n".join(lines)

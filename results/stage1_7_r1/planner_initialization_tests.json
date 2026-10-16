@@ -1,0 +1,37 @@
+{
+  "gate": "GATE_A_PLANNER_INIT",
+  "result": "PASS",
+  "p0_reproduced": "empty goal -> pick_and_place subgoals; ref-replace did not rebuild",
+  "p0_fixed": "reset_for_goal / ensure_goal; UNKNOWN -> UNSUPPORTED_GOAL",
+  "tests": [
+    "test_p0_book_task_builds_look_at_subgoals",
+    "test_p0_laptop_task_same_family",
+    "test_p0_alarmclock_task_place_family",
+    "test_unknown_goal_not_pick_and_place",
+    "test_same_goal_multi_step_not_reset",
+    "test_goal_switch_clears_old_state",
+    "test_no_cross_episode_leak_via_agent",
+    "test_subgoals_match_task_family after update"
+  ],
+  "subgoal_lists": {
+    "look_at_obj_in_light": [
+      "EXPLORE",
+      "LOCATE_TARGET",
+      "ACQUIRE_TARGET",
+      "LOCATE_TOOL",
+      "USE_TOOL",
+      "VERIFY_SUCCESS"
+    ],
+    "pick_and_place_simple": [
+      "EXPLORE",
+      "LOCATE_TARGET",
+      "ACQUIRE_TARGET",
+      "LOCATE_DEST",
+      "PLACE_TARGET",
+      "VERIFY_SUCCESS"
+    ],
+    "UNKNOWN": [
+      "UNSUPPORTED_GOAL"
+    ]
+  }
+}

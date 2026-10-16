@@ -1,0 +1,9 @@
+{
+  "gate": "GATE_D_RUNTIME_ISOLATION",
+  "result": "PASS",
+  "current_unchanged": true,
+  "shared_repaired_unchanged": true,
+  "grounded_planner_v1_fixed": true,
+  "historical_data_modified": false,
+  "real_api": 0
+}

@@ -1,0 +1,14 @@
+{
+  "gate": "GATE_B_STATE_TRANSITION",
+  "result": "PASS",
+  "tests": [
+    "test_early_facts_satisfy_later_subgoals",
+    "test_explore_not_done_after_one_visit",
+    "test_failed_pickup_does_not_hold_or_clear_inventory",
+    "test_unconfirmed_place_keeps_hold",
+    "test_confirmed_place_releases",
+    "test_released_not_still_held",
+    "test_tool_located_via_admissible_not_hardcode"
+  ],
+  "mechanism": "world-fact reconciliation in _reconcile(); pickup/place only on env feedback phrases"
+}

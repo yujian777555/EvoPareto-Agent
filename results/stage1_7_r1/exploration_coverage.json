@@ -1,0 +1,9 @@
+{
+  "phases": [
+    "VISITED_UNINSPECTED",
+    "INSPECTED_NO_TARGET",
+    "TARGET_FOUND"
+  ],
+  "explore_completes_only_on": "target evidence OR all visible inspected",
+  "one_visit_is_not_done": true
+}

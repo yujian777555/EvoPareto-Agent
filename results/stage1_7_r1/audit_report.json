@@ -1,0 +1,17 @@
+{
+  "stage": "STAGE1_7_R1",
+  "status": "COMPLETED",
+  "p0_initialization_fixed": true,
+  "goal_state_consistency": true,
+  "subgoal_transitions": true,
+  "action_relevance": true,
+  "exploration_coverage": true,
+  "runtime_isolation": true,
+  "genome_compatibility": "memory/budget real; planner PROMPT_ONLY",
+  "scripted_native_wins": 3,
+  "generic_native_wins": 0,
+  "generic_failure_causes": "heuristic chaining (take then wrong place); not planner-state error",
+  "oracle_leakage": false,
+  "real_deepseek_api_calls": 0,
+  "final_decision": "READY_FOR_STAGE1_8_REVIEW"
+}

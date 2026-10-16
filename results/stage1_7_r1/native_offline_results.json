@@ -1,0 +1,188 @@
+{
+  "gate": "GATE_E_NATIVE_OFFLINE_R1",
+  "scripted_technical_control": "PASS",
+  "negative": "PASS",
+  "generic": "INCONCLUSIVE_OR_FAIL",
+  "details": {
+    "scripted": [
+      {
+        "task_index": 0,
+        "won": true,
+        "steps": 4,
+        "executed": [
+          "go to sidetable 1",
+          "take book 2 from sidetable 1",
+          "go to sidetable 2",
+          "use desklamp 1"
+        ],
+        "status": "PASS"
+      },
+      {
+        "task_index": 10,
+        "won": true,
+        "steps": 4,
+        "executed": [
+          "go to bed 1",
+          "take laptop 1 from bed 1",
+          "go to sidetable 1",
+          "use desklamp 1"
+        ],
+        "status": "PASS"
+      },
+      {
+        "task_index": 20,
+        "won": true,
+        "steps": 4,
+        "executed": [
+          "go to shelf 3",
+          "take alarmclock 1 from shelf 3",
+          "go to dresser 1",
+          "move alarmclock 1 to dresser 1"
+        ],
+        "status": "PASS"
+      }
+    ],
+    "negative": [
+      {
+        "task_index": 0,
+        "won": false,
+        "status": "NEG_PASS"
+      },
+      {
+        "task_index": 10,
+        "won": false,
+        "status": "NEG_PASS"
+      },
+      {
+        "task_index": 20,
+        "won": false,
+        "status": "NEG_PASS"
+      }
+    ],
+    "generic": [
+      {
+        "task_index": 0,
+        "won": false,
+        "steps": 20,
+        "executed": [
+          "go to bed 1",
+          "take book 1 from bed 1",
+          "move book 1 to bed 1",
+          "take book 1 from bed 1",
+          "move book 1 to bed 1",
+          "go to desk 1",
+          "go to drawer 1",
+          "go to drawer 2",
+          "go to drawer 3",
+          "go to garbagecan 1",
+          "go to safe 1",
+          "go to shelf 1",
+          "go to shelf 2",
+          "go to shelf 3",
+          "go to shelf 4",
+          "go to shelf 5",
+          "go to sidetable 1",
+          "take book 2 from sidetable 1",
+          "move book 2 to sidetable 1",
+          "take book 2 from sidetable 1"
+        ],
+        "termination": "env_done",
+        "status": "FAIL_OR_INCONCLUSIVE"
+      },
+      {
+        "task_index": 10,
+        "won": false,
+        "steps": 20,
+        "executed": [
+          "go to armchair 1",
+          "go to armchair 2",
+          "go to armchair 3",
+          "go to bed 1",
+          "take laptop 1 from bed 1",
+          "move laptop 1 to bed 1",
+          "take laptop 1 from bed 1",
+          "move laptop 1 to bed 1",
+          "go to cabinet 1",
+          "go to cabinet 2",
+          "go to desk 1",
+          "go to drawer 1",
+          "go to drawer 2",
+          "go to drawer 3",
+          "go to drawer 4",
+          "go to garbagecan 1",
+          "go to laundryhamper 1",
+          "go to armchair 1",
+          "go to armchair 2",
+          "go to armchair 3"
+        ],
+        "termination": "env_done",
+        "status": "FAIL_OR_INCONCLUSIVE"
+      },
+      {
+        "task_index": 20,
+        "won": false,
+        "steps": 20,
+        "executed": [
+          "go to dresser 1",
+          "go to bed 1",
+          "go to drawer 1",
+          "go to drawer 10",
+          "go to drawer 2",
+          "go to drawer 3",
+          "go to drawer 4",
+          "go to drawer 5",
+          "go to drawer 6",
+          "go to drawer 7",
+          "go to drawer 8",
+          "go to drawer 9",
+          "go to garbagecan 1",
+          "go to dresser 1",
+          "go to bed 1",
+          "go to drawer 1",
+          "go to drawer 10",
+          "go to drawer 2",
+          "go to drawer 3",
+          "go to shelf 1"
+        ],
+        "termination": "env_done",
+        "status": "FAIL_OR_INCONCLUSIVE"
+      }
+    ],
+    "generalization": [
+      {
+        "game": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Bowl-None-DeskLamp-304/trial_T20190907_232227_752681",
+        "won": false,
+        "steps": 20,
+        "executed": [
+          "go to bed 1",
+          "go to bed 2",
+          "go to desk 1",
+          "take bowl 1 from desk 1",
+          "move bowl 1 to desk 1",
+          "take bowl 1 from desk 1",
+          "move bowl 1 to desk 1",
+          "go to garbagecan 1",
+          "go to drawer 1",
+          "go to laundryhamper 1",
+          "go to drawer 2",
+          "go to shelf 1",
+          "use desklamp 1",
+          "use desklamp 1",
+          "look",
+          "examine shelf 1",
+          "use desklamp 1",
+          "use desklamp 1",
+          "use desklamp 1",
+          "use desklamp 1"
+        ],
+        "status": "FAIL_OR_INCONCLUSIVE"
+      }
+    ]
+  },
+  "failure_cause_analysis": {
+    "planner_state_errors": "see subgoal_transition tests — fixed in R1",
+    "candidate_selection": "target-first ranking added; generic heuristic still weak",
+    "heuristic_capability": "likely dominant limit for generic wins",
+    "horizon": "20 steps; expert wins use 4-18 steps with known targets"
+  }
+}

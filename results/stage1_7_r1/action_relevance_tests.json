@@ -1,0 +1,11 @@
+{
+  "gate": "GATE_C_ACTION_RELEVANCE",
+  "result": "PASS",
+  "tests": [
+    "test_target_pickup_ranks_above_unrelated",
+    "test_candidates_subset_of_admissible",
+    "test_grounding_blocked_empty_admissible",
+    "test_candidate_truncation_keeps_target_action"
+  ],
+  "rule": "goal-object match +10; unrelated pickup -4; output subset of admissible"
+}

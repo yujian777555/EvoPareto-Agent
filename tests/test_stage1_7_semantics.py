@@ -149,7 +149,7 @@ def test_subgoal_transition_discover_acquire_place():
     sg = p.active_subgoal()
     assert sg.kind == "ACQUIRE_TARGET"
     p.update_from_feedback("take alarmclock 1 from shelf 3", "s3", "You pick up the alarmclock 1 from the shelf 3.")
-    assert "alarmclock" in p.held
+    assert any("alarmclock" in h.lower() for h in p.held)
     # advance through remaining
     for _ in range(6):
         s = p.active_subgoal()
