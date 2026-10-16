@@ -1,0 +1,53 @@
+[
+  {
+    "task_index": 0,
+    "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+    "action_sequence": [
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look"
+    ],
+    "native_won": false,
+    "steps": 8,
+    "status": "NEGATIVE_CONTROL_PASS"
+  },
+  {
+    "task_index": 10,
+    "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Laptop-None-DeskLamp-309/trial_T20190907_185713_398582",
+    "action_sequence": [
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look"
+    ],
+    "native_won": false,
+    "steps": 8,
+    "status": "NEGATIVE_CONTROL_PASS"
+  },
+  {
+    "task_index": 20,
+    "game_id": "/data/json_2.1.1/valid_train/pick_and_place_simple-AlarmClock-None-Dresser-319/trial_T20190910_195319_108102",
+    "action_sequence": [
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look",
+      "look"
+    ],
+    "native_won": false,
+    "steps": 8,
+    "status": "NEGATIVE_CONTROL_PASS"
+  }
+]

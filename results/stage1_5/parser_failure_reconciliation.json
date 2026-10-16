@@ -1,0 +1,162 @@
+{
+  "definitions": {
+    "FIRST_PARSE_FAILURE": "decision where initial parse failed (final parse_ok=False OR reflection_trigger set)",
+    "REFLECTION_ATTEMPT": "decision with reflection_trigger non-empty",
+    "REFLECTION_RECOVERED": "reflection_attempt AND final parse_ok=True",
+    "FINAL_PARSE_FAILURE": "final parse_ok=False (includes after reflection failed)",
+    "FALLBACK_USED": "used_fallback=True"
+  },
+  "total_decisions": 468,
+  "FIRST_PARSE_FAILURE": 10,
+  "REFLECTION_ATTEMPT": 4,
+  "REFLECTION_RECOVERED": 4,
+  "FINAL_PARSE_FAILURE": 6,
+  "FALLBACK_USED": 6,
+  "note": "parse failure != fallback: reflection can repair; fallback only when both parses fail and strategy allows",
+  "per_episode": [
+    {
+      "episode_id": "t0_G1_s11",
+      "decisions": 29,
+      "final_parse_failures": 0,
+      "reflections": 1,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 1
+    },
+    {
+      "episode_id": "t0_G1_s23",
+      "decisions": 29,
+      "final_parse_failures": 0,
+      "reflections": 1,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 1
+    },
+    {
+      "episode_id": "t0_G2_s11",
+      "decisions": 30,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t0_G2_s23",
+      "decisions": 30,
+      "final_parse_failures": 1,
+      "reflections": 0,
+      "fallbacks": 1,
+      "first_parse_failure_inferred": 1
+    },
+    {
+      "episode_id": "t0_G3_s11",
+      "decisions": 19,
+      "final_parse_failures": 2,
+      "reflections": 0,
+      "fallbacks": 2,
+      "first_parse_failure_inferred": 2
+    },
+    {
+      "episode_id": "t0_G3_s23",
+      "decisions": 19,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t10_G1_s11",
+      "decisions": 28,
+      "final_parse_failures": 0,
+      "reflections": 2,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 2
+    },
+    {
+      "episode_id": "t10_G1_s23",
+      "decisions": 30,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t10_G2_s11",
+      "decisions": 30,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t10_G2_s23",
+      "decisions": 30,
+      "final_parse_failures": 1,
+      "reflections": 0,
+      "fallbacks": 1,
+      "first_parse_failure_inferred": 1
+    },
+    {
+      "episode_id": "t10_G3_s11",
+      "decisions": 19,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t10_G3_s23",
+      "decisions": 19,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t20_G1_s11",
+      "decisions": 30,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t20_G1_s23",
+      "decisions": 30,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t20_G2_s11",
+      "decisions": 30,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t20_G2_s23",
+      "decisions": 30,
+      "final_parse_failures": 1,
+      "reflections": 0,
+      "fallbacks": 1,
+      "first_parse_failure_inferred": 1
+    },
+    {
+      "episode_id": "t20_G3_s11",
+      "decisions": 19,
+      "final_parse_failures": 0,
+      "reflections": 0,
+      "fallbacks": 0,
+      "first_parse_failure_inferred": 0
+    },
+    {
+      "episode_id": "t20_G3_s23",
+      "decisions": 17,
+      "final_parse_failures": 1,
+      "reflections": 0,
+      "fallbacks": 1,
+      "first_parse_failure_inferred": 1
+    }
+  ]
+}

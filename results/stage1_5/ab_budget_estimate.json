@@ -1,0 +1,32 @@
+{
+  "design": "3 frozen tasks x G1 x 2 runtime variants x 2 seeds = 24 episodes (optional +G2: 12 more)",
+  "tasks": [
+    0,
+    10,
+    20
+  ],
+  "genome": "G1 (pilot1 baseline)",
+  "variants": [
+    "current_runtime",
+    "shared_repaired_runtime"
+  ],
+  "seeds": [
+    11,
+    23
+  ],
+  "per_episode_estimate": {
+    "http": 30,
+    "cost_usd": 0.0027,
+    "basis": "Stage 1 median"
+  },
+  "totals_24": {
+    "http": 720,
+    "cost_usd": 0.0648
+  },
+  "recommended_caps": {
+    "episodes": 24,
+    "physical_http": 800,
+    "estimated_cost_usd": 0.1
+  },
+  "note": "Stage 1 is historical diagnosis, NOT a paired control \u2014 re-collect current-runtime arm in the same batch"
+}

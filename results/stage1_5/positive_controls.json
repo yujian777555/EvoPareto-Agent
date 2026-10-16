@@ -1,0 +1,591 @@
+[
+  {
+    "task_index": 0,
+    "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990",
+    "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Book-None-DeskLamp-302/trial_T20190909_085137_911990/game.tw-pddl",
+    "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+    "task_type": "look_at_obj_in_light",
+    "goal": "Pick up a book to look at under a lit lamp.",
+    "expert_source": "official ALFRED traj_data.json high_pddl (converted to TextWorld via deterministic grounding search)",
+    "expert_high_steps": [
+      {
+        "discrete_action": {
+          "action": "GotoLocation",
+          "args": [
+            "sidetable"
+          ]
+        },
+        "high_idx": 0,
+        "planner_action": {
+          "action": "GotoLocation",
+          "location": "loc|0|-6|1|60"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "PickupObject",
+          "args": [
+            "book"
+          ]
+        },
+        "high_idx": 1,
+        "planner_action": {
+          "action": "PickupObject",
+          "coordinateObjectId": [
+            "Book",
+            [
+              1.656,
+              1.656,
+              -6.93174076,
+              -6.93174076,
+              2.7027984,
+              2.7027984
+            ]
+          ],
+          "coordinateReceptacleObjectId": [
+            "SideTable",
+            [
+              1.656,
+              1.656,
+              -6.736,
+              -6.736,
+              0.004,
+              0.004
+            ]
+          ],
+          "forceVisible": true,
+          "objectId": "Book|+00.41|+00.68|-01.73"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "GotoLocation",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "high_idx": 2,
+        "planner_action": {
+          "action": "GotoLocation",
+          "location": "loc|2|3|0|60"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "ToggleObject",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "high_idx": 3,
+        "planner_action": {
+          "action": "ToggleObject",
+          "coordinateObjectId": [
+            "DeskLamp",
+            [
+              1.9079932,
+              1.9079932,
+              5.40000772,
+              5.40000772,
+              2.6965608,
+              2.6965608
+            ]
+          ],
+          "coordinateReceptacleObjectId": [
+            "DeskLamp",
+            [
+              1.9079932,
+              1.9079932,
+              5.40000772,
+              5.40000772,
+              2.6965608,
+              2.6965608
+            ]
+          ],
+          "forceVisible": true,
+          "objectId": "DeskLamp|+00.48|+00.67|+01.35"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "NoOp",
+          "args": []
+        },
+        "high_idx": 4,
+        "planner_action": {
+          "action": "End",
+          "value": 1
+        }
+      }
+    ],
+    "admissible_mapping": [
+      {
+        "high": {
+          "action": "GotoLocation",
+          "args": [
+            "sidetable"
+          ]
+        },
+        "started_at_step": 1,
+        "mapped": "go to sidetable*"
+      },
+      {
+        "high": {
+          "action": "PickupObject",
+          "args": [
+            "book"
+          ]
+        },
+        "started_at_step": 2,
+        "mapped": "take book*"
+      },
+      {
+        "high": {
+          "action": "GotoLocation",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "started_at_step": 3,
+        "mapped": "nav_to_use_desklamp"
+      },
+      {
+        "high": {
+          "action": "ToggleObject",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "started_at_step": 17,
+        "mapped": "use desklamp*"
+      }
+    ],
+    "action_sequence": [
+      "go to sidetable 1",
+      "take book 2 from sidetable 1",
+      "go to bed 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to drawer 3",
+      "go to garbagecan 1",
+      "go to safe 1",
+      "go to shelf 1",
+      "go to shelf 2",
+      "go to shelf 3",
+      "go to shelf 4",
+      "go to shelf 5",
+      "go to sidetable 1",
+      "go to sidetable 2",
+      "use desklamp 1"
+    ],
+    "observation_sequence": [
+      "You arrive at sidetable 1. On the sidetable 1, you see a book 2, and a creditcard 1.",
+      "You pick up the book 2 from the sidetable 1.",
+      "You arrive at bed 1. On the bed 1, you see a book 1, a cellphone 1, a laptop 2, a laptop 1, a pillow 1, and a teddybear 1.",
+      "You arrive at desk 1. On the desk 1, you see a cellphone 3, a keychain 3, a laptop 3, and a pen 2.",
+      "You arrive at drawer 1. On the drawer 1, you see nothing.",
+      "You arrive at drawer 2. The drawer 2 is closed.",
+      "You arrive at drawer 3. The drawer 3 is closed.",
+      "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+      "You arrive at safe 1. The safe 1 is closed.",
+      "You arrive at shelf 1. On the shelf 1, you see a cellphone 2, and a keychain 2.",
+      "You arrive at shelf 2. On the shelf 2, you see nothing.",
+      "You arrive at shelf 3. On the shelf 3, you see a bowl 1, and a cd 2.",
+      "You arrive at shelf 4. On the shelf 4, you see a creditcard 2.",
+      "You arrive at shelf 5. On the shelf 5, you see a alarmclock 2, a alarmclock 1, a houseplant 1, a pencil 2, and a pencil 1.",
+      "You arrive at sidetable 1. On the sidetable 1, you see a creditcard 1.",
+      "You arrive at sidetable 2. On the sidetable 2, you see a desklamp 1, and a pen 1.",
+      "You turn on the desklamp 1."
+    ],
+    "native_won": true,
+    "native_done": true,
+    "steps": 17,
+    "status": "POSITIVE_CONTROL_PASS",
+    "failure_reason": ""
+  },
+  {
+    "task_index": 10,
+    "game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Laptop-None-DeskLamp-309/trial_T20190907_185713_398582",
+    "actual_game_id": "/data/json_2.1.1/valid_train/look_at_obj_in_light-Laptop-None-DeskLamp-309/trial_T20190907_185713_398582/game.tw-pddl",
+    "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+    "task_type": "look_at_obj_in_light",
+    "goal": "Carry the laptop to turn on the lamp on a table. ",
+    "expert_source": "official ALFRED traj_data.json high_pddl (converted to TextWorld via deterministic grounding search)",
+    "expert_high_steps": [
+      {
+        "discrete_action": {
+          "action": "GotoLocation",
+          "args": [
+            "bed"
+          ]
+        },
+        "high_idx": 0,
+        "planner_action": {
+          "action": "GotoLocation",
+          "location": "loc|-2|1|1|45"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "PickupObject",
+          "args": [
+            "laptop"
+          ]
+        },
+        "high_idx": 1,
+        "planner_action": {
+          "action": "PickupObject",
+          "coordinateObjectId": [
+            "Laptop",
+            [
+              1.556236268,
+              1.556236268,
+              1.021802188,
+              1.021802188,
+              3.322804212,
+              3.322804212
+            ]
+          ],
+          "coordinateReceptacleObjectId": [
+            "Bed",
+            [
+              3.96,
+              3.96,
+              2.672,
+              2.672,
+              0.12,
+              0.12
+            ]
+          ],
+          "forceVisible": true,
+          "objectId": "Laptop|+00.39|+00.83|+00.26"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "GotoLocation",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "high_idx": 2,
+        "planner_action": {
+          "action": "GotoLocation",
+          "location": "loc|7|12|2|60"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "ToggleObject",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "high_idx": 3,
+        "planner_action": {
+          "action": "ToggleObject",
+          "coordinateObjectId": [
+            "DeskLamp",
+            [
+              7.46388768,
+              7.46388768,
+              9.68148996,
+              9.68148996,
+              2.1878492,
+              2.1878492
+            ]
+          ],
+          "coordinateReceptacleObjectId": [
+            "DeskLamp",
+            [
+              7.46388768,
+              7.46388768,
+              9.68148996,
+              9.68148996,
+              2.1878492,
+              2.1878492
+            ]
+          ],
+          "forceVisible": true,
+          "objectId": "DeskLamp|+01.87|+00.55|+02.42"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "NoOp",
+          "args": []
+        },
+        "high_idx": 4,
+        "planner_action": {
+          "action": "End",
+          "value": 1
+        }
+      }
+    ],
+    "admissible_mapping": [
+      {
+        "high": {
+          "action": "GotoLocation",
+          "args": [
+            "bed"
+          ]
+        },
+        "started_at_step": 1,
+        "mapped": "go to bed*"
+      },
+      {
+        "high": {
+          "action": "PickupObject",
+          "args": [
+            "laptop"
+          ]
+        },
+        "started_at_step": 2,
+        "mapped": "take laptop*"
+      },
+      {
+        "high": {
+          "action": "GotoLocation",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "started_at_step": 3,
+        "mapped": "nav_to_use_desklamp"
+      },
+      {
+        "high": {
+          "action": "ToggleObject",
+          "args": [
+            "desklamp"
+          ]
+        },
+        "started_at_step": 18,
+        "mapped": "use desklamp*"
+      }
+    ],
+    "action_sequence": [
+      "go to bed 1",
+      "take laptop 1 from bed 1",
+      "go to armchair 1",
+      "go to armchair 2",
+      "go to armchair 3",
+      "go to bed 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to drawer 3",
+      "go to drawer 4",
+      "go to garbagecan 1",
+      "go to laundryhamper 1",
+      "go to safe 1",
+      "go to sidetable 1",
+      "use desklamp 1"
+    ],
+    "observation_sequence": [
+      "You arrive at bed 1. On the bed 1, you see a book 1, a laptop 1, a pillow 2, and a pillow 1.",
+      "You pick up the laptop 1 from the bed 1.",
+      "You arrive at armchair 1. On the armchair 1, you see nothing.",
+      "You arrive at armchair 2. On the armchair 2, you see nothing.",
+      "You arrive at armchair 3. On the armchair 3, you see nothing.",
+      "You arrive at bed 1. On the bed 1, you see a book 1, a pillow 2, and a pillow 1.",
+      "You arrive at cabinet 1. The cabinet 1 is closed.",
+      "You arrive at cabinet 2. The cabinet 2 is closed.",
+      "You arrive at desk 1. On the desk 1, you see a alarmclock 1, a book 3, a cellphone 1, a creditcard 2, a houseplant 1, and a remotecontrol 1.",
+      "You arrive at drawer 1. The drawer 1 is closed.",
+      "You arrive at drawer 2. On the drawer 2, you see a pen 1.",
+      "You arrive at drawer 3. The drawer 3 is closed.",
+      "You arrive at drawer 4. The drawer 4 is closed.",
+      "You arrive at garbagecan 1. On the garbagecan 1, you see nothing.",
+      "You arrive at laundryhamper 1. On the laundryhamper 1, you see nothing.",
+      "You arrive at safe 1. On the safe 1, you see nothing.",
+      "You arrive at sidetable 1. On the sidetable 1, you see a creditcard 1, a desklamp 1, and a pencil 1.",
+      "You turn on the desklamp 1."
+    ],
+    "native_won": true,
+    "native_done": true,
+    "steps": 18,
+    "status": "POSITIVE_CONTROL_PASS",
+    "failure_reason": ""
+  },
+  {
+    "task_index": 20,
+    "game_id": "/data/json_2.1.1/valid_train/pick_and_place_simple-AlarmClock-None-Dresser-319/trial_T20190910_195319_108102",
+    "actual_game_id": "/data/json_2.1.1/valid_train/pick_and_place_simple-AlarmClock-None-Dresser-319/trial_T20190910_195319_108102/game.tw-pddl",
+    "manifest_sha256": "27b54ac0b65133d1d95c7c06b27873581bf6a4ac84f56f7dc936e6c97ddb13b7",
+    "task_type": "pick_and_place_simple",
+    "goal": "Move an alarm clock to the dresser",
+    "expert_source": "official ALFRED traj_data.json high_pddl (converted to TextWorld via deterministic grounding search)",
+    "expert_high_steps": [
+      {
+        "discrete_action": {
+          "action": "GotoLocation",
+          "args": [
+            "shelf"
+          ]
+        },
+        "high_idx": 0,
+        "planner_action": {
+          "action": "GotoLocation",
+          "location": "loc|-3|-5|2|60"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "PickupObject",
+          "args": [
+            "alarmclock"
+          ]
+        },
+        "high_idx": 1,
+        "planner_action": {
+          "action": "PickupObject",
+          "coordinateObjectId": [
+            "AlarmClock",
+            [
+              -3.4340168,
+              -3.4340168,
+              -7.008,
+              -7.008,
+              1.707562684,
+              1.707562684
+            ]
+          ],
+          "coordinateReceptacleObjectId": [
+            "Shelf",
+            [
+              -3.6456,
+              -3.6456,
+              -7.008,
+              -7.008,
+              1.676912188,
+              1.676912188
+            ]
+          ],
+          "forceVisible": true,
+          "objectId": "AlarmClock|-00.86|+00.43|-01.75"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "GotoLocation",
+          "args": [
+            "dresser"
+          ]
+        },
+        "high_idx": 2,
+        "planner_action": {
+          "action": "GotoLocation",
+          "location": "loc|7|1|1|60"
+        }
+      },
+      {
+        "discrete_action": {
+          "action": "PutObject",
+          "args": [
+            "alarmclock",
+            "dresser"
+          ]
+        },
+        "high_idx": 3,
+        "planner_action": {
+          "action": "PutObject",
+          "coordinateObjectId": [
+            "AlarmClock",
+            [
+              -3.4340168,
+              -3.4340168,
+              -7.008,
+              -7.008,
+              1.707562684,
+              1.707562684
+            ]
+          ],
+          "coordinateReceptacleObjectId": [
+            "Dresser",
+            [
+              10.22,
+              10.22,
+              1.008,
+              1.008,
+              -0.004,
+              -0.004
+            ]
+          ],
+          "forceVisible": true,
+          "objectId": "AlarmClock|-00.86|+00.43|-01.75",
+          "receptacleObjectId": "Dresser|+02.56|00.00|+00.25"
+        }
+      }
+    ],
+    "admissible_mapping": [
+      {
+        "high": {
+          "action": "GotoLocation",
+          "args": [
+            "shelf"
+          ]
+        },
+        "started_at_step": 1,
+        "mapped": "go to shelf*"
+      },
+      {
+        "high": {
+          "action": "PickupObject",
+          "args": [
+            "alarmclock"
+          ]
+        },
+        "started_at_step": 2,
+        "mapped": "take alarmclock*"
+      },
+      {
+        "high": {
+          "action": "GotoLocation",
+          "args": [
+            "dresser"
+          ]
+        },
+        "started_at_step": 6,
+        "mapped": "go to dresser*"
+      },
+      {
+        "high": {
+          "action": "PutObject",
+          "args": [
+            "alarmclock",
+            "dresser"
+          ]
+        },
+        "started_at_step": 7,
+        "mapped": "put alarmclock on dresser*"
+      }
+    ],
+    "action_sequence": [
+      "go to shelf 1",
+      "go to shelf 2",
+      "go to shelf 1",
+      "go to shelf 3",
+      "take alarmclock 1 from shelf 3",
+      "go to dresser 1",
+      "move alarmclock 1 to dresser 1"
+    ],
+    "observation_sequence": [
+      "You arrive at shelf 1. On the shelf 1, you see nothing.",
+      "You arrive at shelf 2. On the shelf 2, you see nothing.",
+      "You arrive at shelf 1. On the shelf 1, you see nothing.",
+      "You arrive at shelf 3. On the shelf 3, you see a alarmclock 1.",
+      "You pick up the alarmclock 1 from the shelf 3.",
+      "You arrive at dresser 1. On the dresser 1, you see a cd 1, a creditcard 1, a desklamp 1, a laptop 1, and a statue 1.",
+      "You move the alarmclock 1 to the dresser 1."
+    ],
+    "native_won": true,
+    "native_done": true,
+    "steps": 7,
+    "status": "POSITIVE_CONTROL_PASS",
+    "failure_reason": ""
+  }
+]

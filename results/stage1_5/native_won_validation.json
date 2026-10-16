@@ -1,0 +1,25 @@
+{
+  "positive_all_pass": true,
+  "negative_all_pass": true,
+  "won_false_to_true_observed": true,
+  "won_stays_false_on_negative": true,
+  "per_task": {
+    "0": {
+      "pos_status": "POSITIVE_CONTROL_PASS",
+      "pos_won": true,
+      "neg_status": "NEGATIVE_CONTROL_PASS"
+    },
+    "10": {
+      "pos_status": "POSITIVE_CONTROL_PASS",
+      "pos_won": true,
+      "neg_status": "NEGATIVE_CONTROL_PASS"
+    },
+    "20": {
+      "pos_status": "POSITIVE_CONTROL_PASS",
+      "pos_won": true,
+      "neg_status": "NEGATIVE_CONTROL_PASS"
+    }
+  },
+  "environment_version": "alfworld TextWorld Docker alfworld-local:tw + volume alfworld-data",
+  "verdict": "ENVIRONMENT_VALIDATED"
+}

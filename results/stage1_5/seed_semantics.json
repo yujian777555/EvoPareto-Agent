@@ -1,0 +1,23 @@
+{
+  "seeds_used": [
+    11,
+    23
+  ],
+  "control_surface_audit": {
+    "python_random": "NOT seeded by EpisodeRunner seed parameter in Stage 1 path",
+    "numpy": "NOT used in native episode loop",
+    "torch": "NOT used",
+    "alfworld_reset": "force_game_file locks the game; reset index is 0; seed not passed to AlfredTWEnv",
+    "task_selection": "frozen manifest index — not random",
+    "genome_mutation": "N/A (Stage 1 evaluates fixed genomes)",
+    "llm_sampling": "DeepSeek API call has NO seed parameter set; temperature not set (provider default); sampling is NOT controlled by episode seed"
+  },
+  "verdict": "SEED_NOT_EFFECTIVE_FOR_LIVE_POLICY",
+  "explanation": "seed=11 vs seed=23 only label the episode. Forced game loading + no explicit LLM seed means trajectories differ only from LLM sampling noise, not from a controlled RNG the experimenter set. They are NOT strict independent controlled replicates.",
+  "recommendation_for_future": [
+    "treat seed as a batch label only until LLM provider exposes a seed",
+    "use more episodes per cell rather than 2 pseudo-replicates",
+    "report per-episode outcomes, not significance tests on n=2",
+    "if temperature is fixed later, apply the same setting to all arms"
+  ]
+}

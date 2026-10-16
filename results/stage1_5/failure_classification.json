@@ -1,0 +1,625 @@
+{
+  "taxonomy_definitions": {
+    "GOAL_IDENTIFIED": "goal text non-empty in episode",
+    "OBJECT_DISCOVERED": "any observation mentions the target object type (env feedback)",
+    "OBJECT_ACQUIRED": "any action startswith take/pick of target object",
+    "INTERMEDIATE_STATE": "task-type specific: light toggled (use *lamp*) or object moved to target receptacle",
+    "FINAL_GOAL_ATTEMPTED": "look at <obj> or the win-achieving action (use lamp while holding / move to target)",
+    "NATIVE_WON": "episode success == True"
+  },
+  "n_episodes": 18,
+  "label_counts": {
+    "OBJECT_FOUND_BUT_NOT_ACQUIRED": 2,
+    "LOOP_STAGNATION": 17,
+    "BUDGET_EXHAUSTED": 9,
+    "OBJECT_NOT_FOUND": 14,
+    "ENVIRONMENT_TERMINATED": 9,
+    "ACTION_PARSE_FAILURE": 5,
+    "OBJECT_ACQUIRED_BUT_GOAL_NOT_COMPLETED": 2
+  },
+  "by_task_type": {
+    "look_at_obj_in_light": {
+      "OBJECT_FOUND_BUT_NOT_ACQUIRED": 2,
+      "LOOP_STAGNATION": 11,
+      "BUDGET_EXHAUSTED": 7,
+      "OBJECT_NOT_FOUND": 8,
+      "ENVIRONMENT_TERMINATED": 5,
+      "ACTION_PARSE_FAILURE": 3,
+      "OBJECT_ACQUIRED_BUT_GOAL_NOT_COMPLETED": 2
+    },
+    "pick_and_place_simple": {
+      "OBJECT_NOT_FOUND": 6,
+      "LOOP_STAGNATION": 6,
+      "ENVIRONMENT_TERMINATED": 4,
+      "ACTION_PARSE_FAILURE": 2,
+      "BUDGET_EXHAUSTED": 2
+    }
+  },
+  "by_genome": {
+    "G1": {
+      "OBJECT_FOUND_BUT_NOT_ACQUIRED": 2,
+      "LOOP_STAGNATION": 6,
+      "BUDGET_EXHAUSTED": 3,
+      "OBJECT_NOT_FOUND": 4,
+      "ENVIRONMENT_TERMINATED": 3
+    },
+    "G2": {
+      "OBJECT_NOT_FOUND": 5,
+      "LOOP_STAGNATION": 6,
+      "ENVIRONMENT_TERMINATED": 6,
+      "ACTION_PARSE_FAILURE": 3,
+      "OBJECT_ACQUIRED_BUT_GOAL_NOT_COMPLETED": 1
+    },
+    "G3": {
+      "OBJECT_ACQUIRED_BUT_GOAL_NOT_COMPLETED": 1,
+      "BUDGET_EXHAUSTED": 6,
+      "ACTION_PARSE_FAILURE": 2,
+      "OBJECT_NOT_FOUND": 5,
+      "LOOP_STAGNATION": 5
+    }
+  },
+  "object_found_but_failed_count": 4,
+  "object_acquired_but_failed_count": 2,
+  "final_goal_attempted_but_failed_count": 4,
+  "progress_stage_histogram": {
+    "goal_identified": 18,
+    "object_discovered": 4,
+    "object_acquired": 2,
+    "intermediate_state": 4,
+    "final_goal_attempted": 4,
+    "native_won": 0
+  },
+  "episodes": [
+    {
+      "episode_id": "t0_G1_s11",
+      "task_index": 0,
+      "genome_id": "G1",
+      "seed": 11,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_FOUND_BUT_NOT_ACQUIRED",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": true,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": 20,
+        "steps_after_first_discovery": 9,
+        "loop_occurrences": 20,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t0_G1_s23",
+      "task_index": 0,
+      "genome_id": "G1",
+      "seed": 23,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_FOUND_BUT_NOT_ACQUIRED",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": true,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": 12,
+        "steps_after_first_discovery": 17,
+        "loop_occurrences": 14,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t0_G2_s11",
+      "task_index": 0,
+      "genome_id": "G2",
+      "seed": 11,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 21,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t0_G2_s23",
+      "task_index": 0,
+      "genome_id": "G2",
+      "seed": 23,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED",
+        "ACTION_PARSE_FAILURE"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 19,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t0_G3_s11",
+      "task_index": 0,
+      "genome_id": "G3",
+      "seed": 11,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_ACQUIRED_BUT_GOAL_NOT_COMPLETED",
+        "BUDGET_EXHAUSTED",
+        "ACTION_PARSE_FAILURE"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": true,
+        "object_acquired": true,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": 5,
+        "steps_after_first_discovery": 14,
+        "loop_occurrences": 4,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [
+          "take book 2 from sidetable 1",
+          "examine book 2",
+          "examine book 2",
+          "move book 2 to desk 1",
+          "take book 2 from desk 1",
+          "examine book 2",
+          "move book 2 to desk 1"
+        ],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t0_G3_s23",
+      "task_index": 0,
+      "genome_id": "G3",
+      "seed": 23,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 12,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t10_G1_s11",
+      "task_index": 10,
+      "genome_id": "G1",
+      "seed": 11,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": true,
+        "final_goal_attempted": true,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 14,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": [
+          "use desklamp 1"
+        ]
+      }
+    },
+    {
+      "episode_id": "t10_G1_s23",
+      "task_index": 10,
+      "genome_id": "G1",
+      "seed": 23,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": true,
+        "final_goal_attempted": true,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 19,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": [
+          "use desklamp 1"
+        ]
+      }
+    },
+    {
+      "episode_id": "t10_G2_s11",
+      "task_index": 10,
+      "genome_id": "G2",
+      "seed": 11,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": true,
+        "final_goal_attempted": true,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 21,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": [
+          "use desklamp 1"
+        ]
+      }
+    },
+    {
+      "episode_id": "t10_G2_s23",
+      "task_index": 10,
+      "genome_id": "G2",
+      "seed": 23,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_ACQUIRED_BUT_GOAL_NOT_COMPLETED",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED",
+        "ACTION_PARSE_FAILURE"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": true,
+        "object_acquired": true,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": 5,
+        "steps_after_first_discovery": 25,
+        "loop_occurrences": 13,
+        "termination_reason": "env_done",
+        "sample_target_actions": [
+          "take laptop 1 from bed 1",
+          "move laptop 1 to desk 1",
+          "take laptop 1 from desk 1",
+          "examine laptop 1",
+          "examine laptop 1",
+          "move laptop 1 to desk 1",
+          "take laptop 1 from desk 1",
+          "examine laptop 1"
+        ],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t10_G3_s11",
+      "task_index": 10,
+      "genome_id": "G3",
+      "seed": 11,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": true,
+        "final_goal_attempted": true,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 9,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": [
+          "use desklamp 1"
+        ]
+      }
+    },
+    {
+      "episode_id": "t10_G3_s23",
+      "task_index": 10,
+      "genome_id": "G3",
+      "seed": 23,
+      "task_type": "look_at_obj_in_light",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 7,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t20_G1_s11",
+      "task_index": 20,
+      "genome_id": "G1",
+      "seed": 11,
+      "task_type": "pick_and_place_simple",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 22,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t20_G1_s23",
+      "task_index": 20,
+      "genome_id": "G1",
+      "seed": 23,
+      "task_type": "pick_and_place_simple",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 22,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t20_G2_s11",
+      "task_index": 20,
+      "genome_id": "G2",
+      "seed": 11,
+      "task_type": "pick_and_place_simple",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 18,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t20_G2_s23",
+      "task_index": 20,
+      "genome_id": "G2",
+      "seed": 23,
+      "task_type": "pick_and_place_simple",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "ENVIRONMENT_TERMINATED",
+        "ACTION_PARSE_FAILURE"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 20,
+        "termination_reason": "env_done",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t20_G3_s11",
+      "task_index": 20,
+      "genome_id": "G3",
+      "seed": 11,
+      "task_type": "pick_and_place_simple",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 8,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    },
+    {
+      "episode_id": "t20_G3_s23",
+      "task_index": 20,
+      "genome_id": "G3",
+      "seed": 23,
+      "task_type": "pick_and_place_simple",
+      "won": false,
+      "labels": [
+        "OBJECT_NOT_FOUND",
+        "LOOP_STAGNATION",
+        "BUDGET_EXHAUSTED",
+        "ACTION_PARSE_FAILURE"
+      ],
+      "progress": {
+        "goal_identified": true,
+        "object_discovered": false,
+        "object_acquired": false,
+        "intermediate_state": false,
+        "final_goal_attempted": false,
+        "native_won": false
+      },
+      "evidence": {
+        "first_discovery_step": null,
+        "steps_after_first_discovery": null,
+        "loop_occurrences": 8,
+        "termination_reason": "budget_exhausted",
+        "sample_target_actions": [],
+        "sample_lamp_actions": []
+      }
+    }
+  ]
+}

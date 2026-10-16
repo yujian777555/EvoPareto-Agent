@@ -1,0 +1,84 @@
+{
+  "stage": "STAGE1_5",
+  "environment": "ENVIRONMENT_VALIDATED",
+  "agent": "AGENT_SOLVABILITY_NOT_ESTABLISHED",
+  "repair": "OFFLINE_EVIDENCE_ONLY",
+  "final_next_action": "READY_FOR_SHARED_BASELINE_AB_REVIEW",
+  "positive_controls": {
+    "0": "POSITIVE_CONTROL_PASS",
+    "10": "POSITIVE_CONTROL_PASS",
+    "20": "POSITIVE_CONTROL_PASS"
+  },
+  "negative_controls": {
+    "0": "NEGATIVE_CONTROL_PASS",
+    "10": "NEGATIVE_CONTROL_PASS",
+    "20": "NEGATIVE_CONTROL_PASS"
+  },
+  "progress_histogram": {
+    "goal_identified": 18,
+    "object_discovered": 4,
+    "object_acquired": 2,
+    "intermediate_state": 4,
+    "final_goal_attempted": 4,
+    "native_won": 0
+  },
+  "parser_counts": {
+    "FIRST_PARSE_FAILURE": 10,
+    "REFLECTION_ATTEMPT": 4,
+    "REFLECTION_RECOVERED": 4,
+    "FINAL_PARSE_FAILURE": 6,
+    "FALLBACK_USED": 6
+  },
+  "seed_verdict": "SEED_NOT_EFFECTIVE_FOR_LIVE_POLICY",
+  "real_deepseek_api_calls": 0,
+  "positive_action_sequences": {
+    "0": [
+      "go to sidetable 1",
+      "take book 2 from sidetable 1",
+      "go to bed 1",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to drawer 3",
+      "go to garbagecan 1",
+      "go to safe 1",
+      "go to shelf 1",
+      "go to shelf 2",
+      "go to shelf 3",
+      "go to shelf 4",
+      "go to shelf 5",
+      "go to sidetable 1",
+      "go to sidetable 2",
+      "use desklamp 1"
+    ],
+    "10": [
+      "go to bed 1",
+      "take laptop 1 from bed 1",
+      "go to armchair 1",
+      "go to armchair 2",
+      "go to armchair 3",
+      "go to bed 1",
+      "go to cabinet 1",
+      "go to cabinet 2",
+      "go to desk 1",
+      "go to drawer 1",
+      "go to drawer 2",
+      "go to drawer 3",
+      "go to drawer 4",
+      "go to garbagecan 1",
+      "go to laundryhamper 1",
+      "go to safe 1",
+      "go to sidetable 1",
+      "use desklamp 1"
+    ],
+    "20": [
+      "go to shelf 1",
+      "go to shelf 2",
+      "go to shelf 1",
+      "go to shelf 3",
+      "take alarmclock 1 from shelf 3",
+      "go to dresser 1",
+      "move alarmclock 1 to dresser 1"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "module": "src/diagnostics/shared_repair.py",
+  "tests": "tests/test_shared_repair.py",
+  "result": "7 passed",
+  "checks": [
+    "recorder tracks locations/objects",
+    "stagnation detects state-action repeats",
+    "stagnation not flagged on progress",
+    "history_lines length respects genome k",
+    "goal tracker look_at_light evidence flags",
+    "no oracle auto-win",
+    "canonical_state normalization"
+  ],
+  "llm_calls_added": 0,
+  "oracle_leakage": "none \u2014 native_success_confirmed only set externally",
+  "genome_semantics": "recorder is shared infra; memory_strategy still chooses history window k",
+  "evidence_level": "OFFLINE_TEST_CONFIRMED"
+}
