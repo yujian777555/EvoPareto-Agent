@@ -182,7 +182,22 @@ class ActionObservationRecorder:
         )
 
     def held_objects(self) -> List[str]:
-        return [o.name for o in self.object_states.values() if o.state == ACQUIRED]
+        """Physical objects only — world/tool facts (e.g. light_on) excluded."""
+        skip = {"light_on"}
+        return [
+            o.name for o in self.object_states.values()
+            if o.state == ACQUIRED and _norm(o.name) not in skip
+        ]
+
+    def world_facts(self) -> Dict[str, Any]:
+        """Tool / environment facts separated from inventory."""
+        facts = {}
+        lo = self.object_states.get("light_on")
+        if lo:
+            facts["light_on"] = lo.state == ACQUIRED
+            if lo.state == UNKNOWN:
+                facts["light_on"] = UNKNOWN
+        return facts
 
     def summary(self) -> Dict[str, Any]:
         return {
@@ -198,6 +213,9 @@ class ActionObservationRecorder:
         }
 
     def history_lines(self, k: Optional[int] = None) -> List[str]:
+        """k=None -> all retained events; k=0 -> empty; k>0 -> last k."""
+        if k is not None and k <= 0:
+            return []
         rows = self.events if k is None else self.events[-k:]
         return [
             f"step{e.step_index}: did={e.action} | feedback={canonical_state(e.observation_after)[:70]}"
@@ -315,7 +333,15 @@ def format_repaired_prompt_block(
     *,
     memory_k: Optional[int] = 3,
 ) -> str:
-    """Frozen prompt template (STAGE1_6_PROMPT_V1). Do not edit mid-experiment."""
+    """Frozen prompt template (STAGE1_6_PROMPT_V1). Do not edit mid-experiment.
+
+    memory_k: none -> 0 (no history lines); short_term -> 1; others -> 3.
+    """
+    k = 0 if memory_k is None else int(memory_k)
+    if goal_state.get("memory_strategy") == "none":
+        k = 0
+    elif goal_state.get("memory_strategy") == "short_term":
+        k = 1
     lines = [
         "Observed Progress:",
         f"- target object ({goal_state.get('target_object_name') or '?'}): {goal_state.get('object_state')}",
@@ -323,7 +349,7 @@ def format_repaired_prompt_block(
         f"- light turned on: {'yes' if goal_state.get('light_turned_on') else 'not confirmed'}",
         f"- native task completed: {'yes' if goal_state.get('native_success_confirmed') else 'no'}",
     ]
-    hist = recorder.history_lines(k=memory_k)
+    hist = recorder.history_lines(k=k)
     if hist:
         lines.append("Recent Actions and Feedback:")
         lines.extend(f"  {h}" for h in hist)

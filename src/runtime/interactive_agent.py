@@ -56,14 +56,16 @@ class InteractiveAgent:
         self.allow = ALLOW_TOOLS.get(genome.tool_policy, frozenset())
         self.reflection_count = 0
         self.decision_logs: List[DecisionLog] = []
-        self.runtime_variant = runtime_variant  # "current" | "shared_repaired"
+        self.runtime_variant = runtime_variant  # "current" | "shared_repaired" | "grounded_planner_v1"
         self._recorder = None
         self._stagnation = None
         self._goal_state = {}
         self._task_type = ""
         self._last_goal = ""
         self._last_observation = ""
-        if runtime_variant == "shared_repaired":
+        self._goal_spec = None
+        self._planner = None
+        if runtime_variant in ("shared_repaired", "grounded_planner_v1"):
             from src.diagnostics.shared_repair import (
                 ActionObservationRecorder,
                 StagnationDetector,
@@ -72,11 +74,17 @@ class InteractiveAgent:
             self._recorder = ActionObservationRecorder()
             self._stagnation = StagnationDetector()
             self._goal_state = {}
+        if runtime_variant == "grounded_planner_v1":
+            from src.runtime.goal_grounding import parse_goal
+            from src.runtime.subgoal_planner import SubgoalPlanner
+
+            self._goal_spec = parse_goal("")
+            self._planner = SubgoalPlanner(self._goal_spec)
         self.repaired_prompt_blocks: List[str] = []
 
     def observe(self, action: str, observation_before: str, observation_after: str, *,
                 parse_ok: bool = True, used_fallback: bool = False) -> None:
-        """Record environment feedback after a step (shared_repaired only)."""
+        """Record environment feedback after a step (shared_repaired / grounded)."""
         if self._recorder is None:
             return
         from src.diagnostics.shared_repair import StepRecord, goal_state_tracker
@@ -96,6 +104,11 @@ class InteractiveAgent:
             self._task_type or "", self._recorder, self._last_goal or ""
         )
         self._last_observation = observation_after
+        if self._planner is not None:
+            self._planner.update_from_feedback(
+                action, observation_before, observation_after,
+                admissible=getattr(self, "_last_admissible", None),
+            )
 
     def select_action(
         self,
@@ -106,6 +119,14 @@ class InteractiveAgent:
         if not goal:
             goal = "(no task goal provided)"
         self._last_goal = goal
+        # A2: derive task_type from public goal text (no hidden state)
+        if not self._task_type and goal and "no task goal" not in goal:
+            try:
+                from src.runtime.goal_grounding import parse_goal
+
+                self._task_type = parse_goal(goal).task_family or ""
+            except Exception:
+                self._task_type = ""
         if not self.budget.can_step():
             # Caller must stop the episode; return sentinel.
             raise BudgetExhaustedStop("budget_exhausted")
@@ -130,22 +151,35 @@ class InteractiveAgent:
             prompt_lines.append("Strategy: act, then revise if observation contradicts plan.")
         if mem:
             prompt_lines.append("History:\n" + mem)
-        # --- shared_repaired: verified progress / stagnation block ---
+        # --- shared_repaired / grounded: verified progress block ---
+        self._last_admissible = list(admissible)
         if self.runtime_variant == "shared_repaired" and self._recorder is not None:
-            from src.diagnostics.shared_repair import (
-                format_repaired_prompt_block,
-                StagnationDetector,
-            )
+            from src.diagnostics.shared_repair import format_repaired_prompt_block
 
             stag = self._stagnation.check(self._recorder) if self._stagnation else {}
-            gs = self._goal_state or {}
-            mem_k = 1 if self.genome.memory_strategy == "short_term" else (
-                0 if self.genome.memory_strategy == "none" else 3
-            )
+            gs = dict(self._goal_state or {})
+            # A4: none→0, short_term→1, episodic/semantic/hybrid→3 (not None=ALL)
+            if self.genome.memory_strategy == "none":
+                mem_k = 0
+            elif self.genome.memory_strategy == "short_term":
+                mem_k = 1
+            else:
+                mem_k = 3
+            gs["memory_strategy"] = self.genome.memory_strategy
             block = format_repaired_prompt_block(
-                goal, self._recorder, stag, gs,
-                memory_k=mem_k if mem_k else None,
+                goal, self._recorder, stag, gs, memory_k=mem_k
             )
+            prompt_lines.append(block)
+            self.repaired_prompt_blocks.append(block)
+        elif self.runtime_variant == "grounded_planner_v1" and self._planner is not None:
+            from src.runtime.goal_grounding import parse_goal
+
+            if self._goal_spec is None or self._goal_spec.raw_goal != goal:
+                self._goal_spec = parse_goal(goal)
+                self._planner.goal_spec = self._goal_spec
+            # task_family from GoalSpec feeds goal-state tracker
+            self._task_type = self._goal_spec.task_family or self._task_type
+            block = self._planner.prompt_block(admissible)
             prompt_lines.append(block)
             self.repaired_prompt_blocks.append(block)
         prompt_lines.append("Observation:\n" + (observation or "")[:800])

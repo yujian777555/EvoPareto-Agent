@@ -1,0 +1,21 @@
+{
+  "gate": "GATE_D_GENOME",
+  "planner_strategy": {
+    "direct": "PROMPT_ONLY",
+    "cot": "PROMPT_ONLY",
+    "plan_and_solve": "PROMPT_ONLY (one instruction line)",
+    "tree_search": "UNIMPLEMENTED as real tree search",
+    "reflexion": "PROMPT_ONLY (instruction line)"
+  },
+  "memory_strategy": {
+    "none": "EXECUTION_CONFIRMED (0 history lines in repaired/planner prompts)",
+    "short_term": "EXECUTION_CONFIRMED (1 line)",
+    "episodic_semantic_hybrid": "EXECUTION_CONFIRMED (k=3 cap)"
+  },
+  "reflection_strategy": "EXECUTION_CONFIRMED but degenerate (none vs retry-on-parse-fail)",
+  "tool_policy": "NO-OP on native ALFWorld path",
+  "reasoning_budget": "EXECUTION_CONFIRMED (max steps/tokens)",
+  "grounded_planner_v1_impact": "subgoal block changes prompt; LLM still chooses; genome memory window still applied",
+  "risk": "planner block could dominate if too strong \u2014 monitor in Stage 1.8",
+  "unimplemented_note": "not five real planners; documented honestly"
+}

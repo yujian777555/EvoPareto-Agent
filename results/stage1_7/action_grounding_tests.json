@@ -1,0 +1,24 @@
+{
+  "gate": "ACTION_GROUNDING",
+  "result": "PASS",
+  "supported_types": [
+    "NAVIGATE",
+    "INSPECT",
+    "OPEN",
+    "PICKUP",
+    "PLACE",
+    "USE_TOOL",
+    "LOOK",
+    "CLOSE",
+    "UNKNOWN"
+  ],
+  "rules": [
+    "input from live admissible_commands only",
+    "never invents commands",
+    "object-not-location: go to desklamp not emitted as NAVIGATE target",
+    "UNKNOWN on unparseable",
+    "state updates from env feedback after execution"
+  ],
+  "tests": "test_action_spec_mapping, test_relevant_candidates_only_from_admissible, test_grounding_blocked_when_no_admissible",
+  "real_api_calls": 0
+}

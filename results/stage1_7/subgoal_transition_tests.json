@@ -1,0 +1,17 @@
+{
+  "gate": "GATE_B_PLANNING",
+  "result": "PASS",
+  "states": [
+    "PENDING",
+    "ACTIVE",
+    "SATISFIED",
+    "BLOCKED",
+    "UNKNOWN"
+  ],
+  "transition_test": "test_subgoal_transition_discover_acquire_place",
+  "pickup_failure_test": "test_pickup_failure_updates_state",
+  "active_subgoal_persistent": true,
+  "evidence_driven_updates": true,
+  "generic_templates_only": "look_at_obj_in_light and pick_and_place_simple task relations, no concrete locations",
+  "real_api_calls": 0
+}

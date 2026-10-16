@@ -1,0 +1,23 @@
+{
+  "stage": "STAGE1_7",
+  "status": "COMPLETED",
+  "real_deepseek_api_calls": 0,
+  "semantic_fixes": [
+    "A1_goal_parse",
+    "A2_task_type",
+    "A3_light_on_split",
+    "A4_memory_none"
+  ],
+  "new_modules": [
+    "src/runtime/goal_grounding.py",
+    "src/runtime/action_semantics.py",
+    "src/runtime/subgoal_planner.py"
+  ],
+  "runtime_variant": "grounded_planner_v1 (opt-in)",
+  "offline_tests_passed": 44,
+  "scripted_native_wins": 3,
+  "generic_native_wins": 0,
+  "oracle_leakage": false,
+  "final_decision": "PLANNING_MECHANISM_INCOMPLETE",
+  "stage1_data_modified": false
+}

@@ -1,0 +1,14 @@
+{
+  "gate": "GATE_C_RUNTIME_ISOLATION",
+  "result": "PASS",
+  "current_unchanged": true,
+  "shared_repaired_unchanged": true,
+  "grounded_planner_v1_explicit_optin": true,
+  "historical_data_modified": false,
+  "extra_real_api": 0,
+  "tests": [
+    "test_current_runtime_unchanged",
+    "test_grounded_planner_prompt_has_subgoal_and_candidates",
+    "test_shared_repaired_still_works"
+  ]
+}

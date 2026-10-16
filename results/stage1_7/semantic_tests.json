@@ -1,0 +1,35 @@
+{
+  "gate": "GATE_A_SEMANTICS",
+  "result": "PASS",
+  "tests": "tests/test_stage1_7_semantics.py",
+  "checks": {
+    "put_a_alarmclock_in_dresser_parsed": true,
+    "look_at_book_under_desklamp_parsed": true,
+    "light_on_not_in_held_objects": true,
+    "memory_none_zero_history": true,
+    "task_type_from_goal_text": true,
+    "unknown_on_incomplete_goal": true,
+    "no_oracle_in_new_modules": true
+  },
+  "goal_parse_examples": [
+    {
+      "text": "put a alarmclock in dresser.",
+      "object": "alarmclock",
+      "receptacle": "dresser",
+      "relation": "in"
+    },
+    {
+      "text": "look at book under the desklamp",
+      "object": "book",
+      "receptacle": "desklamp",
+      "relation": "look_under_light"
+    },
+    {
+      "text": "place a book on desk",
+      "object": "book",
+      "receptacle": "desk",
+      "relation": "on"
+    }
+  ],
+  "real_api_calls": 0
+}
