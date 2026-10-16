@@ -1,0 +1,9 @@
+{
+  "REAL_TRACE_ANALYSIS": "REAL_TRACE_EVIDENCE_INSUFFICIENT",
+  "MOCK_TRACE_ANALYSIS": "see mock_smoke_results.json (selection probabilities observed)",
+  "search_duplication": "NOT_MEASURABLE (no traces)",
+  "invalid_mutation": "NOT_MEASURABLE",
+  "search_branch_collapse": "NOT_MEASURABLE",
+  "failure_feedback_use": "code-level: failure mods formatted as 'Absolutely prohibit'; exact-string dedup only",
+  "generalization_evidence": "NOT_AVAILABLE in repo artifacts"
+}

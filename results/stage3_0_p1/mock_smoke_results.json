@@ -1,0 +1,11 @@
+{
+  "static_import": "PASS",
+  "workflow_load": "PASS (base class importable)",
+  "operator_exec": "PASS (select_round + mixed probabilities)",
+  "mock_provider": "PASS (experience format + dedup check)",
+  "search_loop": "PASS (Optimizer constructed; get_top_rounds OK)",
+  "serialization": "PASS (GraphOptimize pydantic model)",
+  "network_isolation": "PASS (MockLLM used; no AsyncOpenAI client created)",
+  "official_code_root": "D:\\\u65b0\u5efa\u6587\u4ef6\u5939\\external\\AFlow",
+  "live_real_model_evaluation": "NOT_EXECUTED"
+}

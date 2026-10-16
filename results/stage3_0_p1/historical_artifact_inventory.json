@@ -1,0 +1,22 @@
+{
+  "official_artifacts_found": true,
+  "scaffolding": [
+    "workspace/*/workflows/round_1/graph.py",
+    "prompt.py",
+    "template/operator*.py"
+  ],
+  "results_json_all_empty": true,
+  "logs_all_empty": true,
+  "processed_experience_all_empty": true,
+  "nonempty_json_files": [
+    "workspace\\DROP\\workflows\\template\\operator.json",
+    "workspace\\GSM8K\\workflows\\template\\operator.json",
+    "workspace\\HotpotQA\\workflows\\template\\operator.json",
+    "workspace\\HumanEval\\workflows\\template\\operator.json",
+    "workspace\\MATH\\workflows\\template\\operator.json",
+    "workspace\\MBPP\\workflows\\template\\operator.json"
+  ],
+  "official_traces_found": false,
+  "evidence_class": "OFFICIAL_HISTORICAL_ARTIFACT (scaffolding only)",
+  "note": "no intermediate search rounds, no scores, no candidate records \u2014 REAL_TRACE_EVIDENCE_INSUFFICIENT"
+}

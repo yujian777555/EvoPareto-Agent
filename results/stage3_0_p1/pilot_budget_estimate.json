@@ -1,0 +1,32 @@
+{
+  "assumptions": "AFlow search: per round ~1 optimize-LLM call + validation_rounds\u00d7tasks execute-LLM calls; execute calls ~1-4 LLM calls/task depending on workflow",
+  "minimum_pilot": {
+    "model": "deepseek-flash (or paper-equivalent small model)",
+    "benchmark": "GSM8K subset",
+    "candidates": 5,
+    "tasks_per_eval": 20,
+    "search_depth_rounds": 5,
+    "logical_model_calls": "~5 optimize + 5\u00d720\u00d72 exec \u2248 205",
+    "physical_http": "\u2264 300 (retries/failures)",
+    "input_tokens": "~1.5M",
+    "output_tokens": "~0.3M",
+    "estimated_cost": "$0.6\u20131.5"
+  },
+  "normal_pilot": {
+    "benchmark": "GSM8K + HumanEval",
+    "candidates": 10,
+    "tasks_per_eval": 50,
+    "rounds": 10,
+    "logical_model_calls": "~10 + 10\u00d750\u00d72 \u2248 1010",
+    "physical_http": "\u2264 1500",
+    "estimated_cost": "$5\u201312"
+  },
+  "worst_case_bound": {
+    "physical_http": "\u2264 3000",
+    "estimated_cost": "$25",
+    "hard_cap": 30.0,
+    "fail_closed": "SQLite PhysicalBudgetGate; stop on cap; no reset"
+  },
+  "uncertainty": "token per call varies with workflow length; cache/retry billing unknown; rates from deepseek-flash-2026-10-peak-conservative",
+  "note": "BUDGET_ESTABLISHED_PROVISIONAL \u2014 needs Planner approval before Level 3"
+}

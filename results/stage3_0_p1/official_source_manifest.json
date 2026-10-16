@@ -1,0 +1,12 @@
+{
+  "repository_url": "https://github.com/FoundationAgents/AFlow",
+  "upstream_commit_sha": "3f457218fc716093fe53f6df8a5d5e6379d66346",
+  "branch_or_tag": "main (shallow clone depth=1)",
+  "license": "MIT (Copyright 2025 FoundationAgents)",
+  "python_version_required": "3.x (openai>=1.82, pydantic, pandas, numpy)",
+  "dependencies": "requirements.txt (23 pinned pkgs); tree_sitter NOT in requirements but imported by scripts/utils/sanitize.py",
+  "benchmark_versions": "GSM8K, MATH, DROP, HotpotQA, HumanEval, MBPP, BBH, GPQA, LiveCodeBench, etc. (download via data/download_data.py)",
+  "external_submodules": "none observed at top level",
+  "pinned": true,
+  "location": "external/AFlow (gitignored, not vendored)"
+}

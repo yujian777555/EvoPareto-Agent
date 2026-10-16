@@ -1,0 +1,9 @@
+{
+  "UPSTREAM_IMPLEMENTATION": "AFlow @ 3f457218fc716093fe53f6df8a5d5e6379d66346",
+  "DEPENDENCY_INCOMPATIBILITY": "tree_sitter imported but not in requirements.txt; offline pip blocked (proxy)",
+  "ENVIRONMENT_ERROR": "none after stub",
+  "BENCHMARK_ERROR": "data/ download required for real eval \u2014 not run",
+  "MODEL_PROVIDER_ERROR": "none (MockLLM; AsyncOpenAI not instantiated)",
+  "ALGORITHM_LIMITATION": "experience dedup is exact-string only; 'Absolutely prohibit' applied to successes too",
+  "patches_applied_to_upstream": "none"
+}

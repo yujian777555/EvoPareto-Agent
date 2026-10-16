@@ -1,0 +1,5 @@
+{
+  "tree_sitter": "MISSING in offline env; imported by scripts/utils/sanitize.py only; stubbed for import smoke \u2014 DEPENDENCY_INCOMPATIBILITY",
+  "openai": "required at runtime for real LLM; NOT exercised (MockLLM)",
+  "network": "denied this round"
+}

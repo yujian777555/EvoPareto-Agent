@@ -1,0 +1,11 @@
+{
+  "steps": [
+    "stub tree_sitter \u2192 import scripts.optimizer, data_utils, experience_utils, workflow",
+    "DataUtils.select_round on synthetic scores [50,80,60] \u2192 mixed probs [0.786,0.113,0.102] biased to best",
+    "ExperienceUtils.load_experience + format_experience + check_modification",
+    "Optimizer constructed with MockLLM (no AsyncOpenAI)",
+    "GraphOptimize pydantic serialization"
+  ],
+  "network_isolation": "MockLLM only; no sockets opened",
+  "sandbox": "no untrusted generated code executed this round"
+}

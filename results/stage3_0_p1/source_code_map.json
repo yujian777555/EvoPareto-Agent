@@ -1,0 +1,24 @@
+{
+  "entry": "run.py \u2192 Optimizer.optimize",
+  "optimizer.py": "iterative rounds: top-k sample parent \u2192 LLM GraphOptimize(modification,graph,prompt) \u2192 check_modification \u2192 evaluate \u2192 update_experience \u2192 check_convergence",
+  "parent_selection": "data_utils.select_round: mixed_prob = \u03bb\u00b7uniform + (1-\u03bb)\u00b7softmax(\u03b1\u00b7score), \u03b1=0.2 \u03bb=0.3, over top-k rounds (default sample)",
+  "expansion_generation": "optimize_llm prompt includes graph code + prompt + operator descriptions + formatted experience; output is new graph/prompt Python",
+  "evaluation": "evaluation_utils.evaluate_graph over validation_rounds samples; score = avg",
+  "backpropagation": "NONE in classic MCTS sense \u2014 scores stored per round; no tree edge updates",
+  "experience": "experience_utils: per-father-node success/failure lists; formatted as 'Absolutely prohibit <modification>' for BOTH success and failure; exact-string dedup via check_modification",
+  "workflow_representation": "Python class Workflow with Operator calls (Custom, ScEnsemble, Programmer, AnswerGenerate...) + prompt.py; LLM edits both structure and prompts",
+  "convergence": "convergence_utils.check_convergence(top_k=3)",
+  "operators_available": [
+    "Custom",
+    "AnswerGenerate",
+    "ScEnsemble",
+    "MdEnsemble",
+    "Programmer/CustomCodeGenerate",
+    "Review",
+    "Revise",
+    "ReflectionTest",
+    "Format",
+    "Generate"
+  ],
+  "paper_code_note": "Paper frames MCTS; code implements top-k mixed-distribution sampling + LLM edit + experience dedup \u2014 no UCT tree search. Marked PAPER_CODE_DIVERGENCE (implementation simplification, not necessarily a bug)."
+}

@@ -1,0 +1,6 @@
+{
+  "LEVEL_1_IMPORT": "PASS",
+  "LEVEL_2_MOCK_PIPELINE": "PASS (Optimizer + utils exercised; full search loop with LLM-gen not run end-to-end)",
+  "LEVEL_3_NATIVE_PILOT": "NOT_EXECUTED",
+  "LEVEL_4_PAPER_SCALE": "NOT_EXECUTED"
+}
