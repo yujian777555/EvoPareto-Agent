@@ -79,7 +79,7 @@ def test_workflow_reaches_model_only_via_ipc(budget_llm):
     through the controlled /ipc mailbox — and that request is budget-gated."""
     os.environ["R2A_HOST_SECRET"] = "should-not-leak"
     try:
-        res = run_workflow_code_isolated(GRAPH_USES_LLM, llm=budget_llm["llm"], timeout=20)
+        res = run_workflow_code_isolated(GRAPH_USES_LLM, problem="What is 2+2?", task_id="t1", gold_answer="4", llm=budget_llm["llm"], timeout=20)
     finally:
         os.environ.pop("R2A_HOST_SECRET", None)
     assert res["ok"] is True, res
@@ -94,7 +94,7 @@ def test_workflow_reaches_model_only_via_ipc(budget_llm):
 def test_workflow_network_denied_and_secrets_denied(budget_llm):
     os.environ["R2A_HOST_SECRET"] = "should-not-leak"
     try:
-        res = run_workflow_code_isolated(GRAPH_NETWORK_PROBE, llm=budget_llm["llm"], timeout=20)
+        res = run_workflow_code_isolated(GRAPH_NETWORK_PROBE, problem="What is 3+3?", task_id="t2", gold_answer="6", llm=budget_llm["llm"], timeout=20)
     finally:
         os.environ.pop("R2A_HOST_SECRET", None)
     assert res["ok"] is True, res
@@ -117,9 +117,9 @@ def test_ipc_server_is_the_only_model_channel(tmp_path):
     server = ModelIPCServer(ipc, llm)
     server.start()
     try:
-        rid = "abc123"
+        rid = "a" * 32
         (ipc / "out" / f"{rid}.json").write_text(
-            '{"id": "abc123", "prompt": "hello", "model": "deepseek-flash"}',
+            '{"id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "prompt": "hello", "model": "deepseek-flash"}',
             encoding="utf-8",
         )
         import time
@@ -149,15 +149,15 @@ def test_ipc_fail_closed_when_budget_exhausted(tmp_path):
     server = ModelIPCServer(ipc, llm)
     server.start()
     try:
-        for rid in ("r1", "r2"):
+        for rid in ("b" * 32, "c" * 32):
             (ipc / "out" / f"{rid}.json").write_text(
                 f'{{"id": "{rid}", "prompt": "p"}}', encoding="utf-8"
             )
         import time
 
         time.sleep(1.0)
-        r1 = (ipc / "in" / "r1.json").read_text(encoding="utf-8") if (ipc / "in" / "r1.json").exists() else ""
-        r2 = (ipc / "in" / "r2.json").read_text(encoding="utf-8") if (ipc / "in" / "r2.json").exists() else ""
+        r1 = (ipc / "in" / ("b" * 32 + ".json")).read_text(encoding="utf-8") if (ipc / "in" / ("b" * 32 + ".json")).exists() else ""
+        r2 = (ipc / "in" / ("c" * 32 + ".json")).read_text(encoding="utf-8") if (ipc / "in" / ("c" * 32 + ".json")).exists() else ""
         # first should succeed, second should fail-closed
         assert '"ok": true' in r1
         assert '"ok": false' in r2 or r2 == ""

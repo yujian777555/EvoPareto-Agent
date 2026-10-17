@@ -1,0 +1,13 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "VALID_STRUCTURED_RESPONSE": "ACCEPTED",
+  "MALFORMED_RESPONSE": "REJECTED",
+  "MISSING_GRAPH": "REJECTED",
+  "MISSING_PROMPT": "REJECTED",
+  "INVALID_PYTHON": "REJECTED",
+  "MISSING_WORKFLOW_CLASS": "REJECTED",
+  "NO_SYNTHETIC_SUCCESS_FALLBACK": true,
+  "detail": [
+    "tests/baseline_first/test_hard_budget.py"
+  ]
+}

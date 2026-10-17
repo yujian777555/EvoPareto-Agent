@@ -1,0 +1,20 @@
+{
+  "nodeids": [
+    "tests/baseline_first/test_hard_budget.py"
+  ],
+  "returncode": 0,
+  "passed": true,
+  "summary": [
+    ".....................                                                    [100%]"
+  ],
+  "evidence_class": "MOCK_TEST",
+  "caps": {
+    "max_input_tokens_per_request": 2000,
+    "max_output_tokens_per_request": 500,
+    "max_total_input_tokens": 2000000,
+    "max_total_output_tokens": 200000,
+    "max_physical_requests": 300,
+    "max_total_cost_usd": 5.0
+  },
+  "pricing": "peak cache-miss by default (0.30/1M in, 1.20/1M out)"
+}

@@ -60,7 +60,9 @@ class BudgetDB:
                     spent_cost REAL NOT NULL DEFAULT 0,
                     tokens_in INTEGER NOT NULL DEFAULT 0,
                     tokens_out INTEGER NOT NULL DEFAULT 0,
-                    retries INTEGER NOT NULL DEFAULT 0
+                    retries INTEGER NOT NULL DEFAULT 0,
+                    max_tokens_in INTEGER NOT NULL DEFAULT 2000000,
+                    max_tokens_out INTEGER NOT NULL DEFAULT 200000
                 )
                 """
             )
@@ -70,7 +72,9 @@ class BudgetDB:
                     id TEXT PRIMARY KEY,
                     est_cost REAL NOT NULL,
                     status TEXT NOT NULL,
-                    created_at REAL NOT NULL
+                    created_at REAL NOT NULL,
+                    reserved_tokens_in INTEGER NOT NULL DEFAULT 0,
+                    reserved_tokens_out INTEGER NOT NULL DEFAULT 0
                 )
                 """
             )
@@ -213,11 +217,19 @@ class BudgetDB:
                 self._rollback_quiet(conn)
                 raise
 
-    def acquire_ticket(self, est_cost: float, *, is_retry: bool = False) -> str:
+    def acquire_ticket(
+        self,
+        est_cost: float,
+        *,
+        is_retry: bool = False,
+        res_tokens_in: int = 0,
+        res_tokens_out: int = 0,
+    ) -> str:
         """Atomic pre-send reservation. Returns ticket id. Raises if denied.
 
         Billing-block check runs INSIDE BEGIN IMMEDIATE so a block committed
         by another process is observed before any new reservation.
+        Cumulative token quotas are checked and reserved atomically.
         """
         with self._lock:
             conn = self._conn
@@ -239,18 +251,25 @@ class BudgetDB:
                 ).fetchone()["c"]
                 if r["physical_attempts"] + open_n >= r["max_physical"]:
                     raise BudgetExceeded("max physical HTTP attempts reached")
+                # cumulative token quotas (hard cap)
+                if int(r["tokens_in"]) + int(res_tokens_in) > int(r["max_tokens_in"]):
+                    raise BudgetExceeded("max cumulative input tokens reached")
+                if int(r["tokens_out"]) + int(res_tokens_out) > int(r["max_tokens_out"]):
+                    raise BudgetExceeded("max cumulative output tokens reached")
                 if r["spent_cost"] + r["reserved_cost"] + float(est_cost) > r["max_cost_usd"]:
                     raise BudgetExceeded("max cost reached")
                 tid = uuid.uuid4().hex
                 conn.execute(
-                    "INSERT INTO tickets (id, est_cost, status, created_at) "
-                    "VALUES (?, ?, 'open', strftime('%s','now'))",
-                    (tid, float(est_cost)),
+                    "INSERT INTO tickets (id, est_cost, status, created_at, "
+                    "reserved_tokens_in, reserved_tokens_out) "
+                    "VALUES (?, ?, 'open', strftime('%s','now'), ?, ?)",
+                    (tid, float(est_cost), int(res_tokens_in), int(res_tokens_out)),
                 )
                 conn.execute(
                     "UPDATE budget SET reserved_tickets=reserved_tickets+1, "
-                    "reserved_cost=reserved_cost+?, retries=retries+? WHERE id=1",
-                    (float(est_cost), 1 if is_retry else 0),
+                    "reserved_cost=reserved_cost+?, retries=retries+?, "
+                    "tokens_in=tokens_in+?, tokens_out=tokens_out+? WHERE id=1",
+                    (float(est_cost), 1 if is_retry else 0, int(res_tokens_in), int(res_tokens_out)),
                 )
                 conn.execute("COMMIT")
                 return tid
@@ -284,16 +303,26 @@ class BudgetDB:
                     "UPDATE budget SET physical_attempts=physical_attempts+1, "
                     "reserved_tickets=MAX(0,reserved_tickets-1), "
                     "reserved_cost=MAX(0,reserved_cost-?), spent_cost=spent_cost+?, "
-                    "settled_ok=settled_ok+?, settled_failed=settled_failed+?, "
-                    "tokens_in=tokens_in+?, tokens_out=tokens_out+? WHERE id=1",
+                    "settled_ok=settled_ok+?, settled_failed=settled_failed+? "
+                    "WHERE id=1",
                     (
                         est,
                         max(0.0, float(actual_cost)),
                         1 if success else 0,
                         0 if success else 1,
-                        int(tokens_in),
-                        int(tokens_out),
                     ),
+                )
+                res_in = int(t["reserved_tokens_in"] or 0)
+                res_out = int(t["reserved_tokens_out"] or 0)
+                extra_in = max(0, int(tokens_in) - res_in)
+                extra_out = max(0, int(tokens_out) - res_out)
+                conn.execute(
+                    "UPDATE budget SET tokens_in=tokens_in+?, tokens_out=tokens_out+? WHERE id=1",
+                    (extra_in, extra_out),
+                )
+                conn.execute(
+                    "UPDATE tickets SET reserved_tokens_in=0, reserved_tokens_out=0 WHERE id=?",
+                    (ticket,),
                 )
                 conn.execute("COMMIT")
             except Exception:
@@ -359,8 +388,19 @@ class PhysicalBudgetGate:
         self.db = db
         self.est_cost = est_cost_per_request
 
-    def approve(self, *, is_retry: bool = False) -> str:
-        return self.db.acquire_ticket(self.est_cost, is_retry=is_retry)
+    def approve(
+        self,
+        *,
+        is_retry: bool = False,
+        res_tokens_in: int = 0,
+        res_tokens_out: int = 0,
+    ) -> str:
+        return self.db.acquire_ticket(
+            self.est_cost,
+            is_retry=is_retry,
+            res_tokens_in=res_tokens_in,
+            res_tokens_out=res_tokens_out,
+        )
 
     def settle(
         self,
@@ -403,7 +443,12 @@ def set_strict_mode(flag: bool) -> None:
         _STRICT = bool(flag)
 
 
-def pre_send_ticket(*, is_retry: bool = False) -> str:
+def pre_send_ticket(
+    *,
+    is_retry: bool = False,
+    res_tokens_in: int = 0,
+    res_tokens_out: int = 0,
+) -> str:
     """Must be called before every physical send.
 
     - strict mode + no gate => GateRequired (no send)
@@ -416,7 +461,11 @@ def pre_send_ticket(*, is_retry: bool = False) -> str:
         if strict:
             raise GateRequired("strict mode: physical HTTP requires installed Budget gate")
         return ""  # offline / non-research path
-    return gate.approve(is_retry=is_retry)
+    return gate.approve(
+        is_retry=is_retry,
+        res_tokens_in=res_tokens_in,
+        res_tokens_out=res_tokens_out,
+    )
 
 
 def settle_ticket(ticket: str, *, success: bool, **kwargs: Any) -> None:

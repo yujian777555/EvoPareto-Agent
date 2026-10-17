@@ -1,0 +1,14 @@
+{
+  "nodeids": [
+    "tests/baseline_first/test_gsm8k_tasks.py"
+  ],
+  "returncode": 0,
+  "passed": true,
+  "summary": [
+    ".......                                                                  [100%]"
+  ],
+  "evidence_class": "MOCK_TEST",
+  "REAL_TASK_QUESTION_PROPAGATED": true,
+  "GOLD_SCORING": "exact match after numeric normalisation",
+  "TRAIN_VALIDATION_TEST_ISOLATION": true
+}

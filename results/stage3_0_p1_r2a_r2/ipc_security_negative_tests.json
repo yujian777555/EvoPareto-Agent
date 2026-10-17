@@ -1,0 +1,23 @@
+{
+  "nodeids": [
+    "tests/baseline_first/test_ipc_security.py"
+  ],
+  "returncode": 0,
+  "passed": true,
+  "summary": [
+    "..........................ss...                                          [100%]"
+  ],
+  "evidence_class": "MOCK_TEST",
+  "covers": [
+    "TRAVERSAL_ID",
+    "ABSOLUTE_PATH_ID",
+    "WINDOWS_PATH_ID",
+    "INVALID_ID",
+    "DUPLICATE_ID",
+    "SYMLINK_REQUEST",
+    "SYMLINK_RESPONSE",
+    "OVERSIZED_REQUEST",
+    "REPLACED_FILE",
+    "UNAUTHORIZED_MODEL"
+  ]
+}

@@ -1,42 +1,125 @@
-"""Controlled model IPC for isolated Workflow execution (Task 4).
+"""Isolated Workflow execution with secure model IPC (Stage 3.0-P1-R2A-R2).
 
-Problem:
-  docker --network none blocks ALL TCP (so Workflow cannot reach any HTTP
-  gateway), but generated Workflow code must still be able to run model
-  inference under budget control.
-
-Solution:
-  a bind-mounted mailbox directory is the ONLY model channel.
-    /ipc/out/<id>.json   Workflow -> host   (request)
-    /ipc/in/<id>.json    host -> Workflow   (response)
-  The host side drains requests through GatewayLLM (PhysicalBudgetGate +
-  request_ledger). Container keeps --network none, no host env secrets, no
-  docker.sock. CPU / memory / pids / timeout are capped by Docker flags.
-
-This is an authorised host-model-service proxy: the mailbox is the control
-boundary, not open network access.
+Task 1: request-id validation, path containment, symlink refusal, atomic
+        response handoff, size caps, duplicate refusal, trusted model only.
+Task 4: the REAL task question is passed into the container (no "1+1" stub);
+        task_id + question + gold answer travel together for offline scoring.
 """
 from __future__ import annotations
 
+import errno
 import json
+import os
+import re
+import subprocess
+import tempfile
 import threading
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+REQUEST_ID_RE = re.compile(r"^[0-9a-f]{32}$")
+
+MAX_REQUEST_BYTES = 256 * 1024
+MAX_PROMPT_CHARS = 32_000
+MAX_PENDING_REQUESTS = 64
+MAX_RESPONSE_BYTES = 256 * 1024
+
+
+class IPCSecurityError(RuntimeError):
+    """Untrusted IPC input rejected. Never triggers a model call."""
+
+
+class IPCDuplicateRequest(IPCSecurityError):
+    pass
+
+
+def validate_request_id(rid: Any) -> str:
+    if not isinstance(rid, str):
+        raise IPCSecurityError(f"NON_STRING_ID:{type(rid).__name__}")
+    if not REQUEST_ID_RE.match(rid):
+        raise IPCSecurityError(f"INVALID_ID:{rid[:80]!r}")
+    if len(rid) != 32:
+        raise IPCSecurityError(f"BAD_ID_LENGTH:{len(rid)}")
+    return rid
+
+
+def _safe_join(root: Path, name: str) -> Path:
+    if not isinstance(name, str) or not name:
+        raise IPCSecurityError("EMPTY_NAME")
+    if "/" in name or "\\" in name:
+        raise IPCSecurityError(f"PATH_SEPARATOR:{name[:40]!r}")
+    if name.startswith(".") or ".." in name:
+        raise IPCSecurityError(f"TRAVERSAL:{name[:40]!r}")
+    if re.match(r"^[A-Za-z]:", name) or name.startswith("\\\\"):
+        raise IPCSecurityError(f"WINDOWS_PATH:{name[:40]!r}")
+    if os.path.isabs(name):
+        raise IPCSecurityError(f"ABSOLUTE_PATH:{name[:40]!r}")
+    root_l = os.path.abspath(str(root))
+    candidate = os.path.abspath(os.path.join(root_l, name))
+    if candidate != root_l and not candidate.startswith(root_l + os.sep):
+        raise IPCSecurityError(f"ESCAPE:{name[:40]!r}")
+    return Path(candidate)
+
+
+def _read_json_bounded(path: Path, max_bytes: int) -> Dict[str, Any]:
+    try:
+        fd = os.open(str(path), os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    except OSError as e:
+        if e.errno in (errno.ELOOP, errno.EACCES):
+            raise IPCSecurityError(f"SYMLINK_REQUEST:{path.name}") from e
+        raise
+    try:
+        st = os.fstat(fd)
+        if st.st_size > max_bytes:
+            raise IPCSecurityError(f"OVERSIZED_REQUEST:{st.st_size}")
+        with os.fdopen(fd, "r", encoding="utf-8") as fh:
+            data = json.loads(fh.read())
+    finally:
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+    if not isinstance(data, dict):
+        raise IPCSecurityError("NON_OBJECT_REQUEST")
+    return data
+
+
+def _write_json_atomic(path: Path, payload: Dict[str, Any]) -> None:
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    if len(body) > MAX_RESPONSE_BYTES:
+        payload = {"ok": False, "error": "RESPONSE_TOO_LARGE"}
+        body = json.dumps(payload).encode("utf-8")
+    flags = os.O_WRONLY | os.O_CREAT | getattr(os, "O_EXCL", 0) | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        fd = os.open(str(path), flags, 0o600)
+    except FileExistsError as e:
+        raise IPCSecurityError(f"RESPONSE_EXISTS:{path.name}") from e
+    except OSError as e:
+        raise IPCSecurityError(f"RESPONSE_OPEN_FAIL:{path.name}:{e.errno}") from e
+    with os.fdopen(fd, "wb") as fh:
+        fh.write(body)
+        fh.flush()
+        os.fsync(fh.fileno())
+
+
+def _unlink_quiet(path: Path) -> None:
+    try:
+        os.unlink(str(path))
+    except OSError:
+        pass
+
 
 # ---------------------------------------------------------------------------
-# In-container client (embedded into the runner the container executes)
+# In-container client
 # ---------------------------------------------------------------------------
 IN_CONTAINER_CLIENT = r'''
 import json, os, time, uuid
 from pathlib import Path
 
 class ModelIPCClient:
-    """Controlled model channel for isolated workflow code.
-
-    Matches AFlow AsyncLLM call surface: `await self.llm(prompt)`.
-    """
+    """Controlled model channel for isolated workflow code."""
     def __init__(self, root="/ipc", timeout=15.0):
         self.root = Path(root)
         self.out = self.root / "out"
@@ -57,7 +140,11 @@ class ModelIPCClient:
         rid = uuid.uuid4().hex
         req = self.out / f"{rid}.json"
         resp = self.inn / f"{rid}.json"
-        req.write_text(json.dumps({"id": rid, "prompt": prompt, "model": model}), encoding="utf-8")
+        body = json.dumps({"id": rid, "prompt": str(prompt)[:32000]})
+        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+        fd = os.open(str(req), flags, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(body)
         deadline = time.time() + self.timeout
         while time.time() < deadline:
             if resp.exists():
@@ -66,7 +153,10 @@ class ModelIPCClient:
                 except Exception:
                     time.sleep(0.05)
                     continue
-                resp.unlink(missing_ok=True)
+                try:
+                    os.unlink(str(resp))
+                except OSError:
+                    pass
                 if data.get("ok"):
                     return data.get("content", "")
                 raise RuntimeError("MODEL_IPC_ERROR:" + str(data.get("error")))
@@ -76,18 +166,22 @@ class ModelIPCClient:
 
 
 class ModelIPCServer:
-    """Host side of the mailbox. Runs GatewayLLM for every request."""
+    """Host side of the mailbox. Every request is validated before any model call."""
 
-    def __init__(self, ipc_root: Path, llm: Any) -> None:
+    def __init__(self, ipc_root: Path, llm: Any, *, trusted_model: str = "deepseek-flash") -> None:
         self.root = Path(ipc_root)
         self.out = self.root / "out"
         self.inn = self.root / "in"
         self.out.mkdir(parents=True, exist_ok=True)
         self.inn.mkdir(parents=True, exist_ok=True)
         self.llm = llm
+        self.trusted_model = trusted_model
         self.processed: List[Dict[str, Any]] = []
+        self.security_events: List[Dict[str, Any]] = []
+        self._seen: Set[str] = set()
         self._stop = threading.Event()
         self._thread: Optional[threading.Thread] = None
+        self._lock = threading.RLock()
 
     def start(self) -> None:
         self._thread = threading.Thread(target=self._loop, daemon=True)
@@ -98,32 +192,126 @@ class ModelIPCServer:
         if self._thread:
             self._thread.join(timeout=2)
 
+    def _event(self, kind: str, detail: str) -> None:
+        with self._lock:
+            self.security_events.append({"kind": kind, "detail": detail[:200]})
+
+    def _handle_one(self, req_path: Path) -> None:
+        filename = req_path.name
+        try:
+            rid = validate_request_id(filename[:-5] if filename.endswith(".json") else filename)
+        except IPCSecurityError as e:
+            self._event("REJECT_ID", str(e))
+            _unlink_quiet(req_path)
+            return
+
+        try:
+            data = _read_json_bounded(req_path, MAX_REQUEST_BYTES)
+        except IPCSecurityError as e:
+            self._event("REJECT_READ", str(e))
+            _unlink_quiet(req_path)
+            return
+
+        json_id = data.get("id")
+        if json_id is not None:
+            try:
+                json_id = validate_request_id(json_id)
+            except IPCSecurityError as e:
+                self._event("REJECT_JSON_ID", str(e))
+                _unlink_quiet(req_path)
+                return
+            if json_id != rid:
+                self._event("REJECT_ID_MISMATCH", f"{json_id}!={rid}")
+                _unlink_quiet(req_path)
+                return
+
+        if "model" in data and data["model"] not in (None, self.trusted_model):
+            self._event("REJECT_UNAUTHORIZED_MODEL", str(data.get("model"))[:80])
+            _unlink_quiet(req_path)
+            return
+
+        prompt = data.get("prompt")
+        if not isinstance(prompt, str):
+            self._event("REJECT_PROMPT_TYPE", type(prompt).__name__)
+            _unlink_quiet(req_path)
+            return
+        if len(prompt) > MAX_PROMPT_CHARS:
+            self._event("REJECT_OVERSIZED_PROMPT", str(len(prompt)))
+            _unlink_quiet(req_path)
+            return
+
+        with self._lock:
+            if rid in self._seen:
+                self._event("REJECT_DUPLICATE", rid)
+                _unlink_quiet(req_path)
+                return
+            if len(self._seen) >= MAX_PENDING_REQUESTS:
+                self._event("REJECT_BACKLOG", rid)
+                _unlink_quiet(req_path)
+                return
+            self._seen.add(rid)
+
+        resp_path = _safe_join(self.inn, f"{rid}.json")
+        try:
+            content = self.llm._request(prompt)
+            payload: Dict[str, Any] = {"ok": True, "content": content}
+        except Exception as e:
+            payload = {"ok": False, "error": f"{type(e).__name__}: {e}"}
+        try:
+            _write_json_atomic(resp_path, payload)
+        except IPCSecurityError as e:
+            self._event("REJECT_RESPONSE_WRITE", str(e))
+        self.processed.append({"id": rid, "ok": payload["ok"]})
+        _unlink_quiet(req_path)
+
     def _loop(self) -> None:
         while not self._stop.is_set():
-            for req_path in sorted(self.out.glob("*.json")):
+            try:
+                entries = sorted(self.out.glob("*.json"))
+            except Exception:
+                entries = []
+            for req_path in entries:
+                if self._stop.is_set():
+                    return
                 try:
-                    data = json.loads(req_path.read_text(encoding="utf-8"))
-                except Exception:
-                    req_path.unlink(missing_ok=True)
-                    continue
-                rid = data.get("id") or req_path.stem
-                try:
-                    content = self.llm._request(str(data.get("prompt", "")))
-                    payload = {"ok": True, "content": content}
+                    self._handle_one(req_path)
                 except Exception as e:
-                    payload = {"ok": False, "error": f"{type(e).__name__}: {e}"}
-                (self.inn / f"{rid}.json").write_text(
-                    json.dumps(payload), encoding="utf-8"
-                )
-                self.processed.append({"id": rid, "ok": payload["ok"]})
-                req_path.unlink(missing_ok=True)
+                    self._event("SERVER_ERROR", f"{type(e).__name__}: {e}")
             time.sleep(0.02)
+
+
+# ---------------------------------------------------------------------------
+# Isolated runner — Task 4: real task question, not "1+1"
+# ---------------------------------------------------------------------------
+
+def build_runner_script(task_question: str, task_id: str) -> str:
+    """Runner embeds the REAL question via a JSON sidecar (no shell quoting risk)."""
+    return (
+        "import asyncio, json, sys\n"
+        "sys.path.insert(0, '/work')\n"
+        "import model_ipc\n"
+        "from graph import Workflow\n"
+        "task = json.load(open('/work/task.json', encoding='utf-8'))\n"
+        "async def main():\n"
+        "    try:\n"
+        "        w = Workflow()\n"
+        "    except TypeError:\n"
+        "        w = Workflow(None)\n"
+        "    if hasattr(w, 'llm'):\n"
+        "        w.llm = model_ipc.ModelIPCClient('/ipc')\n"
+        "    out = await w(task['question'])\n"
+        "    print(json.dumps({'ok': True, 'task_id': task.get('task_id'),"
+        " 'out': repr(out)[:500], 'question_len': len(task.get('question',''))}))\n"
+        "asyncio.run(main())\n"
+    )
 
 
 def run_workflow_code_isolated(
     graph_code: str,
     *,
-    problem: str = "1+1",
+    problem: str = "",
+    task_id: str = "adhoc",
+    gold_answer: Optional[str] = None,
     timeout: int = 20,
     memory_mb: int = 256,
     pids_limit: int = 64,
@@ -132,15 +320,12 @@ def run_workflow_code_isolated(
 ) -> Dict[str, Any]:
     """Run generated Workflow in Docker with a controlled model mailbox.
 
-    Isolation:
-      --network none            (no TCP egress at all)
-      --memory / --memory-swap  (RAM cap)
-      --pids-limit              (fork bomb)
-      --cpus                    (CPU cap)
-      bind-mount /work + /ipc   (no docker.sock, no host env secrets)
+    The REAL `problem` (GSM8K question) is written to /work/task.json and the
+    runner passes it to the Workflow. Task id + gold answer travel along for
+    offline scoring evidence.
     """
-    import subprocess
-    import tempfile
+    if not problem:
+        raise ValueError("problem (real task question) is required")
 
     with tempfile.TemporaryDirectory() as td:
         td_path = Path(td)
@@ -157,52 +342,16 @@ def run_workflow_code_isolated(
             server.start()
 
         (work / "graph.py").write_text(graph_code, encoding="utf-8")
-        runner = (
-            "import asyncio, json, sys, os\n"
-            "sys.path.insert(0, '/work')\n"
-            "sys.path.insert(0, '/ipc')\n"
-            "from graph import Workflow\n"
-            + IN_CONTAINER_CLIENT
-            + "\n"
-            "class Bound(Workflow):\n"
-            "    def __init__(self):\n"
-            "        super().__init__()\n"
-            "        self.model = ModelIPCClient('/ipc')\n"
-            "    async def __call__(self, problem):\n"
-            "        return await super().__call__(problem)\n"
-            "async def main():\n"
-            "    w = Bound()\n"
-            "    # expose controlled model handle if workflow wants it\n"
-            "    if hasattr(w, 'model'):\n"
-            "        pass\n"
-            "    out = await w('1+1')\n"
-            "    print(json.dumps({'ok': True, 'out': repr(out)[:300]}))\n"
-            "asyncio.run(main())\n"
-        )
-        # simpler runner: just run the Workflow; pass ModelIPCClient via module
         (work / "model_ipc.py").write_text(IN_CONTAINER_CLIENT, encoding="utf-8")
-        (work / "runner.py").write_text(
-            "import asyncio, json, sys\n"
-            "sys.path.insert(0, '/work')\n"
-            "import model_ipc\n"
-            "from graph import Workflow\n"
-            "class Bound(Workflow):\n"
-            "    model = None\n"
-            "    async def __call__(self, problem):\n"
-            "        # attach controlled model only; no raw sockets available\n"
-            "        return await super().__call__(problem)\n"
-            "async def main():\n"
-            "    try:\n"
-            "        w = Workflow()\n"
-            "    except TypeError:\n"
-            "        w = Workflow(None)\n"
-            "    if hasattr(w, 'llm'):\n"
-            "        w.llm = model_ipc.ModelIPCClient('/ipc')\n"
-            "    out = await w('1+1')\n"
-            "    print(json.dumps({'ok': True, 'out': repr(out)[:300]}))\n"
-            "asyncio.run(main())\n",
+        (work / "task.json").write_text(
+            json.dumps({
+                "task_id": task_id,
+                "question": problem,
+                "gold_answer": gold_answer,
+            }, ensure_ascii=False),
             encoding="utf-8",
         )
+        (work / "runner.py").write_text(build_runner_script(problem, task_id), encoding="utf-8")
 
         cmd = [
             "docker", "run", "--rm",
@@ -215,7 +364,6 @@ def run_workflow_code_isolated(
             "-v", f"{ipc}:/ipc",
             "-w", "/work",
             "-e", "PYTHONUNBUFFERED=1",
-            # deliberately NO host secrets, NO proxy vars, NO docker.sock
             "python:3.10-slim",
             "python", "runner.py",
         ]
@@ -224,7 +372,11 @@ def run_workflow_code_isolated(
         except subprocess.TimeoutExpired:
             if server:
                 server.stop()
-            return {"ok": False, "error": "TIMEOUT", "returncode": 124}
+            return {
+                "ok": False, "error": "TIMEOUT", "returncode": 124,
+                "task_id": task_id, "security_events": [],
+                "ipc_processed": [],
+            }
         finally:
             if server:
                 server.stop()
@@ -234,15 +386,13 @@ def run_workflow_code_isolated(
             "returncode": proc.returncode,
             "stdout": proc.stdout[-800:],
             "stderr": proc.stderr[-800:],
+            "task_id": task_id,
+            "gold_answer": gold_answer,
+            "question_len": len(problem),
             "ipc_processed": getattr(server, "processed", []) if server else [],
+            "security_events": getattr(server, "security_events", []) if server else [],
         }
 
 
-def run_workflow_with_model_probe(
-    graph_code: str,
-    *,
-    llm: Any = None,
-    **kw: Any,
-) -> Dict[str, Any]:
-    """Run a Workflow whose __call__ uses self.llm (wired to ModelIPCClient)."""
+def run_workflow_with_model_probe(graph_code: str, *, llm: Any = None, **kw: Any) -> Dict[str, Any]:
     return run_workflow_code_isolated(graph_code, llm=llm, **kw)

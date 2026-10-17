@@ -1,0 +1,26 @@
+{
+  "stage": "3.0-P1-R2A-R2",
+  "GATE_A_IPC_SECURITY": "PASS",
+  "GATE_B_HARD_BUDGET": "PASS",
+  "GATE_C_OUTPUT_CORRECTNESS": "PASS",
+  "GATE_D_FULL_AFLOW_MOCK_E2E": "PASS",
+  "GATE_E_EXPERIMENT_INTEGRITY": "PASS",
+  "REAL_DEEPSEEK_CALLS": 0,
+  "REAL_API_COST_USD": 0,
+  "e2e_events": {
+    "run_id": "pytest-e2e-0001",
+    "evidence_class": "MOCK_TEST",
+    "OFFICIAL_OPTIMIZER_EXECUTED": true,
+    "OFFICIAL_PARENT_SELECTION": true,
+    "REAL_TASK_QUESTION_PROPAGATED": true,
+    "STRUCTURED_MODIFICATION_VALIDATED": true,
+    "CHILD_WORKFLOW_EXECUTED": true,
+    "MODEL_IPC_USED": true,
+    "PHYSICAL_BUDGET_CHARGED": true,
+    "GOLD_ANSWER_SCORING_EXECUTED": true,
+    "EXPERIENCE_UPDATED": true,
+    "RESULTS_PERSISTED": true
+  },
+  "note_optimizer_prompt_token_observation": "AFlow optimizer prompt measured ~6049 chars (~6049 conservative input tokens) which EXCEEDS the frozen 2000/request cap and was correctly blocked. Per protocol this is reported, not silently widened \u2014 Planner must decide whether to raise MAX_INPUT_TOKENS_PER_REQUEST for the real pilot.",
+  "FINAL_DECISION": "READY_FOR_LEVEL3_LIVE_APPROVAL"
+}

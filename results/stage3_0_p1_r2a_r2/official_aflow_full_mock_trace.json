@@ -1,0 +1,95 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "e2e_test": {
+    "nodeids": [
+      "tests/baseline_first/test_full_aflow_e2e.py"
+    ],
+    "returncode": 0,
+    "passed": true,
+    "summary": [
+      "..                                                                       [100%]"
+    ],
+    "evidence_class": "MOCK_TEST"
+  },
+  "last_trace": {
+    "run_id": "pytest-e2e-0001",
+    "events": {
+      "run_id": "pytest-e2e-0001",
+      "evidence_class": "MOCK_TEST",
+      "OFFICIAL_OPTIMIZER_EXECUTED": true,
+      "OFFICIAL_PARENT_SELECTION": true,
+      "REAL_TASK_QUESTION_PROPAGATED": true,
+      "STRUCTURED_MODIFICATION_VALIDATED": true,
+      "CHILD_WORKFLOW_EXECUTED": true,
+      "MODEL_IPC_USED": true,
+      "PHYSICAL_BUDGET_CHARGED": true,
+      "GOLD_ANSWER_SCORING_EXECUTED": true,
+      "EXPERIENCE_UPDATED": true,
+      "RESULTS_PERSISTED": true
+    },
+    "selections": [
+      {
+        "round": 1,
+        "score": 0.0
+      },
+      {
+        "round": 1,
+        "score": 0.0
+      },
+      {
+        "round": 1,
+        "score": 0.0
+      }
+    ],
+    "scoring": [
+      {
+        "task_id": "gsm8k-train-0000",
+        "question_len": 155,
+        "predicted": "72",
+        "gold": "72",
+        "correct": true,
+        "reason": "MATCH",
+        "output_repr": "\"'The final answer is #### 72'\"",
+        "docker_ok": true,
+        "ipc_processed": [
+          {
+            "id": "32abddbfbbfe4920ab8e559f389bbde5",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "task_id": "gsm8k-train-0001",
+        "question_len": 113,
+        "predicted": "10",
+        "gold": "10",
+        "correct": true,
+        "reason": "MATCH",
+        "output_repr": "\"'The final answer is #### 10'\"",
+        "docker_ok": true,
+        "ipc_processed": [
+          {
+            "id": "8d510d055c154634a1929cdadd8cfb8d",
+            "ok": true
+          }
+        ]
+      }
+    ],
+    "n_physical_requests": 27,
+    "spent_cost_usd": 0.003500399999999999,
+    "tokens_in": 54000,
+    "tokens_out": 13500,
+    "ledger_rows": 27,
+    "optimizer_calls": 25,
+    "task_calls": 2,
+    "real_deepseek_calls": 0,
+    "task_a": {
+      "task_id": "gsm8k-train-0000",
+      "question_head": "Natalia sold clips to 48 of her friends in April, and then s"
+    },
+    "task_b": {
+      "task_id": "gsm8k-train-0001",
+      "question_head": "Weng earns $12 an hour for babysitting. Yesterday, she just "
+    }
+  }
+}

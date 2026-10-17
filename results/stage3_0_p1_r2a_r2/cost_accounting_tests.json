@@ -1,0 +1,11 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "peak_cost_accounting": "PASS (estimate_cost defaults peak=True)",
+  "request_cost_reservation": "PASS (reserve = worst_case_cost(max_in,max_out))",
+  "unknown_billing_fail_closed": "PASS (settle_unknown_and_block)",
+  "restart_persistence": "PASS",
+  "concurrency": "PASS",
+  "detail_nodeids": [
+    "tests/baseline_first/test_hard_budget.py"
+  ]
+}

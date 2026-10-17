@@ -15,3 +15,6 @@ venv/
 external/
 logs/
 external/
+
+# R2A-R2 runtime budget ledgers (not experiment records)
+results/stage3_0_p1_r2a_r2/e2e_budget_*.sqlite

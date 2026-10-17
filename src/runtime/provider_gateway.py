@@ -78,14 +78,39 @@ class GatewayTimeout(RuntimeError):
     pass
 
 
-def estimate_cost(model: str, tokens_in: int, tokens_out: int, *, peak: bool = False) -> float:
-    """Conservative (cache-miss) cost estimate. Unknown model -> fail-closed."""
+def estimate_cost(model: str, tokens_in: int, tokens_out: int, *, peak: bool = True) -> float:
+    """Conservative cost: peak cache-miss by default. Unknown model -> fail-closed."""
     prices = PRICE_TABLE_USD_PER_1M.get(model)
     if prices is None:
         raise UnknownModelPrice(model)
     in_key = "input_cache_miss_peak" if peak else "input_cache_miss_offpeak"
     out_key = "output_peak" if peak else "output_offpeak"
     return (tokens_in / 1_000_000.0) * prices[in_key] + (tokens_out / 1_000_000.0) * prices[out_key]
+
+
+class InputTokenCapExceeded(RuntimeError):
+    pass
+
+
+class OutputTokenCapExceeded(RuntimeError):
+    pass
+
+
+def conservative_input_tokens(prompt: str) -> int:
+    """Upper bound on input tokens: 1 token per char + framing headroom.
+
+    Never under-estimates for CJK / punctuation-heavy text.
+    """
+    return len(prompt) + 8
+
+
+def worst_case_cost(model: str, max_in: int, max_out: int) -> float:
+    """Reservation must cover the full peak cache-miss bill for the token bounds."""
+    return estimate_cost(model, max_in, max_out, peak=True)
+
+
+class StructuredOutputError(RuntimeError):
+    """Model returned unusable structure. Never synthesised into a fake mutation."""
 
 
 # ---------------------------------------------------------------------------
@@ -308,16 +333,49 @@ class GatewayLLM:
         return self._request(prompt)
 
     async def call_with_format(self, prompt: str, formatter: Any = None) -> Dict[str, Any]:
+        """Structured modification parse. FAIL-CLOSED: never synthesise a mutation.
+
+        AFlow-compatible XML tags: <modification>...</modification>
+        <graph>...</graph> <prompt>...</prompt>. Invalid output raises
+        StructuredOutputError so the caller can retry (budgeted) or discard
+        the candidate — it must not invent a valid-looking modification.
+        """
         raw = self._request(prompt)
         if formatter is not None:
             try:
                 ok, parsed = formatter.validate_response(raw)
-                if ok:
+                if ok and isinstance(parsed, dict):
+                    if not all(k in parsed for k in ("modification", "graph", "prompt")):
+                        raise StructuredOutputError("MISSING_REQUIRED_FIELD")
                     return parsed
-            except Exception:
-                pass
-        # default parse: expect structured text, else wrap
-        return {"modification": "gateway-mod", "graph": raw, "prompt": "INSTRUCTION = 'gw'"}
+            except StructuredOutputError:
+                raise
+            except Exception as e:
+                raise StructuredOutputError(f"FORMATTER_REJECTED:{type(e).__name__}") from e
+        # XML-style parse (AFlow official formatter shape)
+        import re as _re
+
+        def _tag(name: str) -> Optional[str]:
+            pat = r"<" + name + r">([\s\S]*?)</" + name + r">"
+            m = _re.search(pat, raw or "")
+            return m.group(1).strip() if m else None
+
+        modification = _tag("modification")
+        graph = _tag("graph")
+        prompt_txt = _tag("prompt")
+        if modification is None:
+            raise StructuredOutputError("MISSING_MODIFICATION")
+        if graph is None:
+            raise StructuredOutputError("MISSING_GRAPH")
+        if prompt_txt is None:
+            raise StructuredOutputError("MISSING_PROMPT")
+        if "class Workflow" not in graph:
+            raise StructuredOutputError("MISSING_WORKFLOW_CLASS")
+        try:
+            compile(graph, "<graph>", "exec")
+        except SyntaxError as e:
+            raise StructuredOutputError(f"INVALID_PYTHON:{e.msg}") from e
+        return {"modification": modification, "graph": graph, "prompt": prompt_txt}
 
     def get_usage_summary(self) -> Dict[str, Any]:
         rows = self.ledger.rows()
@@ -335,107 +393,136 @@ class GatewayLLM:
             return f"{self.logical_request_prefix}-{self._logical_seq}"
 
     def _request(self, prompt: str) -> str:
+        """VALIDATE -> RESERVE -> SEND -> RECONCILE -> COMMIT.
+
+        Reservation covers the conservative MAXIMUM cost for the token bounds,
+        not a flat low fee. Uncertain billing after a physical send never
+        settles at $0-and-continue; it blocks persistently.
+        """
+
+
         logical_id = self._next_logical_id()
         physical_id = uuid.uuid4().hex
-        # 1) reserve budget BEFORE any socket activity
-        ticket = pre_send_ticket()
-        # 2) HTTP POST
+
+        # --- VALIDATE request ---
+        if not isinstance(prompt, str):
+            raise InputTokenCapExceeded("PROMPT_NOT_STRING")
+        est_in = conservative_input_tokens(prompt)
+        if est_in > self.max_input_tokens:
+            raise InputTokenCapExceeded(
+                f"estimated input tokens {est_in} > per-request cap {self.max_input_tokens}"
+            )
+        if self.max_output_tokens <= 0:
+            raise OutputTokenCapExceeded("max_output_tokens must be positive")
+
+        # --- VALIDATE model / price ---
+        reserve_cost = worst_case_cost(self.model, self.max_input_tokens, self.max_output_tokens)
+
+        # --- RESERVE request slot + token budget + worst-case cost ---
+        ticket = pre_send_ticket(
+            res_tokens_in=self.max_input_tokens,
+            res_tokens_out=self.max_output_tokens,
+        )
+
         http_status: Optional[int] = None
         error_kind: Optional[str] = None
         tokens_in: Optional[int] = None
         tokens_out: Optional[int] = None
         observed: Optional[float] = None
         content: str = ""
+        sent = False
         try:
             content, http_status, tokens_in, tokens_out = self._http_chat(prompt)
-            observed = estimate_cost(self.model, tokens_in or 0, tokens_out or 0)
+            sent = True
+            # --- RECONCILE trusted usage ---
+            if tokens_in is None or tokens_out is None:
+                raise UsageMissing("usage tokens missing after 200 response")
+            if tokens_in > self.max_input_tokens or tokens_out > self.max_output_tokens:
+                # provider returned more than we authorised — persist block
+                raise UsageMissing(
+                    f"USAGE_EXCEEDS_CAP in={tokens_in} out={tokens_out}"
+                )
+            observed = estimate_cost(self.model, tokens_in, tokens_out, peak=True)
+            if observed > reserve_cost * 1.05 + 1e-9:
+                # should be impossible under peak pricing; fail closed
+                raise UsageMissing(f"COST_EXCEEDS_RESERVE {observed}>{reserve_cost}")
         except UnknownModelPrice as e:
             error_kind = "UNKNOWN_MODEL_PRICE"
-            settle_ticket(ticket, success=False, actual_cost=0.0)
-            self.ledger.append(
-                run_id=self.run_id, provider="mock-http", model=self.model,
-                logical_request_id=logical_id, physical_request_id=physical_id,
-                ticket_id=ticket, max_input_tokens=self.max_input_tokens,
-                max_output_tokens=self.max_output_tokens, reserved_cost=0.0,
-                reported_tokens_in=None, reported_tokens_out=None, observed_cost=None,
-                request_status="fail_closed", error_kind=error_kind,
-            )
+            settle_ticket(ticket, success=False, actual_cost=reserve_cost)
+            self._ledger_fail(logical_id, physical_id, ticket, reserve_cost, error_kind, "fail_closed")
+            self.ledger.db.mark_billing_blocked(str(e), ticket_id=ticket)
+            raise
+        except (UsageMissing, InputTokenCapExceeded, OutputTokenCapExceeded) as e:
+            error_kind = type(e).__name__.upper() if not isinstance(e, UsageMissing) else "MISSING_USAGE"
+            if isinstance(e, UsageMissing):
+                error_kind = "MISSING_USAGE"
+            settle_ticket(ticket, success=False, actual_cost=reserve_cost)
+            self._ledger_fail(logical_id, physical_id, ticket, reserve_cost, error_kind, "fail_closed")
             try:
                 self.ledger.db.mark_billing_blocked(str(e), ticket_id=ticket)
             except Exception:
                 pass
-            raise
-        except UsageMissing as e:
-            error_kind = "MISSING_USAGE"
-            settle_ticket(ticket, success=False, actual_cost=0.0)
-            self.ledger.append(
-                run_id=self.run_id, provider="mock-http", model=self.model,
-                logical_request_id=logical_id, physical_request_id=physical_id,
-                ticket_id=ticket, max_input_tokens=self.max_input_tokens,
-                max_output_tokens=self.max_output_tokens, reserved_cost=0.0,
-                reported_tokens_in=None, reported_tokens_out=None, observed_cost=None,
-                request_status="fail_closed", error_kind=error_kind,
-            )
-            try:
-                self.ledger.db.mark_billing_blocked(str(e), ticket_id=ticket)
-            except Exception:
-                pass
-            raise
-        except (GatewayTimeout, TimeoutError, OSError) as e:
-            error_kind = "TIMEOUT" if not isinstance(e, OSError) else f"OS:{type(e).__name__}"
-            settle_ticket(ticket, success=False, actual_cost=0.0)
-            self.ledger.append(
-                run_id=self.run_id, provider="mock-http", model=self.model,
-                logical_request_id=logical_id, physical_request_id=physical_id,
-                ticket_id=ticket, max_input_tokens=self.max_input_tokens,
-                max_output_tokens=self.max_output_tokens, reserved_cost=0.0,
-                reported_tokens_in=None, reported_tokens_out=None, observed_cost=None,
-                request_status="failed", error_kind=error_kind,
-            )
             raise
         except PartialResponse as e:
             error_kind = "PARTIAL_RESPONSE"
-            settle_ticket(ticket, success=False, actual_cost=0.0)
-            self.ledger.append(
-                run_id=self.run_id, provider="mock-http", model=self.model,
-                logical_request_id=logical_id, physical_request_id=physical_id,
-                ticket_id=ticket, max_input_tokens=self.max_input_tokens,
-                max_output_tokens=self.max_output_tokens, reserved_cost=0.0,
-                reported_tokens_in=None, reported_tokens_out=None, observed_cost=None,
-                request_status="fail_closed", error_kind=error_kind,
-            )
-            try:
-                self.ledger.db.mark_billing_blocked(str(e), ticket_id=ticket)
-            except Exception:
-                pass
+            # physical send may have been billed — occupy worst-case, then block
+            if sent:
+                self.ledger.db.settle_unknown_and_block(ticket, reason=f"PARTIAL_RESPONSE:{e}", tokens_in=0, tokens_out=0)
+            else:
+                settle_ticket(ticket, success=False, actual_cost=reserve_cost)
+            self._ledger_fail(logical_id, physical_id, ticket, reserve_cost, error_kind, "fail_closed")
+            raise
+        except (GatewayTimeout, TimeoutError) as e:
+            error_kind = "TIMEOUT"
+            # request may have been processed by the provider — unknown billing
+            self.ledger.db.settle_unknown_and_block(ticket, reason=f"TIMEOUT:{e}", tokens_in=0, tokens_out=0)
+            self._ledger_fail(logical_id, physical_id, ticket, reserve_cost, error_kind, "fail_closed")
+            raise
+        except OSError as e:
+            error_kind = f"OS:{type(e).__name__}"
+            # connection reset / refused AFTER or DURING send => uncertain billing
+            self.ledger.db.settle_unknown_and_block(ticket, reason=f"{error_kind}:{e}", tokens_in=0, tokens_out=0)
+            self._ledger_fail(logical_id, physical_id, ticket, reserve_cost, error_kind, "fail_closed")
             raise
         except Exception as e:
             error_kind = type(e).__name__
-            settle_ticket(ticket, success=False, actual_cost=0.0)
-            self.ledger.append(
-                run_id=self.run_id, provider="mock-http", model=self.model,
-                logical_request_id=logical_id, physical_request_id=physical_id,
-                ticket_id=ticket, max_input_tokens=self.max_input_tokens,
-                max_output_tokens=self.max_output_tokens, reserved_cost=0.0,
-                reported_tokens_in=None, reported_tokens_out=None, observed_cost=None,
-                request_status="failed", error_kind=error_kind,
-            )
+            msg = str(e)
+            # HTTP 429/500/5xx or any post-send failure => billing is uncertain
+            uncertain = sent or msg.startswith("HTTP_") or "HTTPError" in error_kind
+            if uncertain:
+                self.ledger.db.settle_unknown_and_block(ticket, reason=f"{error_kind}:{msg}", tokens_in=0, tokens_out=0)
+                self._ledger_fail(logical_id, physical_id, ticket, reserve_cost, error_kind, "fail_closed")
+            else:
+                settle_ticket(ticket, success=False, actual_cost=reserve_cost)
+                self._ledger_fail(logical_id, physical_id, ticket, reserve_cost, error_kind, "failed")
             raise
 
-        # 3) settle success (cost known)
-        settle_ticket(ticket, success=True, actual_cost=float(observed or 0.0),
-                      tokens_in=tokens_in or 0, tokens_out=tokens_out or 0)
+        # --- COMMIT ledger (cost known, trusted) ---
+        settle_ticket(
+            ticket, success=True, actual_cost=float(observed or reserve_cost),
+            tokens_in=tokens_in or 0, tokens_out=tokens_out or 0,
+        )
         self.ledger.append(
             run_id=self.run_id, provider="mock-http", model=self.model,
             logical_request_id=logical_id, physical_request_id=physical_id,
             ticket_id=ticket, max_input_tokens=self.max_input_tokens,
             max_output_tokens=self.max_output_tokens,
-            reserved_cost=float(observed or 0.0),
+            reserved_cost=float(reserve_cost),
             reported_tokens_in=tokens_in, reported_tokens_out=tokens_out,
-            observed_cost=float(observed or 0.0),
+            observed_cost=float(observed or reserve_cost),
             request_status="settled_ok", http_status=http_status,
         )
         return content
+
+    def _ledger_fail(self, logical_id, physical_id, ticket, reserve_cost, error_kind, status):
+        self.ledger.append(
+            run_id=self.run_id, provider="mock-http", model=self.model,
+            logical_request_id=logical_id, physical_request_id=physical_id,
+            ticket_id=ticket, max_input_tokens=self.max_input_tokens,
+            max_output_tokens=self.max_output_tokens, reserved_cost=float(reserve_cost),
+            reported_tokens_in=None, reported_tokens_out=None, observed_cost=None,
+            request_status=status, error_kind=error_kind,
+        )
 
     def _http_chat(self, prompt: str) -> Tuple[str, int, int, int]:
         import urllib.error
