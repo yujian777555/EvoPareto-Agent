@@ -1,0 +1,68 @@
+{
+  "evidence_class": "DERIVED_STATISTICS (from real Level 3 request ledger)",
+  "auth_identity": "level3-live-authorization-v1-f579a48a1e5b79ca",
+  "note": "ACTUAL tokens come from provider usage fields. RESERVED tokens are the pre-send conservative quota. UNKNOWN_USAGE is billed fail-closed. Cost is usage-based ESTIMATE at peak cache-miss rates — not a provider final invoice.",
+  "ACTUAL_TOKENS": {
+    "input": 162,
+    "output": 454,
+    "total": 616
+  },
+  "RESERVED_TOKENS": {
+    "input": 651,
+    "output": 1000
+  },
+  "UNKNOWN_USAGE_COUNT": 0,
+  "ACTUAL_COST_USD_ESTIMATE": 0.0005934,
+  "RESERVED_COST_USD_WORST_CASE": 0.0013953,
+  "historical_correction": {
+    "previous_report_input_tokens": 651,
+    "previous_report_output_tokens": 1000,
+    "previous_field_meaning": "RESERVED (est_in + max_output) mislabelled as REAL_*",
+    "corrected_actual_input": 162,
+    "corrected_actual_output": 454
+  },
+  "per_request": [
+    {
+      "logical_request_id": "live-001",
+      "request_phase": "math_calibration",
+      "prompt_sha256": "13d12d789c5498f1859f5208153531f5226d1e03fcf7202085c37e8198168e0e",
+      "model_returned": "deepseek-flash",
+      "finish_reason": "stop",
+      "actual_in": 57,
+      "actual_out": 121,
+      "reserved_in": 226,
+      "reserved_out_cost_basis": 500,
+      "reserved_cost_usd": 0.0006678,
+      "observed_cost_usd_estimate": 0.00016230000000000001,
+      "ledger_status": "settled_ok"
+    },
+    {
+      "logical_request_id": "live-002",
+      "request_phase": "optimizer_mutation",
+      "prompt_sha256": "bf586684f61f7df70df96edeb5f561e902daa9452b9b718b9930b465528ee700",
+      "model_returned": "deepseek-flash",
+      "finish_reason": "stop",
+      "actual_in": 105,
+      "actual_out": 333,
+      "reserved_in": 425,
+      "reserved_out_cost_basis": 500,
+      "reserved_cost_usd": 0.0007275,
+      "observed_cost_usd_estimate": 0.0004311,
+      "ledger_status": "settled_ok"
+    }
+  ],
+  "budget_identity_policy": {
+    "auth_id": "level3-live-authorization-v1-f579a48a1e5b79ca",
+    "bound_to": "persistent workspace authorization identity",
+    "not_bound_to": "random run_id or budget DB filename",
+    "restore_on_db_delete": false,
+    "restore_on_run_id_rotation": false,
+    "fail_closed_on_untrusted_ledger": true
+  },
+  "caps": {
+    "max_physical": 10,
+    "max_cost_usd": 0.1,
+    "max_total_in": 80000,
+    "max_total_out": 5000
+  }
+}

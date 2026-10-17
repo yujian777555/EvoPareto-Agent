@@ -1,0 +1,15 @@
+{
+  "run_id": "l3r1-replay-8886c089",
+  "graph_src": "import re, asyncio\n\nclass Workflow:\n    def __init__(self, llm):\n        self.llm = llm\n\n    async def __call__(self, problem):\n        plan = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nList the sub-steps needed to solve this, one per line.\")\n        steps = [s.strip() for s in plan.splitlines() if s.strip()]\n        results = []\n        for step in steps:\n            r = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nSolve this step carefully and show the arithmetic:\\n\" + step)\n            check = await self.llm(INSTRUCTION + \"\\nVerify this computation is correct. Reply OK or the corrected result:\\n\" + r)\n            results.append(r if \"OK\" in check.upper() else check)\n        final = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nWork:\\n\" + \"\\n\".join(results) + \"\\nGive the final numeric answer as: #### <number>\")\n        return final",
+  "prompt_module": "INSTRUCTION = 'You are a careful math solver. Break problems into explicit sub-steps, verify arithmetic, and always end with the numeric answer in the form #### <number>.'\n",
+  "prompt_raw_field": "You are a careful math solver. Break problems into explicit sub-steps, verify arithmetic, and always end with the numeric answer in the form #### <number>.",
+  "modification": "Replace single-shot answering with a three-stage graph: plan sub-steps, compute each step with a verification pass, then synthesize the final numeric answer with a consistency check.",
+  "graph_sha256": "ec852e928b06afdbfcc5af2c7134b720f928bd7eeac0e939f9ae10dc20edd50a",
+  "prompt_raw_sha256": "e8263cbafae3639a1e2074938394e0eda11abc9f4922ce6cd0273cea392f07f2",
+  "prompt_module_sha256": "ce140c32eef75075f150cedf86ce3bec7d5980b8af6d3e5cdcf7a6c95ed617f2",
+  "bundle_sha256": "a498ab9602c49962170d393d325cd548e8c2a25d48bafc25304061bb1c6a8692",
+  "graph_compile_ok": true,
+  "prompt_compile_ok": true,
+  "has_workflow_class": true,
+  "prompt_contract": "PASSTHROUGH"
+}

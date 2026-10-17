@@ -1,0 +1,10 @@
+{
+  "run_id": "l3r1-replay-8886c089",
+  "negatives": {
+    "missing_prompt": "REJECTED:PROMPT_FIELD_EMPTY",
+    "invalid_python": "REJECTED:GRAPH_SYNTAX_INVALID:invalid syntax",
+    "missing_workflow": "REJECTED:GRAPH_MISSING_WORKFLOW_CLASS",
+    "wrong_dependency": "PASS_EXEC_FAILED",
+    "wrong_dependency_stderr": "ine 10, in <module>\n    import graph as _g\n  File \"/work/graph.py\", line 1, in <module>\n    import module_that_does_not_exist_xyz\nModuleNotFoundError: No module named 'module_that_does_not_exist_xyz'\n"
+  }
+}

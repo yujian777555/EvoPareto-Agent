@@ -1,0 +1,14 @@
+{
+  "run_id": "l3-cal-b1aa792a44",
+  "REAL_HTTP_REQUESTS": 2,
+  "LEDGER_REQUESTS": 2,
+  "HTTP_LEDGER_MATCH": true,
+  "ACTUAL_INPUT_TOKENS": 162,
+  "ACTUAL_OUTPUT_TOKENS": 454,
+  "RESERVED_INPUT_TOKENS": 651,
+  "RESERVED_OUTPUT_TOKENS": 1000,
+  "ACTUAL_COST_USD_ESTIMATE": 0.0005934,
+  "RESERVED_COST_USD_WORST_CASE": 0.0013953,
+  "cost_basis": "usage-based estimate (peak cache-miss), NOT provider invoice",
+  "NEW_REAL_HTTP_REQUESTS": 0
+}

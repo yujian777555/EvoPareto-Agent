@@ -140,7 +140,12 @@ def main(argv=None) -> int:
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-id", default=None)
+    ap.add_argument("--out-dir", default=None, help="override results directory (tests use tmp)")
     args = ap.parse_args(argv)
+    global OUT
+    if args.out_dir:
+        OUT = Path(args.out_dir)
+        OUT.mkdir(parents=True, exist_ok=True)
     run_id = args.run_id or hashlib.sha256(os.urandom(16)).hexdigest()[:12]
 
     tasks = load_offline_tasks("search")

@@ -31,14 +31,16 @@ REQUIRED = [
 ]
 
 
-def test_full_aflow_mock_e2e():
+def test_full_aflow_mock_e2e(tmp_path):
+    tmp_out = tmp_path / "e2e_out"
+    tmp_out.mkdir()
     script = ROOT / "scripts" / "stage3_0_p1_r2a_r3" / "run_official_evaluator_e2e.py"
     r = subprocess.run(
-        [sys.executable, str(script), "--run-id", "pytest-final-0001"],
+        [sys.executable, str(script), "--run-id", "pytest-final-0001", "--out-dir", str(tmp_out)],
         cwd=str(ROOT), capture_output=True, text=True, timeout=240,
     )
     assert r.returncode == 0, f"e2e failed: {r.stdout[-800:]}\n{r.stderr[-800:]}"
-    trace = json.loads((OUT / "official_aflow_full_mock_trace.json").read_text(encoding="utf-8"))
+    trace = json.loads((tmp_out / "official_aflow_full_mock_trace.json").read_text(encoding="utf-8"))
     assert trace["run_id"] == "pytest-final-0001"
     events = trace["events"]
     for k in REQUIRED:
