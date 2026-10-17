@@ -1,0 +1,11 @@
+{
+  "nodeid": "tests/baseline_first/test_provider_gateway_e2e.py::test_optimizer_llm_path_hits_http_provider",
+  "returncode": 0,
+  "passed": true,
+  "summary": [
+    ".                                                                        [100%]"
+  ],
+  "evidence_class": "MOCK_TEST",
+  "chain": "AFlow Optimizer -> GatewayLLM -> PhysicalBudgetGate -> Mock HTTP /v1/chat/completions",
+  "not_static_scan": true
+}

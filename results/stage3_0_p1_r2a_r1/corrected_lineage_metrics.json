@@ -1,0 +1,32 @@
+{
+  "evidence_class": "DERIVED_STATISTICS",
+  "source": "OFFICIAL_DATA (external/AFlow_results)",
+  "formula": {
+    "entropy": "H_bits = -sum(p * log2(p)) over parents with a real father",
+    "effective_parent_count": "2 ** H_bits",
+    "excluded": "initial nodes (father node = null)"
+  },
+  "GSM8K/graphs": {
+    "valid_children": 24,
+    "initial_nodes_excluded": 1,
+    "parent_selection_frequency": {
+      "1": 1,
+      "2": 1,
+      "3": 3,
+      "4": 2,
+      "8": 9,
+      "10": 1,
+      "13": 7
+    },
+    "selection_entropy_bits": 2.29597512699001,
+    "effective_parent_count": 4.910858068512094,
+    "top2_parent_share": 0.6666666666666666
+  },
+  "expected_by_planner": {
+    "valid_children": 24,
+    "top2_parent_share": 0.6667,
+    "selection_entropy_bits": 2.296,
+    "effective_parent_count": 4.911
+  },
+  "matches_planner_targets": true
+}

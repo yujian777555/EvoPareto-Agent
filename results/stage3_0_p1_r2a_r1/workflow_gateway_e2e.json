@@ -1,0 +1,11 @@
+{
+  "nodeid": "tests/baseline_first/test_provider_gateway_e2e.py::test_workflow_operator_llm_path_hits_http_provider",
+  "returncode": 0,
+  "passed": true,
+  "summary": [
+    ".                                                                        [100%]"
+  ],
+  "evidence_class": "MOCK_TEST",
+  "chain": "AFlow Workflow -> Operator.llm -> GatewayLLM -> PhysicalBudgetGate -> Mock HTTP",
+  "not_static_scan": true
+}

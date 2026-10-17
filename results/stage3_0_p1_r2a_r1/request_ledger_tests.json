@@ -1,0 +1,63 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "append_only_ledger": {
+    "nodeid": "tests/baseline_first/test_provider_gateway_e2e.py::test_request_ledger_is_append_only",
+    "returncode": 0,
+    "passed": true,
+    "summary": [
+      ".                                                                        [100%]"
+    ],
+    "evidence_class": "MOCK_TEST"
+  },
+  "budget_hard_cap": {
+    "nodeid": "tests/baseline_first/test_provider_gateway_e2e.py::test_budget_hard_cap_rejects_after_exhaustion",
+    "returncode": 0,
+    "passed": true,
+    "summary": [
+      ".                                                                        [100%]"
+    ],
+    "evidence_class": "MOCK_TEST"
+  },
+  "concurrency": {
+    "nodeid": "tests/baseline_first/test_provider_gateway_e2e.py::test_concurrent_requests_cannot_break_cap",
+    "returncode": 0,
+    "passed": true,
+    "summary": [
+      ".                                                                        [100%]"
+    ],
+    "evidence_class": "MOCK_TEST"
+  },
+  "restart_persistence": {
+    "nodeid": "tests/baseline_first/test_provider_gateway_e2e.py::test_restart_keeps_cumulative_budget",
+    "returncode": 0,
+    "passed": true,
+    "summary": [
+      ".                                                                        [100%]"
+    ],
+    "evidence_class": "MOCK_TEST"
+  },
+  "unknown_cost_fail_closed": {
+    "nodeid": "tests/baseline_first/test_provider_gateway_e2e.py::test_missing_usage_fails_closed",
+    "returncode": 0,
+    "passed": true,
+    "summary": [
+      ".                                                                        [100%]"
+    ],
+    "evidence_class": "MOCK_TEST"
+  },
+  "ledger_columns": [
+    "run_id",
+    "logical_request_id",
+    "physical_request_id",
+    "provider",
+    "model",
+    "input_tokens",
+    "output_tokens",
+    "reserved_cost",
+    "observed_cost",
+    "cumulative_cost",
+    "status",
+    "timestamp"
+  ],
+  "uses_meta_key_overwrite": false
+}

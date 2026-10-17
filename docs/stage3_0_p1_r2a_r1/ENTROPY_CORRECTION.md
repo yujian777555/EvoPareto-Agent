@@ -1,38 +1,36 @@
-# Entropy & Effective Parent Count Correction (Task 1)
+# Entropy & Effective Parent Count (Task 2)
 
-**Evidence class:** DERIVED_STATISTICS
-**Verdict: CORRECTED**
+**Verdict: ENTROPY_FORMULA = CORRECT · INITIAL_PARENT_NODES_EXCLUDED = TRUE**
 
-## Bugs fixed in `scripts/baseline_first/r2a_full_analysis.py::task_d`
+## Definition
 
-1. **Initial nodes were counted as parents.** Rounds with `father node = null`
-   (the initial workflow) are not parent selections. They polluted the frequency
-   distribution as a fake parent named `"None"`.
-2. **Entropy unit was wrong.** The code used `math.log` (nats) but labelled the
-   result `selection_entropy_bits`, and computed effective count as
-   `2 ** entropy_nats` — mixing base-2 with natural-log.
+```python
+# only children with a real father
+freqs = [c / total for c in fathers.values()]
+entropy_bits = -sum(p * math.log2(p) for p in freqs if p > 0)
+effective_parents = 2 ** entropy_bits
+```
 
-## Correct definition
+Initial nodes (`father node = null`) are excluded from the parent distribution.
 
-- Denominator = children **with a real father**
-- `H_bits = -sum(p * log2(p))` over parent frequencies
-- `effective_parent_count = 2 ** H_bits`
+## GSM8K/graphs
 
-## GSM8K/graphs (verified)
+| Metric | Value | Planner target |
+|---|---:|---:|
+| VALID_CHILDREN | **24** | 24 |
+| TOP2_PARENT_SHARE | **0.6666666666666666** | ~0.6667 |
+| SELECTION_ENTROPY_BITS | **2.29597512699001** | ~2.296 |
+| EFFECTIVE_PARENT_COUNT | **4.910858068512094** | ~4.911 |
 
-| Metric | R2A (wrong) | R2A-R1 (correct) | Planner target |
-|---|---:|---:|---:|
-| children counted | 25 (incl. 1 initial) | **24** | 24 |
-| top2 father share | 0.64 | **0.6667** | ~0.667 |
-| selection entropy | 1.696 nats | **2.296 bits** | ~2.296 |
-| effective parent count | 3.24 (mixed units) | **4.91** | ~4.91 |
+matches_planner_targets = **True**
 
-parent_selection_frequency (after fix) = `{"1": 1, "2": 1, "3": 3, "4": 2, "8": 9, "10": 1, "13": 7}`
+parent_selection_frequency = `{"1": 1, "2": 1, "3": 3, "4": 2, "8": 9, "10": 1, "13": 7}`
 
-## Reproducibility
+## Artifacts
 
-- Unit test: `tests/baseline_first/test_entropy_units.py` (4 tests)
-- Checks both the pure-math identity and that `lineage_metrics.json` matches
-- `2 ** H_bits == exp(H_nats)` verified as the same effective number
+- `results/stage3_0_p1_r2a_r1/corrected_lineage_metrics.json`
+- `results/stage3_0_p1_r2a/lineage_metrics.json` (per-variant, recomputed)
+- unit tests: `tests/baseline_first/test_entropy_units.py`
 
-Official AFlow records were **not** modified.
+AFlow official records were not modified. Earlier R2A results are preserved as
+historical; this stage writes the corrected values to `stage3_0_p1_r2a_r1/`.

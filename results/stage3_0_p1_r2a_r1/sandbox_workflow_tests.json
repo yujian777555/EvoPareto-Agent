@@ -1,0 +1,21 @@
+{
+  "nodeid": "tests/baseline_first/test_sandbox_workflow_e2e.py",
+  "returncode": 0,
+  "passed": true,
+  "summary": [
+    "....                                                                     [100%]"
+  ],
+  "evidence_class": "MOCK_TEST",
+  "isolation": {
+    "network": "--network none (TCP egress denied)",
+    "model_channel": "bind-mounted /ipc mailbox via ModelIPCClient",
+    "host_secrets": "not passed into container",
+    "docker_sock": "not mounted",
+    "cpu": "--cpus",
+    "memory": "--memory/--memory-swap",
+    "pids": "--pids-limit",
+    "timeout": "subprocess timeout"
+  },
+  "controlled_model_ipc": "PASS",
+  "note": "AFlow Workflow runs untrusted code under Docker --network none; model inference is reached ONLY through the authorised /ipc mailbox which is drained on the host by GatewayLLM (budget-gated). No arbitrary host file or external URL access is possible."
+}

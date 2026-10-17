@@ -29,11 +29,38 @@ from src.runtime.http_budget import (
 )
 from src.runtime.run_identity import GitIdentityError, resolve_git_sha, write_run_manifest
 
-RESULTS = Path("results/pilot1_preflight")
+import tempfile
+
+# TEST modules never write into tracked results/ — production experiment
+# writers live in scripts/ and take an explicit output_dir. Default here is a
+# throwaway temp dir so success / failure / exception / interrupt cannot
+# pollute frozen experiment records.
+RESULTS = Path(tempfile.mkdtemp(prefix="evo_test_pilot1_preflight_"))
+
+from tests.frozen_guard import ROOT as _FROZEN_ROOT  # noqa: E402
+
+
+def _refuse_frozen(path: Path) -> Path:
+    """Source-level block: test evidence must never land in tracked results/."""
+    import os
+    resolved = Path(path).resolve()
+    frozen_root = (_FROZEN_ROOT / "results").resolve()
+    under_frozen = resolved == frozen_root or frozen_root in resolved.parents
+    under_evidence = "pytest_evidence" in str(resolved) or "tmp" in str(resolved).lower()
+    if under_frozen and not under_evidence:
+        # When running under pytest we require an isolated target.
+        if os.environ.get("PYTEST_CURRENT_TEST"):
+            raise RuntimeError(
+                f"refusing to write test evidence into frozen results: {resolved}"
+            )
+    return path
+
+
 
 
 def _write(name: str, payload: dict):
     RESULTS.mkdir(parents=True, exist_ok=True)
+    _refuse_frozen(RESULTS)
     (RESULTS / name).write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
