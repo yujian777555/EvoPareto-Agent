@@ -1,0 +1,79 @@
+{
+  "run_id": "pytest-final-0001",
+  "events": {
+    "run_id": "pytest-final-0001",
+    "HARNESS_MAX_PHYSICAL": 500,
+    "PILOT_MAX_PHYSICAL": 300,
+    "note": "offline harness cap 500 to prove the chain; real pilot hard cap stays 300",
+    "adapter_scores": [
+      {
+        "task_id": "gsm8k-train-0000",
+        "question_len": 155,
+        "predicted": null,
+        "gold": "72",
+        "correct": false,
+        "reason": "NO_ANSWER_EXTRACTED",
+        "output_repr": "''"
+      },
+      {
+        "task_id": "gsm8k-train-0000",
+        "question_len": 155,
+        "predicted": null,
+        "gold": "72",
+        "correct": false,
+        "reason": "NO_ANSWER_EXTRACTED",
+        "output_repr": "''"
+      }
+    ],
+    "adapter_child_ok": [
+      false,
+      false
+    ],
+    "OFFICIAL_EXPERIENCE_PATH": "workspace/GSM8K/workflows/round_2/experience.json",
+    "OFFICIAL_RESULTS_PATH": "workspace/GSM8K/workflows/results.json",
+    "OPTIMIZER_CANDIDATE_SHA": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+    "OPTIMIZER_CANDIDATE_PROMPT_SHA": "c716e47e8e70b18f3078ff1140280f486c480c8e860f6ee1f4356bf424f87f2d",
+    "CHILD_TASK_KEYS": [
+      "question",
+      "task_id"
+    ],
+    "EXECUTED_CHILD_SHA": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+    "SAME_CANDIDATE_PROVEN": true,
+    "GOLD_SCORING": {
+      "task_id": "gsm8k-train-0000",
+      "question_len": 155,
+      "predicted": "48",
+      "gold": "72",
+      "correct": false,
+      "reason": "MISMATCH",
+      "output_repr": "\"'The final answer is #### 48'\""
+    },
+    "CHILD_OK": true,
+    "CHILD_STDERR": "",
+    "question_contains_gold_tokens": [],
+    "GOLD_IN_CONTAINER_TASK_JSON": false,
+    "GOLD_LEAKAGE_ELIMINATED": true,
+    "REAL_MOCK_HTTP_POST_COUNT": 2,
+    "GATEWAY_LEDGER_COUNT": 2,
+    "PROMPT_LENGTHS": [
+      6049,
+      170
+    ],
+    "PROMPT_LENGTH_N": 2,
+    "PROMPT_LENGTH_MAX": 6049,
+    "PROMPT_LENGTH_MEAN": 3109.5,
+    "OFFICIAL_EXPERIENCE_FIELDS": [
+      "after",
+      "before",
+      "father node",
+      "modification",
+      "succeed"
+    ],
+    "OFFICIAL_EXPERIENCE_FATHER": 1,
+    "OFFICIAL_EXPERIENCE_SUCCEED": false,
+    "OFFICIAL_RESULTS_N": 2,
+    "physical_attempts": 2,
+    "spent_cost_usd": 0.0020180999999999997
+  },
+  "real_deepseek_calls": 0
+}

@@ -394,9 +394,13 @@ class PhysicalBudgetGate:
         is_retry: bool = False,
         res_tokens_in: int = 0,
         res_tokens_out: int = 0,
+        res_cost: Optional[float] = None,
     ) -> str:
+        # res_cost = conservative worst-case $ for THIS request's token bounds.
+        # Falls back to the flat est_cost only when the caller provides none.
+        cost = float(res_cost) if res_cost is not None else float(self.est_cost)
         return self.db.acquire_ticket(
-            self.est_cost,
+            cost,
             is_retry=is_retry,
             res_tokens_in=res_tokens_in,
             res_tokens_out=res_tokens_out,
@@ -448,6 +452,7 @@ def pre_send_ticket(
     is_retry: bool = False,
     res_tokens_in: int = 0,
     res_tokens_out: int = 0,
+    res_cost: Optional[float] = None,
 ) -> str:
     """Must be called before every physical send.
 
@@ -465,6 +470,7 @@ def pre_send_ticket(
         is_retry=is_retry,
         res_tokens_in=res_tokens_in,
         res_tokens_out=res_tokens_out,
+        res_cost=res_cost,
     )
 
 

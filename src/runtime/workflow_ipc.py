@@ -301,7 +301,8 @@ def build_runner_script(task_question: str, task_id: str) -> str:
         "        w.llm = model_ipc.ModelIPCClient('/ipc')\n"
         "    out = await w(task['question'])\n"
         "    print(json.dumps({'ok': True, 'task_id': task.get('task_id'),"
-        " 'out': repr(out)[:500], 'question_len': len(task.get('question',''))}))\n"
+        " 'out': repr(out)[:500], 'question_len': len(task.get('question','')),"
+        " 'task_keys': sorted(task.keys())}))\n"
         "asyncio.run(main())\n"
     )
 
@@ -317,12 +318,15 @@ def run_workflow_code_isolated(
     pids_limit: int = 64,
     cpus: float = 1.0,
     llm: Any = None,
+    extra_modules: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
     """Run generated Workflow in Docker with a controlled model mailbox.
 
     The REAL `problem` (GSM8K question) is written to /work/task.json and the
-    runner passes it to the Workflow. Task id + gold answer travel along for
-    offline scoring evidence.
+    runner passes it to the Workflow. Gold answer never crosses the boundary.
+
+    `extra_modules` maps module dotted-names to source text so official graph
+    imports (e.g. workspace...operator) resolve inside the container.
     """
     if not problem:
         raise ValueError("problem (real task question) is required")
@@ -343,14 +347,45 @@ def run_workflow_code_isolated(
 
         (work / "graph.py").write_text(graph_code, encoding="utf-8")
         (work / "model_ipc.py").write_text(IN_CONTAINER_CLIENT, encoding="utf-8")
+        # ship optional dependency modules (official AFlow template packages)
+        if extra_modules:
+            has_child = set()
+            for dotted in extra_modules:
+                parts = dotted.split(".")
+                for i in range(1, len(parts)):
+                    has_child.add(".".join(parts[:i]))
+            for dotted, src in extra_modules.items():
+                parts = dotted.split(".")
+                dest_dir = work.joinpath(*parts[:-1])
+                dest_dir.mkdir(parents=True, exist_ok=True)
+                cur = work
+                for part in parts[:-1]:
+                    cur = cur / part
+                    (cur / "__init__.py").touch()
+                if dotted in has_child:
+                    pkg_dir = work.joinpath(*parts)
+                    pkg_dir.mkdir(parents=True, exist_ok=True)
+                    (pkg_dir / "__init__.py").write_text(src, encoding="utf-8")
+                else:
+                    (dest_dir / (parts[-1] + ".py")).write_text(src, encoding="utf-8")
+        # SECURITY: container-visible task payload carries ONLY id + question.
+        # Gold answer stays on the host for the trusted scorer — never in
+        # /work/task.json, never in the prompt, never over IPC.
         (work / "task.json").write_text(
             json.dumps({
                 "task_id": task_id,
                 "question": problem,
-                "gold_answer": gold_answer,
             }, ensure_ascii=False),
             encoding="utf-8",
         )
+        if extra_modules:
+            # ensure every parent package is importable
+            for dotted in extra_modules:
+                parts = dotted.split(".")
+                for i in range(len(parts)):
+                    pkg = work.joinpath(*parts[: i + 1])
+                    if pkg.is_dir():
+                        (pkg / "__init__.py").touch()
         (work / "runner.py").write_text(build_runner_script(problem, task_id), encoding="utf-8")
 
         cmd = [
@@ -387,7 +422,7 @@ def run_workflow_code_isolated(
             "stdout": proc.stdout[-800:],
             "stderr": proc.stderr[-800:],
             "task_id": task_id,
-            "gold_answer": gold_answer,
+            "gold_answer_host_side": gold_answer,   # trusted scorer only
             "question_len": len(problem),
             "ipc_processed": getattr(server, "processed", []) if server else [],
             "security_events": getattr(server, "security_events", []) if server else [],

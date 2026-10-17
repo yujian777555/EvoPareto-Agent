@@ -110,7 +110,8 @@ def test_reservation_covers_worst_case(env):
     rows = env["ledger"].rows()
     assert rows
     # reserved_cost must be the worst-case for (2000, 500) peak
-    expected = worst_case_cost("deepseek-flash", 2000, 500)
+    est_in = conservative_input_tokens("hello")
+    expected = worst_case_cost("deepseek-flash", est_in, 500)
     assert rows[0]["reserved_cost"] == pytest.approx(expected)
 
 

@@ -1,0 +1,46 @@
+{
+  "run_id": "pytest-final-0001",
+  "n_rows": 2,
+  "rows": [
+    {
+      "seq": 1,
+      "ts": 1792249873.0,
+      "run_id": "pytest-final-0001",
+      "provider": "mock-http",
+      "model": "deepseek-flash",
+      "logical_request_id": "req-1",
+      "physical_request_id": "bae1b77b1e9042aa9be76cd61600a644",
+      "ticket_id": "cf2e31ba797943a9970b7c6219afed02",
+      "max_input_tokens": 8000,
+      "max_output_tokens": 500,
+      "reserved_cost": 0.0024146999999999997,
+      "reported_tokens_in": 6049,
+      "reported_tokens_out": 121,
+      "observed_cost": 0.0019598999999999997,
+      "cumulative_cost": 0.0019598999999999997,
+      "request_status": "settled_ok",
+      "error_kind": null,
+      "http_status": 200
+    },
+    {
+      "seq": 2,
+      "ts": 1792249884.0,
+      "run_id": "pytest-final-0001",
+      "provider": "mock-http",
+      "model": "deepseek-flash",
+      "logical_request_id": "req-2",
+      "physical_request_id": "beed0311cf90457db415382c657fcb83",
+      "ticket_id": "7c1bacf7b62d4e809e948bee22a8076f",
+      "max_input_tokens": 8000,
+      "max_output_tokens": 500,
+      "reserved_cost": 0.000651,
+      "reported_tokens_in": 170,
+      "reported_tokens_out": 6,
+      "observed_cost": 5.82e-05,
+      "cumulative_cost": 0.0020180999999999997,
+      "request_status": "settled_ok",
+      "error_kind": null,
+      "http_status": 200
+    }
+  ]
+}

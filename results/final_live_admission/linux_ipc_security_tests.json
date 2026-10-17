@@ -1,0 +1,12 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "engine": "docker python:3.10-slim (Linux)",
+  "returncode": 0,
+  "results": {
+    "SYMLINK_REQUEST": "PASS",
+    "SYMLINK_RESPONSE": "PASS",
+    "TRAVERSAL_ID": "PASS",
+    "ATOMIC_EXCL": "PASS",
+    "NO_GOLD_IN_TASK_JSON": "PASS"
+  }
+}

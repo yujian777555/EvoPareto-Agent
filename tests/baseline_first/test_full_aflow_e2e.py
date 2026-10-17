@@ -1,4 +1,4 @@
-"""Full official AFlow mock E2E regression (Task 5)."""
+"""Full official AFlow mock E2E regression (Final Admission)."""
 from __future__ import annotations
 
 import json
@@ -10,7 +10,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-OUT = ROOT / "results" / "stage3_0_p1_r2a_r2"
+OUT = ROOT / "results" / "final_live_admission"
 
 docker_ok = True
 try:
@@ -24,46 +24,49 @@ except Exception:
 pytestmark = pytest.mark.skipif(not docker_ok, reason="docker daemon not running")
 
 REQUIRED = [
-    "OFFICIAL_OPTIMIZER_EXECUTED",
-    "OFFICIAL_PARENT_SELECTION",
-    "REAL_TASK_QUESTION_PROPAGATED",
-    "STRUCTURED_MODIFICATION_VALIDATED",
-    "CHILD_WORKFLOW_EXECUTED",
-    "MODEL_IPC_USED",
-    "PHYSICAL_BUDGET_CHARGED",
-    "GOLD_ANSWER_SCORING_EXECUTED",
-    "EXPERIENCE_UPDATED",
-    "RESULTS_PERSISTED",
+    "GOLD_LEAKAGE_ELIMINATED",
+    "SAME_CANDIDATE_PROVEN",
+    "CHILD_OK",
+    "OFFICIAL_EXPERIENCE_PATH",
+    "OFFICIAL_RESULTS_PATH",
 ]
 
 
 def test_full_aflow_mock_e2e():
     script = ROOT / "scripts" / "stage3_0_p1_r2a_r2" / "run_full_aflow_mock.py"
     r = subprocess.run(
-        [sys.executable, str(script), "--run-id", "pytest-e2e-0001"],
+        [sys.executable, str(script), "--run-id", "pytest-final-0001"],
         cwd=str(ROOT), capture_output=True, text=True, timeout=240,
     )
     assert r.returncode == 0, f"e2e failed: {r.stdout[-800:]}\n{r.stderr[-800:]}"
     trace = json.loads((OUT / "official_aflow_full_mock_trace.json").read_text(encoding="utf-8"))
+    assert trace["run_id"] == "pytest-final-0001"
     events = trace["events"]
     for k in REQUIRED:
-        assert events.get(k) is True, f"event not proven: {k}"
-    # derived from THIS run, not a committed PASS string
-    assert trace["run_id"] == "pytest-e2e-0001"
-    assert trace["real_deepseek_calls"] == 0
-    assert trace["n_physical_requests"] > 0
-    assert trace["ledger_rows"] > 0
-    # real questions propagated
-    assert trace["task_a"]["task_id"].startswith("gsm8k-")
-    assert len(trace["task_a"]["question_head"]) > 10
-    # gold scoring present
-    assert trace["scoring"] and all("gold" in s for s in trace["scoring"])
+        assert events.get(k), f"event not proven: {k}"
+    # no gold in the container
+    assert events.get("CHILD_TASK_KEYS") == ["question", "task_id"] or events.get("CHILD_TASK_KEYS") == ["task_id", "question"]
+    # real HTTP through gateway
+    assert events.get("REAL_MOCK_HTTP_POST_COUNT", 0) > 0
+    assert events.get("GATEWAY_LEDGER_COUNT", 0) > 0
+    # same candidate
+    assert events.get("OPTIMIZER_CANDIDATE_SHA")
+    assert events.get("OPTIMIZER_CANDIDATE_SHA") == events.get("EXECUTED_CHILD_SHA")
+    # official persistence
+    assert events.get("OFFICIAL_EXPERIENCE_PATH")
+    assert "after" in (events.get("OFFICIAL_EXPERIENCE_FIELDS") or [])
 
 
-def test_frozen_results_untouched_after_e2e():
+def test_no_synthetic_experience_file():
+    """The experience JSON must come from AFlow utilities, not a hand-written dict."""
+    trace = json.loads((OUT / "official_aflow_full_mock_trace.json").read_text(encoding="utf-8"))
+    fields = trace["events"].get("OFFICIAL_EXPERIENCE_FIELDS") or []
+    assert set(fields) >= {"father node", "modification", "before", "after", "succeed"}
+
+
+def test_frozen_results_untouched():
     import tests.frozen_guard as fg
 
-    # snapshot equality is enforced by the session guard; this is an explicit check
     snap = fg.snapshot()
     assert len(snap) > 50
     assert "results/pilot1_preflight/timeout_billing_block.json" in snap

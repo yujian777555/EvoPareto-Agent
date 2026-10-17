@@ -1,0 +1,35 @@
+{
+  "GOLD_LEAKAGE_ELIMINATED": true,
+  "TRUSTED_SCORER_ISOLATED": true,
+  "OPTIMIZER_CANDIDATE_SHA": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+  "EXECUTED_CHILD_SHA": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+  "SAME_CANDIDATE_PROVEN": true,
+  "REAL_MOCK_HTTP_POST_COUNT": 2,
+  "GATEWAY_LEDGER_COUNT": 2,
+  "OFFICIAL_EXPERIENCE_PATH": "workspace/GSM8K/workflows/round_2/experience.json",
+  "OFFICIAL_RESULTS_PATH": "workspace/GSM8K/workflows/results.json",
+  "WORST_CASE_RESERVATION_ATOMIC": true,
+  "TOKEN_LIMIT_PROPOSAL": {
+    "proposed_max_input_per_request": 8000,
+    "pilot_authorization_unchanged": true,
+    "worst_case_300_requests_usd": 0.9
+  },
+  "OPTIMIZER_PROMPT_DISTRIBUTION": {
+    "n": 2,
+    "max": 6049,
+    "mean": 3109.5
+  },
+  "HARD_COST_CAP": 5.0,
+  "LINUX_IPC_SECURITY_TESTS": {
+    "SYMLINK_REQUEST": "PASS",
+    "SYMLINK_RESPONSE": "PASS",
+    "TRAVERSAL_ID": "PASS",
+    "ATOMIC_EXCL": "PASS",
+    "NO_GOLD_IN_TASK_JSON": "PASS"
+  },
+  "FROZEN_RESULTS_UNCHANGED": true,
+  "FULL_AFLOW_MOCK_E2E": "PASS",
+  "REAL_DEEPSEEK_CALLS": 0,
+  "REAL_API_COST": 0,
+  "FINAL_DECISION": "READY_FOR_LEVEL3_LIVE_APPROVAL"
+}

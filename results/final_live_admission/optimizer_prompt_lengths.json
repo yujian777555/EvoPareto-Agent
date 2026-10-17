@@ -1,0 +1,11 @@
+{
+  "run_id": "pytest-final-0001",
+  "n": 2,
+  "max": 6049,
+  "mean": 3109.5,
+  "samples_top20": [
+    6049,
+    170
+  ],
+  "note": "conservative_input_tokens=len(prompt)+8 upper bound"
+}

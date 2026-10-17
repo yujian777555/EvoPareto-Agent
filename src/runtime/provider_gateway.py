@@ -416,12 +416,16 @@ class GatewayLLM:
             raise OutputTokenCapExceeded("max_output_tokens must be positive")
 
         # --- VALIDATE model / price ---
-        reserve_cost = worst_case_cost(self.model, self.max_input_tokens, self.max_output_tokens)
+        # Reservation covers THIS request's conservative maximum:
+        #   input  = upper bound for this prompt
+        #   output = full per-request output cap (we cannot know less)
+        reserve_cost = worst_case_cost(self.model, est_in, self.max_output_tokens)
 
         # --- RESERVE request slot + token budget + worst-case cost ---
         ticket = pre_send_ticket(
-            res_tokens_in=self.max_input_tokens,
+            res_tokens_in=est_in,
             res_tokens_out=self.max_output_tokens,
+            res_cost=reserve_cost,
         )
 
         http_status: Optional[int] = None

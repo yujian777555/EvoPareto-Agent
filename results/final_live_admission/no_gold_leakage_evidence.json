@@ -1,0 +1,14 @@
+{
+  "run_id": "pytest-final-0001",
+  "task_json_keys": [
+    "task_id",
+    "question"
+  ],
+  "gold_stays_on_host": true,
+  "question_contains_gold_tokens": [],
+  "child_task_keys": [
+    "question",
+    "task_id"
+  ],
+  "GOLD_LEAKAGE_ELIMINATED": true
+}
