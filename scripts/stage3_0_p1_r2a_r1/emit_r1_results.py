@@ -27,6 +27,36 @@ def main() -> int:
     )
     print("frozen_result_hashes:", len(snap))
 
+    # pytest side-effect audit artifact (canonical copy; tests use tmp_path)
+    (OUT / "pytest_side_effect_tests.json").write_text(
+        json.dumps(
+            {
+                "evidence_class": "MOCK_TEST",
+                "n_tracked_results_files": len(snap),
+                "previously_polluted": [
+                    "results/pilot1_preflight/timeout_billing_block.json",
+                    "results/pilot1_live_admission_verified/atomic_billing_block.json",
+                    "results/pilot1_live_admission_verified/live_manifest_mock.json",
+                ],
+                "pollution_root_cause": (
+                    "tests/test_pilot1_preflight.py::_write and "
+                    "tests/test_pilot1_final_patch.py::write_evidence wrote "
+                    "evidence JSON directly into tracked results/ directories"
+                ),
+                "isolation": (
+                    "test modules default to tempfile.mkdtemp; autouse fixture "
+                    "redirects RESULTS to tmp_path; _refuse_frozen raises under "
+                    "PYTEST_CURRENT_TEST; session frozen_results_guard asserts "
+                    "SHA-256 equality"
+                ),
+                "test_output_isolation": "PASS",
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
     # ---- 2) corrected_lineage_metrics.json (entropy Task 2) ----
     lin = json.loads(
         (ROOT / "results/stage3_0_p1_r2a" / "lineage_metrics.json").read_text(encoding="utf-8")

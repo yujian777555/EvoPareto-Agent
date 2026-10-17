@@ -1,6 +1,6 @@
 {
   "evidence_class": "MOCK_TEST",
-  "n_files": 306,
+  "n_files": 315,
   "sha256": {
     "results/ablation/all_ablations_summary.json": "eba84183250d2273a71da153708e60f55374ee4e6fc4b062f6ea4982727b38cb",
     "results/ablation/budget.json": "9557086735e48003731ffb3ac4a1c0b78e80e36ee4643a73013304769e3b1054",
@@ -307,7 +307,16 @@
     "results/stage3_0_p1_r2a/micro_pilot_budget.json": "cae0cbf38dfdef9c2b00aa73bf791789ad47aaac2d4db20b0c1b5e9c6d2fddaa",
     "results/stage3_0_p1_r2a/provider_gateway_tests.json": "55fa0a122d926083da74d3d3e5e735e444abc2c391628f17f8da27002ec389d8",
     "results/stage3_0_p1_r2a/sandbox_negative_tests.json": "92cb09def7f512aa18618790c29f9081a20c1f1c34ec412e9ab8e8aea292fc05",
-    "results/stage3_0_p1_r2a/structural_diversity.json": "9bd25b83cc985633fd67acc34f830c97ee17fc5050f8aa641a073f61798b00e2"
+    "results/stage3_0_p1_r2a/structural_diversity.json": "9bd25b83cc985633fd67acc34f830c97ee17fc5050f8aa641a073f61798b00e2",
+    "results/stage3_0_p1_r2a_r1/corrected_lineage_metrics.json": "ff2e66644d20830db1df5ecff152a501dc687cb649c9540f86adde38e75ab0c6",
+    "results/stage3_0_p1_r2a_r1/final_gate_decisions.json": "ee59e0a601fb6dbbf2ead2d62d4212cb8b43b7a5681e7377f996c13474065e64",
+    "results/stage3_0_p1_r2a_r1/frozen_result_hashes.json": "cc67d2015e76b440c9f96a69515dd0909bbe4e0418a61341bf203f3dd42e9037",
+    "results/stage3_0_p1_r2a_r1/micro_pilot_protocol.json": "553473f3f74f3b849357c96384a1ccdb868763af2ffcbf4188fca6873853b10d",
+    "results/stage3_0_p1_r2a_r1/optimizer_gateway_e2e.json": "2cd159f046e2304d94b3ef1dfd468fc0f7de5e29f5e2bfd320dfaa31a2aef572",
+    "results/stage3_0_p1_r2a_r1/pytest_side_effect_tests.json": "13fade879d4062bce84acb2ce01c6c87d64d346bcd40149d4f7c4b5c34b65a10",
+    "results/stage3_0_p1_r2a_r1/request_ledger_tests.json": "bd63ed1ef5e65b02a52cf0b0f583db7b441c97a2214628f71b596ed3dacb2ad4",
+    "results/stage3_0_p1_r2a_r1/sandbox_workflow_tests.json": "224e948b638cc2d3e413e7973dc5bf1f15f65298e4462b1405fc73dfafe0d2db",
+    "results/stage3_0_p1_r2a_r1/workflow_gateway_e2e.json": "e39984a43ec9a4cee79464fecf1529afeecdc989bf6156ef1551242932f97f8c"
   },
   "meta": {
     "note": "SHA-256 of every git-tracked file under results/ captured at R1-final gate time",

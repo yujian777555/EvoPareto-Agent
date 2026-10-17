@@ -112,10 +112,12 @@ def test_child_process_cannot_pollute(tmp_path):
 
 
 def test_pytest_side_effect_report_artifact(tmp_path):
-    """Emit the audit artifact consumed by docs/ — written OUTSIDE results/."""
-    out = ROOT / "results" / "stage3_0_p1_r2a_r1"
-    # this test writes to the NEW stage dir (not a frozen historical record)
-    # only if the directory exists or can be created for this stage's audit.
+    """Audit payload is produced into tmp_path only.
+
+    The canonical on-disk artifact is written by
+    scripts/stage3_0_p1_r2a_r1/emit_r1_results.py — tests must not dirty
+    tracked files, even this stage's own audit directory.
+    """
     snap = fg.snapshot()
     payload = {
         "evidence_class": "MOCK_TEST",
@@ -130,13 +132,15 @@ def test_pytest_side_effect_report_artifact(tmp_path):
             "tests/test_pilot1_final_patch.py::write_evidence wrote evidence JSON "
             "directly into tracked results/ directories"
         ),
-        "isolation": "autouse fixture redirects RESULTS to tmp_path; "
-                     "_refuse_frozen raises under PYTEST_CURRENT_TEST; "
-                     "session frozen_results_guard asserts SHA-256 equality",
+        "isolation": "test modules default to tempfile.mkdtemp; autouse fixture "
+                     "redirects RESULTS to tmp_path; _refuse_frozen raises under "
+                     "PYTEST_CURRENT_TEST; session frozen_results_guard asserts "
+                     "SHA-256 equality",
         "test_output_isolation": "PASS",
     }
-    out.mkdir(parents=True, exist_ok=True)
-    (out / "pytest_side_effect_tests.json").write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
-    )
-    assert (out / "pytest_side_effect_tests.json").exists()
+    out = tmp_path / "pytest_side_effect_tests.json"
+    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    assert out.exists()
+    # and the canonical artifact must already exist from the emit script
+    canonical = ROOT / "results" / "stage3_0_p1_r2a_r1" / "pytest_side_effect_tests.json"
+    assert canonical.exists(), "run scripts/stage3_0_p1_r2a_r1/emit_r1_results.py first"

@@ -1,12 +1,12 @@
 {
   "evidence_class": "MOCK_TEST",
-  "n_tracked_results_files": 306,
+  "n_tracked_results_files": 315,
   "previously_polluted": [
     "results/pilot1_preflight/timeout_billing_block.json",
     "results/pilot1_live_admission_verified/atomic_billing_block.json",
     "results/pilot1_live_admission_verified/live_manifest_mock.json"
   ],
   "pollution_root_cause": "tests/test_pilot1_preflight.py::_write and tests/test_pilot1_final_patch.py::write_evidence wrote evidence JSON directly into tracked results/ directories",
-  "isolation": "autouse fixture redirects RESULTS to tmp_path; _refuse_frozen raises under PYTEST_CURRENT_TEST; session frozen_results_guard asserts SHA-256 equality",
+  "isolation": "test modules default to tempfile.mkdtemp; autouse fixture redirects RESULTS to tmp_path; _refuse_frozen raises under PYTEST_CURRENT_TEST; session frozen_results_guard asserts SHA-256 equality",
   "test_output_isolation": "PASS"
 }
