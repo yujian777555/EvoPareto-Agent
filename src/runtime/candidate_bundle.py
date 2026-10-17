@@ -35,7 +35,7 @@ def sha256_text(s: str) -> str:
     return sha256_bytes(s.encode("utf-8", errors="replace"))
 
 
-def normalize_prompt_module(prompt_field: str) -> str:
+def normalize_prompt_module(prompt_field: str, return_kind: bool = False):
     """Deterministic safe serialisation: INSTRUCTION = repr(text).
 
     Accepts either raw plain text or an already-valid Python module that
@@ -62,7 +62,7 @@ def normalize_prompt_module(prompt_field: str) -> str:
         }
         if "INSTRUCTION" in names:
             compile(text, "<prompt>", "exec")
-            return text
+            return (text, "PASSTHROUGH_PYTHON_MODULE") if return_kind else text
     except SyntaxError:
         pass
 
@@ -72,7 +72,7 @@ def normalize_prompt_module(prompt_field: str) -> str:
         compile(module, "<prompt>", "exec")
     except SyntaxError as e:
         raise PromptContractError(f"SERIALISED_PROMPT_INVALID:{e.msg}") from e
-    return module
+    return (module, "SERIALISED_INSTRUCTION_REPR") if return_kind else module
 
 
 @dataclass
@@ -90,6 +90,8 @@ class CandidateBundle:
     prompt_compile_ok: bool
     has_workflow_class: bool
     prompt_contract: str
+    prompt_load_ok: bool
+    instruction_binding_type: str
 
     def manifest(self) -> Dict[str, Any]:
         return asdict(self)
@@ -125,12 +127,23 @@ def build_bundle(
         raise BundleValidationError("GRAPH_MISSING_WORKFLOW_CLASS")
 
     # prompt module (normalised, deterministic)
-    prompt_module = normalize_prompt_module(prompt_field)
+    prompt_module, prompt_kind = normalize_prompt_module(prompt_field, return_kind=True)
     try:
         compile(prompt_module, "<prompt>", "exec")
         prompt_ok = True
     except SyntaxError as e:
         raise PromptContractError(f"PROMPT_MODULE_INVALID:{e.msg}") from e
+    # compile success != module load success: actually exec the module and
+    # require the INSTRUCTION name to be a real module-level binding
+    ns: Dict[str, Any] = {}
+    try:
+        exec(prompt_module, ns)
+    except Exception as e:
+        raise PromptContractError(f"PROMPT_MODULE_LOAD_FAIL:{type(e).__name__}:{e}") from e
+    if "INSTRUCTION" not in ns:
+        raise PromptContractError("PROMPT_MODULE_MISSING_INSTRUCTION_BINDING")
+    if not isinstance(ns["INSTRUCTION"], str):
+        raise PromptContractError("PROMPT_INSTRUCTION_NOT_STRING")
 
     prompt_raw_sha = sha256_text(prompt_field)
     prompt_mod_sha = sha256_text(prompt_module)
@@ -148,7 +161,9 @@ def build_bundle(
         graph_compile_ok=graph_ok,
         prompt_compile_ok=prompt_ok,
         has_workflow_class=has_wf,
-        prompt_contract="INSTRUCTION = repr(text)" if not prompt_module.strip().startswith("INSTRUCTION = '") else "PASSTHROUGH",
+        prompt_contract=prompt_kind,
+        prompt_load_ok=True,
+        instruction_binding_type=type(ns["INSTRUCTION"]).__name__,
     )
 
 

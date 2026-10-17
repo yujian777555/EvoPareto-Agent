@@ -1,0 +1,29 @@
+{
+  "PRODUCTION_HTTP_GATE_INTEGRATED": true,
+  "LEGACY_USAGE_IMPORTED": true,
+  "DB_DELETE_RESET_BLOCKED": true,
+  "RUN_ID_RESET_BLOCKED": true,
+  "DB_PATH_RESET_BLOCKED": true,
+  "COST_RESERVATION_ATOMIC": true,
+  "DUPLICATE_SETTLEMENT_REJECTED": true,
+  "UNKNOWN_BILLING_FAIL_CLOSED": true,
+  "REAL_GRAPH_SHA_UNCHANGED": true,
+  "DOCKER_IPC_E2E_PASS": true,
+  "NEW_REAL_HTTP_REQUESTS": 0,
+  "REAL_API_COST_ADDED": 0,
+  "TESTS_PASSED": 764,
+  "TESTS_FAILED": 0,
+  "TESTS_SKIPPED": 2,
+  "FROZEN_RESULTS_UNCHANGED": true,
+  "REMAINING_BLOCKERS": [
+    "full-FS attacker can rewrite the integrity seal (documented, out of scope)",
+    "thinking-disabled / model serving version still not independently verifiable"
+  ],
+  "FINAL_DECISION": "ENGINEERING_RELIABILITY_HARDENED_NO_REAL_API",
+  "TEST_EVIDENCE": {
+    "test_l3r2_budget_persistence": 19,
+    "test_l3r2_bundle_reliability": 10,
+    "test_l3r1_contract_ledger": 21,
+    "full_suite": "764 passed, 2 skipped (Windows symlink, retested on Linux)"
+  }
+}

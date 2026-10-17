@@ -30,12 +30,12 @@ sys.path.insert(0, str(ROOT))
 OUT = ROOT / "results" / "level3_live_calibration"
 OUT.mkdir(parents=True, exist_ok=True)
 
-from src.runtime.http_budget import (  # noqa: E402
-    BillingBlocked,
-    BudgetDB,
+from src.runtime.auth_ledger import (  # noqa: E402
+    AuthBudgetLedger,
+    AuthorizationRecord,
     BudgetExceeded,
-    PhysicalBudgetGate,
-    install_global_gate,
+    UnifiedBudgetGate,
+    UnknownBillingBlocked,
 )
 from src.runtime.provider_gateway import conservative_input_tokens, worst_case_cost  # noqa: E402
 
@@ -55,6 +55,9 @@ MAX_TOTAL_IN = 80000
 MAX_TOTAL_OUT = 5000
 
 run_id = "l3-cal-" + uuid.uuid4().hex[:10]
+_SECRET_KEY = hashlib.sha256(
+    (os.environ.get("DEEPSEEK_API_KEY", "") + "|" + str(ROOT)).encode("utf-8")
+).hexdigest()
 STOP_REASON = ""
 
 
@@ -63,34 +66,34 @@ def sha256_text(s: str) -> str:
 
 
 class LiveClient:
-    """Budget-gated real DeepSeek client. Direct connection, no system proxy."""
+    """Budget-gated real DeepSeek client. Direct connection, no system proxy.
 
-    def __init__(self, api_key: str, db: BudgetDB, ledger_rows: List[Dict], run_id: str):
+    Uses the unified AuthBudgetLedger: Validate -> Identify Authorization ->
+    Atomic Reservation -> Physical Send -> Read Usage -> Atomic Settlement.
+    """
+
+    def __init__(self, api_key: str, gate: UnifiedBudgetGate, ledger_rows: List[Dict], run_id: str):
         self.api_key = api_key
-        self.db = db
+        self.gate = gate
         self.ledger_rows = ledger_rows
         self.run_id = run_id
         self.logical_seq = 0
 
-    def _next_logical(self) -> str:
-        self.logical_seq += 1
-        return f"live-{self.logical_seq:03d}"
-
     def chat(self, prompt: str, *, phase: str) -> Dict[str, Any]:
         global STOP_REASON
-        logical_id = self._next_logical()
-        physical_id = uuid.uuid4().hex
         est_in = conservative_input_tokens(prompt)
         if est_in > MAX_IN_PER_REQ:
             STOP_REASON = "INPUT_TOKEN_CAP_EXCEEDED_BEFORE_SEND"
             raise RuntimeError(STOP_REASON)
 
         reserve_cost = worst_case_cost(MODEL_ID, est_in, MAX_OUT_PER_REQ)
-        ticket = self.db.acquire_ticket(
-            reserve_cost,
-            res_tokens_in=est_in,
-            res_tokens_out=MAX_OUT_PER_REQ,
+        physical_id = self.gate.begin_request(
+            run_id=self.run_id, phase=phase,
+            prompt_sha=sha256_text(prompt),
+            res_in=est_in, res_out=MAX_OUT_PER_REQ, res_cost=reserve_cost,
         )
+        logical_id = f"{phase}-{self.logical_seq:03d}"
+        self.logical_seq += 1
 
         import urllib.error
         import urllib.request
@@ -116,7 +119,7 @@ class LiveClient:
             "run_id": self.run_id,
             "logical_request_id": logical_id,
             "physical_request_id": physical_id,
-            "ticket_id": ticket,
+            "budget_identity": "AuthBudgetLedger",
             "request_phase": phase,
             "prompt_sha256": sha256_text(prompt),
             "prompt_len_chars": len(prompt),
@@ -138,7 +141,7 @@ class LiveClient:
                 "error_body": body_txt.decode("utf-8", "replace")[:300],
                 "ledger_status": "fail_closed",
             })
-            self.db.settle_unknown_and_block(ticket, reason=f"HTTP_{e.code}")
+            self.gate.complete_unknown(physical_id, reason=f"HTTP_{e.code}")
             self.ledger_rows.append(record)
             STOP_REASON = f"HTTP_{e.code}"
             raise
@@ -149,7 +152,7 @@ class LiveClient:
                 "error_message": str(e)[:300],
                 "ledger_status": "fail_closed",
             })
-            self.db.settle_unknown_and_block(ticket, reason=f"{type(e).__name__}:{e}")
+            self.gate.complete_unknown(physical_id, reason=f"{type(e).__name__}:{e}")
             self.ledger_rows.append(record)
             STOP_REASON = f"NETWORK:{type(e).__name__}"
             raise
@@ -159,7 +162,7 @@ class LiveClient:
             data = json.loads(raw.decode("utf-8"))
         except Exception as e:
             record.update({"error_kind": "INVALID_JSON", "ledger_status": "fail_closed"})
-            self.db.settle_unknown_and_block(ticket, reason="INVALID_JSON")
+            self.gate.complete_unknown(physical_id, reason="INVALID_JSON")
             self.ledger_rows.append(record)
             STOP_REASON = "INVALID_JSON"
             raise
@@ -185,30 +188,34 @@ class LiveClient:
         # ---- fail-closed checks ----
         if tokens_in is None or tokens_out is None:
             record["ledger_status"] = "fail_closed"
-            self.db.settle_unknown_and_block(ticket, reason="MISSING_USAGE")
+            self.gate.complete_unknown(physical_id, reason="MISSING_USAGE")
             self.ledger_rows.append(record)
             STOP_REASON = "MISSING_USAGE"
             raise RuntimeError(STOP_REASON)
         if finish_reason == "length":
             record["ledger_status"] = "fail_closed"
-            self.db.settle(ticket, success=False, actual_cost=reserve_cost, tokens_in=tokens_in, tokens_out=tokens_out)
+            self.gate.complete_actual(physical_id, actual_in=int(tokens_in or 0), actual_out=int(tokens_out or 0),
+                                        observed_cost=reserve_cost, http_status=http_status,
+                                        model_returned=model_ret, finish_reason=finish_reason)
             self.ledger_rows.append(record)
             STOP_REASON = "RESPONSE_TRUNCATED"
             raise RuntimeError(STOP_REASON)
         if content is None or content == "":
             record["ledger_status"] = "fail_closed"
-            self.db.settle(ticket, success=False, actual_cost=reserve_cost, tokens_in=tokens_in, tokens_out=tokens_out)
+            self.gate.complete_actual(physical_id, actual_in=int(tokens_in or 0), actual_out=int(tokens_out or 0),
+                                        observed_cost=reserve_cost, http_status=http_status,
+                                        model_returned=model_ret, finish_reason=finish_reason)
             self.ledger_rows.append(record)
             STOP_REASON = "EMPTY_CONTENT"
             raise RuntimeError(STOP_REASON)
 
         observed_cost = (tokens_in / 1e6) * PRICE_INPUT_PER_1M + (tokens_out / 1e6) * PRICE_OUTPUT_PER_1M
-        self.db.settle(
-            ticket, success=True,
-            actual_cost=observed_cost,
-            tokens_in=int(tokens_in), tokens_out=int(tokens_out),
+        self.gate.complete_actual(
+            physical_id, actual_in=int(tokens_in), actual_out=int(tokens_out),
+            observed_cost=observed_cost, http_status=http_status,
+            model_returned=model_ret, finish_reason=finish_reason,
         )
-        snap = self.db.snapshot()
+        snap = self.gate.ledger.snapshot()
         record.update({
             "observed_cost_usd": observed_cost,
             "cumulative_cost_usd": snap["spent_cost_usd"],
@@ -267,13 +274,24 @@ def main() -> int:
         print("DEEPSEEK_API_KEY missing")
         return 2
 
+    # Persistent authorization record (survives DB delete / run-id rotation).
+    rec_path = OUT / "authorization_record.json"
+    if rec_path.exists():
+        record = AuthorizationRecord.open_existing(rec_path, secret_key=_SECRET_KEY)
+    else:
+        record = AuthorizationRecord.create(
+            rec_path, auth_id="level3-live-authorization-v1",
+            caps={
+                "max_physical": MAX_PHYSICAL, "max_cost_usd": MAX_COST_USD,
+                "max_total_in": MAX_TOTAL_IN, "max_total_out": MAX_TOTAL_OUT,
+            },
+            secret_key=_SECRET_KEY,
+        )
     db_path = OUT / f"live_budget_{run_id}.sqlite"
-    if db_path.exists():
-        db_path.unlink()
-    db = BudgetDB(db_path, max_physical=MAX_PHYSICAL, max_cost_usd=MAX_COST_USD)
-    install_global_gate(PhysicalBudgetGate(db, est_cost_per_request=0.01), strict=True)
+    db = AuthBudgetLedger(db_path, record)
+    gate = UnifiedBudgetGate(db, default_max_in=MAX_IN_PER_REQ, default_max_out=MAX_OUT_PER_REQ)
     ledger_rows: List[Dict[str, Any]] = []
-    client = LiveClient(api_key, db, ledger_rows, run_id)
+    client = LiveClient(api_key, gate, ledger_rows, run_id)
 
     events: Dict[str, Any] = {
         "run_id": run_id,
@@ -455,7 +473,6 @@ def main() -> int:
     (OUT / "live_run_summary.json").write_text(
         json.dumps(events, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    install_global_gate(None, strict=False)
     db.close()
 
     print(json.dumps({k: events[k] for k in (
