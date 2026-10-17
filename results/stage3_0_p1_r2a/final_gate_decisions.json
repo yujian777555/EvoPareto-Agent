@@ -1,8 +1,8 @@
 {
-  "GATE_A_STATISTICAL_INTEGRITY": "PASS",
+  "GATE_A_STATISTICAL_INTEGRITY": "PASS (entropy units corrected)",
   "GATE_B_SCIENTIFIC_EVIDENCE": "PASS (correlational claims bounded)",
   "GATE_C_MOCK_RELIABILITY": "PASS",
-  "GATE_D_SAFETY_BUDGET": "PASS",
+  "GATE_D_SAFETY_BUDGET": "PASS (gateway e2e + fail-closed + sandbox)",
   "GATE_E_PILOT_READINESS": "AWAITING_AUTHORIZATION",
   "FINAL_DECISION": "READY_FOR_LEVEL3_MICRO_PILOT_APPROVAL",
   "real_llm_calls": 0,
@@ -12,5 +12,28 @@
     "provider_gateway": "BUDGET_GATE_PASS",
     "sandbox": "SANDBOX_GATE_PASS",
     "mock": "MOCK_RELIABILITY_PASS"
+  },
+  "stage": "3.0-P1-R2A-R1",
+  "r1_checks": {
+    "ENTROPY_CORRECTED": {
+      "n_children_with_father": 24,
+      "selection_entropy_bits": 2.29597512699001,
+      "effective_parent_count": 4.910858068512094,
+      "top2_share": 0.6666666666666666,
+      "formula": "2 ** H_bits (log2)"
+    },
+    "OPTIMIZER_GATEWAY_E2E": "PASS",
+    "WORKFLOW_GATEWAY_E2E": "PASS",
+    "REQUEST_LEVEL_LEDGER": "PASS",
+    "BUDGET_FAIL_CLOSED": "PASS",
+    "SANDBOX_E2E": "PASS",
+    "NO_UNAUTHORIZED_EGRESS": "PASS",
+    "VALIDATION_TEST_SPLIT": "PASS",
+    "MODEL_VERSION": "DeepSeek-V4.1-Flash",
+    "PRICE_VERIFIED": "2026-10-16",
+    "HARD_CAP_USD": 5.0,
+    "LOCAL_PATH_ACCESS": "RESOLVED",
+    "split_sha256": "bd168b930b2f75c1d5b18e35ffdfa28033253521a3d5a3abf1f8fc4f236c1472",
+    "selection_uses_test_set": false
   }
 }

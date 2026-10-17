@@ -1,0 +1,20 @@
+{
+  "model_id": "deepseek-flash",
+  "model_version": "DeepSeek-V4.1-Flash",
+  "pricing_source": "https://api-docs.deepseek.com/quick_start/pricing",
+  "price_verified_at": "2026-10-16",
+  "max_input_tokens_per_request": 2000,
+  "max_output_tokens_per_request": 500,
+  "max_total_input_tokens": 2000000,
+  "max_total_output_tokens": 200000,
+  "max_physical_requests": 300,
+  "max_total_cost_usd": 5.0,
+  "worst_case_cost_peak_usd": 0.84,
+  "worst_case_under_cap": true,
+  "retries_counted_in_ledger": true,
+  "provider_base_url": "https://api.deepseek.com",
+  "proxy_policy": {
+    "deepseek_physical_requests": "DIRECT_NO_SYSTEM_PROXY",
+    "detail": "DeepSeek HTTP calls must ignore the system/global proxy (no HTTP_PROXY/HTTPS_PROXY/ALL_PROXY) and connect straight to api.deepseek.com. The Provider Gateway and the code-execution sandbox keep their own separate security boundaries."
+  }
+}

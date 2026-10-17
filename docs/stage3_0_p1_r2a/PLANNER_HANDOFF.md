@@ -20,7 +20,7 @@
    Cross-parent repeats are **by-design** of local `check_modification`, not proven bug.
    Diversity now layered (raw SHA-256 / AST / operator composition). Behavioral
    diversity = NOT_AVAILABLE.
-4. **Lineage (Task D)** — GSM8K effective parents ≈ 3.239418554951364
+4. **Lineage (Task D)** — GSM8K effective parents (bits, excl. initial) ≈ 3.239418554951364
    (entropy 1.6957348862067052 bits). Concentration real;
    **PREMATURE_CONVERGENCE_CAUSALLY_ESTABLISHED = False**.
    Selection probabilities = SELECTION_PROBABILITY_NOT_RECONSTRUCTABLE.

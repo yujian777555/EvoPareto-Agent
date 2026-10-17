@@ -554,23 +554,32 @@ def task_d(rows):
             sub = [r for r in rows if r["benchmark"] == bench and r["variant"] == var]
             if not sub:
                 continue
-            fathers = Counter(str(r["father"]) for r in sub)
+            # Initial nodes have no real father (father is None) and must not be
+            # counted as a parent category when estimating selection concentration.
+            with_father = [r for r in sub if r["father"] is not None]
+            fathers = Counter(str(r["father"]) for r in with_father)
             total = sum(fathers.values())
+            n_initial_no_father = len(sub) - len(with_father)
             if total == 0:
                 continue
             freqs = [c / total for c in fathers.values()]
-            entropy = -sum(p * math.log(p) for p in freqs if p > 0)
-            eff = 2 ** entropy
-            rounds_sorted = sorted(sub, key=lambda r: r["round"])
+            # Shannon entropy in BITS (log2). Effective parent count = 2^H_bits.
+            entropy = -sum(p * math.log2(p) for p in freqs if p > 0)
+            eff = 2.0 ** entropy
+            rounds_sorted = sorted(with_father, key=lambda r: r["round"])
             score_at_sel = [r["after"] if r["after"] is not None else r["before"] for r in rounds_sorted]
             round_at_sel = [r["round"] for r in rounds_sorted]
-            round_nums = [r["round"] for r in rounds_sorted]
+            round_nums = [r["round"] for r in with_father]
             remaining = [max(0, max(round_nums) - r["round"]) for r in rounds_sorted]
             out[f"{bench}/{var}"] = {
+                "n_children_with_father": total,
+                "n_initial_no_father": n_initial_no_father,
                 "n_children": total,
                 "parent_selection_frequency": dict(fathers),
                 "selection_entropy_bits": entropy,
+                "entropy_unit": "bits (log2)",
                 "effective_parent_count": eff,
+                "effective_parent_count_formula": "2 ** H_bits",
                 "max_father_share": max(freqs),
                 "lineage_concentration_top2_share": sum(sorted(fathers.values(), reverse=True)[:2]) / total,
                 "lineage_depth_distribution": dict(Counter(_depth(r, sub) for r in sub)),
