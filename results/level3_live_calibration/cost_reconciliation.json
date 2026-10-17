@@ -1,0 +1,12 @@
+{
+  "run_id": "l3-cal-b1aa792a44",
+  "REAL_HTTP_REQUESTS": 2,
+  "LEDGER_REQUESTS": 2,
+  "HTTP_LEDGER_MATCH": true,
+  "REAL_INPUT_TOKENS": 651,
+  "REAL_OUTPUT_TOKENS": 1000,
+  "REAL_COST_USD": 0.0005934,
+  "MAX_COST_USD": 0.1,
+  "MAX_PHYSICAL": 10,
+  "under_budget": true
+}

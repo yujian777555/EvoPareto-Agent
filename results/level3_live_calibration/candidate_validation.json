@@ -1,0 +1,8 @@
+{
+  "run_id": "l3-cal-b1aa792a44",
+  "xml_complete": true,
+  "graph_compile": "OK",
+  "prompt_compile": "FAIL:invalid syntax",
+  "has_workflow_class": true,
+  "CANDIDATE_GRAPH_SHA": "ec852e928b06afdbfcc5af2c7134b720f928bd7eeac0e939f9ae10dc20edd50a"
+}

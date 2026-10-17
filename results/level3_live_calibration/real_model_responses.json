@@ -1,0 +1,36 @@
+{
+  "run_id": "l3-cal-b1aa792a44",
+  "stages": {
+    "math": {
+      "status": "OK",
+      "content_preview": "Let’s go step by step.  \n\n**Step 1 – Convert her hourly rate to a per-minute rate.**  \nWeng earns $12 per hour.  \nThere are 60 minutes in an hour, so:  \n\\[\n12 \\div 60 = 0.20\n\\]  \nShe earns $0.20 per minute.\n\n**Step 2 – Multiply by the minutes worked.**  \nShe worked 50 minutes:  \n\\[\n0.20 \\times 50 = ",
+      "predicted": "10",
+      "finish_reason": "stop",
+      "non_empty": true,
+      "parseable": true
+    },
+    "optimizer": {
+      "status": "OK",
+      "finish_reason": "stop",
+      "modification": "Replace single-shot answering with a three-stage graph: plan sub-steps, compute each step with a verification pass, then synthesize the final numeric answer with a consistency check.",
+      "graph": "import re, asyncio\n\nclass Workflow:\n    def __init__(self, llm):\n        self.llm = llm\n\n    async def __call__(self, problem):\n        plan = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nList the sub-steps needed to solve this, one per line.\")\n        steps = [s.strip() for s in plan.splitlines() if s.strip()]\n        results = []\n        for step in steps:\n            r = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nSolve this step carefully and show the arithmetic:\\n\" + step)\n            check = await self.llm(INSTRUCTION + \"\\nVerify this computation is correct. Reply OK or the corrected result:\\n\" + r)\n            results.append(r if \"OK\" in check.upper() else check)\n        final = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nWork:\\n\" + \"\\n\".join(results) + \"\\nGive the final numeric answer as: #### <number>\")\n        return final",
+      "prompt": "You are a careful math solver. Break problems into explicit sub-steps, verify arithmetic, and always end with the numeric answer in the form #### <number>.",
+      "xml_complete": true,
+      "graph_compile": "OK",
+      "has_workflow_class": true,
+      "prompt_compile": "FAIL:invalid syntax",
+      "raw_preview": "<modification>Replace single-shot answering with a three-stage graph: plan sub-steps, compute each step with a verification pass, then synthesize the final numeric answer with a consistency check.</modification>\n<graph>\nimport re, asyncio\n\nclass Workflow:\n    def __init__(self, llm):\n        self.llm = llm\n\n    async def __call__(self, problem):\n        plan = await self.llm(INSTRUCTION + \"\\nProbl"
+    },
+    "child_exec": {
+      "docker_ok": false,
+      "docker_returncode": 1,
+      "stderr_tail": "t()\n  File \"/work/runner.py\", line 31, in main\n    out = await w(task['question'])\n  File \"/work/graph.py\", line 8, in __call__\n    plan = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nList the sub-steps needed to solve this, one per line.\")\nNameError: name 'INSTRUCTION' is not defined\n",
+      "raw_output": "",
+      "predicted": null,
+      "gold_host_only": "72",
+      "correct": false,
+      "ipc_processed": 0,
+      "container_task_keys": "question,task_id (no gold)"
+    }
+  }
+}

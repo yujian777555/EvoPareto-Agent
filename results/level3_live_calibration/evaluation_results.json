@@ -1,0 +1,16 @@
+{
+  "run_id": "l3-cal-b1aa792a44",
+  "gsm8k_task_count": 1,
+  "task_success_rate": 0.0,
+  "detail": {
+    "docker_ok": false,
+    "docker_returncode": 1,
+    "stderr_tail": "t()\n  File \"/work/runner.py\", line 31, in main\n    out = await w(task['question'])\n  File \"/work/graph.py\", line 8, in __call__\n    plan = await self.llm(INSTRUCTION + \"\\nProblem:\\n\" + problem + \"\\nList the sub-steps needed to solve this, one per line.\")\nNameError: name 'INSTRUCTION' is not defined\n",
+    "raw_output": "",
+    "predicted": null,
+    "gold_host_only": "72",
+    "correct": false,
+    "ipc_processed": 0,
+    "container_task_keys": "question,task_id (no gold)"
+  }
+}
