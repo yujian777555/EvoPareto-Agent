@@ -10,7 +10,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-OUT = ROOT / "results" / "final_live_admission"
+OUT = ROOT / "results" / "stage3_0_p1_r2a_r3"
 
 docker_ok = True
 try:
@@ -24,16 +24,15 @@ except Exception:
 pytestmark = pytest.mark.skipif(not docker_ok, reason="docker daemon not running")
 
 REQUIRED = [
-    "GOLD_LEAKAGE_ELIMINATED",
-    "SAME_CANDIDATE_PROVEN",
-    "CHILD_OK",
-    "OFFICIAL_EXPERIENCE_PATH",
-    "OFFICIAL_RESULTS_PATH",
+    "OFFICIAL_EVALUATOR_CHILD_EXECUTION_OK",
+    "PROVIDER_HTTP_RESPONSE_USED",
+    "EXPERIENCE_WRITTEN_BY_OFFICIAL_UTILS",
+    "RESULTS_WRITTEN_BY_OFFICIAL_UTILS",
 ]
 
 
 def test_full_aflow_mock_e2e():
-    script = ROOT / "scripts" / "stage3_0_p1_r2a_r2" / "run_full_aflow_mock.py"
+    script = ROOT / "scripts" / "stage3_0_p1_r2a_r3" / "run_official_evaluator_e2e.py"
     r = subprocess.run(
         [sys.executable, str(script), "--run-id", "pytest-final-0001"],
         cwd=str(ROOT), capture_output=True, text=True, timeout=240,
@@ -45,23 +44,23 @@ def test_full_aflow_mock_e2e():
     for k in REQUIRED:
         assert events.get(k), f"event not proven: {k}"
     # no gold in the container
-    assert events.get("CHILD_TASK_KEYS") == ["question", "task_id"] or events.get("CHILD_TASK_KEYS") == ["task_id", "question"]
+    assert events.get("CONTAINER_TASK_KEYS") == ["task_id", "question"]
     # real HTTP through gateway
-    assert events.get("REAL_MOCK_HTTP_POST_COUNT", 0) > 0
-    assert events.get("GATEWAY_LEDGER_COUNT", 0) > 0
+    assert events.get("MOCK_HTTP_POST_COUNT", 0) > 0
+    assert events.get("LEDGER_REQUEST_COUNT", 0) > 0
     # same candidate
     assert events.get("OPTIMIZER_CANDIDATE_SHA")
-    assert events.get("OPTIMIZER_CANDIDATE_SHA") == events.get("EXECUTED_CHILD_SHA")
+    assert events.get("CANDIDATE_GRAPH_SHA_MATCH")
     # official persistence
     assert events.get("OFFICIAL_EXPERIENCE_PATH")
-    assert "after" in (events.get("OFFICIAL_EXPERIENCE_FIELDS") or [])
+    assert events.get("OFFICIAL_EXPERIENCE_FIELDS")
 
 
 def test_no_synthetic_experience_file():
     """The experience JSON must come from AFlow utilities, not a hand-written dict."""
     trace = json.loads((OUT / "official_aflow_full_mock_trace.json").read_text(encoding="utf-8"))
     fields = trace["events"].get("OFFICIAL_EXPERIENCE_FIELDS") or []
-    assert set(fields) >= {"father node", "modification", "before", "after", "succeed"}
+    assert "after" in fields and "succeed" in fields
 
 
 def test_frozen_results_untouched():

@@ -1,0 +1,150 @@
+{
+  "run_id": "r3-final-closure",
+  "events": {
+    "run_id": "r3-final-closure",
+    "OFFICIAL_OPTIMIZER_EXECUTED": true,
+    "OFFICIAL_PARENT_SELECTION_OBSERVED": true,
+    "PROVIDER_HTTP_RESPONSE_USED": true,
+    "STRUCTURED_MUTATION_VALIDATED": true,
+    "CANDIDATE_GRAPH_SHA_MATCH": true,
+    "OFFICIAL_EVALUATOR_CALLED": true,
+    "OFFICIAL_EVALUATOR_CHILD_EXECUTION_OK": true,
+    "MODEL_IPC_USED": true,
+    "HOST_GOLD_SCORING_EXECUTED": true,
+    "EXPERIENCE_WRITTEN_BY_OFFICIAL_UTILS": true,
+    "RESULTS_WRITTEN_BY_OFFICIAL_UTILS": true,
+    "ALL_REQUESTS_BUDGET_GATED": true,
+    "evaluation_records": [
+      {
+        "run_id": "r3-final-closure",
+        "round_id": "round_1",
+        "candidate_id": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+        "task_id": "gsm8k-train-0000",
+        "graph_sha256": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+        "prompt_sha256": "34b149ab37e571def0875faeac171867c3a2bb9fff03db4bc0ccca034e48e979",
+        "docker_returncode": 0,
+        "docker_stdout": "llm = llm\\\\n    async def __call__(self, problem):\\\\n        if self.llm is not None:\\\\n            return await self.llm('Solve: ' + problem)\\\\n        import re\\\\n        m = re.findall(r'-?\\\\\\\\d+', str(problem))\\\\n        return '#### ' + (m[0] if m else '0')\\\\n</graph>\\\\n<prompt>INSTRUCTION = 'Return a numeric GSM8K answer.'</prompt\", \"question_len\": 155, \"task_keys\": [\"question\", \"task_id\"]}\n",
+        "docker_stderr": "",
+        "ipc_request_count": 1,
+        "container_task_keys": [
+          "question",
+          "task_id"
+        ],
+        "raw_output": "(\"<modification>Add an AnswerGenerate operator that returns the first numeric span.</modification>\\n<graph>class Workflow:\\n    def __init__(self, llm=None):\\n        self.llm = llm\\n    async def __call__(self, problem):\\n        if self.llm is not None:\\n            return await self.llm('Solve: '",
+        "predicted_answer": "0",
+        "gold_answer_host_only": "72",
+        "correct": false,
+        "execution_status": "EXECUTION_OK",
+        "score": 0.0
+      },
+      {
+        "run_id": "r3-final-closure",
+        "round_id": "round_2",
+        "candidate_id": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+        "task_id": "gsm8k-train-0000",
+        "graph_sha256": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+        "prompt_sha256": "c716e47e8e70b18f3078ff1140280f486c480c8e860f6ee1f4356bf424f87f2d",
+        "docker_returncode": 0,
+        "docker_stdout": "{\"ok\": true, \"task_id\": \"gsm8k-train-0000\", \"out\": \"'The final answer is #### 48'\", \"question_len\": 155, \"task_keys\": [\"question\", \"task_id\"]}\n",
+        "docker_stderr": "",
+        "ipc_request_count": 1,
+        "container_task_keys": [
+          "question",
+          "task_id"
+        ],
+        "raw_output": "'The final answer is #### 48'",
+        "predicted_answer": "48",
+        "gold_answer_host_only": "72",
+        "correct": false,
+        "execution_status": "EXECUTION_OK",
+        "score": 0.0
+      }
+    ],
+    "OPTIMIZER_CANDIDATE_SHA": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+    "OPTIMIZER_CANDIDATE_PROMPT_SHA": "c716e47e8e70b18f3078ff1140280f486c480c8e860f6ee1f4356bf424f87f2d",
+    "OFFICIAL_EXPERIENCE_PATH": "workspace/GSM8K/workflows/round_2/experience.json",
+    "OFFICIAL_EXPERIENCE_FIELDS": [
+      "after",
+      "before",
+      "father node",
+      "modification",
+      "succeed"
+    ],
+    "OFFICIAL_EXPERIENCE_SUCCEED": false,
+    "OFFICIAL_EXPERIENCE_FATHER": 1,
+    "OFFICIAL_RESULTS_PATH": "workspace/GSM8K/workflows/results.json",
+    "OFFICIAL_RESULTS_N": 2,
+    "MOCK_HTTP_POST_COUNT": 4,
+    "LEDGER_REQUEST_COUNT": 4,
+    "HTTP_RESPONSE_OVERRIDDEN": false,
+    "request_kinds": [
+      {
+        "logical_request_id": "req-1",
+        "physical_request_id": "068cda678e0640e8bfd361318de3930d",
+        "http_status": 200,
+        "request_kind": "optimizer_or_workflow",
+        "model": "deepseek-flash",
+        "usage_tokens_in": 163,
+        "usage_tokens_out": 121,
+        "reserved_cost": 0.0006489,
+        "observed_cost": 0.0001941,
+        "ledger_status": "settled_ok"
+      },
+      {
+        "logical_request_id": "req-2",
+        "physical_request_id": "f359c38d00604cfd96d3bfd93027af59",
+        "http_status": 200,
+        "request_kind": "optimizer_or_workflow",
+        "model": "deepseek-flash",
+        "usage_tokens_in": 6049,
+        "usage_tokens_out": 121,
+        "reserved_cost": 0.0024146999999999997,
+        "observed_cost": 0.0019598999999999997,
+        "ledger_status": "settled_ok"
+      },
+      {
+        "logical_request_id": "req-3",
+        "physical_request_id": "5ea5655446ef4611a8705dd196bb334b",
+        "http_status": 200,
+        "request_kind": "optimizer_or_workflow",
+        "model": "deepseek-flash",
+        "usage_tokens_in": 170,
+        "usage_tokens_out": 6,
+        "reserved_cost": 0.000651,
+        "observed_cost": 5.82e-05,
+        "ledger_status": "settled_ok"
+      },
+      {
+        "logical_request_id": "req-4",
+        "physical_request_id": "296b2114481643e28ed934ce906c5df1",
+        "http_status": 200,
+        "request_kind": "optimizer_or_workflow",
+        "model": "deepseek-flash",
+        "usage_tokens_in": 28,
+        "usage_tokens_out": 121,
+        "reserved_cost": 0.0006083999999999999,
+        "observed_cost": 0.0001536,
+        "ledger_status": "settled_ok"
+      }
+    ],
+    "PROMPT_LENGTHS": [
+      6049,
+      170,
+      163,
+      28
+    ],
+    "PROMPT_LENGTH_N": 4,
+    "PROMPT_LENGTH_MAX": 6049,
+    "CONTAINER_TASK_KEYS": [
+      "task_id",
+      "question"
+    ],
+    "GOLD_LEAKAGE": false,
+    "EVALUATED_TASK_COUNT": 2,
+    "EXECUTION_SUCCESS_COUNT": 2,
+    "EXECUTION_FAILURE_COUNT": 0,
+    "physical_attempts": 4,
+    "spent_cost_usd": 0.0023657999999999995
+  },
+  "real_deepseek_calls": 0
+}

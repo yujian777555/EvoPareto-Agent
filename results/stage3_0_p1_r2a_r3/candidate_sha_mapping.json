@@ -1,0 +1,10 @@
+{
+  "run_id": "r3-final-closure",
+  "OPTIMIZER_CANDIDATE_SHA": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+  "OPTIMIZER_CANDIDATE_PROMPT_SHA": "c716e47e8e70b18f3078ff1140280f486c480c8e860f6ee1f4356bf424f87f2d",
+  "CANDIDATE_GRAPH_SHA_MATCH": true,
+  "evaluator_graph_shas": [
+    "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+    "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce"
+  ]
+}

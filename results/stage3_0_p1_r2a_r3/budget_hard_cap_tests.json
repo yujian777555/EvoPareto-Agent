@@ -1,0 +1,19 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "model": "deepseek-flash",
+  "max_input_tokens_per_request": 8000,
+  "max_output_tokens_per_request": 500,
+  "max_total_input_tokens": 2000000,
+  "max_total_output_tokens": 200000,
+  "max_physical_requests": 300,
+  "max_cost_usd": 5.0,
+  "worst_case_per_request_usd": 0.003,
+  "worst_case_300_requests_usd": 0.9,
+  "pricing_peak_cache_miss": {
+    "input": 0.3,
+    "output": 1.2
+  },
+  "price_verified_at": "2026-10-16",
+  "atomic_reservation": true,
+  "tests": "tests/baseline_first/test_r3_provider_budget.py (20 tests)"
+}

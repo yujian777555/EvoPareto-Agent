@@ -1,0 +1,54 @@
+{
+  "evidence_class": "MOCK_TEST",
+  "previous_blocker": {
+    "adapter_child_ok": [
+      false,
+      false
+    ],
+    "root_causes": [
+      "TrustedHostEvaluator did not ship prompt.py into the container",
+      "tenacity stub missing retry_if_exception_type",
+      "pydantic BaseModel stub was not a real class (mro_entries error)",
+      "Workflow constructor signature mismatch for official template",
+      "operator.Custom held a stale llm reference (create_llm_instance not patched in container)",
+      "ModelIPCClient.call_with_format lacked 'response' key",
+      "get_usage_summary lacked 'total_cost' key"
+    ]
+  },
+  "current_records": [
+    {
+      "round_id": "round_1",
+      "execution_status": "EXECUTION_OK",
+      "docker_returncode": 0,
+      "graph_sha256": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+      "prompt_sha256": "34b149ab37e571def0875faeac171867c3a2bb9fff03db4bc0ccca034e48e979",
+      "task_id": "gsm8k-train-0000",
+      "predicted_answer": "0",
+      "gold_answer_host_only": "72",
+      "correct": false,
+      "container_task_keys": [
+        "question",
+        "task_id"
+      ],
+      "ipc_request_count": 1
+    },
+    {
+      "round_id": "round_2",
+      "execution_status": "EXECUTION_OK",
+      "docker_returncode": 0,
+      "graph_sha256": "d4c8ac1f33dcf4ab757f7c755117fa81aed50dc35809c345b698bba93e3bb7ce",
+      "prompt_sha256": "c716e47e8e70b18f3078ff1140280f486c480c8e860f6ee1f4356bf424f87f2d",
+      "task_id": "gsm8k-train-0000",
+      "predicted_answer": "48",
+      "gold_answer_host_only": "72",
+      "correct": false,
+      "container_task_keys": [
+        "question",
+        "task_id"
+      ],
+      "ipc_request_count": 1
+    }
+  ],
+  "EXECUTION_SUCCESS_COUNT": 2,
+  "EXECUTION_FAILURE_COUNT": 0
+}

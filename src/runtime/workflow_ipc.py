@@ -131,10 +131,16 @@ class ModelIPCClient:
 
     async def call_with_format(self, prompt, formatter=None):
         raw = self.complete(str(prompt))
-        return {"modification": "ipc-mod", "graph": raw, "prompt": "INSTRUCTION = 'ipc'"}
+        # shape matches AFlow operator output (has 'response' for graph.py)
+        return {
+            "response": raw,
+            "modification": "ipc-mod",
+            "graph": raw,
+            "prompt": "INSTRUCTION = 'ipc'",
+        }
 
     def get_usage_summary(self):
-        return {"channel": "model-ipc-mailbox"}
+        return {"channel": "model-ipc-mailbox", "total_cost": 0.0, "total_input_tokens": 0, "total_output_tokens": 0}
 
     def complete(self, prompt: str, *, model: str = "deepseek-flash") -> str:
         rid = uuid.uuid4().hex
@@ -290,13 +296,31 @@ def build_runner_script(task_question: str, task_id: str) -> str:
         "import asyncio, json, sys\n"
         "sys.path.insert(0, '/work')\n"
         "import model_ipc\n"
+        "try:\n"
+        "    import scripts.async_llm as _al\n"
+        "    _al.create_llm_instance = lambda cfg=None: model_ipc.ModelIPCClient('/ipc')\n"
+        "except Exception:\n"
+        "    pass\n"
         "from graph import Workflow\n"
         "task = json.load(open('/work/task.json', encoding='utf-8'))\n"
         "async def main():\n"
-        "    try:\n"
-        "        w = Workflow()\n"
-        "    except TypeError:\n"
-        "        w = Workflow(None)\n"
+        "    w = None\n"
+        "    dummy_cfg = {'model': 'mock', 'api_key': 'x', 'base_url': 'http://127.0.0.1:1/v1'}\n"
+        "    dummy_ds = type('D', (), {'name': 'GSM8K'})()\n"
+        "    for ctor in (\n"
+        "        lambda: Workflow(),\n"
+        "        lambda: Workflow(None),\n"
+        "        lambda: Workflow('w', dummy_cfg, dummy_ds),\n"
+        "        lambda: Workflow('w', None, dummy_ds),\n"
+        "        lambda: Workflow('w', dummy_cfg, None),\n"
+        "    ):\n"
+        "        try:\n"
+        "            w = ctor()\n"
+        "            break\n"
+        "        except Exception:\n"
+        "            continue\n"
+        "    if w is None:\n"
+        "        raise TypeError('Workflow constructor not compatible')\n"
         "    if hasattr(w, 'llm'):\n"
         "        w.llm = model_ipc.ModelIPCClient('/ipc')\n"
         "    out = await w(task['question'])\n"

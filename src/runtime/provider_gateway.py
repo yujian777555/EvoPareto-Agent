@@ -207,11 +207,57 @@ class RequestLedger:
 # Mock HTTP Provider (OpenAI-compatible chat completions)
 # ---------------------------------------------------------------------------
 
+DEFAULT_MUTATION_XML = (
+    "<modification>Add an AnswerGenerate operator that returns the first numeric span.</modification>\n"
+    "<graph>class Workflow:\n"
+    "    def __init__(self, llm=None):\n"
+    "        self.llm = llm\n"
+    "    async def __call__(self, problem):\n"
+    "        if self.llm is not None:\n"
+    "            return await self.llm('Solve: ' + problem)\n"
+    "        import re\n"
+    "        m = re.findall(r'-?\\d+', str(problem))\n"
+    "        return '#### ' + (m[0] if m else '0')\n"
+    "</graph>\n"
+    "<prompt>INSTRUCTION = 'Return a numeric GSM8K answer.'</prompt>"
+)
+
+
+def gold_blind_answer_from_text(text: str) -> str:
+    import re
+    nums = re.findall(r"-?\d+", str(text))
+    return nums[0] if nums else "0"
+
+
+def mock_chat_completion_body(prompt: str, model: str = "deepseek-flash") -> dict:
+    """Deterministic, gold-blind chat.completion body served over real HTTP."""
+    import re
+    p = str(prompt)
+    if p.startswith("Solve: ") or p.startswith("Task: "):
+        content = "The final answer is #### " + gold_blind_answer_from_text(p)
+    else:
+        content = DEFAULT_MUTATION_XML
+    n_in = len(p) + 8
+    n_out = max(1, len(content) // 4)
+    return {
+        "id": "chatcmpl-mock-" + str(abs(hash(p)) % 10**8),
+        "object": "chat.completion",
+        "model": model,
+        "choices": [{"index": 0, "message": {"role": "assistant", "content": content}, "finish_reason": "stop"}],
+        "usage": {"prompt_tokens": n_in, "completion_tokens": n_out, "total_tokens": n_in + n_out},
+    }
+
+
 class MockHTTPProvider(ThreadingHTTPServer):
-    """Local OpenAI-compatible endpoint. Can simulate failure modes."""
+    """Local OpenAI-compatible endpoint. Can simulate failure modes.
+
+    With scenario="ok" it returns deterministic gold-blind bodies derived from
+    the request prompt — the RESPONSE is produced by THIS server, never by a
+    client-side override.
+    """
 
     def __init__(self, host: str = "127.0.0.1", port: int = 0, *, scenario: str = "ok") -> None:
-        self.scenario = scenario  # ok | missing_usage | partial | timeout | http_500 | http_429
+        self.scenario = scenario  # ok | missing_usage | partial | timeout | http_500 | http_429 | invalid_json | malformed_xml | empty
         self.requests_seen: List[Dict[str, Any]] = []
         self._lock = threading.Lock()
         provider = self
@@ -254,24 +300,32 @@ class MockHTTPProvider(ThreadingHTTPServer):
                     self.wfile.write(payload)
                     return
 
-                n_in = max(1, len(str(body.get("messages", ""))) // 4)
-                n_out = 16
-                content = "mock-gateway-response"
-                usage = {"prompt_tokens": n_in, "completion_tokens": n_out, "total_tokens": n_in + n_out}
+                if scenario == "empty":
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", "0")
+                    self.end_headers()
+                    return
+                if scenario == "invalid_json":
+                    payload = b"{not-json"
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(payload)))
+                    self.end_headers()
+                    self.wfile.write(payload)
+                    return
+                # derive the user prompt from the OpenAI-style body
+                messages = body.get("messages") or []
+                prompt_text = ""
+                for m in messages:
+                    if isinstance(m, dict) and m.get("role") == "user":
+                        prompt_text = str(m.get("content", ""))
+                model_name = body.get("model", "deepseek-flash")
+                resp = mock_chat_completion_body(prompt_text, model=model_name)
+                if scenario == "malformed_xml":
+                    resp["choices"][0]["message"]["content"] = "<modification>oops"
                 if scenario == "missing_usage":
-                    usage = None
-                resp = {
-                    "id": "chatcmpl-" + uuid.uuid4().hex[:10],
-                    "object": "chat.completion",
-                    "model": body.get("model", "deepseek-flash"),
-                    "choices": [{
-                        "index": 0,
-                        "message": {"role": "assistant", "content": content},
-                        "finish_reason": "stop",
-                    }],
-                }
-                if usage is not None:
-                    resp["usage"] = usage
+                    resp.pop("usage", None)
                 data = json.dumps(resp).encode("utf-8")
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")

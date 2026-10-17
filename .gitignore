@@ -21,3 +21,5 @@ results/stage3_0_p1_r2a_r2/e2e_budget_*.sqlite
 results/final_live_admission/budget_*.sqlite
 results/final_live_admission/artifacts_*/
 results/final_live_admission/linux_symlink_work/
+results/stage3_0_p1_r2a_r3/budget_*.sqlite
+results/stage3_0_p1_r2a_r3/artifacts_*/
