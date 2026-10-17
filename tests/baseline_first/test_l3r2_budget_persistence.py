@@ -191,7 +191,7 @@ def test_historical_level3_requests_migrated_exactly(workdir):
         body["consumed"]["actual_tokens_out"] = 454
         body["consumed"]["spent_cost_usd"] = 0.0005934
         body.setdefault("history_tail", []).append({"kind": "MIGRATED", "n": 2})
-    rec.update(_mut)
+    rec.mutate(_mut)
     rec2 = AuthorizationRecord.open_existing(rec_path, secret_key=SECRET)
     assert rec2.consumed["physical_attempts"] == 2
     assert rec2.consumed["actual_tokens_in"] == 162

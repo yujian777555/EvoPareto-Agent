@@ -32,10 +32,11 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 from src.runtime.auth_ledger import (  # noqa: E402
     AuthBudgetLedger,
-    AuthorizationRecord,
+    AuthorizationMissing,
     BudgetExceeded,
     UnifiedBudgetGate,
     UnknownBillingBlocked,
+    open_production_authorization,
 )
 from src.runtime.provider_gateway import conservative_input_tokens, worst_case_cost  # noqa: E402
 
@@ -78,19 +79,28 @@ class LiveClient:
         self.ledger_rows = ledger_rows
         self.run_id = run_id
         self.logical_seq = 0
+        self.http_timeout = 60.0
+
+    @property
+    def max_in(self) -> int:
+        return int(self.gate.default_max_in)
+
+    @property
+    def max_out(self) -> int:
+        return int(self.gate.default_max_out)
 
     def chat(self, prompt: str, *, phase: str) -> Dict[str, Any]:
         global STOP_REASON
         est_in = conservative_input_tokens(prompt)
-        if est_in > MAX_IN_PER_REQ:
+        if est_in > self.max_in:
             STOP_REASON = "INPUT_TOKEN_CAP_EXCEEDED_BEFORE_SEND"
             raise RuntimeError(STOP_REASON)
 
-        reserve_cost = worst_case_cost(MODEL_ID, est_in, MAX_OUT_PER_REQ)
+        reserve_cost = worst_case_cost(MODEL_ID, est_in, self.max_out)
         physical_id = self.gate.begin_request(
             run_id=self.run_id, phase=phase,
             prompt_sha=sha256_text(prompt),
-            res_in=est_in, res_out=MAX_OUT_PER_REQ, res_cost=reserve_cost,
+            res_in=est_in, res_out=self.max_out, res_cost=reserve_cost,
         )
         logical_id = f"{phase}-{self.logical_seq:03d}"
         self.logical_seq += 1
@@ -102,7 +112,7 @@ class LiveClient:
         body = json.dumps({
             "model": MODEL_ID,
             "thinking": {"type": "disabled"},
-            "max_tokens": MAX_OUT_PER_REQ,
+            "max_tokens": self.max_out,
             "messages": [{"role": "user", "content": prompt}],
         }).encode("utf-8")
         req = urllib.request.Request(
@@ -125,12 +135,12 @@ class LiveClient:
             "prompt_len_chars": len(prompt),
             "estimated_input_tokens": est_in,
             "reserved_cost_usd": reserve_cost,
-            "max_input_tokens": MAX_IN_PER_REQ,
-            "max_output_tokens": MAX_OUT_PER_REQ,
+            "max_input_tokens": self.max_in,
+            "max_output_tokens": self.max_out,
         }
 
         try:
-            with opener.open(req, timeout=60) as resp:
+            with opener.open(req, timeout=self.http_timeout) as resp:
                 http_status = int(resp.status)
                 raw = resp.read()
         except urllib.error.HTTPError as e:
@@ -219,8 +229,8 @@ class LiveClient:
         record.update({
             "observed_cost_usd": observed_cost,
             "cumulative_cost_usd": snap["spent_cost_usd"],
-            "cumulative_tokens_in": snap["tokens_in"],
-            "cumulative_tokens_out": snap["tokens_out"],
+            "cumulative_tokens_in": snap["actual_tokens_in"],
+            "cumulative_tokens_out": snap["actual_tokens_out"],
             "ledger_status": "settled_ok",
         })
         self.ledger_rows.append(record)
@@ -274,19 +284,25 @@ def main() -> int:
         print("DEEPSEEK_API_KEY missing")
         return 2
 
-    # Persistent authorization record (survives DB delete / run-id rotation).
+    # Persistent authorization record. Production NEVER auto-creates quota:
+    # missing/corrupt record -> fail-closed. New quota requires the explicit
+    # authorization procedure (AuthorizationRecord.create) outside this entry.
     rec_path = OUT / "authorization_record.json"
-    if rec_path.exists():
-        record = AuthorizationRecord.open_existing(rec_path, secret_key=_SECRET_KEY)
-    else:
-        record = AuthorizationRecord.create(
-            rec_path, auth_id="level3-live-authorization-v1",
-            caps={
-                "max_physical": MAX_PHYSICAL, "max_cost_usd": MAX_COST_USD,
-                "max_total_in": MAX_TOTAL_IN, "max_total_out": MAX_TOTAL_OUT,
-            },
+    legacy_ledger = OUT / "request_ledger.json"
+    try:
+        record = open_production_authorization(
+            rec_path,
             secret_key=_SECRET_KEY,
+            legacy_ledger=legacy_ledger if legacy_ledger.exists() else None,
         )
+    except AuthorizationMissing as e:
+        events["failure"] = f"AUTHORIZATION_MISSING_FAIL_CLOSED:{e}"
+        events["STOP_REASON"] = "AUTHORIZATION_RECORD_MISSING"
+        (OUT / "live_run_summary.json").write_text(
+            json.dumps(events, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        print(json.dumps({"status": "FAIL_CLOSED_NO_AUTHORIZATION", "error": str(e)}, indent=2))
+        return 3
     db_path = OUT / f"live_budget_{run_id}.sqlite"
     db = AuthBudgetLedger(db_path, record)
     gate = UnifiedBudgetGate(db, default_max_in=MAX_IN_PER_REQ, default_max_out=MAX_OUT_PER_REQ)
@@ -416,9 +432,15 @@ def main() -> int:
     snap = db.snapshot()
     events["REAL_HTTP_REQUESTS"] = snap["physical_attempts"]
     events["LEDGER_REQUESTS"] = len(ledger_rows)
-    events["REAL_INPUT_TOKENS"] = snap["tokens_in"]
-    events["REAL_OUTPUT_TOKENS"] = snap["tokens_out"]
+    # documented schema: reserved and actual are separate fields
+    events["REAL_INPUT_TOKENS"] = snap["actual_tokens_in"]
+    events["REAL_OUTPUT_TOKENS"] = snap["actual_tokens_out"]
+    events["RESERVED_INPUT_TOKENS"] = snap["reserved_tokens_in"]
+    events["RESERVED_OUTPUT_TOKENS"] = snap["reserved_tokens_out"]
+    events["OUTSTANDING_RESERVED_COST_USD"] = snap["outstanding_reserved_cost_usd"]
     events["REAL_COST_USD"] = snap["spent_cost_usd"]
+    events["BLOCKED"] = snap["blocked"]
+    events["BLOCK_REASON"] = snap["block_reason"]
     events["STOP_REASON"] = STOP_REASON or "CALIBRATION_COMPLETE_WITHIN_BUDGET"
     events["PHYSICAL_HTTP_COUNT"] = snap["physical_attempts"]
     events["GATEWAY_LEDGER_COUNT"] = len(ledger_rows)

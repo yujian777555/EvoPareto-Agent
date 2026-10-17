@@ -1,0 +1,33 @@
+{
+  "LIVE_SNAPSHOT_SCHEMA_FIXED": true,
+  "PRODUCTION_ENTRY_E2E_PASS": true,
+  "RESULT_ARTIFACTS_PERSISTED": true,
+  "MISSING_AUTH_FAIL_CLOSED": true,
+  "LEGACY_MIGRATION_PRODUCTION_PATH_VERIFIED": true,
+  "LEGACY_USAGE_IMPORTED_EXACTLY_ONCE": true,
+  "CROSS_PROCESS_LOCK_ENFORCED": true,
+  "MULTIPROCESS_BUDGET_CAP_PASS": true,
+  "DIFFERENT_RUN_ID_BYPASS_BLOCKED": true,
+  "DIFFERENT_DB_PATH_BYPASS_BLOCKED": true,
+  "CRASH_RECOVERY_FAIL_CLOSED": true,
+  "UNKNOWN_BILLING_BLOCK_PERSISTED": true,
+  "NEW_REAL_HTTP_REQUESTS": 0,
+  "REAL_API_COST_ADDED": 0,
+  "FROZEN_RESULTS_UNCHANGED": true,
+  "REMAINING_BLOCKERS": [
+    "full-FS attacker can rewrite the integrity seal (documented, out of scope)",
+    "thinking-disabled / model serving version not independently verifiable"
+  ],
+  "FINAL_DECISION": "PRODUCTION_GATE_CLOSED_NO_REAL_API",
+  "TESTS_PASSED": 792,
+  "TESTS_FAILED": 0,
+  "TESTS_SKIPPED": 2,
+  "TEST_EVIDENCE": {
+    "test_l3r21_production_e2e": 12,
+    "test_l3r21_multiprocess": 16,
+    "test_l3r2_budget_persistence": 19,
+    "test_l3r2_bundle_reliability": 10,
+    "test_l3r1_contract_ledger": 21,
+    "full_suite": "792 passed, 2 skipped"
+  }
+}
