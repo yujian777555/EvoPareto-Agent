@@ -24,3 +24,5 @@ results/final_live_admission/linux_symlink_work/
 results/stage3_0_p1_r2a_r3/budget_*.sqlite
 results/stage3_0_p1_r2a_r3/artifacts_*/
 results/level3_live_calibration/*.sqlite
+results/level3_pilot/*.sqlite
+results/**/authorization_record.json.lock
