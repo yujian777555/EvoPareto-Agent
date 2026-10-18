@@ -1,0 +1,23 @@
+{
+  "evidence_class": "DERIVED_STATISTICS",
+  "PARENT": {
+    "source_path": "external/AFlow/workspace/GSM8K/workflows/round_1/graph.py",
+    "source_graph_sha256": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+    "frozen_exec_path": "results/level3_pilot_r2/frozen_candidates/parent_graph.py",
+    "execution_graph_sha256_bytes": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+    "byte_identical_source_vs_frozen": true,
+    "execution_graph_sha256_text_normalized": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "explanation": "Source and frozen files are BYTE-identical (SHA ee6cde...). The per-task records show a92febff... because the paired script used Path.read_text() (universal newlines -> LF) before hashing. Both hashes describe the SAME graph content; they differ only in newline representation (CRLF bytes vs LF text).",
+    "content_mismatch": false
+  },
+  "CHILD": {
+    "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+    "bundle_sha256": "035b51cb257718d8d300ce4793984f8c115ca9efb443f433d01195c94cace173",
+    "regenerated": false
+  },
+  "SCORING_ADAPTER": {
+    "path": "scripts/level3_pilot_r2/rescore_paired.py",
+    "scoring_adapter_sha256": "05bed57ccd6158abf2036fa4d485344e25877670f283e5249e4bf4a6d797cd13",
+    "role": "unpacks (response, cost) tuple and extracts answers from raw outputs"
+  }
+}

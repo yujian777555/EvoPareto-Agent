@@ -1,0 +1,301 @@
+{
+  "evidence_class": "PARENT_REVERIFICATION (fixed scoring adapter)",
+  "run_id": "parentre-8aa3d61f",
+  "task_set_sha256": "86cc56115220eaede3be4ada49143210ba636d8d3eaf963bf6613c0f67d391b8",
+  "child_graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+  "child_reused_not_recalled": true,
+  "PARENT": {
+    "correct": 10,
+    "total": 12,
+    "accuracy": 0.8333333333333334,
+    "usage_cost_estimate_usd": 0.0017544,
+    "requests": 12,
+    "raw_outputs_fully_saved": true
+  },
+  "CHILD": {
+    "correct": 11,
+    "total": 12,
+    "accuracy": 0.9166666666666666,
+    "reused": true
+  },
+  "PAIRED": {
+    "child_improved_over_parent": 1,
+    "child_regressed_vs_parent": 0,
+    "both_correct": 10,
+    "both_wrong": 1,
+    "net_gain": 1,
+    "total_check": 12
+  },
+  "PER_TASK_PARENT": [
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0000",
+      "role": "parent",
+      "gold_answer": "6",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "('Let’s go through the problem step by step.\\n\\n- **Step 1:** Start with the initial number of trees.  \\nWe are told there are 15 trees to begin with.\\n\\n- **Step 2:** Find the final number of trees.  \\nAfter planting, there will be 21 trees.\\n\\n- **Step 3:** Determine how many were planted.  \\nThe number planted is the difference between the final amount and the starting amount:  \\n\\\\( 21 - 15 = 6 \\\\)\\n\\n- **Step 4:** Conclusion.  \\nThe workers planted **6 trees** today.\\n\\n\\\\[\\n\\\\boxed{6}\\n\\\\]",
+      "parse_status": "PLAIN_STRING",
+      "cost_metadata": "",
+      "predicted": "6",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0001",
+      "role": "parent",
+      "gold_answer": "5",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let's go through it step by step.\\n\\n1. Initially, there are **3 cars** in the parking lot.  \\n2. **2 more cars** arrive.  \\n3. Add them together: \\\\( 3 + 2 = 5 \\\\).\\n\\nSo, there are **5 cars** in the parking lot.\\n\\n\\\\[\\n\\\\boxed{5}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": "king lot.\\n\\n\\\\[\\n\\\\boxed{5}\\n\\\\]\", 0.0)",
+      "predicted": "5",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0002",
+      "role": "parent",
+      "gold_answer": "8",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let's break this down:\\n\\n1. **Cost of bagels**:  \\n   Olivia bought 5 bagels at $3 each.  \\n   \\\\( 5 \\\\times 3 = 15 \\\\) dollars spent.\\n\\n2. **Money left**:  \\n   Starting with $23, subtract $15:  \\n   \\\\( 23 - 15 = 8 \\\\) dollars.\\n\\n\\\\[\\n\\\\boxed{8}\\n\\\\]  \\n\\nOlivia has $8 left.",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": "{8}\\n\\\\]  \\n\\nOlivia has $8 left.\", 0.0)",
+      "predicted": "8",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0003",
+      "role": "parent",
+      "gold_answer": "33",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let's go through the problem step-by-step.\\n\\n1. **Starting amount**: Michael had 58 golf balls.  \\n2. **Tuesday loss**: He lost 23 golf balls.  \\n   \\\\[\\n   58 - 23 = 35\\n   \\\\]\\n3. **Wednesday loss**: He lost 2 more golf balls.  \\n   \\\\[\\n   35 - 2 = 33\\n   \\\\]\\n\\nSo, at the end of Wednesday, Michael had:\\n\\n\\\\[\\n\\\\boxed{33}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": "ael had:\\n\\n\\\\[\\n\\\\boxed{33}\\n\\\\]\", 0.0)",
+      "predicted": "33",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0004",
+      "role": "parent",
+      "gold_answer": "19",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "('Let’s go step-by-step.\\n\\n---\\n\\n**Day 1:** 5 push-ups  \\n**Day 2:** 5 + 2 = 7 push-ups  \\n**Day 3:** 7 + 2 = 9 push-ups  \\n**Day 4:** 9 + 2 = 11 push-ups  \\n**Day 5:** 11 + 2 = 13 push-ups  \\n**Day 6:** 13 + 2 = 15 push-ups  \\n**Day 7:** 15 + 2 = 17 push-ups  \\n\\n---\\n\\nWe can also use the arithmetic sequence formula:\\n\\n\\\\[\\na_n = a_1 + (n-1)d\\n\\\\]\\nwhere:  \\n\\\\(a_1 = 5\\\\), \\\\(d = 2\\\\), \\\\(n = 7\\\\)\\n\\n\\\\[\\na_7 = 5 + (7-1) \\\\times 2\\n\\\\]\\n\\\\[\\na_7 = 5 + 6 \\\\times 2\\n\\\\]\\n\\\\[\\na_7 = 5 + 12 = 1",
+      "parse_status": "PLAIN_STRING",
+      "cost_metadata": "",
+      "predicted": "1",
+      "correct": false
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0005",
+      "role": "parent",
+      "gold_answer": "3",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let's break it down:\\n\\n- Blue fiber: 2 bolts  \\n- White fiber: half of that → \\\\( \\\\frac{1}{2} \\\\times 2 = 1\\\\) bolt  \\n\\nTotal bolts: \\\\(2 + 1 = 3\\\\)\\n\\n\\\\[\\n\\\\boxed{3}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": " 1 = 3\\\\)\\n\\n\\\\[\\n\\\\boxed{3}\\n\\\\]\", 0.0)",
+      "predicted": "3",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0006",
+      "role": "parent",
+      "gold_answer": "70000",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "(\"Let's go step by step.\\n\\n**1. Total cost for Joe**  \\nHe bought the house for $80,000 and spent $50,000 on repairs.  \\nTotal cost = \\\\( 80,000 + 50,000 = 130,000 \\\\).\\n\\n**2. Value increase from repairs**  \\nThe problem says the repairs *increased the value of the house by 150%*.  \\nThis increase is based on the **original purchase price** ($80,000).  \\n\\nIncrease in value = \\\\( 150\\\\% \\\\times 80,000 = 1.5 \\\\times 80,000 = 120,000 \\\\).\\n\\n**3. New value of the house**  \\nOriginal value + incr",
+      "parse_status": "PLAIN_STRING",
+      "cost_metadata": "",
+      "predicted": "3",
+      "correct": false
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0007",
+      "role": "parent",
+      "gold_answer": "25",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let’s go step by step.\\n\\n- The plant is currently **5 inches** tall.\\n- It grows **2 inches per day**.\\n- After **10 days**, the growth is:\\n\\n\\\\[\\n2 \\\\text{ inches/day} \\\\times 10 \\\\text{ days} = 20 \\\\text{ inches}\\n\\\\]\\n\\n- Add the current height:\\n\\n\\\\[\\n5 + 20 = 25 \\\\text{ inches}\\n\\\\]\\n\\nSo the plant will be **25 inches tall** after 10 days.\\n\\n\\\\[\\n\\\\boxed{25}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": "10 days.\\n\\n\\\\[\\n\\\\boxed{25}\\n\\\\]', 0.0)",
+      "predicted": "25",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0008",
+      "role": "parent",
+      "gold_answer": "37",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let’s work through the problem step by step.\\n\\n1. **Start with the total cupcakes:**  \\n   \\\\( 120 \\\\) cupcakes\\n\\n2. **Subtract the morning sales:**  \\n   \\\\( 120 - 45 = 75 \\\\)\\n\\n3. **Subtract the afternoon sales:**  \\n   \\\\( 75 - 38 = 37 \\\\)\\n\\nSo, the number of cupcakes left is:\\n\\n\\\\[\\n\\\\boxed{37}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": "left is:\\n\\n\\\\[\\n\\\\boxed{37}\\n\\\\]', 0.0)",
+      "predicted": "37",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0009",
+      "role": "parent",
+      "gold_answer": "48",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let's break it down:\\n\\n1. **Jerry has 12 marbles.**\\n2. **Tom has 3 times as many marbles as Jerry**:  \\n   Tom's marbles = \\\\( 3 \\\\times 12 = 36 \\\\).\\n\\n3. **Together they have**:  \\n   \\\\( 12 + 36 = 48 \\\\).\\n\\n\\\\[\\n\\\\boxed{48}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": " 48 \\\\).\\n\\n\\\\[\\n\\\\boxed{48}\\n\\\\]\", 0.0)",
+      "predicted": "48",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0010",
+      "role": "parent",
+      "gold_answer": "260",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let's solve it step by step.  \\n\\n**First part of the trip:**  \\nSpeed = 60 mph  \\nTime = 3 hours  \\nDistance = \\\\( 60 \\\\times 3 = 180 \\\\) miles  \\n\\n**Second part of the trip:**  \\nSpeed = 40 mph  \\nTime = 2 hours  \\nDistance = \\\\( 40 \\\\times 2 = 80 \\\\) miles  \\n\\n**Total distance:**  \\n\\\\( 180 + 80 = 260 \\\\) miles  \\n\\n\\\\[\\n\\\\boxed{260}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": "miles  \\n\\n\\\\[\\n\\\\boxed{260}\\n\\\\]\", 0.0)",
+      "predicted": "260",
+      "correct": true
+    },
+    {
+      "run_id": "parentre-8aa3d61f",
+      "task_id": "gsm8k-test-0011",
+      "role": "parent",
+      "gold_answer": "11",
+      "docker_ok": true,
+      "ipc_processed": 1,
+      "raw_output_full": "Let’s work through it step-by-step.\\n\\n1. The book costs **$15**.  \\n2. Lisa already has **$4**.  \\n3. The amount she still needs is:\\n\\n\\\\[\\n15 - 4 = 11\\n\\\\]\\n\\nSo, Lisa needs **$11 more**.\\n\\n\\\\[\\n\\\\boxed{11}\\n\\\\]",
+      "parse_status": "TUPLE_REPR_UNPACKED",
+      "cost_metadata": " more**.\\n\\n\\\\[\\n\\\\boxed{11}\\n\\\\]', 0.0)",
+      "predicted": "11",
+      "correct": true
+    }
+  ],
+  "PER_TASK_CHILD": [
+    {
+      "task_id": "gsm8k-test-0000",
+      "role": "child",
+      "gold_answer": "6",
+      "predicted": "6",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0001",
+      "role": "child",
+      "gold_answer": "5",
+      "predicted": "5",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0002",
+      "role": "child",
+      "gold_answer": "8",
+      "predicted": "8",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0003",
+      "role": "child",
+      "gold_answer": "33",
+      "predicted": "33",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0004",
+      "role": "child",
+      "gold_answer": "19",
+      "predicted": "17",
+      "correct": false,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0005",
+      "role": "child",
+      "gold_answer": "3",
+      "predicted": "3",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0006",
+      "role": "child",
+      "gold_answer": "70000",
+      "predicted": "70000",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0007",
+      "role": "child",
+      "gold_answer": "25",
+      "predicted": "25",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0008",
+      "role": "child",
+      "gold_answer": "37",
+      "predicted": "37",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0009",
+      "role": "child",
+      "gold_answer": "48",
+      "predicted": "48",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0010",
+      "role": "child",
+      "gold_answer": "260",
+      "predicted": "260",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    },
+    {
+      "task_id": "gsm8k-test-0011",
+      "role": "child",
+      "gold_answer": "11",
+      "predicted": "11",
+      "correct": true,
+      "raw_output_full": null,
+      "reused_from": "paired_experiment_results_corrected.json (no new child calls)"
+    }
+  ],
+  "NEW_HTTP_REQUESTS": 12,
+  "BUDGET_DEBITED_USD": 0.015463799999999998,
+  "STOP_REASON": "PARENT_REVERIFICATION_COMPLETE",
+  "caveat": "Child also uses multi-sample self-consistency voting and an explicit answer format. This is a SYSTEM-LEVEL workflow comparison, not an isolated attribution to the evolutionary algorithm."
+}

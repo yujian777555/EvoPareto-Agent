@@ -1,0 +1,29 @@
+{
+  "evidence_class": "DERIVED_STATISTICS (reconciliation of existing ledgers)",
+  "note": "These numbers are the reconciliation baseline. Original ledgers are NOT modified.",
+  "FIRST_RUN_paired-a4c26b15": {
+    "child_requests": 36,
+    "usage_cost_estimate_usd": 0.0046524,
+    "parent_requests": 0
+  },
+  "FULL_RUN_paired2-7715a4e3": {
+    "parent_requests": 12,
+    "child_requests": 37,
+    "total_requests": 49,
+    "parent_usage_cost_estimate_usd": 0.0017952,
+    "child_usage_cost_estimate_usd": 0.0053949,
+    "total_usage_cost_estimate_usd": 0.0071901
+  },
+  "R2_STAGE_TOTALS": {
+    "new_requests": 85,
+    "usage_cost_estimate_usd": 0.0118425
+  },
+  "R1_CUMULATIVE_DEBITED_USD": 0.0018669,
+  "R1_PLUS_R2_DEBITED_USD": 0.0137094,
+  "PROVIDER_INVOICE_COST_USD": "NOT_VERIFIED",
+  "billing_split": {
+    "budget_debited_usd": "conservative charge to the authorization record",
+    "usage_cost_estimate_usd": "provider usage x configured prices",
+    "provider_invoice_cost_usd": "NOT_VERIFIED (no final bill available)"
+  }
+}

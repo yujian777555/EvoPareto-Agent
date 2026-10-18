@@ -117,6 +117,7 @@ class AuthorizationRecord:
         self._key = secret_key
         self._lock_path = self.path.with_suffix(self.path.suffix + ".lock")
         self._thread_lock = threading.RLock()
+        self._poisoned: str = ""
         self._body: Dict[str, Any] = {}
         self._reload()
 
@@ -138,14 +139,24 @@ class AuthorizationRecord:
         self._body["integrity"] = _integrity_of(self._body, self._key)
         tmp = self.path.with_suffix(self.path.suffix + f".tmp{os.getpid()}-{uuid.uuid4().hex[:6]}")
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        with open(tmp, "w", encoding="utf-8") as fh:
-            fh.write(json.dumps(self._body, indent=2, ensure_ascii=False))
-            fh.flush()
-            os.fsync(fh.fileno())
-        os.replace(tmp, self.path)
+        try:
+            with open(tmp, "w", encoding="utf-8") as fh:
+                fh.write(json.dumps(self._body, indent=2, ensure_ascii=False))
+                fh.flush()
+                os.fsync(fh.fileno())
+            os.replace(tmp, self.path)
+        except Exception as e:
+            # persistence failure -> the authorization state is untrustworthy.
+            # Fail closed: this record object refuses further operations.
+            self._poisoned = f"PERSIST_FAILED:{type(e).__name__}:{e}"
+            raise
 
     @contextmanager
     def _exclusive(self):
+        if getattr(self, "_poisoned", None):
+            raise AuthorizationIntegrityError(
+                f"RECORD_POISONED_AFTER_PERSIST_FAILURE:{self._poisoned}"
+            )
         self._lock_path.parent.mkdir(parents=True, exist_ok=True)
         with open(self._lock_path, "a+b") as fh:
             with _file_lock(fh):
@@ -511,10 +522,12 @@ class AuthBudgetLedger:
             reserved_in = int(row["reserved_tokens_in"])
             reserved_out = int(row["reserved_tokens_out"])
 
-        # Task A: replacement semantics + outstanding-aware cost check.
-        # On over-limit we PERSIST the block first (separate mutate), then raise,
-        # so the block is never lost to an exception.
-        def _check_and_apply(body: Dict[str, Any]) -> str:
+        # Task A (R2.1): ONE lock operation performs
+        #   cap check -> block write -> audit of actual usage -> reservation release.
+        # No second mutate; no window where a concurrent reserve can slip through.
+        outcome = {"over": None, "reason": ""}
+
+        def _mut(body: Dict[str, Any]) -> None:
             caps = body["caps"]
             c = body["consumed"]
             remaining_reserved_in = max(0, int(c.get("reserved_tokens_in") or 0) - reserved_in)
@@ -526,45 +539,56 @@ class AuthBudgetLedger:
             new_out = int(c["actual_tokens_out"]) + int(actual_out)
             new_spent = float(c["spent_cost_usd"]) + float(observed_cost)
 
+            over_reason = ""
             if new_spent + remaining_outstanding_cost > float(caps["max_cost_usd"]) + 1e-9:
-                return (
+                over_reason = (
                     f"ACTUAL_COST_EXCEEDS_CAP:spent={new_spent}"
                     f"+outstanding={remaining_outstanding_cost}>{caps['max_cost_usd']}"
                 )
-            if new_in > int(caps["max_total_in"]):
-                return f"ACTUAL_INPUT_TOKENS_EXCEED_CAP:{new_in}>{caps['max_total_in']}"
-            if new_out > int(caps["max_total_out"]):
-                return f"ACTUAL_OUTPUT_TOKENS_EXCEED_CAP:{new_out}>{caps['max_total_out']}"
+            elif new_in > int(caps["max_total_in"]):
+                over_reason = f"ACTUAL_INPUT_TOKENS_EXCEED_CAP:{new_in}>{caps['max_total_in']}"
+            elif new_out > int(caps["max_total_out"]):
+                over_reason = f"ACTUAL_OUTPUT_TOKENS_EXCEED_CAP:{new_out}>{caps['max_total_out']}"
 
+            # ALWAYS release this request's reservation and record its actual
+            # usage — even when over cap — so the evidence is never lost.
             c["outstanding_reserved_cost_usd"] = remaining_outstanding_cost
             c["reserved_tokens_in"] = remaining_reserved_in
             c["reserved_tokens_out"] = remaining_reserved_out
+            if over_reason:
+                # keep the actual usage as evidence but do NOT add it to the
+                # committed spend (the request is anomalous); block instead.
+                body["blocked"] = True
+                body["block_reason"] = over_reason
+                body.setdefault("history_tail", []).append({
+                    "kind": "BLOCK_ON_SETTLE", "pid": physical_id, "reason": over_reason,
+                    "actual_in": int(actual_in), "actual_out": int(actual_out),
+                    "observed_cost": float(observed_cost),
+                })
+                outcome["over"] = True
+                outcome["reason"] = over_reason
+                return
             c["actual_tokens_in"] = new_in
             c["actual_tokens_out"] = new_out
             c["spent_cost_usd"] = new_spent
-            body.setdefault("history_tail", []).append(
-                {"kind": "SETTLED_ACTUAL", "pid": physical_id, "cost": float(observed_cost)}
-            )
-            return ""
+            body.setdefault("history_tail", []).append({
+                "kind": "SETTLED_ACTUAL", "pid": physical_id, "cost": float(observed_cost),
+            })
+            outcome["over"] = False
 
-        block_reason = ""
-
-        def _mut(body: Dict[str, Any]) -> None:
-            nonlocal block_reason
-            block_reason = _check_and_apply(body)
-
+        # single persist covers check + block + audit
         self.record.mutate(_mut)
 
-        if block_reason:
-            # persist the block BEFORE raising — this is the fail-closed contract
-            def _mark_blocked(body: Dict[str, Any]) -> None:
-                body["blocked"] = True
-                body["block_reason"] = block_reason
-                body.setdefault("history_tail", []).append(
-                    {"kind": "BLOCK", "reason": block_reason, "pid": physical_id}
+        if outcome["over"]:
+            # DB row already written with the actual usage above; mark it as
+            # an anomalous settlement so the evidence stays queryable.
+            with self._thread_lock:
+                self._conn.execute(
+                    "UPDATE requests SET state=?, error_kind=? WHERE physical_request_id=?",
+                    (STATE_SETTLED_UNKNOWN_BLOCKED, outcome["reason"], physical_id),
                 )
-            self.record.mutate(_mark_blocked)
-            raise BudgetExceeded(block_reason)
+                self._conn.commit()
+            raise BudgetExceeded(outcome["reason"])
 
     def settle_unknown_and_block(self, *, physical_id: str, reason: str) -> None:
         with self._thread_lock:

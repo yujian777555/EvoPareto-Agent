@@ -1,20 +1,23 @@
 {
-  "CANDIDATE_EXECUTED_SUCCESSFULLY": true,
-  "CHILD_VS_PARENT_PAIRED": {
-    "parent_correct": 2,
-    "child_correct": 11,
-    "improved": 9,
-    "regressed": 0,
-    "net_gain": 9
+  "PARENT_OUTPUT_UNPACKED": true,
+  "PARENT_RAW_FULLY_SAVED": true,
+  "PARENT_CORRECT_RESOLVED": 10,
+  "CHILD_CORRECT": 11,
+  "PAIRED_CORRECTED": {
+    "child_improved_over_parent": 1,
+    "child_regressed_vs_parent": 0,
+    "both_correct": 10,
+    "both_wrong": 1,
+    "net_gain": 1,
+    "total_check": 12
   },
-  "PARENT_SCORING_CAVEAT": "tuple output + 200-char truncation -> parent accuracy is a lower bound",
-  "NSGA3_EVIDENCE_SUFFICIENT": false,
-  "NSGA3_RATIONALE": "n=12, single candidate, no multi-objective measurement",
-  "NEW_HTTP_REQUESTS": 49,
-  "BUDGET_DEBITED_USD": 0.013709399999999998,
-  "BUDGET_REMAINING_USD": 4.9862906,
-  "FROZEN_RESULTS_UNCHANGED": true,
-  "n_frozen_files": 376,
+  "SOURCE_VS_EXECUTION_TRACEABLE": true,
+  "SOURCE_EXEC_BYTE_IDENTICAL": true,
+  "SCORING_ADAPTER_SHA256": "05bed57ccd6158abf2036fa4d485344e25877670f283e5249e4bf4a6d797cd13",
+  "R2_STAGE_REQUESTS_WITHIN_100": true,
+  "BUDGET_ATOMIC_FAIL_CLOSED": true,
   "RECURSIVE_SELF_IMPROVEMENT_PROVEN": false,
-  "FINAL_DECISION": "PAIRED_EXPLORATORY_POSITIVE_INSUFFICIENT_FOR_NSGA3"
+  "NSGA3_EVIDENCE_SUFFICIENT": false,
+  "NET_GAIN": 1,
+  "FINAL_DECISION": "PAIRED_CORRECTED_NET_GAIN_PLUS_1_INSUFFICIENT_FOR_NSGA3"
 }
