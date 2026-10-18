@@ -1,0 +1,57 @@
+{
+  "run_id": "pilot-0fe2d163df",
+  "REAL_MODEL_REQUESTED": "deepseek-flash",
+  "authorization_mode": "REUSED_PERSISTENT",
+  "max_cost_usd": 5.0,
+  "stages": {
+    "math": {
+      "status": "OK",
+      "predicted": "10",
+      "gold_host_only": "10",
+      "correct": true,
+      "finish_reason": "stop",
+      "model_returned": "deepseek-flash"
+    },
+    "optimizer": {
+      "status": "OK",
+      "modification": "Split into solve-then-verify passes with self-consistency check to catch arithmetic errors.",
+      "graph": "class Workflow:\n    def __init__(self, llm):\n        self.llm = llm\n        self.solve = \"Solve step by step, end with 'Answer: <num>'.\"\n        self.check = \"Recompute and confirm or correct; end with 'Answer: <num>'.\"\n\n    async def __call__(self, problem):\n        drafts = await __import__(\"asyncio\").gather(*[self.llm(f\"{self.solve}\\n{problem}\") for _ in range(3)])\n        votes = [d.strip().split(\"Answer:\")[-1].strip() for d in drafts]\n        best = max(set(votes), key=votes.count)\n        if votes.count(best) >= 2:\n            return best\n        final = await self.llm(f\"{self.check}\\nProblem: {problem}\\nCandidate: {drafts[0]}\")\n        return final.strip().split(\"Answer:\")[-1].strip()",
+      "prompt": "Solve carefully, verify arithmetic, output final numeric answer after 'Answer:'.",
+      "xml_complete": true,
+      "graph_compile": "OK",
+      "has_workflow": true,
+      "finish_reason": "stop"
+    },
+    "bundle": {
+      "graph_sha": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "prompt_module_sha": "6b773b969598060e32c18f409d2277f4707f9e67152b25357aa111e855f41579",
+      "bundle_sha": "035b51cb257718d8d300ce4793984f8c115ca9efb443f433d01195c94cace173",
+      "prompt_contract": "SERIALISED_INSTRUCTION_REPR"
+    },
+    "child_exec": {
+      "docker_ok": true,
+      "docker_returncode": 0,
+      "ipc_processed": 3,
+      "raw_output": "'72'",
+      "predicted": "72",
+      "gold_host_only": "72",
+      "correct": true,
+      "stderr_tail": ""
+    }
+  },
+  "authorization_path": "C:\\Users\\于舰\\.evopareto\\state\\level3_pilot_authorization.json",
+  "REAL_HTTP_REQUESTS": 7,
+  "LEDGER_REQUESTS": 5,
+  "REAL_INPUT_TOKENS": 469,
+  "REAL_OUTPUT_TOKENS": 1368,
+  "RESERVED_INPUT_TOKENS": 0,
+  "RESERVED_OUTPUT_TOKENS": 0,
+  "BUDGET_DEBITED_USD": 0.0018669,
+  "USAGE_COST_ESTIMATE_USD": 0.000969,
+  "PROVIDER_INVOICE_COST_USD": "NOT_VERIFIED",
+  "REAL_API_COST_USD": 0.0018669,
+  "BUDGET_REMAINING_USD": 4.9981331,
+  "BLOCKED": false,
+  "BLOCK_REASON": null,
+  "STOP_REASON": "PILOT_MINIMAL_SLICE_COMPLETE"
+}
