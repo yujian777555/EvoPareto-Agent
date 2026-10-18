@@ -1,0 +1,20 @@
+{
+  "CANDIDATE_EXECUTED_SUCCESSFULLY": true,
+  "CHILD_VS_PARENT_PAIRED": {
+    "parent_correct": 2,
+    "child_correct": 11,
+    "improved": 9,
+    "regressed": 0,
+    "net_gain": 9
+  },
+  "PARENT_SCORING_CAVEAT": "tuple output + 200-char truncation -> parent accuracy is a lower bound",
+  "NSGA3_EVIDENCE_SUFFICIENT": false,
+  "NSGA3_RATIONALE": "n=12, single candidate, no multi-objective measurement",
+  "NEW_HTTP_REQUESTS": 49,
+  "BUDGET_DEBITED_USD": 0.013709399999999998,
+  "BUDGET_REMAINING_USD": 4.9862906,
+  "FROZEN_RESULTS_UNCHANGED": true,
+  "n_frozen_files": 376,
+  "RECURSIVE_SELF_IMPROVEMENT_PROVEN": false,
+  "FINAL_DECISION": "PAIRED_EXPLORATORY_POSITIVE_INSUFFICIENT_FOR_NSGA3"
+}

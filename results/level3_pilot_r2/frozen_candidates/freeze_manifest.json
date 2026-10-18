@@ -1,0 +1,19 @@
+{
+  "PARENT": {
+    "source": "external/AFlow/workspace/GSM8K/workflows/round_1 (official original)",
+    "graph_sha256": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+    "prompt_sha256": "34b149ab37e571def0875faeac171867c3a2bb9fff03db4bc0ccca034e48e979"
+  },
+  "CHILD": {
+    "source": "real DeepSeek Optimizer output, run pilot-0fe2d163df",
+    "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+    "prompt_raw_sha256": "97822ed47362e8b331ace3d9e8b8d51309f879a9040cb3c710eda8e7a5fa5be5",
+    "prompt_module_sha256": "6b773b969598060e32c18f409d2277f4707f9e67152b25357aa111e855f41579",
+    "bundle_sha256": "035b51cb257718d8d300ce4793984f8c115ca9efb443f433d01195c94cace173",
+    "prompt_contract": "SERIALISED_INSTRUCTION_REPR",
+    "EXPECTED_GRAPH_SHA": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+    "EXPECTED_BUNDLE_SHA": "035b51cb257718d8d300ce4793984f8c115ca9efb443f433d01195c94cace173",
+    "SHA_VERIFIED": true
+  },
+  "MODEL": "deepseek-flash (shared for parent and child)"
+}

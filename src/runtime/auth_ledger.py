@@ -511,39 +511,60 @@ class AuthBudgetLedger:
             reserved_in = int(row["reserved_tokens_in"])
             reserved_out = int(row["reserved_tokens_out"])
 
-        def _mut(body: Dict[str, Any]) -> None:
+        # Task A: replacement semantics + outstanding-aware cost check.
+        # On over-limit we PERSIST the block first (separate mutate), then raise,
+        # so the block is never lost to an exception.
+        def _check_and_apply(body: Dict[str, Any]) -> str:
             caps = body["caps"]
             c = body["consumed"]
-            # P0 fix #3: actual usage must never push the lifetime totals
-            # past the hard caps. Excess is a billing anomaly -> fail closed.
+            remaining_reserved_in = max(0, int(c.get("reserved_tokens_in") or 0) - reserved_in)
+            remaining_reserved_out = max(0, int(c.get("reserved_tokens_out") or 0) - reserved_out)
+            remaining_outstanding_cost = max(
+                0.0, float(c.get("outstanding_reserved_cost_usd") or 0.0) - reserved_cost
+            )
             new_in = int(c["actual_tokens_in"]) + int(actual_in)
             new_out = int(c["actual_tokens_out"]) + int(actual_out)
             new_spent = float(c["spent_cost_usd"]) + float(observed_cost)
+
+            if new_spent + remaining_outstanding_cost > float(caps["max_cost_usd"]) + 1e-9:
+                return (
+                    f"ACTUAL_COST_EXCEEDS_CAP:spent={new_spent}"
+                    f"+outstanding={remaining_outstanding_cost}>{caps['max_cost_usd']}"
+                )
             if new_in > int(caps["max_total_in"]):
-                body["blocked"] = True
-                body["block_reason"] = f"ACTUAL_INPUT_TOKENS_EXCEED_CAP:{new_in}>{caps['max_total_in']}"
-                raise BudgetExceeded(body["block_reason"])
+                return f"ACTUAL_INPUT_TOKENS_EXCEED_CAP:{new_in}>{caps['max_total_in']}"
             if new_out > int(caps["max_total_out"]):
-                body["blocked"] = True
-                body["block_reason"] = f"ACTUAL_OUTPUT_TOKENS_EXCEED_CAP:{new_out}>{caps['max_total_out']}"
-                raise BudgetExceeded(body["block_reason"])
-            if new_spent > float(caps["max_cost_usd"]) + 1e-9:
-                body["blocked"] = True
-                body["block_reason"] = f"ACTUAL_COST_EXCEEDS_CAP:{new_spent}>{caps['max_cost_usd']}"
-                raise BudgetExceeded(body["block_reason"])
-            c["outstanding_reserved_cost_usd"] = max(
-                0.0, float(c.get("outstanding_reserved_cost_usd") or 0.0) - reserved_cost
-            )
-            c["reserved_tokens_in"] = max(0, int(c.get("reserved_tokens_in") or 0) - reserved_in)
-            c["reserved_tokens_out"] = max(0, int(c.get("reserved_tokens_out") or 0) - reserved_out)
+                return f"ACTUAL_OUTPUT_TOKENS_EXCEED_CAP:{new_out}>{caps['max_total_out']}"
+
+            c["outstanding_reserved_cost_usd"] = remaining_outstanding_cost
+            c["reserved_tokens_in"] = remaining_reserved_in
+            c["reserved_tokens_out"] = remaining_reserved_out
             c["actual_tokens_in"] = new_in
             c["actual_tokens_out"] = new_out
             c["spent_cost_usd"] = new_spent
             body.setdefault("history_tail", []).append(
                 {"kind": "SETTLED_ACTUAL", "pid": physical_id, "cost": float(observed_cost)}
             )
+            return ""
+
+        block_reason = ""
+
+        def _mut(body: Dict[str, Any]) -> None:
+            nonlocal block_reason
+            block_reason = _check_and_apply(body)
 
         self.record.mutate(_mut)
+
+        if block_reason:
+            # persist the block BEFORE raising — this is the fail-closed contract
+            def _mark_blocked(body: Dict[str, Any]) -> None:
+                body["blocked"] = True
+                body["block_reason"] = block_reason
+                body.setdefault("history_tail", []).append(
+                    {"kind": "BLOCK", "reason": block_reason, "pid": physical_id}
+                )
+            self.record.mutate(_mark_blocked)
+            raise BudgetExceeded(block_reason)
 
     def settle_unknown_and_block(self, *, physical_id: str, reason: str) -> None:
         with self._thread_lock:

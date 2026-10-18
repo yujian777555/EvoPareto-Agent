@@ -96,12 +96,26 @@ class OutputTokenCapExceeded(RuntimeError):
     pass
 
 
-def conservative_input_tokens(prompt: str) -> int:
-    """Upper bound on input tokens: 1 token per char + framing headroom.
+def hard_cap_input_tokens(prompt: str) -> int:
+    """Approximate token count for the provider hard-cap check.
 
-    Never under-estimates for CJK / punctuation-heavy text.
+    ~1 token per character + framing. This is an approximation, not a strict
+    bound; the provider's own tokenizer decides the real count at send time.
     """
     return len(prompt) + 8
+
+
+def conservative_input_tokens(prompt: str) -> int:
+    """Conservative pre-send input-token estimate for RESERVATION.
+
+    Interpretable bound: 2 tokens per character + framing headroom. DeepSeek's
+    BPE tokenizer produces at most ~2 tokens per UTF-8 code point for CJK and
+    punctuation-heavy text. This is a deliberately loose upper estimate for
+    cost/token RESERVATION only — the reservation is larger, never smaller.
+    The hard-cap check uses hard_cap_input_tokens() so a legitimate prompt is
+    not falsely blocked by the conservative reservation bound.
+    """
+    return 2 * len(prompt) + 16
 
 
 def worst_case_cost(model: str, max_in: int, max_out: int) -> float:
@@ -461,7 +475,7 @@ class GatewayLLM:
         # --- VALIDATE request ---
         if not isinstance(prompt, str):
             raise InputTokenCapExceeded("PROMPT_NOT_STRING")
-        est_in = conservative_input_tokens(prompt)
+        est_in = hard_cap_input_tokens(prompt)
         if est_in > self.max_input_tokens:
             raise InputTokenCapExceeded(
                 f"estimated input tokens {est_in} > per-request cap {self.max_input_tokens}"
@@ -473,7 +487,8 @@ class GatewayLLM:
         # Reservation covers THIS request's conservative maximum:
         #   input  = upper bound for this prompt
         #   output = full per-request output cap (we cannot know less)
-        reserve_cost = worst_case_cost(self.model, est_in, self.max_output_tokens)
+        reserve_in = conservative_input_tokens(prompt)
+        reserve_cost = worst_case_cost(self.model, reserve_in, self.max_output_tokens)
 
         # --- RESERVE request slot + token budget + worst-case cost ---
         ticket = pre_send_ticket(

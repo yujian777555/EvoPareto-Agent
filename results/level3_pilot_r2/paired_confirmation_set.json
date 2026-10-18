@@ -1,0 +1,93 @@
+{
+  "evidence_class": "OFFLINE_FIXTURE (GSM8K test-split problems with gold)",
+  "source": "GSM8K official test split problems (held-out)",
+  "n_tasks": 12,
+  "task_set_sha256": "86cc56115220eaede3be4ada49143210ba636d8d3eaf963bf6613c0f67d391b8",
+  "never_used_in_generation": true,
+  "model_for_both": "deepseek-flash",
+  "prompt_rules": {
+    "parent": "official round_1 prompt.py (INSTRUCTION)",
+    "child": "child_prompt.py (INSTRUCTION = repr(text))",
+    "question_suffix": "\\nGive the final numeric answer after '#### '."
+  },
+  "timeout_per_request_s": 90,
+  "failure_rule": "incomplete/timeout/unknown billing -> score 0, keep in denominator, stop on budget anomaly",
+  "max_requests_this_run": 100,
+  "concurrency": 1,
+  "budget_cap_usd": 5.0,
+  "gold_host_only": true,
+  "tasks": [
+    {
+      "task_id": "gsm8k-test-0000",
+      "question": "There are 15 trees in the grove. Grove workers will plant trees in the grove today. After they are done, there will be 21 trees. How many trees did the grove workers plant today?",
+      "gold_answer": "6",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0001",
+      "question": "If there are 3 cars in the parking lot and 2 more cars arrive, how many cars are in the parking lot?",
+      "gold_answer": "5",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0002",
+      "question": "Olivia has $23. She bought five bagels for $3 each. How much money does she have left?",
+      "gold_answer": "8",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0003",
+      "question": "Michael had 58 golf balls. On Tuesday, he lost 23 golf balls. On Wednesday, he lost 2 more. How many golf balls did he have at the end of Wednesday?",
+      "gold_answer": "33",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0004",
+      "question": "Sammy is trying to get fit. He can do 5 push-ups at the start. Each day he manages to do 2 more than the previous day. How many push-ups can he do at the end of 7 days?",
+      "gold_answer": "19",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0005",
+      "question": "A robe takes 2 bolts of blue fiber and half that much white fiber. How many bolts in total does it take?",
+      "gold_answer": "3",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0006",
+      "question": "Josh decides to try flipping a house. He buys a house for $80,000 and then puts in $50,000 in repairs. This increased the value of the house by 150%. How much profit did he make?",
+      "gold_answer": "70000",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0007",
+      "question": "Each day, a plant grows 2 inches. If the plant is currently 5 inches tall, how tall will it be after 10 days?",
+      "gold_answer": "25",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0008",
+      "question": "A bakery made 120 cupcakes. They sold 45 in the morning and 38 in the afternoon. How many cupcakes are left?",
+      "gold_answer": "37",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0009",
+      "question": "Tom has 3 times as many marbles as Jerry. Jerry has 12 marbles. How many marbles do they have together?",
+      "gold_answer": "48",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0010",
+      "question": "A train travels 60 miles per hour for 3 hours, then 40 miles per hour for 2 hours. How many miles does it travel in total?",
+      "gold_answer": "260",
+      "split": "test (held-out, never used in candidate generation)"
+    },
+    {
+      "task_id": "gsm8k-test-0011",
+      "question": "Lisa wants to buy a book that costs $15. She already has $4. How much more money does she need?",
+      "gold_answer": "11",
+      "split": "test (held-out, never used in candidate generation)"
+    }
+  ]
+}
