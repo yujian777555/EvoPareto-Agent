@@ -36,7 +36,13 @@ from src.benchmark.gsm8k_tasks import evaluate_workflow_output, load_offline_tas
 MODEL_ID = "deepseek-flash"
 BASE_URL = "https://api.deepseek.com"
 MAX_INPUT_PER_REQUEST = 8000
-MAX_OUTPUT_PER_REQUEST = 500
+# Phase-specific output caps (Pilot-R1): optimizer XML needs more room.
+PHASE_OUTPUT_CAPS = {
+    "pilot_math": 500,
+    "pilot_optimizer": 1800,
+    "pilot_workflow_ipc": 500,
+}
+MAX_OUTPUT_PER_REQUEST = 500  # default; per-phase override below
 MAX_PHYSICAL = 300
 MAX_COST_USD = 5.00
 MAX_TOTAL_IN = 2_000_000
@@ -102,24 +108,21 @@ def main() -> int:
         "stages": {},
     }
 
-    # ---- authorization: explicit create ONCE, then open_existing ----
-    rec_path = OUT / "authorization_record.json"
+    # ---- authorization: persistent OUTSIDE-Git record; NEVER auto-create ----
+    # P0 fix: deleting/rolling back the git copy must NOT mint a new $5 quota.
+    rec_path = Path.home() / ".evopareto" / "state" / "level3_pilot_authorization.json"
     try:
         record = AuthorizationRecord.open_existing(rec_path, secret_key=SECRET)
-        events["authorization_mode"] = "REUSED_EXISTING"
-    except AuthorizationMissing:
-        # explicit authorization procedure for the $5 pilot
-        record = AuthorizationRecord.create(
-            rec_path,
-            auth_id="level3-pilot-authorization-v1",
-            caps={
-                "max_physical": MAX_PHYSICAL, "max_cost_usd": MAX_COST_USD,
-                "max_total_in": MAX_TOTAL_IN, "max_total_out": MAX_TOTAL_OUT,
-            },
-            secret_key=SECRET,
+        events["authorization_mode"] = "REUSED_PERSISTENT"
+        events["authorization_path"] = str(rec_path)
+    except AuthorizationMissing as e:
+        events["failure"] = f"AUTHORIZATION_MISSING_FAIL_CLOSED:{e}"
+        events["STOP_REASON"] = "AUTHORIZATION_RECORD_MISSING"
+        (OUT / "pilot_latest_summary.json").write_text(
+            json.dumps(events, indent=2, ensure_ascii=False), encoding="utf-8"
         )
-        events["authorization_mode"] = "EXPLICIT_CREATE"
-        events["caps"] = record.caps
+        print(json.dumps({"status": "FAIL_CLOSED_NO_AUTHORIZATION", "error": str(e)}, indent=2))
+        return 3
 
     # ---- working DB is per-run but shares the record ----
     db = AuthBudgetLedger(OUT / f"pilot_budget_{run_id}.sqlite", record)
@@ -129,7 +132,7 @@ def main() -> int:
         events["crash_recovered_rows"] = recovered
 
     gate = UnifiedBudgetGate(db, default_max_in=MAX_INPUT_PER_REQUEST,
-                             default_max_out=MAX_OUTPUT_PER_REQUEST)
+                             default_max_out=1800)
 
     ledger_rows: List[Dict[str, Any]] = []
 
@@ -139,10 +142,12 @@ def main() -> int:
         if est_in > MAX_INPUT_PER_REQUEST:
             STOP_REASON = "INPUT_TOKEN_CAP_EXCEEDED"
             raise RuntimeError(STOP_REASON)
-        reserve_cost = worst_case_cost(MODEL_ID, est_in, MAX_OUTPUT_PER_REQUEST)
+        out_cap = PHASE_OUTPUT_CAPS.get(phase, MAX_OUTPUT_PER_REQUEST)
+        # reservation, request max_tokens and worst-case cost share the SAME cap
+        reserve_cost = worst_case_cost(MODEL_ID, est_in, out_cap)
         physical_id = gate.begin_request(
             run_id=run_id, phase=phase, prompt_sha=sha256_text(prompt),
-            res_in=est_in, res_out=MAX_OUTPUT_PER_REQUEST, res_cost=reserve_cost,
+            res_in=est_in, res_out=out_cap, res_cost=reserve_cost,
         )
         import urllib.error
         import urllib.request
@@ -151,7 +156,7 @@ def main() -> int:
         body = json.dumps({
             "model": MODEL_ID,
             "thinking": {"type": "disabled"},
-            "max_tokens": MAX_OUTPUT_PER_REQUEST,
+            "max_tokens": out_cap,
             "messages": [{"role": "user", "content": prompt}],
         }).encode("utf-8")
         req = urllib.request.Request(
@@ -162,7 +167,7 @@ def main() -> int:
         rec: Dict[str, Any] = {
             "run_id": run_id, "physical_request_id": physical_id,
             "request_phase": phase, "prompt_sha256": sha256_text(prompt),
-            "estimated_input_tokens": est_in, "reserved_cost_usd": reserve_cost,
+            "estimated_input_tokens": est_in, "reserved_cost_usd": reserve_cost, "max_output_tokens": out_cap,
         }
         try:
             with opener.open(req, timeout=90) as resp:
@@ -253,12 +258,12 @@ def main() -> int:
     if not STOP_REASON:
         try:
             r2 = chat(
-                "You are GraphOptimize. Generate an improved workflow for GSM8K math QA.\n"
-                "Return EXACTLY these three XML tags and nothing else:\n"
-                "<modification>...</modification>\n"
-                "<graph>... Python class Workflow with async def __call__(self, problem) ...</graph>\n"
-                "<prompt>... a short instruction string ...</prompt>\n\n"
-                "graph must define `class Workflow`, compile as Python, and call its LLM.",
+                "You are GraphOptimize. Improve a GSM8K math workflow.\n"
+                "Return ONLY these XML tags, as short as possible:\n"
+                "<modification>one sentence</modification>\n"
+                "<graph>class Workflow with async def __call__(self, problem) that calls self.llm; keep it under 25 lines</graph>\n"
+                "<prompt>one short instruction string</prompt>\n"
+                "graph must compile as Python and define class Workflow.",
                 phase="pilot_optimizer",
             )
             parsed = parse_xml(r2["content"])
@@ -339,6 +344,13 @@ def main() -> int:
     events["REAL_OUTPUT_TOKENS"] = snap["actual_tokens_out"]
     events["RESERVED_INPUT_TOKENS"] = snap["reserved_tokens_in"]
     events["RESERVED_OUTPUT_TOKENS"] = snap["reserved_tokens_out"]
+    events["BUDGET_DEBITED_USD"] = snap["spent_cost_usd"]
+    usage_cost = 0.0
+    for r in ledger_rows:
+        if r.get("observed_cost_usd"):
+            usage_cost += float(r["observed_cost_usd"])
+    events["USAGE_COST_ESTIMATE_USD"] = round(usage_cost, 8)
+    events["PROVIDER_INVOICE_COST_USD"] = "NOT_VERIFIED"
     events["REAL_API_COST_USD"] = snap["spent_cost_usd"]
     events["BUDGET_REMAINING_USD"] = round(MAX_COST_USD - snap["spent_cost_usd"], 8)
     events["BLOCKED"] = snap["blocked"]
