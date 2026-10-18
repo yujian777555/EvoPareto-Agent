@@ -28,3 +28,4 @@ results/level3_pilot/*.sqlite
 results/**/authorization_record.json.lock
 results/level3_pilot/authorization_record.json
 results/**/authorization_record.json
+results/level3_pilot_r2/*.sqlite
