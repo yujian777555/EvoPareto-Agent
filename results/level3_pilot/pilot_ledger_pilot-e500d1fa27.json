@@ -1,0 +1,36 @@
+{
+  "run_id": "pilot-e500d1fa27",
+  "rows": [
+    {
+      "run_id": "pilot-e500d1fa27",
+      "physical_request_id": "3b7740a91f4d481293939908f1d58d36",
+      "request_phase": "pilot_math",
+      "prompt_sha256": "13d12d789c5498f1859f5208153531f5226d1e03fcf7202085c37e8198168e0e",
+      "estimated_input_tokens": 226,
+      "reserved_cost_usd": 0.0006678,
+      "http_status": 200,
+      "model_returned": "deepseek-flash",
+      "finish_reason": "stop",
+      "usage_prompt_tokens": 57,
+      "usage_completion_tokens": 140,
+      "content_preview": "Let’s go step by step.  \n\nWe know Weng earns **$12 per hour**.  \nShe worked **50 minutes**.  \n\n---\n\n**Step 1: Convert 50 minutes to hours**  \nThere are 60 minutes in an hour, so:  \n\\[\n50 \\div 60 = \\fr",
+      "observed_cost_usd": 0.0001851,
+      "ledger_status": "settled_ok"
+    },
+    {
+      "run_id": "pilot-e500d1fa27",
+      "physical_request_id": "ef93db271edf43c4bd61bbc40e8501bb",
+      "request_phase": "pilot_optimizer",
+      "prompt_sha256": "5af21358e2a85707403c04dbd31caef8ea4a7934bce16c1ebe2488c9ff56755d",
+      "estimated_input_tokens": 376,
+      "reserved_cost_usd": 0.0007128,
+      "http_status": 200,
+      "model_returned": "deepseek-flash",
+      "finish_reason": "length",
+      "usage_prompt_tokens": 94,
+      "usage_completion_tokens": 500,
+      "content_preview": "<modification>\nAdd a structured decomposition-and-verification workflow for GSM8K math word problems: (1) extract quantities and their relations, (2) formulate an explicit plan of arithmetic operation",
+      "ledger_status": "truncated"
+    }
+  ]
+}

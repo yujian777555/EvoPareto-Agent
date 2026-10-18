@@ -287,8 +287,22 @@ def main() -> int:
     # Persistent authorization record. Production NEVER auto-creates quota:
     # missing/corrupt record -> fail-closed. New quota requires the explicit
     # authorization procedure (AuthorizationRecord.create) outside this entry.
+    # events MUST exist before any early-return handler uses it (P0 fix #1)
+    events: Dict[str, Any] = {
+        "run_id": run_id,
+        "REAL_MODEL_REQUESTED": MODEL_ID,
+        "THINKING_DISABLED_CONFIRMED": False,
+        "REAL_HTTP_REQUESTS": 0,
+        "REAL_INPUT_TOKENS": 0,
+        "REAL_OUTPUT_TOKENS": 0,
+        "REAL_COST_USD": 0.0,
+        "stages": {},
+    }
+
     rec_path = OUT / "authorization_record.json"
-    legacy_ledger = OUT / "request_ledger.json"
+    # Legacy migration source is a SEALED historical file, never the runtime
+    # ledger this run would write (P0 fix #4).
+    legacy_ledger = OUT / "legacy_request_ledger_level3.json"
     try:
         record = open_production_authorization(
             rec_path,
@@ -308,17 +322,6 @@ def main() -> int:
     gate = UnifiedBudgetGate(db, default_max_in=MAX_IN_PER_REQ, default_max_out=MAX_OUT_PER_REQ)
     ledger_rows: List[Dict[str, Any]] = []
     client = LiveClient(api_key, gate, ledger_rows, run_id)
-
-    events: Dict[str, Any] = {
-        "run_id": run_id,
-        "REAL_MODEL_REQUESTED": MODEL_ID,
-        "THINKING_DISABLED_CONFIRMED": False,
-        "REAL_HTTP_REQUESTS": 0,
-        "REAL_INPUT_TOKENS": 0,
-        "REAL_OUTPUT_TOKENS": 0,
-        "REAL_COST_USD": 0.0,
-        "stages": {},
-    }
 
     # --------- Stage 1: plain GSM8K-style math (train, not test) ---------
     stage1_prompt = (

@@ -1,0 +1,37 @@
+{
+  "run_id": "pilot-e500d1fa27",
+  "REAL_MODEL_REQUESTED": "deepseek-flash",
+  "authorization_mode": "EXPLICIT_CREATE",
+  "max_cost_usd": 5.0,
+  "stages": {
+    "math": {
+      "status": "OK",
+      "predicted": "10",
+      "gold_host_only": "10",
+      "correct": true,
+      "finish_reason": "stop",
+      "model_returned": "deepseek-flash"
+    },
+    "optimizer": {
+      "status": "FAILED",
+      "error": "RuntimeError: RESPONSE_TRUNCATED"
+    }
+  },
+  "caps": {
+    "max_physical": 300,
+    "max_cost_usd": 5.0,
+    "max_total_in": 2000000,
+    "max_total_out": 200000
+  },
+  "REAL_HTTP_REQUESTS": 2,
+  "LEDGER_REQUESTS": 2,
+  "REAL_INPUT_TOKENS": 151,
+  "REAL_OUTPUT_TOKENS": 640,
+  "RESERVED_INPUT_TOKENS": 0,
+  "RESERVED_OUTPUT_TOKENS": 0,
+  "REAL_API_COST_USD": 0.0008979,
+  "BUDGET_REMAINING_USD": 4.9991021,
+  "BLOCKED": false,
+  "BLOCK_REASON": null,
+  "STOP_REASON": "RESPONSE_TRUNCATED"
+}

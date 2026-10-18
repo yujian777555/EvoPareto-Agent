@@ -1,0 +1,9 @@
+{
+  "BASE_COMMIT": "77898faac53a469b5003de359228f27727d2b558",
+  "frozen_files": 367,
+  "frozen_sample_sha": {
+    "results/ablation/all_ablations_summary.json": "eba84183250d2273a71da153708e60f55374ee4e6fc4b062f6ea4982727b38cb",
+    "results/ablation/budget.json": "9557086735e48003731ffb3ac4a1c0b78e80e36ee4643a73013304769e3b1054",
+    "results/ablation/framework.json": "d49889638ae9f0a3f66ed37bc55695da826d147c5143e2a56916425e1b2cd234"
+  }
+}

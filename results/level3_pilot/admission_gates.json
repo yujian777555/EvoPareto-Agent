@@ -1,0 +1,8 @@
+{
+  "MOCK_PREFLIGHT": "PASS",
+  "CRASH_RECOVERY_GATE": "PASS",
+  "GLOBAL_BUDGET_GATE": "PASS",
+  "PRODUCTION_E2E_GATE": "PASS",
+  "frozen_files": 367,
+  "new_real_http_requests": 0
+}
