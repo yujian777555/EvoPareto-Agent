@@ -252,7 +252,7 @@ def main() -> int:
             parse_status = "PLAIN_STRING"
             try:
                 payload = json.loads(out[out.find("{"):])
-                model_text = payload.get("out", out)
+                model_text = payload.get("answer_text", payload.get("out", out))
             except Exception:
                 pass
             text, parse_status, cost_meta = normalize_output(model_text)

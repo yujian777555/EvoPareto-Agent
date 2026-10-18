@@ -343,9 +343,15 @@ def build_runner_script(task_question: str, task_id: str) -> str:
         "    if hasattr(w, 'llm'):\n"
         "        w.llm = model_ipc.ModelIPCClient('/ipc')\n"
         "    out = await w(task['question'])\n"
+        "    if isinstance(out, (tuple, list)) and len(out) >= 2:\n"
+        "        answer_text = str(out[0]); cost_meta = out[1]; out_kind = 'tuple'\n"
+        "    else:\n"
+        "        answer_text = str(out); cost_meta = None; out_kind = 'plain'\n"
         "    print(json.dumps({'ok': True, 'task_id': task.get('task_id'),"
-        " 'out': repr(out)[:500], 'question_len': len(task.get('question','')),"
-        " 'task_keys': sorted(task.keys())}))\n"
+        " 'answer_text': answer_text, 'answer_len': len(answer_text),"
+        " 'cost_meta': (repr(cost_meta) if cost_meta is not None else None),"
+        " 'out_kind': out_kind, 'question_len': len(task.get('question','')),"
+        " 'task_keys': sorted(task.keys())}, ensure_ascii=False))\n"
         "asyncio.run(main())\n"
     )
 

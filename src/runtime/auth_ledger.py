@@ -123,6 +123,11 @@ class AuthorizationRecord:
 
     # ---------- file helpers ----------
     def _reload(self) -> None:
+        fault = self.path.with_suffix(self.path.suffix + ".PERSIST_FAULT")
+        if fault.exists():
+            raise AuthorizationIntegrityError(
+                f"PERSIST_FAULT_MARKER_PRESENT:{fault.read_text(encoding='utf-8')[:200]}"
+            )
         if not self.path.exists():
             raise AuthorizationMissing(f"AUTHORIZATION_RECORD_MISSING:{self.path}")
         try:
@@ -147,8 +152,15 @@ class AuthorizationRecord:
             os.replace(tmp, self.path)
         except Exception as e:
             # persistence failure -> the authorization state is untrustworthy.
-            # Fail closed: this record object refuses further operations.
+            # Fail closed: this record object refuses further operations AND a
+            # durable fault marker is written so a restarted process also
+            # refuses (cross-process fail-closed).
             self._poisoned = f"PERSIST_FAILED:{type(e).__name__}:{e}"
+            try:
+                fault = self.path.with_suffix(self.path.suffix + ".PERSIST_FAULT")
+                fault.write_text(self._poisoned, encoding="utf-8")
+            except Exception:
+                pass
             raise
 
     @contextmanager
