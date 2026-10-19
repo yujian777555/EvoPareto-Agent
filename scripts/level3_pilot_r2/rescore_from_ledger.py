@@ -166,6 +166,19 @@ def main() -> int:
     except Exception as e:
         print(f"REVERIFICATION_PARSE_FAILED:{e}")
         return 2
+    # top-level run_id must exist and match exactly
+    rev_top_rid = rev.get("run_id")
+    if rev_top_rid != EXPECTED_RUN_ID:
+        print(f"REVERIFICATION_TOP_RUN_ID_MISMATCH:{rev_top_rid} expected={EXPECTED_RUN_ID}")
+        return 2
+    # top-level task_set_sha256 must exist and match
+    if rev.get("task_set_sha256") != EXPECTED_TASK_HASH:
+        print(f"REVERIFICATION_TASKSET_HASH_MISMATCH:{rev.get('task_set_sha256')}")
+        return 2
+    # top-level child_graph_sha256 must exist and match (if present)
+    if "child_graph_sha256" in rev and rev.get("child_graph_sha256") != EXPECTED_CHILD_SHA:
+        print(f"REVERIFICATION_CHILD_SHA_MISMATCH:{rev.get('child_graph_sha256')}")
+        return 2
     per_task_rev = rev.get("PER_TASK_PARENT") or rev.get("PER_TASK") or []
     if len(per_task_rev) != 12:
         print(f"REVERIFICATION_INCOMPLETE:n={len(per_task_rev)} expected=12")
@@ -180,12 +193,13 @@ def main() -> int:
             print(f"IPC_COUNT_NOT_ONE:{r.get('task_id')}={r.get('ipc_processed')}")
             return 2
         rev_rid = r.get("run_id")
-        if rev_rid is not None and rev_rid != EXPECTED_RUN_ID:
+        if rev_rid is None:
+            print(f"REVERIFICATION_RUN_ID_MISSING:{r.get('task_id')}")
+            return 2
+        if rev_rid != EXPECTED_RUN_ID:
             print(f"REVERIFICATION_RUN_ID_MISMATCH:{r.get('task_id')}={rev_rid}")
             return 2
-    if rev.get("task_set_sha256") and rev.get("task_set_sha256") != EXPECTED_TASK_HASH:
-        print(f"REVERIFICATION_TASKSET_HASH_MISMATCH:{rev.get('task_set_sha256')}")
-        return 2
+
 
     # ---- Task mapping verification ----
     # Requirements: 12 ledger rows, 12 tasks, sequential order, 1 IPC per task.

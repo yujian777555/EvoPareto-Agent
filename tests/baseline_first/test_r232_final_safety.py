@@ -136,6 +136,15 @@ class FakeLLM:
         return "ok"
 
 
+def _assert_cleanup_recorded(res, label):
+    dc = res.get("docker_cleanup")
+    assert dc is not None, f"{label}: docker_cleanup missing"
+    assert "cleaned" in dc and "error" in dc, f"{label}: incomplete cleanup status"
+    if dc.get("container_created", True):
+        assert dc.get("container_id"), f"{label}: container_id missing but created"
+    return dc
+
+
 def _docker_container_gone(cid: str) -> bool:
     r = subprocess.run(
         ["docker", "inspect", "-f", "{{.State.Running}}", cid],
@@ -152,9 +161,10 @@ def test_normal_execution_container_exits():
     res = run_workflow_code_isolated(g, problem="q", task_id="t", gold_answer=None,
                                      llm=FakeLLM(), timeout=25)
     assert res["ok"] is True
-    dc = res.get("docker_cleanup") or {}
-    if dc.get("container_id"):
-        assert _docker_container_gone(dc["container_id"])
+    dc = _assert_cleanup_recorded(res, "normal")
+    assert dc.get("container_created") is True
+    assert dc.get("cleaned") is True
+    assert _docker_container_gone(dc["container_id"])
 
 
 def test_stdout_overflow_container_exits():
@@ -164,9 +174,9 @@ def test_stdout_overflow_container_exits():
     res = run_workflow_code_isolated(_graph_printing(n), problem="q", task_id="t",
                                      gold_answer=None, llm=FakeLLM(), timeout=30)
     assert res["ok"] is False
-    dc = res.get("docker_cleanup") or {}
-    if dc.get("container_id"):
-        assert _docker_container_gone(dc["container_id"])
+    dc = _assert_cleanup_recorded(res, "overflow")
+    assert dc.get("container_created") is True
+    assert _docker_container_gone(dc["container_id"])
 
 
 def test_stderr_overflow_container_exits():
@@ -181,9 +191,9 @@ def test_stderr_overflow_container_exits():
     res = run_workflow_code_isolated(g, problem="q", task_id="t", gold_answer=None,
                                      llm=FakeLLM(), timeout=30)
     assert res["ok"] is False
-    dc = res.get("docker_cleanup") or {}
-    if dc.get("container_id"):
-        assert _docker_container_gone(dc["container_id"])
+    dc = _assert_cleanup_recorded(res, "overflow")
+    assert dc.get("container_created") is True
+    assert _docker_container_gone(dc["container_id"])
 
 
 def test_timeout_container_exits():
@@ -195,15 +205,87 @@ def test_timeout_container_exits():
     res = run_workflow_code_isolated(g, problem="q", task_id="t", gold_answer=None,
                                      llm=FakeLLM(), timeout=5)
     assert res["ok"] is False
-    dc = res.get("docker_cleanup") or {}
-    if dc.get("container_id"):
-        assert _docker_container_gone(dc["container_id"])
+    dc = _assert_cleanup_recorded(res, "overflow")
+    assert dc.get("container_created") is True
+    assert _docker_container_gone(dc["container_id"])
 
 
-def test_cleanup_failure_is_reported():
+def test_cleanup_failure_is_reported_and_not_scorable():
+    import subprocess as _sp
+    from src.runtime.workflow_ipc import run_workflow_code_isolated
+
+    real_run = _sp.run
+
+    def flaky_run(cmd, **kw):
+        if isinstance(cmd, list) and len(cmd) >= 3 and cmd[1] == "rm":
+            class R:
+                returncode = 1
+                stdout = "Error: injected rm failure"
+                stderr = ""
+            return R()
+        return real_run(cmd, **kw)
+
+    _sp.run = flaky_run
+    try:
+        g = ("class Workflow:\n    def __init__(self, llm=None):\n        self.llm = llm\n"
+             "    async def __call__(self, problem):\n        return 'ok'\n")
+        res = run_workflow_code_isolated(g, problem="q", task_id="t", gold_answer=None,
+                                         llm=FakeLLM(), timeout=25)
+        dc = res.get("docker_cleanup") or {}
+        assert dc.get("cleaned") is False
+        assert "DOCKER_RM_FAILED" in str(dc.get("error", ""))
+        assert res["ok"] is False
+    finally:
+        _sp.run = real_run
+
+
+def test_container_not_created_distinguished():
+    import subprocess as _sp
     from src.runtime.workflow_ipc import _run_bounded
 
-    cmd = ["docker", "run", "--rm", "python:3.10-slim", "python", "-c", "print(1)"]
-    proc, out, err, overflow, dc = _run_bounded(cmd, timeout=20)
-    assert "cleaned" in dc
-    assert "error" in dc
+    real_popen = _sp.Popen
+
+    class FakePipe:
+        def read(self, n=-1): return b""
+        def close(self): pass
+
+    class FakeProc:
+        returncode = 125
+        stdout = FakePipe()
+        stderr = FakePipe()
+        def wait(self, timeout=None): return 125
+        def kill(self): pass
+
+    _sp.Popen = lambda *a, **k: FakeProc()
+    try:
+        cmd = ["docker", "run", "python:3.10-slim", "python", "-c", "print(1)"]
+        proc, out, err, overflow, dc = _run_bounded(cmd, timeout=10)
+        assert dc.get("container_created") is False
+        assert dc.get("error") == "CONTAINER_NOT_CREATED"
+    finally:
+        _sp.Popen = real_popen
+
+
+def test_no_such_container_treated_as_cleaned():
+    import subprocess as _sp
+    from src.runtime.workflow_ipc import _run_bounded
+
+    real_run = _sp.run
+
+    def flaky_run(cmd, **kw):
+        if isinstance(cmd, list) and len(cmd) >= 3 and cmd[1] == "rm":
+            class R:
+                returncode = 1
+                stdout = ""
+                stderr = "Error: No such container: abc123"
+            return R()
+        return real_run(cmd, **kw)
+
+    _sp.run = flaky_run
+    try:
+        cmd = ["docker", "run", "--rm", "python:3.10-slim", "python", "-c", "print(1)"]
+        proc, out, err, overflow, dc = _run_bounded(cmd, timeout=20)
+        assert dc.get("cleaned") is True
+        assert dc.get("error") == "ALREADY_REMOVED"
+    finally:
+        _sp.run = real_run

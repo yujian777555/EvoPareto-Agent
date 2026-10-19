@@ -55,15 +55,30 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
             pass
         cleanup_status["container_id"] = cid
         if not cid:
-            cleanup_status["error"] = "NO_CONTAINER_ID"
+            cleanup_status["container_created"] = False
+            cleanup_status["cleaned"] = True
+            cleanup_status["error"] = "CONTAINER_NOT_CREATED"
+            try:
+                if cidfile and Path(cidfile).exists():
+                    Path(cidfile).unlink()
+            except Exception:
+                pass
             return
+        cleanup_status["container_created"] = True
         try:
             r = _sp.run(["docker", "rm", "-f", cid], capture_output=True, text=True,
                          encoding="utf-8", errors="replace", timeout=15)
-            cleanup_status["cleaned"] = r.returncode == 0
-            if r.returncode != 0:
-                cleanup_status["error"] = f"DOCKER_RM_FAILED:{r.returncode}"
+            out = (r.stdout or "") + (r.stderr or "")
+            if r.returncode == 0:
+                cleanup_status["cleaned"] = True
+            elif "no such container" in out.lower():
+                cleanup_status["cleaned"] = True
+                cleanup_status["error"] = "ALREADY_REMOVED"
+            else:
+                cleanup_status["cleaned"] = False
+                cleanup_status["error"] = f"DOCKER_RM_FAILED:{r.returncode}:{out[:120]}"
         except Exception as e:
+            cleanup_status["cleaned"] = False
             cleanup_status["error"] = f"CLEANUP_EXCEPTION:{type(e).__name__}"
         finally:
             try:
@@ -563,6 +578,7 @@ def run_workflow_code_isolated(
                 "ok": False, "error": "TIMEOUT", "returncode": 124,
                 "task_id": task_id, "security_events": [],
                 "ipc_processed": [],
+                "docker_cleanup": {"error": "TIMEOUT_PATH"},
             }
         finally:
             if server:
@@ -583,6 +599,7 @@ def run_workflow_code_isolated(
                 "stderr_excerpt": full_stderr[-MAX_DIAG_EXCERPT_CHARS:],
                 "question_len": len(problem),
                 "ipc_processed": [], "security_events": [],
+                "docker_cleanup": cleanup_status,
             }
         if len(full_stdout) > MAX_STRUCTURED_RESULT_CHARS:
             return {
@@ -600,6 +617,7 @@ def run_workflow_code_isolated(
                 "question_len": len(problem),
                 "ipc_processed": getattr(server, "processed", []) if server else [],
                 "security_events": getattr(server, "security_events", []) if server else [],
+                "docker_cleanup": cleanup_status,
             }
 
         structured = None
@@ -631,6 +649,7 @@ def run_workflow_code_isolated(
                 "question_len": len(problem),
                 "ipc_processed": getattr(server, "processed", []) if server else [],
                 "security_events": getattr(server, "security_events", []) if server else [],
+                "docker_cleanup": cleanup_status,
             }
 
         answer_text = structured.get("answer_text")
@@ -641,7 +660,7 @@ def run_workflow_code_isolated(
             answer_len = len(answer_text) if answer_text is not None else 0
 
         return {
-            "ok": proc.returncode == 0 and answer_text is not None,
+            "ok": proc.returncode == 0 and answer_text is not None and (cleanup_status.get("cleaned") is True or cleanup_status.get("container_created") is False),
             "returncode": proc.returncode,
             # full structured result (never truncated for scoring)
             "answer_text": answer_text,
