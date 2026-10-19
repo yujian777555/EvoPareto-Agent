@@ -8,9 +8,9 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-sys.path.insert(0, r"D:/新建文件夹")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-ROOT = Path(r"D:/新建文件夹")
+ROOT = Path(__file__).resolve().parents[2]
 RES = ROOT / "results" / "level3_pilot_r2"
 
 LEDGER = RES / "parentre_ledger_parentre-8aa3d61f.json"
@@ -59,6 +59,7 @@ def main() -> int:
 
     # ---- Task mapping verification ----
     # Requirements: 12 ledger rows, 12 tasks, sequential order, 1 IPC per task.
+    # ---- full mapping verification (Task C requirements) ----
     mapping_ok = (
         len(rows) == 12
         and len(tasks) == 12
@@ -67,6 +68,41 @@ def main() -> int:
         and all(r.get("http_status") == 200 for r in rows)
         and all(r.get("FULL_CONTENT") for r in rows)
     )
+    # physical request IDs unique
+    pids = [r.get("physical_request_id") for r in rows]
+    mapping_ok = mapping_ok and len(set(pids)) == 12
+    # run id consistent
+    run_ids = {r.get("run_id") for r in rows}
+    mapping_ok = mapping_ok and len(run_ids) == 1
+    # token + SHA fields present
+    mapping_ok = mapping_ok and all(
+        r.get("usage_prompt_tokens") is not None
+        and r.get("usage_completion_tokens") is not None
+        and r.get("prompt_sha256")
+        for r in rows
+    )
+    # cross-check with parent_reverification_results: ipc_processed == 1 per task
+    rev_path = RES / "parent_reverification_results.json"
+    if rev_path.exists():
+        rev = json.loads(rev_path.read_text(encoding="utf-8"))
+        per_task = rev.get("PER_TASK_PARENT") or rev.get("PER_TASK") or []
+        rev_by_id = {r.get("task_id"): r for r in per_task}
+        for spec in tasks:
+            rr = rev_by_id.get(spec["task_id"])
+            if rr is None:
+                mapping_ok = False
+                break
+            if rr.get("ipc_processed") != 1:
+                mapping_ok = False
+                break
+        # order check: rev task order == conf task order
+        if [r.get("task_id") for r in per_task[:12]] != [t["task_id"] for t in tasks]:
+            mapping_ok = False
+    # child frozen results: unique ids, full coverage, order
+    child_ids = [r["task_id"] for r in corrected.get("PER_TASK", []) if r["role"] == "child"]
+    mapping_ok = mapping_ok and len(child_ids) == 12 and len(set(child_ids)) == 12
+    mapping_ok = mapping_ok and child_ids == [t["task_id"] for t in tasks]
+
     if not mapping_ok:
         print("MAPPING_UNRESOLVED — refusing to guess task correspondence")
         return 2

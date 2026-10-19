@@ -88,10 +88,7 @@ def test_persist_failure_poisons_then_new_instance_refuses(tmp_path):
         )
         # the reopened record has NOT been poisoned by the failed persist
         assert not getattr(rec2, "_poisoned", "")
-        pytest.skip(
-            "CROSS_PROCESS_PERSIST_FAULT_MARKER_NOT_IMPLEMENTED — "
-            "in-memory _poisoned does not survive restart; manual recovery required"
-        )
+        pytest.fail("PERSIST_FAULT_MARKER_MISSING")
     led.close()
 
 

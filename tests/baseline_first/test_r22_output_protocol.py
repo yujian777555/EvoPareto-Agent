@@ -59,26 +59,23 @@ def _run(graph: str):
 def test_long_response_not_truncated_in_scoring_payload():
     res = _run(LONG_GRAPH)
     assert res["ok"] is True, res
-    out = res["stdout"]
-    payload = json.loads(out[out.find("{"):])
+    payload = res
     assert "answer_text" in payload
-    assert payload["answer_len"] > 500, "response must not be truncated before scoring"
-    assert "\\\\boxed{42}" in payload["answer_text"] or "\\boxed{42}" in payload["answer_text"]
+    assert res["answer_len"] > 500, "response must not be truncated before scoring"
+    assert "\\\\boxed{42}" in res["answer_text"] or "\\boxed{42}" in res["answer_text"]
 
 
 def test_parent_tuple_response_separates_text_and_cost():
     res = _run(TUPLE_GRAPH)
-    payload = json.loads(res["stdout"][res["stdout"].find("{"):])
-    assert payload["out_kind"] == "tuple"
-    assert "boxed{17}" in payload["answer_text"] or "17" in payload["answer_text"]
-    assert payload["cost_meta"] is not None  # cost kept as metadata, not in the answer
-    assert "0.0123" not in payload["answer_text"]
+    assert res["out_kind"] == "tuple"
+    assert "17" in res["answer_text"]
+    assert res["cost_meta"] is not None
+    assert "0.0123" not in res["answer_text"]
 
 
 def test_cost_and_intermediate_numbers_not_mistaken_for_answer():
     res = _run(COST_TRAP_GRAPH)
-    payload = json.loads(res["stdout"][res["stdout"].find("{"):])
-    text = payload["answer_text"]
+    text = res["answer_text"]
     # the extractor must find 6 (boxed), not 15/21/0
     from scripts.level3_pilot_r2.rescore_from_ledger import extract_boxed
 

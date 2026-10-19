@@ -156,11 +156,24 @@ class AuthorizationRecord:
             # durable fault marker is written so a restarted process also
             # refuses (cross-process fail-closed).
             self._poisoned = f"PERSIST_FAILED:{type(e).__name__}:{e}"
+            # The fault marker MUST land on disk. If the same filesystem also
+            # refuses this write we cannot provide a cross-process guarantee —
+            # surface that explicitly rather than pretending we can.
+            fault = self.path.with_suffix(self.path.suffix + ".PERSIST_FAULT")
             try:
-                fault = self.path.with_suffix(self.path.suffix + ".PERSIST_FAULT")
                 fault.write_text(self._poisoned, encoding="utf-8")
-            except Exception:
-                pass
+            except Exception as marker_err:
+                self._poisoned = (
+                    f"NEITHER_RECORD_NOR_FAULT_MARKER_WRITABLE:"
+                    f"{type(e).__name__}/{type(marker_err).__name__}"
+                )
+                # raise a distinct error so callers know the cross-process
+                # fail-closed latch could not be armed
+                raise RuntimeError(
+                    "PROTECTION_NOT_PERSISTABLE: both the record write and the "
+                    "fault-marker write failed; cross-process fail-closed cannot "
+                    "be guaranteed on this filesystem. Manual recovery required."
+                ) from e
             raise
 
     @contextmanager

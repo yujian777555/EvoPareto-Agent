@@ -21,6 +21,11 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 REQUEST_ID_RE = re.compile(r"^[0-9a-f]{32}$")
 
+# Hard cap on the structured scoring payload. Exceeding it is a FAILURE,
+# never a silent truncation.
+MAX_STRUCTURED_RESULT_CHARS = 200_000
+MAX_DIAG_EXCERPT_CHARS = 800
+
 MAX_REQUEST_BYTES = 256 * 1024
 MAX_PROMPT_CHARS = 32_000
 MAX_PENDING_REQUESTS = 64
@@ -452,7 +457,7 @@ def run_workflow_code_isolated(
             "python", "runner.py",
         ]
         try:
-            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 15)
+            proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout + 15)
         except subprocess.TimeoutExpired:
             if server:
                 server.stop()
@@ -465,16 +470,86 @@ def run_workflow_code_isolated(
             if server:
                 server.stop()
 
+        # ---- Task A: parse the FULL stdout before any excerpting ----
+        full_stdout = proc.stdout or ""
+        full_stderr = proc.stderr or ""
+        if len(full_stdout) > MAX_STRUCTURED_RESULT_CHARS:
+            return {
+                "ok": False,
+                "error": "STRUCTURED_RESULT_TOO_LARGE",
+                "returncode": proc.returncode,
+                "task_id": task_id,
+                "answer_text": None,
+                "answer_len": len(full_stdout),
+                "answer_sha256": None,
+                "cost_meta": None,
+                "out_kind": None,
+                "stdout_excerpt": full_stdout[-MAX_DIAG_EXCERPT_CHARS:],
+                "stderr_excerpt": full_stderr[-MAX_DIAG_EXCERPT_CHARS:],
+                "question_len": len(problem),
+                "ipc_processed": getattr(server, "processed", []) if server else [],
+                "security_events": getattr(server, "security_events", []) if server else [],
+            }
+
+        structured = None
+        parse_status = "NO_JSON_FOUND"
+        # the runner prints one JSON object; find the first '{' and parse from there
+        json_start = full_stdout.find("{")
+        if json_start >= 0:
+            try:
+                structured = json.loads(full_stdout[json_start:])
+                parse_status = "PARSED"
+            except Exception as e:
+                structured = None
+                parse_status = f"JSON_PARSE_FAILED:{type(e).__name__}"
+
+        if structured is None:
+            # JSON parse failure must REFUSE scoring, not fall back to log scraping
+            return {
+                "ok": False,
+                "error": parse_status,
+                "returncode": proc.returncode,
+                "task_id": task_id,
+                "answer_text": None,
+                "answer_len": 0,
+                "answer_sha256": None,
+                "cost_meta": None,
+                "out_kind": None,
+                "stdout_excerpt": full_stdout[-MAX_DIAG_EXCERPT_CHARS:],
+                "stderr_excerpt": full_stderr[-MAX_DIAG_EXCERPT_CHARS:],
+                "question_len": len(problem),
+                "ipc_processed": getattr(server, "processed", []) if server else [],
+                "security_events": getattr(server, "security_events", []) if server else [],
+            }
+
+        answer_text = structured.get("answer_text")
+        answer_len = structured.get("answer_len")
+        if answer_text is None:
+            # legacy field fallback ONLY inside the structured object
+            answer_text = structured.get("out")
+            answer_len = len(answer_text) if answer_text is not None else 0
+
         return {
-            "ok": proc.returncode == 0,
+            "ok": proc.returncode == 0 and answer_text is not None,
             "returncode": proc.returncode,
-            "stdout": proc.stdout[-800:],
-            "stderr": proc.stderr[-800:],
-            "task_id": task_id,
+            # full structured result (never truncated for scoring)
+            "answer_text": answer_text,
+            "answer_len": answer_len if answer_len is not None else (len(answer_text or "")),
+            "answer_sha256": __import__("hashlib").sha256(
+                (answer_text or "").encode("utf-8", errors="replace")
+            ).hexdigest() if answer_text is not None else None,
+            "cost_meta": structured.get("cost_meta"),
+            "out_kind": structured.get("out_kind"),
+            "task_id": structured.get("task_id") or task_id,
+            "task_keys": structured.get("task_keys"),
+            "question_len": structured.get("question_len", len(problem)),
             "gold_answer_host_side": gold_answer,   # trusted scorer only
-            "question_len": len(problem),
+            # independent diagnostics (excerpted; NEVER used for scoring)
+            "stdout_excerpt": full_stdout[-MAX_DIAG_EXCERPT_CHARS:],
+            "stderr_excerpt": full_stderr[-MAX_DIAG_EXCERPT_CHARS:],
             "ipc_processed": getattr(server, "processed", []) if server else [],
             "security_events": getattr(server, "security_events", []) if server else [],
+            "parse_status": parse_status,
         }
 
 

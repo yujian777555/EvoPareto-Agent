@@ -103,4 +103,4 @@ def test_dependency_error_attributed():
         llm=_M(), timeout=20,
     )
     assert res["ok"] is False
-    assert "ModuleNotFoundError" in (res.get("stderr") or "") or "ImportError" in (res.get("stderr") or "")
+    assert "ModuleNotFoundError" in (res.get("stderr_excerpt") or res.get("stderr") or "") or "ImportError" in (res.get("stderr_excerpt") or res.get("stderr") or "")

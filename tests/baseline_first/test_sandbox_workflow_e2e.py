@@ -98,7 +98,7 @@ def test_workflow_network_denied_and_secrets_denied(budget_llm):
     finally:
         os.environ.pop("R2A_HOST_SECRET", None)
     assert res["ok"] is True, res
-    out = res["stdout"]
+    out = res.get("stdout_excerpt") or ""
     assert "should-not-leak" not in out
     assert "OPEN" not in out
     assert "'net': 'OSError'" in out or "'net': 'timeout'" in out.lower() or "OSError" in out
