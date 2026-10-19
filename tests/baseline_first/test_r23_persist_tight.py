@@ -116,7 +116,7 @@ def test_marker_write_failure_reports_protection_not_persistable(tmp_path):
 
 def test_no_conditional_skip_on_core_safety():
     """Core safety invariants must never be optional skips."""
-    src = Path(r"D:/新建文件夹/tests/baseline_first/test_r22_cross_process_persist.py").read_text(encoding="utf-8")
+    src = (ROOT / "tests" / "baseline_first" / "test_r22_cross_process_persist.py").read_text(encoding="utf-8")
     assert "pytest.skip" not in src, "core safety tests must not use conditional skip"
 
 

@@ -8,7 +8,7 @@
   },
   "task_set_sha256": "86cc56115220eaede3be4ada49143210ba636d8d3eaf963bf6613c0f67d391b8",
   "child_graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
-  "scoring_adapter_sha256": "acf9fe5de498fa6aa2cd5c6bf8e45294b1076a5d8ea98bd14d1fb13283ed5bb0",
+  "scoring_adapter_sha256": "90b8d043e9fb30d968928611dccf50404fd2b6d76d3b3a755f28ded6116f50f6",
   "task_mapping": {
     "verified": true,
     "method": "12 ledger rows in execution order == 12 confirmation tasks; each row is parent_ipc with one IPC call; finish_reason=stop, http=200"

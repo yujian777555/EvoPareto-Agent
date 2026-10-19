@@ -19,6 +19,54 @@ CORRECTED = RES / "paired_experiment_results_corrected.json"
 
 EXPECTED_TASK_HASH = "86cc56115220eaede3be4ada49143210ba636d8d3eaf963bf6613c0f67d391b8"
 EXPECTED_CHILD_SHA = "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b"
+EXPECTED_RUN_ID_PREFIX = "parentre-"
+
+# Integrity manifest: SHA-256 of every frozen input. Any change must fail closed.
+# Populated at first run and enforced afterwards.
+INTEGRITY_MANIFEST_NAME = "rescore_input_integrity.json"
+
+
+def compute_input_shas(res_dir: Path) -> dict:
+    shas = {}
+    for rel in (
+        "parentre_ledger_parentre-8aa3d61f.json",
+        "paired_confirmation_set.json",
+        "paired_experiment_results_corrected.json",
+        "parent_reverification_results.json",
+    ):
+        f = res_dir / rel
+        if f.exists():
+            shas[rel] = sha256_text(f.read_text(encoding="utf-8"))
+    return shas
+
+
+def verify_input_integrity(res_dir: Path) -> dict:
+    """Fail-closed: every expected input must exist and match the manifest."""
+    import os
+
+    current = compute_input_shas(res_dir)
+    manifest_path = res_dir / INTEGRITY_MANIFEST_NAME
+    required = {
+        "parentre_ledger_parentre-8aa3d61f.json",
+        "paired_confirmation_set.json",
+        "paired_experiment_results_corrected.json",
+        "parent_reverification_results.json",
+    }
+    missing = sorted(required - set(current))
+    if missing:
+        raise FileNotFoundError(f"MISSING_INPUT_FILES:{missing}")
+    if manifest_path.exists():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        mismatches = {}
+        for rel, sha in manifest.items():
+            if rel in current and current[rel] != sha:
+                mismatches[rel] = {"expected": sha, "actual": current[rel]}
+        if mismatches:
+            raise RuntimeError(f"INPUT_HASH_MISMATCH:{mismatches}")
+    else:
+        # first run: write the manifest (derived, not overwriting any frozen input)
+        manifest_path.write_text(json.dumps(current, indent=2), encoding="utf-8")
+    return current
 
 
 def sha256_text(s: str) -> str:
@@ -48,14 +96,65 @@ def extract_boxed(text: str) -> Optional[str]:
 
 
 def main() -> int:
-    ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
-    conf = json.loads(CONF.read_text(encoding="utf-8"))
-    corrected = json.loads(CORRECTED.read_text(encoding="utf-8"))
+    # ---- fail-closed input loading ----
+    for path, label in ((LEDGER, "LEDGER"), (CONF, "CONF"), (CORRECTED, "CORRECTED")):
+        if not path.exists():
+            print(f"MISSING_INPUT:{label}:{path}")
+            return 2
+    try:
+        ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
+        conf = json.loads(CONF.read_text(encoding="utf-8"))
+        corrected = json.loads(CORRECTED.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"INPUT_PARSE_FAILED:{type(e).__name__}:{e}")
+        return 2
 
-    assert conf["task_set_sha256"] == EXPECTED_TASK_HASH
+    # integrity manifest (fail-closed on hash change)
+    try:
+        input_shas = verify_input_integrity(RES)
+    except Exception as e:
+        print(f"INTEGRITY_CHECK_FAILED:{e}")
+        return 2
+
+    # task-set hash: recompute from the ACTUAL task content, not the declared field
+    recomputed_task_hash = sha256_text(json.dumps(
+        [(t["task_id"], t["question"], t["gold_answer"]) for t in conf["tasks"]],
+        sort_keys=True,
+    ))
+    if recomputed_task_hash != EXPECTED_TASK_HASH:
+        print(f"TASK_SET_HASH_MISMATCH:recomputed={recomputed_task_hash} expected={EXPECTED_TASK_HASH}")
+        return 2
+    if conf.get("task_set_sha256") != EXPECTED_TASK_HASH:
+        print(f"TASK_SET_DECLARED_HASH_MISMATCH:{conf.get('task_set_sha256')}")
+        return 2
+
     rows = ledger["rows"]
     tasks = conf["tasks"]
     child_by_id = {r["task_id"]: r for r in corrected.get("PER_TASK", []) if r["role"] == "child"}
+
+    # mandatory parent_reverification_results.json
+    rev_path = RES / "parent_reverification_results.json"
+    if not rev_path.exists():
+        print(f"MISSING_INPUT:parent_reverification_results:{rev_path}")
+        return 2
+    try:
+        rev = json.loads(rev_path.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"REVERIFICATION_PARSE_FAILED:{e}")
+        return 2
+    per_task_rev = rev.get("PER_TASK_PARENT") or rev.get("PER_TASK") or []
+    if len(per_task_rev) != 12:
+        print(f"REVERIFICATION_INCOMPLETE:n={len(per_task_rev)} expected=12")
+        return 2
+    rev_ids = [r.get("task_id") for r in per_task_rev]
+    conf_ids = [t["task_id"] for t in tasks]
+    if rev_ids != conf_ids:
+        print(f"REVERIFICATION_ORDER_MISMATCH:rev={rev_ids} conf={conf_ids}")
+        return 2
+    for r in per_task_rev:
+        if r.get("ipc_processed") != 1:
+            print(f"IPC_COUNT_NOT_ONE:{r.get('task_id')}={r.get('ipc_processed')}")
+            return 2
 
     # ---- Task mapping verification ----
     # Requirements: 12 ledger rows, 12 tasks, sequential order, 1 IPC per task.
@@ -71,9 +170,12 @@ def main() -> int:
     # physical request IDs unique
     pids = [r.get("physical_request_id") for r in rows]
     mapping_ok = mapping_ok and len(set(pids)) == 12
-    # run id consistent
+    # run id: non-empty, consistent, and matching the expected prefix.
+    # (len(set)==1 alone is insufficient: all-empty would also be a singleton.)
     run_ids = {r.get("run_id") for r in rows}
     mapping_ok = mapping_ok and len(run_ids) == 1
+    only_rid = next(iter(run_ids)) if run_ids else None
+    mapping_ok = mapping_ok and bool(only_rid) and str(only_rid).startswith(EXPECTED_RUN_ID_PREFIX)
     # token + SHA fields present
     mapping_ok = mapping_ok and all(
         r.get("usage_prompt_tokens") is not None
@@ -102,6 +204,30 @@ def main() -> int:
     child_ids = [r["task_id"] for r in corrected.get("PER_TASK", []) if r["role"] == "child"]
     mapping_ok = mapping_ok and len(child_ids) == 12 and len(set(child_ids)) == 12
     mapping_ok = mapping_ok and child_ids == [t["task_id"] for t in tasks]
+    # child results must carry complete prediction + correctness evidence
+    for r in corrected.get("PER_TASK", []):
+        if r.get("role") != "child":
+            continue
+        pred = r.get("predicted_rescored") if "predicted_rescored" in r else r.get("predicted")
+        corr = r.get("correct_rescored") if "correct_rescored" in r else r.get("correct")
+        if pred is None or corr is None:
+            print(f"CHILD_RESULT_INCOMPLETE:{r.get('task_id')} pred={pred} correct={corr}")
+            return 2
+        # stored correctness must agree with predicted vs gold
+        gold = r.get("gold_answer") or next(
+            (t["gold_answer"] for t in tasks if t["task_id"] == r.get("task_id")), None
+        )
+        recomputed_correct = str(pred) == str(gold) if pred is not None and gold is not None else None
+        if recomputed_correct is not None and bool(corr) != recomputed_correct:
+            print(f"CHILD_CORRECTNESS_CONFLICT:{r.get('task_id')} stored={corr} recomputed={recomputed_correct}")
+            return 2
+    # child hash cross-check with corrected file metadata
+    if corrected.get("child_graph_sha256") != EXPECTED_CHILD_SHA:
+        print(f"CHILD_SHA_MISMATCH:{corrected.get('child_graph_sha256')}")
+        return 2
+    if corrected.get("task_set_sha256") != EXPECTED_TASK_HASH:
+        print(f"CHILD_TASKSET_HASH_MISMATCH:{corrected.get('task_set_sha256')}")
+        return 2
 
     if not mapping_ok:
         print("MAPPING_UNRESOLVED — refusing to guess task correspondence")

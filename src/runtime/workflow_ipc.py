@@ -25,6 +25,57 @@ REQUEST_ID_RE = re.compile(r"^[0-9a-f]{32}$")
 # never a silent truncation.
 MAX_STRUCTURED_RESULT_CHARS = 200_000
 MAX_DIAG_EXCERPT_CHARS = 800
+MAX_PIPE_BYTES = 4_000_000
+
+
+def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES):
+    import subprocess as _sp
+    import threading as _th
+    proc = _sp.Popen(cmd, stdout=_sp.PIPE, stderr=_sp.PIPE, stdin=_sp.DEVNULL)
+    out_buf = bytearray()
+    err_buf = bytearray()
+    overflow = {"out": False, "err": False}
+
+    def _drain(fh, buf, key):
+        try:
+            while True:
+                chunk = fh.read(65536)
+                if not chunk:
+                    break
+                if isinstance(chunk, str):
+                    chunk = chunk.encode("utf-8", errors="replace")
+                if len(buf) + len(chunk) > max_bytes:
+                    buf.extend(chunk[: max_bytes - len(buf)])
+                    overflow[key] = True
+                    try:
+                        proc.kill()
+                    except Exception:
+                        pass
+                    break
+                buf.extend(chunk)
+        except Exception:
+            pass
+
+    t_out = _th.Thread(target=_drain, args=(proc.stdout, out_buf, "out"), daemon=True)
+    t_err = _th.Thread(target=_drain, args=(proc.stderr, err_buf, "err"), daemon=True)
+    t_out.start()
+    t_err.start()
+    try:
+        proc.wait(timeout=timeout)
+    except Exception:
+        try:
+            proc.kill()
+        except Exception:
+            pass
+        try:
+            proc.wait(timeout=5)
+        except Exception:
+            pass
+        overflow["timeout"] = True
+    t_out.join(timeout=5)
+    t_err.join(timeout=5)
+    return proc, bytes(out_buf), bytes(err_buf), overflow
+
 
 MAX_REQUEST_BYTES = 256 * 1024
 MAX_PROMPT_CHARS = 32_000
@@ -457,7 +508,7 @@ def run_workflow_code_isolated(
             "python", "runner.py",
         ]
         try:
-            proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout + 15)
+            proc, out_bytes, err_bytes, overflow = _run_bounded(cmd, timeout=timeout + 15)
         except subprocess.TimeoutExpired:
             if server:
                 server.stop()
@@ -471,8 +522,21 @@ def run_workflow_code_isolated(
                 server.stop()
 
         # ---- Task A: parse the FULL stdout before any excerpting ----
-        full_stdout = proc.stdout or ""
-        full_stderr = proc.stderr or ""
+        full_stdout = out_bytes.decode("utf-8", errors="replace")
+        full_stderr = err_bytes.decode("utf-8", errors="replace")
+        if overflow.get("out") or overflow.get("err") or overflow.get("timeout"):
+            return {
+                "ok": False,
+                "error": "PIPE_OVERFLOW",
+                "returncode": proc.returncode if proc.returncode is not None else -1,
+                "task_id": task_id,
+                "answer_text": None, "answer_len": 0, "answer_sha256": None,
+                "cost_meta": None, "out_kind": None,
+                "stdout_excerpt": full_stdout[-MAX_DIAG_EXCERPT_CHARS:],
+                "stderr_excerpt": full_stderr[-MAX_DIAG_EXCERPT_CHARS:],
+                "question_len": len(problem),
+                "ipc_processed": [], "security_events": [],
+            }
         if len(full_stdout) > MAX_STRUCTURED_RESULT_CHARS:
             return {
                 "ok": False,
