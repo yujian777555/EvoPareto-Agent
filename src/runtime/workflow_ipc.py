@@ -28,10 +28,56 @@ MAX_DIAG_EXCERPT_CHARS = 800
 MAX_PIPE_BYTES = 4_000_000
 
 
-def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES):
+def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
+    """Bounded pipe reads + RELIABLE container cleanup via --cidfile."""
     import subprocess as _sp
     import threading as _th
-    proc = _sp.Popen(cmd, stdout=_sp.PIPE, stderr=_sp.PIPE, stdin=_sp.DEVNULL)
+    import tempfile as _tf
+    import os as _os
+
+    fd, cidfile = _tf.mkstemp(prefix="cid_", suffix=".txt")
+    _os.close(fd)
+    _os.unlink(cidfile)
+    full_cmd = list(cmd)
+    if full_cmd and full_cmd[0] == "docker":
+        full_cmd = ["docker", "run", "--cidfile", cidfile] + full_cmd[2:]
+    else:
+        full_cmd = ["docker", "run", "--cidfile", cidfile] + full_cmd[1:]
+
+    cleanup_status = {"container_id": None, "cleaned": False, "error": None}
+
+    def _cleanup():
+        cid = cleanup_status["container_id"]
+        try:
+            if cidfile and Path(cidfile).exists():
+                cid = Path(cidfile).read_text().strip() or cid
+        except Exception:
+            pass
+        cleanup_status["container_id"] = cid
+        if not cid:
+            cleanup_status["error"] = "NO_CONTAINER_ID"
+            return
+        try:
+            r = _sp.run(["docker", "rm", "-f", cid], capture_output=True, text=True,
+                         encoding="utf-8", errors="replace", timeout=15)
+            cleanup_status["cleaned"] = r.returncode == 0
+            if r.returncode != 0:
+                cleanup_status["error"] = f"DOCKER_RM_FAILED:{r.returncode}"
+        except Exception as e:
+            cleanup_status["error"] = f"CLEANUP_EXCEPTION:{type(e).__name__}"
+        finally:
+            try:
+                if cidfile and Path(cidfile).exists():
+                    Path(cidfile).unlink()
+            except Exception:
+                pass
+        if cleanup_fn:
+            try:
+                cleanup_fn()
+            except Exception:
+                pass
+
+    proc = _sp.Popen(full_cmd, stdout=_sp.PIPE, stderr=_sp.PIPE, stdin=_sp.DEVNULL)
     out_buf = bytearray()
     err_buf = bytearray()
     overflow = {"out": False, "err": False}
@@ -74,7 +120,8 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES):
         overflow["timeout"] = True
     t_out.join(timeout=5)
     t_err.join(timeout=5)
-    return proc, bytes(out_buf), bytes(err_buf), overflow
+    _cleanup()
+    return proc, bytes(out_buf), bytes(err_buf), overflow, cleanup_status
 
 
 MAX_REQUEST_BYTES = 256 * 1024
@@ -508,7 +555,7 @@ def run_workflow_code_isolated(
             "python", "runner.py",
         ]
         try:
-            proc, out_bytes, err_bytes, overflow = _run_bounded(cmd, timeout=timeout + 15)
+            proc, out_bytes, err_bytes, overflow, cleanup_status = _run_bounded(cmd, timeout=timeout + 15)
         except subprocess.TimeoutExpired:
             if server:
                 server.stop()
@@ -614,6 +661,7 @@ def run_workflow_code_isolated(
             "ipc_processed": getattr(server, "processed", []) if server else [],
             "security_events": getattr(server, "security_events", []) if server else [],
             "parse_status": parse_status,
+            "docker_cleanup": cleanup_status,
         }
 
 

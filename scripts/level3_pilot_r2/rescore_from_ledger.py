@@ -19,53 +19,77 @@ CORRECTED = RES / "paired_experiment_results_corrected.json"
 
 EXPECTED_TASK_HASH = "86cc56115220eaede3be4ada49143210ba636d8d3eaf963bf6613c0f67d391b8"
 EXPECTED_CHILD_SHA = "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b"
-EXPECTED_RUN_ID_PREFIX = "parentre-"
+EXPECTED_RUN_ID = "parentre-8aa3d61f"
 
 # Integrity manifest: SHA-256 of every frozen input. Any change must fail closed.
 # Populated at first run and enforced afterwards.
 INTEGRITY_MANIFEST_NAME = "rescore_input_integrity.json"
 
 
+REQUIRED_INPUTS = (
+    "parentre_ledger_parentre-8aa3d61f.json",
+    "paired_confirmation_set.json",
+    "paired_experiment_results_corrected.json",
+    "parent_reverification_results.json",
+)
+
+
+def byte_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def compute_input_shas(res_dir: Path) -> dict:
     shas = {}
-    for rel in (
-        "parentre_ledger_parentre-8aa3d61f.json",
-        "paired_confirmation_set.json",
-        "paired_experiment_results_corrected.json",
-        "parent_reverification_results.json",
-    ):
+    for rel in REQUIRED_INPUTS:
         f = res_dir / rel
         if f.exists():
-            shas[rel] = sha256_text(f.read_text(encoding="utf-8"))
+            shas[rel] = byte_sha256(f)
     return shas
 
 
-def verify_input_integrity(res_dir: Path) -> dict:
-    """Fail-closed: every expected input must exist and match the manifest."""
-    import os
-
-    current = compute_input_shas(res_dir)
+def init_integrity_manifest(res_dir: Path) -> dict:
+    """EXPLICIT one-time manifest creation. Not called by normal rescore."""
     manifest_path = res_dir / INTEGRITY_MANIFEST_NAME
-    required = {
-        "parentre_ledger_parentre-8aa3d61f.json",
-        "paired_confirmation_set.json",
-        "paired_experiment_results_corrected.json",
-        "parent_reverification_results.json",
-    }
-    missing = sorted(required - set(current))
+    if manifest_path.exists():
+        raise RuntimeError(f"MANIFEST_ALREADY_EXISTS:{manifest_path} — refusing to reset")
+    current = compute_input_shas(res_dir)
+    missing = sorted(set(REQUIRED_INPUTS) - set(current))
     if missing:
         raise FileNotFoundError(f"MISSING_INPUT_FILES:{missing}")
-    if manifest_path.exists():
+    manifest_path.write_text(json.dumps(current, indent=2), encoding="utf-8")
+    return current
+
+
+def verify_input_integrity(res_dir: Path) -> dict:
+    current = compute_input_shas(res_dir)
+    missing_inputs = sorted(set(REQUIRED_INPUTS) - set(current))
+    if missing_inputs:
+        raise FileNotFoundError(f"MISSING_INPUT_FILES:{missing_inputs}")
+    manifest_path = res_dir / INTEGRITY_MANIFEST_NAME
+    if not manifest_path.exists():
+        raise FileNotFoundError(
+            f"INTEGRITY_MANIFEST_MISSING:{manifest_path} — run init_integrity_manifest() explicitly"
+        )
+    try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        mismatches = {}
-        for rel, sha in manifest.items():
-            if rel in current and current[rel] != sha:
-                mismatches[rel] = {"expected": sha, "actual": current[rel]}
-        if mismatches:
-            raise RuntimeError(f"INPUT_HASH_MISMATCH:{mismatches}")
-    else:
-        # first run: write the manifest (derived, not overwriting any frozen input)
-        manifest_path.write_text(json.dumps(current, indent=2), encoding="utf-8")
+    except Exception as e:
+        raise RuntimeError(f"INTEGRITY_MANIFEST_UNPARSEABLE:{e}") from e
+    if not isinstance(manifest, dict) or not manifest:
+        raise RuntimeError("INTEGRITY_MANIFEST_EMPTY")
+    manifest_keys = set(manifest)
+    required_keys = set(REQUIRED_INPUTS)
+    missing_entries = sorted(required_keys - manifest_keys)
+    extra_entries = sorted(manifest_keys - required_keys)
+    if missing_entries:
+        raise RuntimeError(f"MANIFEST_MISSING_ENTRIES:{missing_entries}")
+    if extra_entries:
+        raise RuntimeError(f"MANIFEST_UNAUTHORIZED_ENTRIES:{extra_entries}")
+    mismatches = {}
+    for rel in REQUIRED_INPUTS:
+        if current.get(rel) != manifest[rel]:
+            mismatches[rel] = {"expected": manifest[rel], "actual": current.get(rel)}
+    if mismatches:
+        raise RuntimeError(f"INPUT_HASH_MISMATCH:{mismatches}")
     return current
 
 
@@ -155,6 +179,13 @@ def main() -> int:
         if r.get("ipc_processed") != 1:
             print(f"IPC_COUNT_NOT_ONE:{r.get('task_id')}={r.get('ipc_processed')}")
             return 2
+        rev_rid = r.get("run_id")
+        if rev_rid is not None and rev_rid != EXPECTED_RUN_ID:
+            print(f"REVERIFICATION_RUN_ID_MISMATCH:{r.get('task_id')}={rev_rid}")
+            return 2
+    if rev.get("task_set_sha256") and rev.get("task_set_sha256") != EXPECTED_TASK_HASH:
+        print(f"REVERIFICATION_TASKSET_HASH_MISMATCH:{rev.get('task_set_sha256')}")
+        return 2
 
     # ---- Task mapping verification ----
     # Requirements: 12 ledger rows, 12 tasks, sequential order, 1 IPC per task.
@@ -175,7 +206,8 @@ def main() -> int:
     run_ids = {r.get("run_id") for r in rows}
     mapping_ok = mapping_ok and len(run_ids) == 1
     only_rid = next(iter(run_ids)) if run_ids else None
-    mapping_ok = mapping_ok and bool(only_rid) and str(only_rid).startswith(EXPECTED_RUN_ID_PREFIX)
+    mapping_ok = mapping_ok and (only_rid == EXPECTED_RUN_ID)
+    mapping_ok = mapping_ok and all(r.get("run_id") == EXPECTED_RUN_ID for r in rows)
     # token + SHA fields present
     mapping_ok = mapping_ok and all(
         r.get("usage_prompt_tokens") is not None

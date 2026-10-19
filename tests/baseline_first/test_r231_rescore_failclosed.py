@@ -47,6 +47,18 @@ def _run_rescore(res_dir: Path, script: Path | None = None):
     return r
 
 
+
+def _reinit_manifest(res_dir: Path):
+    """Re-init the manifest AFTER tampering so downstream checks are exercised."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("rs", RESCORE)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    (res_dir / "rescore_input_integrity.json").unlink(missing_ok=True)
+    mod.init_integrity_manifest(res_dir)
+
+
 def test_valid_inputs_reproduce_frozen_stats(tmp_path):
     d = _copy_inputs(tmp_path)
     r = _run_rescore(d)
@@ -83,8 +95,7 @@ def test_tampered_task_content_with_old_hash_fails(tmp_path):
     data["tasks"][0]["question"] = "TAMPERED QUESTION CONTENT"
     # keep the OLD declared hash
     p.write_text(json.dumps(data), encoding="utf-8")
-    # also drop the integrity manifest so the hash check is what catches it
-    (d / "rescore_input_integrity.json").unlink(missing_ok=True)
+    _reinit_manifest(d)
     r = _run_rescore(d)
     assert r.returncode != 0
     assert "TASK_SET_HASH_MISMATCH" in (r.stdout or "")
@@ -100,7 +111,7 @@ def test_missing_child_prediction_fails(tmp_path):
             r.pop("predicted", None)
             break
     p.write_text(json.dumps(data), encoding="utf-8")
-    (d / "rescore_input_integrity.json").unlink(missing_ok=True)
+    _reinit_manifest(d)
     r = _run_rescore(d)
     assert r.returncode != 0
     assert "CHILD_RESULT_INCOMPLETE" in (r.stdout or "")
@@ -113,10 +124,9 @@ def test_all_empty_run_ids_fail(tmp_path):
     for row in data["rows"]:
         row["run_id"] = ""
     p.write_text(json.dumps(data), encoding="utf-8")
-    (d / "rescore_input_integrity.json").unlink(missing_ok=True)
+    _reinit_manifest(d)
     r = _run_rescore(d)
     assert r.returncode != 0
-    # empty run-ids must NOT pass the singleton-set check
     assert "MAPPING_UNRESOLVED" in (r.stdout or "") or "RUN_ID" in (r.stdout or "")
 
 
@@ -126,7 +136,7 @@ def test_duplicate_physical_request_ids_fail(tmp_path):
     data = json.loads(p.read_text(encoding="utf-8"))
     data["rows"][1]["physical_request_id"] = data["rows"][0]["physical_request_id"]
     p.write_text(json.dumps(data), encoding="utf-8")
-    (d / "rescore_input_integrity.json").unlink(missing_ok=True)
+    _reinit_manifest(d)
     r = _run_rescore(d)
     assert r.returncode != 0
 
@@ -142,7 +152,7 @@ def test_duplicate_task_ids_fail(tmp_path):
     if per and len(per) >= 2:
         per[0], per[1] = per[1], per[0]  # wrong order
         p2.write_text(json.dumps(rev), encoding="utf-8")
-        (d / "rescore_input_integrity.json").unlink(missing_ok=True)
+        _reinit_manifest(d)
         r = _run_rescore(d)
         assert r.returncode != 0
         assert "ORDER_MISMATCH" in (r.stdout or "") or "MAPPING_UNRESOLVED" in (r.stdout or "")
@@ -175,7 +185,7 @@ def test_correctness_conflict_detected(tmp_path):
                 r["correct"] = not bool(r.get("correct"))
             break
     p.write_text(json.dumps(data), encoding="utf-8")
-    (d / "rescore_input_integrity.json").unlink(missing_ok=True)
+    _reinit_manifest(d)
     r = _run_rescore(d)
     assert r.returncode != 0
     assert "CONFLICT" in (r.stdout or "") or "HASH_MISMATCH" in (r.stdout or "")
