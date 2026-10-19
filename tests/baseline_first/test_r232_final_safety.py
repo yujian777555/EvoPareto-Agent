@@ -145,12 +145,36 @@ def _assert_cleanup_recorded(res, label):
     return dc
 
 
+class DockerCheckError(RuntimeError):
+    pass
+
+
+def _docker_container_state(cid: str) -> str:
+    """Return 'gone' | 'running' | 'stopped'. Raise on check failure."""
+    try:
+        r = subprocess.run(
+            ["docker", "inspect", "-f", "{{.State.Running}}", cid],
+            capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15,
+        )
+    except Exception as e:
+        raise DockerCheckError(f"INSPECT_EXCEPTION:{type(e).__name__}") from e
+    out = (r.stdout or "") + (r.stderr or "")
+    if r.returncode == 0:
+        return "running" if "true" in out.lower() else "stopped"
+    # non-zero: distinguish "no such container" from other failures
+    if "no such container" in out.lower() or "no such object" in out.lower():
+        return "gone"
+    if "cannot connect" in out.lower() or "is the docker daemon running" in out.lower():
+        raise DockerCheckError(f"DAEMON_UNAVAILABLE:{out[:120]}")
+    if "permission denied" in out.lower():
+        raise DockerCheckError(f"PERMISSION_DENIED:{out[:120]}")
+    raise DockerCheckError(f"INSPECT_FAILED:{r.returncode}:{out[:120]}")
+
+
 def _docker_container_gone(cid: str) -> bool:
-    r = subprocess.run(
-        ["docker", "inspect", "-f", "{{.State.Running}}", cid],
-        capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15,
-    )
-    return r.returncode != 0 or "false" in (r.stdout or "").lower()
+    """True only when the container is verifiably gone (not running, not stopped)."""
+    state = _docker_container_state(cid)
+    return state == "gone"
 
 
 def test_normal_execution_container_exits():
@@ -289,3 +313,53 @@ def test_no_such_container_treated_as_cleaned():
         assert dc.get("error") == "ALREADY_REMOVED"
     finally:
         _sp.run = real_run
+
+
+def test_container_state_distinguishes_gone_running_stopped():
+    from src.runtime.workflow_ipc import run_workflow_code_isolated
+
+    g = ("class Workflow:\n    def __init__(self, llm=None):\n        self.llm = llm\n"
+         "    async def __call__(self, problem):\n        return 'ok'\n")
+    res = run_workflow_code_isolated(g, problem="q", task_id="t", gold_answer=None,
+                                     llm=FakeLLM(), timeout=25)
+    dc = res.get("docker_cleanup") or {}
+    cid = dc.get("container_id")
+    if cid and dc.get("container_created"):
+        state = _docker_container_state(cid)
+        assert state == "gone", f"container should be gone after cleanup, got {state}"
+
+
+def test_docker_check_failure_raises():
+    import subprocess as _sp
+
+    real = _sp.run
+
+    def flaky(cmd, **kw):
+        class R:
+            returncode = 1
+            stdout = ""
+            stderr = "Error response from daemon: Cannot connect to the Docker daemon"
+        return R()
+
+    _sp.run = flaky
+    try:
+        with pytest.raises(DockerCheckError, match="DAEMON_UNAVAILABLE"):
+            _docker_container_state("abc123")
+    finally:
+        _sp.run = real
+
+
+def test_docker_inspect_timeout_raises():
+    import subprocess as _sp
+
+    real = _sp.run
+
+    def flaky(cmd, **kw):
+        raise TimeoutError("inspect timed out")
+
+    _sp.run = flaky
+    try:
+        with pytest.raises(DockerCheckError, match="INSPECT_EXCEPTION"):
+            _docker_container_state("abc123")
+    finally:
+        _sp.run = real

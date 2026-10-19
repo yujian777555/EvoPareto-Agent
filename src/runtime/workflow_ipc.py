@@ -63,6 +63,11 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
                     Path(cidfile).unlink()
             except Exception:
                 pass
+            if cleanup_fn:
+                try:
+                    cleanup_fn()
+                except Exception:
+                    pass
             return
         cleanup_status["container_created"] = True
         try:
@@ -92,7 +97,24 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
             except Exception:
                 pass
 
-    proc = _sp.Popen(full_cmd, stdout=_sp.PIPE, stderr=_sp.PIPE, stdin=_sp.DEVNULL)
+    try:
+        proc = _sp.Popen(full_cmd, stdout=_sp.PIPE, stderr=_sp.PIPE, stdin=_sp.DEVNULL)
+    except Exception as e:
+        # startup failure: container never created; clean CID + run cleanup_fn
+        cleanup_status["container_created"] = False
+        cleanup_status["cleaned"] = True
+        cleanup_status["error"] = f"POPEN_FAILED:{type(e).__name__}"
+        try:
+            if cidfile and Path(cidfile).exists():
+                Path(cidfile).unlink()
+        except Exception:
+            pass
+        if cleanup_fn:
+            try:
+                cleanup_fn()
+            except Exception:
+                pass
+        return None, b"", b"", {"out": False, "err": False, "popen_failed": True}, cleanup_status
     out_buf = bytearray()
     err_buf = bytearray()
     overflow = {"out": False, "err": False}

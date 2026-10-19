@@ -175,8 +175,11 @@ def main() -> int:
     if rev.get("task_set_sha256") != EXPECTED_TASK_HASH:
         print(f"REVERIFICATION_TASKSET_HASH_MISMATCH:{rev.get('task_set_sha256')}")
         return 2
-    # top-level child_graph_sha256 must exist and match (if present)
-    if "child_graph_sha256" in rev and rev.get("child_graph_sha256") != EXPECTED_CHILD_SHA:
+    # top-level child_graph_sha256 is MANDATORY and must match
+    if "child_graph_sha256" not in rev:
+        print("REVERIFICATION_CHILD_SHA_MISSING")
+        return 2
+    if rev.get("child_graph_sha256") != EXPECTED_CHILD_SHA:
         print(f"REVERIFICATION_CHILD_SHA_MISMATCH:{rev.get('child_graph_sha256')}")
         return 2
     per_task_rev = rev.get("PER_TASK_PARENT") or rev.get("PER_TASK") or []
