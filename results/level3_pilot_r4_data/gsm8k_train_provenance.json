@@ -1,0 +1,34 @@
+{
+  "answer_marker": "#### <gold>",
+  "bytes": 4166206,
+  "dataset": "GSM8K official train split",
+  "downloaded_for": "LEVEL3-PILOT-R4-DESIGN-REVIEW-FIX-R2 (zero model calls)",
+  "evidence_class": "PUBLIC_DATA_DOWNLOAD_VERIFIED_OFFLINE",
+  "jsonl_schema": {
+    "required_fields": [
+      "question",
+      "answer"
+    ]
+  },
+  "local_file": "results/level3_pilot_r4_data/gsm8k_train_official.jsonl",
+  "malformed_records": 0,
+  "notes": [
+    "Train split is for R4 generation/development only. Never for confirmation scoring claims.",
+    "Confirmation remains the official test split freeze v1 (PROPOSED)."
+  ],
+  "record_count": 7473,
+  "record_count_expected": 7473,
+  "record_count_match": true,
+  "records_with_####_marker": 7473,
+  "retrieved_at_utc": "2026-10-20T10:14:22.495494Z",
+  "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+  "source_path": "grade_school_math/data/train.jsonl",
+  "source_repo": "https://github.com/openai/grade-school-math",
+  "source_url": "https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/train.jsonl",
+  "verification": {
+    "filename_alone_sufficient": false,
+    "recomputed_from_local_bytes": true,
+    "test_split_used_as_substitute": false,
+    "used_for_model_evaluation_this_round": false
+  }
+}

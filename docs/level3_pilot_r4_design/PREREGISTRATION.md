@@ -136,16 +136,29 @@ The contrast E−D is therefore: *does mutating from a selected ancestor beat mu
 
 **This is NOT a claim of recursive self-improvement.** Two generations is a bounded lineage ablation. Open-ended RSI is not tested and must not be reported as achieved.
 
-### Mutation implementation feasibility (honest status)
+### Mutation implementation feasibility (R4-R2 status)
 
-| Item | Status |
-|---|---|
-| Clone-and-mutate operators exist | YES — e.g. `src/research/fceol/mutation_operators.py` (`g.clone()` then edit), `src/evolution/operators.py` (`genome.replace(...)`) |
-| Generational parent→child expressible | **YES in protocol** |
-| Adapter from frozen AFlow `parent_graph.py` into those genome types | **NOT YET IMPLEMENTED** |
-| If adapter cannot be built | Group E is marked **`BLOCKED_IMPLEMENTATION`**, and must **not** be replaced by Group D relabelled as "evolution" |
+| Item | Status | Evidence |
+|---|---|---|
+| `WorkflowGenome` (fceol) usable for R4? | **NO** | Different execution engine (`fceol.offline_evaluator`), no Docker/DeepSeek IPC, no AFlow `Custom` |
+| `AgentGenome` usable for R4? | **NO** | Categorical agent config, not an executable workflow |
+| Frozen Parent adapter | **IMPLEMENTED** | `src/research/r4_workflow_program.py` — `load_frozen_parent` with SHA gates; unmutated program **identity-compiles** to frozen `parent_graph.py` |
+| Mutations | `M_SET_INSTRUCTION`, `M_ADD_SAMPLING`, `M_ADD_CHECK_STAGE`, `M_SINGLE_EDIT` | clone-and-edit, syntactic, no model calls |
+| Group D lineage | **IMPLEMENTED** | `generate_flat_candidates` — all 4 from frozen Parent; violation raises `LINEAGE_FLAT_VIOLATION` |
+| Group E lineage | **IMPLEMENTED** | `generate_two_generation_candidates` — gen2 must descend from gen-1 winner |
+| Offline tests | 14 adapter tests pass | `tests/baseline_first/test_r4_parent_adapter.py` (SIMULATED mock pipeline only) |
+| Real Docker/DeepSeek candidate eval | **NOT RUN** | requires authorized API budget (see `RQ3_MULTI_SEED_DESIGN.md`) |
+| Algorithm-level claim (RQ3) | **NOT SUPPORTED at R=1** | see multi-seed design: `TOTAL_REQUESTS(R)=240+240R` |
 
-Until the adapter exists and is hashed into the freeze file, Group E remains *specified but unimplemented*. No run may claim "evolution" without the lineage above.
+**Honest label for D/E today:** representation + lineage **READY**; real-model candidate scoring **BLOCKED on budget/authorization**, not on missing adapter code.  
+**Recursive self-improvement:** still **NOT** claimed. Two-generation lineage ≠ open-ended RSI.
+
+### Search-seed design (RQ3)
+
+Plan P (R=1) is **exploratory candidate comparison only**.  
+Plan C (R=5 or 10) is required for algorithm-level claims.  
+Full budget and statistical plan: `RQ3_MULTI_SEED_DESIGN.md`.  
+Formula: `TOTAL_REQUESTS = 240 + 240*R`.
 
 ### Shared frozen parameters (D/E)
 

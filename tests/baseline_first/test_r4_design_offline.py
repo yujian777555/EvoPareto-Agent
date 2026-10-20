@@ -486,3 +486,51 @@ def test_freeze_v1_hash_matches_module_and_v0_preserved():
     assert v0["n_tasks"] == v1["n_tasks"] == 40
     # membership unchanged
     assert [t["task_id"] for t in v0["tasks"]] == [t["task_id"] for t in v1["tasks"]]
+
+
+# ---------------------------------------------------------------------------
+# R2: explicit expected_count gate (Task D)
+# ---------------------------------------------------------------------------
+
+def test_verify_task_set_expected_count_gate():
+    tasks = _sample_tasks()
+    h = canonical_task_set_sha256(tasks)
+    # correct count passes
+    assert verify_task_set(tasks, h, h, expected_count=3) == ""
+    # wrong count rejected BEFORE hash comparison
+    err = verify_task_set(tasks[:2], h, h, expected_count=3)
+    assert err.startswith("TASKSET_COUNT_MISMATCH")
+    # extra task also rejected
+    more = list(tasks) + [{"task_id": "gsm8k-official-test-0004", "question": "Q four?", "gold_answer": "4"}]
+    err = verify_task_set(more, canonical_task_set_sha256(more), canonical_task_set_sha256(more), expected_count=3)
+    assert err.startswith("TASKSET_COUNT_MISMATCH")
+    # legacy callers without expected_count still work
+    assert verify_task_set(tasks, h, h) == ""
+    # bad expected_count types rejected
+    assert verify_task_set(tasks, h, h, expected_count=True) == "TASKSET_EXPECTED_COUNT_NOT_INT"
+    assert verify_task_set(tasks, h, h, expected_count=-1) == "TASKSET_EXPECTED_COUNT_NEGATIVE"
+
+
+def test_verify_task_set_rejects_missing_and_duplicate_with_count():
+    tasks = _sample_tasks()
+    h = canonical_task_set_sha256(tasks)
+    bad = [dict(tasks[0]), dict(tasks[0])]
+    assert verify_task_set(bad, h, h, expected_count=3) == "TASKSET_DUPLICATE_ID"
+    empty_ok = verify_task_set([], "", "0" * 64, expected_count=0)
+    # empty is rejected as TASKSET_EMPTY before count
+    assert empty_ok == "TASKSET_EMPTY"
+
+
+def test_v1_freeze_passes_count_gate():
+    import json as _json
+    path = ROOT / "docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json"
+    if not path.exists():
+        pytest.skip("v1 freeze absent")
+    v1 = _json.loads(path.read_text(encoding="utf-8"))
+    h = canonical_task_set_sha256(v1["tasks"])
+    assert verify_task_set(
+        v1["tasks"], v1["task_set_sha256"],
+        "1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4",
+        expected_count=40,
+    ) == ""
+    assert h == v1["task_set_sha256"]

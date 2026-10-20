@@ -31,7 +31,14 @@ For each of the 40 tasks:
    - **DECLARED_ONLY**: index reserved in protocol/manifest but question never executed
 4. Do **not** infer non-use from file names alone.
 
-Raw machine output: `docs/level3_pilot_r4_design/confirmation_contamination_audit_raw.json` (from the first pass) plus the per-artifact tables below.
+Raw machine output (first pass): `confirmation_contamination_audit_raw.json`.
+
+**Reproducible audit program (R4-R2):** `scripts/level3_pilot_r4/audit_confirmation_contamination.py`  
+Rerun output: `confirmation_contamination_audit_rerun.json` (deterministic, `sort_keys=True`).  
+It records the scan roots/suffixes/exclusions, SHA-256 of every scanned file, per-hit classification, and R2 prior-scored official indices `[1, 2]`.  
+Regression tests: `tests/baseline_first/test_r4_confirmation_audit.py` (6 tests, including a SIMULATED injection that flags a historically scored official question as `CONTAMINATED_SCORED`).
+
+Rerun summary: `n_data_only=40`, `n_scored_or_selected=0`, `n_declared_only=0`, `independence=CONFIRMATION_INDEPENDENCE_VERIFIED_BY_ARTIFACT_SEARCH`, `scan_file_count=1035`.
 
 ---
 

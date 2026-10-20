@@ -367,12 +367,18 @@ def verify_task_set(
     tasks: Sequence[Mapping[str, Any]],
     declared_hash: Optional[str],
     expected_hash: str,
+    *,
+    expected_count: Optional[int] = None,
 ) -> str:
     """Gate-style verification. Returns '' on success, else an error code.
 
     Order (mirrors run_paired_35.verify_taskset):
-      FIELD_COMPLETENESS -> ID_UNIQUENESS -> COUNT -> RECOMPUTED_VS_DECLARED
-      -> DECLARED_VS_EXPECTED
+      FIELD_COMPLETENESS -> FIELD_TYPE -> ID_UNIQUENESS -> COUNT
+      -> RECOMPUTED_VS_DECLARED -> DECLARED_VS_EXPECTED
+
+    ``expected_count`` (when not None) is an explicit size gate. A change in
+    task count is therefore rejected even before hash comparison. Passing
+    ``expected_count=None`` restores hash-only checking (legacy callers).
     """
     required = ("task_id", "question", "gold_answer")
     for t in tasks:
@@ -389,6 +395,14 @@ def verify_task_set(
 
     if not tasks:
         return "TASKSET_EMPTY"
+
+    if expected_count is not None:
+        if not isinstance(expected_count, int) or isinstance(expected_count, bool):
+            return "TASKSET_EXPECTED_COUNT_NOT_INT"
+        if expected_count < 0:
+            return "TASKSET_EXPECTED_COUNT_NEGATIVE"
+        if len(tasks) != expected_count:
+            return f"TASKSET_COUNT_MISMATCH:got={len(tasks)} expected={expected_count}"
 
     recomputed = canonical_task_set_sha256(tasks)
     if declared_hash is None or declared_hash == "":

@@ -20,23 +20,23 @@
 | Record schema | question + answer with `####` gold marker | YES |
 | Usable for R4 confirmation freeze | **YES** | subject to Planner acceptance |
 
-### 1.2 Official GSM8K train split — **BLOCKED**
+### 1.2 Official GSM8K train split — **AVAILABLE (R4-R2)**
 
-| Item | Status |
+| Item | Value |
 |---|---|
-| Local `train.jsonl` | **NOT PRESENT** anywhere in the workspace |
-| `src/benchmark/gsm8k_protocol.py` policy | train = generation/selection only; test = evaluation only |
-| Consequence | **Generation-set and development-set freeze cannot be completed** from official train data |
+| Local file | `results/level3_pilot_r4_data/gsm8k_train_official.jsonl` |
+| Source URL | `https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/train.jsonl` |
+| Source repo | `https://github.com/openai/grade-school-math` (`grade_school_math/data/train.jsonl`) |
+| SHA-256 (recomputed from bytes) | `17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465` |
+| Bytes | 4,166,206 |
+| Record count | **7,473 / 7,473** (match) |
+| Records with `####` gold marker | **7,473 / 7,473** |
+| Malformed JSONL rows | **0** |
+| Provenance record | `results/level3_pilot_r4_data/gsm8k_train_provenance.json` |
+| Used for model evaluation this round? | **NO** (zero real model requests) |
+| Test-split substitute? | **NO** |
 
-**Blocker statement (explicit):** R4 groups D and E need a train-split generation/development set so that evolutionary or random selection never sees confirmation labels. The official train file is not available locally and its SHA has not been verified here. **This freeze work is paused for generation/dev sets** until the Planner supplies or authorizes acquisition of official `train.jsonl`, after which its SHA and record count must be verified exactly like the test file.
-
-**Not acceptable workarounds (frozen here as prohibitions):**
-
-1. Treating the R3 35 synthetic questions as official GSM8K. They match 0/35 official records.
-2. Reusing confirmation tasks for selection.
-3. Quietly splitting official **test** into selection+confirmation without a Planner-approved policy deviation recorded in a new preregistration version.
-
-**Allowed alternative (requires Planner decision, default = do not use):** a documented policy deviation where a pre-declared disjoint slice of official test is used for selection and the remainder for confirmation. This weakens the "test is evaluation-only" guarantee and must be labeled as such. Default is to wait for train.
+Generation/development freeze for D/E can now be drawn from this train split under the same hashing rule. A concrete gen/dev freeze file is **not** issued until Planner accepts the search-seed plan (`RQ3_MULTI_SEED_DESIGN.md`) and the sampling seed / sizes (U1–U5).
 
 ### 1.3 Legacy split manifest warning
 
@@ -104,7 +104,7 @@ sha = hashlib.sha256(blob).hexdigest()
 
 1. Field completeness -> 2. ID uniqueness -> 3. ordering / count -> 4. recomputed SHA == declared SHA -> 5. declared SHA == expected SHA embedded in the runner -> 6. only then may credentials / HTTP / budget be touched.
 
-Existing implementation to extend: `verify_taskset()` in `scripts/level3_pilot_r3/run_paired_35.py`, covered by `tests/baseline_first/test_r31r1_hash_gate.py`.
+R4 `verify_task_set()` now also accepts **`expected_count`** (explicit size gate before hash compare). Existing implementation to extend: `verify_taskset()` in `scripts/level3_pilot_r3/run_paired_35.py`, covered by `tests/baseline_first/test_r31r1_hash_gate.py`.
 
 ### 2.5 Immutability after freeze
 
@@ -257,6 +257,6 @@ with `z_{0.975} = 1.96`, `z_{0.80} = 0.84` for alpha=0.05, power=0.80.
 | Confirmation `task_set_sha256` (v1 canonical) | `1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4` |
 | Confirmation `task_set_sha256` (v0 legacy) | `4885c9771a53ad1adc2c0bffaff738e4aed3d0de434f9a39a17cba1fdba6204d` |
 | Official test file SHA | `3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14` |
-| Official train file | **UNAVAILABLE — BLOCKED** |
+| Official train file | **AVAILABLE** `results/level3_pilot_r4_data/gsm8k_train_official.jsonl` SHA `17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465` n=7473 (R4-R2 verified) |
 | New real API requests this round | **0** |
 

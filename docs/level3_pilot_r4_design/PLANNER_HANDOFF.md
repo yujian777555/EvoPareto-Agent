@@ -1,138 +1,124 @@
-# LEVEL3-PILOT-R4 Design Prep / RF — Planner Handoff
+# LEVEL3-PILOT-R4 R2 — Planner Handoff
 
 **From:** Executor  
 **To:** Planner (independent review)  
-**Rounds:**  
-1. `LEVEL3-PILOT-R4-DESIGN-PREP` (commit `766a610`)  
-2. `LEVEL3-PILOT-R4-DESIGN-REVIEW-FIX` (this round)
-
-**Git baseline at RF start:** `766a610d43712332ad9187ac926c03376ce509b6` (HEAD == origin/main)  
-**New real API requests across both rounds:** **0**
+**Round:** `LEVEL3-PILOT-R4-DESIGN-REVIEW-FIX-R2`  
+**Git baseline at start:** `d1056059e73b46225dd4218b98a9948af7627b19`  
+**New real API requests this round:** **0**
 
 ---
 
-## 1. RF acceptance report
+## 1. Acceptance report (task-book section 8)
 
 | # | Item | Finding |
 |---|---|---|
-| 1 | Actual HEAD / origin/main | see section 5 after push |
-| 2 | Modified files | `PREREGISTRATION.md`, `BUDGET_AND_EXECUTION_PLAN.md`, `TASKSET_AND_STATISTICS.md`, `src/research/r4_paired_stats.py`, `tests/baseline_first/test_r4_design_offline.py`, this file |
-| 3 | Test counts (exact, JUnit) | **Targeted** (R4 offline + R3 hash gate + GSM8K + budget + scoring): **126 passed, 0 failed, 0 skipped, RETCODE 0**. **Full suite: 962 passed, 0 failed, 2 skipped (Windows symlink), total 964, RETCODE 0** |
-| 4 | R3 results / ledger / auth unchanged | YES. `git diff 766a610 -- results/` empty; frozen_guard **402** files; auth `physical_attempts=244`, `spent=0.0363972` (read-only); R3 `EXPECTED_TASK_HASH` runner + `test_r31r1_hash_gate.py` **byte-identical** to baseline |
-| 5 | Undetermined prereg parameters | U1–U8 still open (Planner must freeze before any call); U5 redesigned (see below) |
-| 6 | Task-set source | Official test SHA **recomputed**: `3730d312…c39d14`, 1319 records. Official **train** still **BLOCKED** |
-| 7 | Budget estimate method | unchanged unit rates from R3 settled ledger / worst-case precheck; D/E request formula rewritten |
-| 8 | New real API requests | **0** |
-| 9 | Commit / push | section 5 |
-| 10 | Planner decisions needed | **YES** — section 3 |
+| 1 | Start/end SHA & sync | start `d105605…`; end see §6; `HEAD == origin/main`; worktree clean after commit |
+| 2 | File changes | §2 |
+| 3 | D/E implementation status | §3 |
+| 4 | Official train SHA / count | `17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465` / **7,473** |
+| 5 | Reproducible contamination audit | script + rerun + 6 regression tests |
+| 6 | Hash & statistics gate tests | v1 `1771a67c…` reconfirmed; `expected_count` gate added |
+| 7 | P vs C budget & power | `RQ3_MULTI_SEED_DESIGN.md` |
+| 8 | Test counts (exact JUnit) | targeted **149 passed / 0 failed / 0 skipped**; full **985 passed / 0 failed / 2 skipped**, total 987, RETCODE 0 |
+| 9 | R3 results & auth protected | 402 frozen tracked files unchanged; auth `244 / $0.0363972` read-only; R3 `EXPECTED_TASK_HASH` intact |
+| 10 | New real API requests | **0** |
 
 ---
 
-## 2. What RF changed (by task)
+## 2. Files added / modified
 
-### Task A — Group D/E identifiability
+**Modified:** `PREREGISTRATION.md`, `TASKSET_AND_STATISTICS.md`, `BUDGET_AND_EXECUTION_PLAN.md`, `CONFIRMATION_CONTAMINATION_AUDIT.md`, `src/research/r4_paired_stats.py`, `tests/baseline_first/test_r4_design_offline.py`, this file.
 
-| Group | Old (R4 design prep) | **New (R4-RF)** |
-|---|---|---|
-| **D** | "Random Mutation + Fixed Selection", m=4 from Parent | **Random Search**: exactly 4 mutants, **all from frozen Parent**, each scored on shared dev set, pick max dev accuracy, tie → frozen order `cand_d1..d4` |
-| **E** | "(1+λ) single generation, top-μ" | **Two-Generation Evolution**: 2 mutants from Parent → pick gen-1 winner on dev → 2 mutants **from winner** → score **all 4** on same dev set → pick best; tie → `e1a<e1b<e2a<e2b` |
-| Match | unequal / underspecified | **m=4, s=20, n_conf=40, equal HTTP 120 vs 120, same confirmation set, same operator distribution** |
-| Claim | "evolutionary selection" loosely | E−D isolates **lineage only**; **not** recursive self-improvement |
+**Added:**
+* `src/research/r4_workflow_program.py` — Parent adapter / WorkflowProgram
+* `tests/baseline_first/test_r4_parent_adapter.py` (14)
+* `scripts/level3_pilot_r4/audit_confirmation_contamination.py`
+* `tests/baseline_first/test_r4_confirmation_audit.py` (6)
+* `docs/level3_pilot_r4_design/RQ3_MULTI_SEED_DESIGN.md`
+* `docs/level3_pilot_r4_design/confirmation_contamination_audit_rerun.json`
+* `results/level3_pilot_r4_data/gsm8k_train_official.jsonl`
+* `results/level3_pilot_r4_data/gsm8k_train_provenance.json`
 
-**Implementation feasibility (honest):** clone-and-mutate operators exist (`fceol/mutation_operators.py` `g.clone()`, `evolution/operators.py` `genome.replace`). Generational protocol is expressible. **Adapter from frozen AFlow `parent_graph.py` to those genome types is NOT implemented.** Until that adapter is hashed into the freeze file, Group E is `SPECIFIED_NOT_IMPLEMENTED` / would be `BLOCKED_IMPLEMENTATION` at run time. It must **not** be silently replaced by random search.
+---
 
-### Task B — Confirmation contamination
+## 3. D/E parent adaptation — answers to the five questions
 
-Full report: `CONFIRMATION_CONTAMINATION_AUDIT.md` (+ raw JSON).
-
-| Check | Result |
+| Q | Answer |
 |---|---|
-| Official test SHA / 1319 records reverified | YES |
-| 40/40 questions in prior model scoring/selection/debug | **0** |
-| 40/40 only in official source + freeze draft | YES |
-| R2 real official use | indices **1, 2** — **not** in our 40 |
-| R3 | synthetic; index-number collisions 13/27/36 are **different questions** |
-| Index 13 vs `FINAL_TEST_INDICES` 0–19 | `RESERVED_NOT_SCORED` (declaration only) |
-| Verdict | `CONFIRMATION_INDEPENDENCE_VERIFIED_BY_ARTIFACT_SEARCH` |
-| Exclusions applied | **0** (rule frozen: exclude prior-scored official indices; 1,2 already absent) |
+| 1. AFlow Parent contract | `class Workflow` with `async __call__(problem)` → one `operator.Custom(input=problem, instruction="")`; returns `(response, cost)`; executed by `run_workflow_code_isolated` + Docker IPC + host-side gold |
+| 2. WorkflowGenome / AgentGenome | FCEOL node-graph for `offline_evaluator` / categorical agent config. **Neither** can express the R3 Docker-IPC/AFlow contract |
+| 3. Real adapter from frozen Parent? | **YES — new, purpose-built:** `src/research/r4_workflow_program.py`. Not a conversion to WorkflowGenome/AgentGenome (that would change semantics) |
+| 4. Semantics preserved? | **Unmutated program identity-compiles to frozen `parent_graph.py` (LF).** Parent SHA gates enforced at load (`PARENT_GRAPH_BYTE_SHA256` / `PARENT_GRAPH_LF_SHA256`). Mutations intentionally change semantics and are recorded in `operator_history` |
+| 5. Same interface for D and E? | **YES at the program/lineage layer** (`generate_flat_candidates` vs `generate_two_generation_candidates`). Real-model scoring still needs authorized budget |
 
-### Task C — Canonical hash
-
-| Rule | Value |
-|---|---|
-| Sort | by `task_id` ascending |
-| Payload | JSON array of `[task_id, question, gold_answer]` |
-| `json.dumps` | `ensure_ascii=False, separators=(",", ":"), sort_keys=False` |
-| Encoding / digest | UTF-8 / SHA-256 hex |
-| Ref | `src/research/r4_paired_stats.canonical_task_set_sha256` |
-
-| Version | SHA | File |
-|---|---|---|
-| v0 legacy | `4885c9771a53ad1adc2c0bffaff738e4aed3d0de434f9a39a17cba1fdba6204d` | `freeze/confirmation_set_proposed.json` (**preserved**) |
-| **v1 canonical** | `1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4` | `freeze/confirmation_set_v1_proposed.json` |
-
-Membership unchanged; hash change is serialization only. Expected hashes in tests are **documented constants**, not auto-rewritten.
-
-Regression tests cover: stable hash, question change, answer change, task-order independence (sort by id), declared-hash tamper, expected-hash mismatch, missing field, non-str field, duplicate id.
-
-### Task D — Statistics input validation
-
-| Fix | Behavior |
-|---|---|
-| `count_paired` types | only `bool` (optional `allow_int_01=True` for 0/1). **`"false"` / `"true"` / `None` / floats raise `TypeError`** — string `"false"` is never "correct" |
-| Missing results | raise `ValueError` / `TypeError`; never coerced to wrong; never dropped from denominator |
-| Duplicate explicit IDs | `ValueError` |
-| ID set mismatch | `ValueError` |
-| McNemar one-sided direction | pre-declared `direction="comparator_better"|"baseline_better"`; `comparator_better` uses P[X≥b]; sign of (b−c) cannot silently flip the tail |
-| Negative / bool counts | rejected |
+**D and E implementation status:** `REPRESENTATION_AND_LINEAGE_READY` / `REAL_MODEL_EVAL_BLOCKED_ON_AUTHORIZATION`.  
+Not `BLOCKED_IMPLEMENTATION` any more — but **not** claimed as a completed real experiment either.
 
 ---
 
-## 3. Decisions required from Planner
+## 4. Contamination audit (reproducible)
 
-| ID | Decision | Executor recommendation |
-|---|---|---|
-| **D1** | Accept PREREGISTRATION after D/E redesign | Accept as v1; freeze U1–U5 before any call |
-| **D2** | Accept **v1** confirmation freeze (`1771a67c…`) | Accept; keep v0 for audit |
-| **D3** | Unblock official GSM8K **train** for generation/dev | **Required** for D/E |
-| **D4** | Or approve labeled test-split policy deviation | Default **reject** |
-| **D5** | New request authorization | Full A–E = **480** calls; remaining **56**; gap **424** |
-| **D6** | Fund/implement AFlow-Parent→mutable-genome adapter for Group E | Without it, E is `BLOCKED_IMPLEMENTATION` — do not relabel D as E |
-| **D7** | Optional: exclude index 13 (protocol reservation) before accept | Not required for scoring independence; optional hygiene |
+* Script: `scripts/level3_pilot_r4/audit_confirmation_contamination.py` (deterministic).
+* Rerun: 40/40 `DATA_ONLY`, 0 `SCORED_OR_SELECTED`, independence `CONFIRMATION_INDEPENDENCE_VERIFIED_BY_ARTIFACT_SEARCH`.
+* Historical R2 official scored indices: **`[1, 2]`** — not in confirmation set.
+* Scan manifest: 1,035 files with SHA-256 recorded in `confirmation_contamination_audit_rerun.json`.
+* Regression: known scored question injected under `tmp_path` is flagged `CONTAMINATED_SCORED`.
 
 ---
 
-## 4. Budget recap (unchanged totals, clarified structure)
+## 5. RQ3 seed design summary
 
-| Group | Requests | Notes |
-|---|---:|---|
-| A | 40 | 1-shot |
-| B | 120 | k=3 |
-| C | 80 | fixed verify |
-| D | 120 | 4×20 dev + 40 conf |
-| E | 120 | (2×20 + 2×20) dev + 40 conf — **matched with D** |
-| **Total** | **480** | remaining 56 → **gap 424** |
+```
+TOTAL_REQUESTS(R) = 240 + 240 * R
+R=1   480   Plan P  — exploratory SINGLE_SEED_CANDIDATE_COMPARISON_ONLY
+R=5   1440  Plan C  — algorithm-level (moderate/large effects)
+R=10  2640  Plan C  — wider seed CIs
++10% margin → 528 / 1584 / 2904
+```
 
-Cost remains non-binding (~$1–1.5 worst-case vs ~$4.96 left). Token-out high bound risk at 480×800 still noted.
+| Cap | R=1 | R=5 | R=10 |
+|---|---|---|---|
+| requests ≤ 300 | FAIL | FAIL | FAIL |
+| output tokens ≤ 200k | FAIL (high) | FAIL | FAIL |
+| cost ≤ $5 | PASS | PASS | FAIL (≈$7.92) |
+
+**Analysis unit for algorithm claims = search seed** (not 40×R tasks).  
+Power table and dependence rules in `RQ3_MULTI_SEED_DESIGN.md`.
 
 ---
 
-## 5. Execution record
+## 6. Execution record
 
 | Field | Value |
 |---|---|
 | New real API / HTTP model requests | **0** |
-| Authorization | read-only; 244 attempts; $0.0363972 spent; not blocked |
-| Frozen results | 402 files, 0 modified vs `766a610` |
-| R3 hash gate | not modified, not bypassed |
-| v0 freeze file | unchanged |
-| Silent mock / auto-hash rebuild | none |
-| Full suite | **962 passed / 0 failed / 2 skipped / RETCODE 0** |
-| Targeted suite | **126 passed / 0 failed / 0 skipped / RETCODE 0** |
+| Authorization | read-only; 244 attempts; $0.0363972; not blocked |
+| Frozen results | 402 tracked, 0 modified |
+| New data file | `gsm8k_train_official.jsonl` only (public download) |
+| R3 hash gate | unchanged |
+| v0 freeze | unchanged |
+| v1 SHA reconfirm | `1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4` |
+| Targeted tests | 149 / 0 / 0 |
+| Full suite | 985 / 0 / 2 (RETCODE 0) |
 
 ---
 
-## 6. Stop statement
+## 7. Decisions still required from Planner
 
-`LEVEL3-PILOT-R4-DESIGN-REVIEW-FIX` is complete and **STOPPED**. No real experiment started. No budget increased. No preregistration finalized. No confirmation set marked accepted-frozen. Executor awaits Planner independent review and explicit user authorization.
+| ID | Decision | Executor note |
+|---|---|---|
+| P1 | Accept adapter as D/E representation base | code + 14 tests ready |
+| P2 | Accept train data as gen/dev source | verified 7473 / SHA recorded |
+| P3 | Choose Plan P vs Plan C (R) | requires new request **and** token authorization |
+| P4 | Raise caps (requests, output tokens, maybe cost) | current 300 / 200k / $5 cannot host even Plan P |
+| P5 | Accept final preregistration | **not** done in this round |
+| P6 | Mark v1 confirmation set accepted | **still PROPOSED** |
+
+---
+
+## 8. Stop statement
+
+`LEVEL3-PILOT-R4-DESIGN-REVIEW-FIX-R2` is complete and **STOPPED**.  
+Zero real model requests. No budget change. No final freeze. No preregistration approval.  
+Awaiting Planner independent review and explicit user authorization.
 

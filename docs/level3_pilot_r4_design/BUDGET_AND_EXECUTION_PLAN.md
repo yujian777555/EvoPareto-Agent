@@ -6,6 +6,8 @@
 
 > **Terminology.** Every USD figure below is an **internal usage estimate or a settled ledger figure**. None of them is a provider invoice. `PROVIDER_INVOICE = NOT_VERIFIED`.
 
+> **R4-R2 update.** Algorithm-level RQ3 needs independent search seeds (see `RQ3_MULTI_SEED_DESIGN.md`): `TOTAL_REQUESTS(R) = 240 + 240R`. The single-seed 480-call plan is **Plan P (exploratory only)**. D and E both require the WorkflowProgram adapter (`src/research/r4_workflow_program.py`) before they are executable.
+
 > **R4-RF update.** Group D is *Random Search* (4 independent mutants from Parent). Group E is *Two-Generation Evolution* (2 from Parent, 2 from gen-1 winner, best of all 4 on the shared dev set). D and E share `m=4` candidates, `s` dev tasks, `n_conf` confirmation tasks, and **equal request totals (120 each)**. Two generations do **not** prove recursive self-improvement.
 
 ---
