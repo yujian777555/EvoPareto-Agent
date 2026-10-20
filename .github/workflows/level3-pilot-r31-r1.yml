@@ -39,7 +39,7 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: >-
-          python -m pytest -q
+          python -m pytest
           tests/baseline_first/test_r31r1_hash_gate.py
           tests/test_r3r1_protocol.py
           tests/test_r3r2_native_protocol.py

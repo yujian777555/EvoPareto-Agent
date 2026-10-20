@@ -28,7 +28,18 @@ client. The manifest's own hash cannot authorize a changed task set.
 - entry-point fail-closed behavior before HTTP client construction;
 - offline provenance counts, no-write behavior, and unverified gold answers.
 
-The focused GitHub Actions workflow runs these tests plus the existing R3.1/R3.2
-protocol tests. It makes no real API calls. Test success must be read from the
-workflow run for the corresponding commit; adding tests alone is not evidence
-that they passed.
+## Executed CI evidence
+
+GitHub Actions run for code commit `a79431868e3310441c93fa975b3f2f6a8d48ad1b`:
+
+- Result: **SUCCESS**
+- Tests: **41 passed, 0 failed, 0 skipped**
+- Breakdown: 14 R3.1-R1 tests + 17 R3.1 protocol tests + 10 R3.2 native-protocol tests
+- No real API requests or model experiments were run.
+
+Run: https://github.com/yujian777555/EvoPareto-Agent/actions/runs/39375080988
+
+The workflow command is configured to retain pytest's concise pass/fail summary on
+subsequent runs. A test pass proves the tested software behavior only; it does
+not establish GSM8K provenance, recursive self-improvement, or statistical
+significance of the original comparison.

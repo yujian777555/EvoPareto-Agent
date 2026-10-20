@@ -14,10 +14,26 @@
 - Added focused CI for the offline regression tests and existing R3.1/R3.2
   protocol tests.
 
+## Actual validation evidence
+
+Code commit: `a79431868e3310441c93fa975b3f2f6a8d48ad1b`
+
+GitHub Actions run:
+https://github.com/yujian777555/EvoPareto-Agent/actions/runs/39375080988
+
+- Workflow: `Level3 Pilot R3.1-R1 Offline Tests`
+- Status: **SUCCESS**
+- Test result: **41 passed / 0 failed / 0 skipped**
+- The entry-point regression test patches the HTTP client and proves a
+  tampered task set exits before an HTTP client can be constructed.
+- The provenance test verifies the pinned source SHA-256, 1,319 records, 35 R3
+  tasks, count consistency, and no writes to the source task set or audit
+  artifact when using the pure audit function.
+
 ## Evidence preserved
 
-- Original R3 task set, paired results, cost ledger, and frozen result records
-  were not edited by this hardening patch.
+- Original R3 task set, paired results, cost ledger, and original frozen result
+  records were not edited by the hardening patch.
 - R3 remains an exploratory workflow comparison on 35 synthetic/unmatched
   GSM8K-style questions: parent 29/35, child 31/35; McNemar one-sided p=0.25
   and two-sided p=0.50, neither significant.
@@ -26,8 +42,7 @@
 - No claim is made that recursive self-improvement, NSGA-III advantage, or
   preregistration temporal order has been demonstrated.
 
-## Test/CI reporting rule
+## Final instruction
 
-The focused workflow is configured to run the new offline regression tests and
-existing protocol tests. This document does not pre-assert a pass result; record
-the actual workflow result for the final commit during Planner review.
+STOP here. Await independent Planner review. Do not run another experiment or
+spend API budget without a new authorization and preregistration.
