@@ -179,6 +179,22 @@ def main() -> int:
     if len(tasks_data) != 35:
         print(f"TASK_COUNT_MISMATCH:{len(tasks_data)}")
         return 3
+    task_blob = json.dumps(
+        [(t["task_id"], t["question"], t["gold_answer"]) for t in tasks_data],
+        sort_keys=True,
+    )
+    recomputed_hash = hashlib.sha256(task_blob.encode("utf-8")).hexdigest()
+    declared_hash = conf.get("task_set_sha256", "")
+    if recomputed_hash != declared_hash:
+        print(f"TASK_SET_HASH_MISMATCH:recomputed={recomputed_hash[:16]} declared={declared_hash[:16]}")
+        return 3
+    tids = [t["task_id"] for t in tasks_data]
+    if len(set(tids)) != len(tids):
+        print("TASK_ID_DUPLICATE")
+        return 3
+    if tids != sorted(tids):
+        print("TASK_ORDER_MISMATCH")
+        return 3
 
     # dependency stubs for Docker
     GENERIC = (

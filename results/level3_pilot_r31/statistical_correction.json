@@ -1,0 +1,37 @@
+{
+  "evidence_class": "OFFLINE_AUDIT",
+  "STATISTICAL_CORRECTION": {
+    "recomputed_from_raw_records": true,
+    "parent_correct": 29,
+    "child_correct": 31,
+    "improved": 2,
+    "regressed": 0,
+    "both_correct": 29,
+    "both_wrong": 4,
+    "net_gain": 2,
+    "mcnemar_one_sided_p": 0.25,
+    "mcnemar_two_sided_p": 0.5,
+    "discordant_pairs": 2,
+    "note": "For b=2, c=0: one-sided p=0.2500, two-sided p=0.5000. The R3 report used one-sided p=0.25; two-sided is 0.50. Neither is significant at n=35. The distinction matters for the formal claim."
+  },
+  "COST_RECONCILIATION": {
+    "parent_requests": 35,
+    "child_requests": 105,
+    "total_requests": 140,
+    "parent_usage_cost_estimate_usd": 0.0055302,
+    "child_usage_cost_estimate_usd": 0.0154032,
+    "total_usage_cost_estimate_usd": 0.0209334,
+    "doc_reported_parent": 0.012,
+    "doc_reported_child": 0.0244,
+    "doc_vs_ledger_explanation": "Doc figures ($0.0120/$0.0244) are approximate estimates from the pre-registration worst-case budget. The ledger figures ($0.0055302/$0.0154032) are the ACTUAL settled costs from provider usage tokens. These are not contradictory — different accounting bases.",
+    "cumulative_budget_debited_usd": 0.0363972,
+    "auth_ledger_consistency": "verified against persistent authorization record",
+    "provider_invoice": "NOT_VERIFIED"
+  },
+  "PREREGISTRATION_TIMING": {
+    "claim": "preregistration before real API calls",
+    "git_evidence": "paired_confirmation_set_35.json and paired_experiment_results.json are in the SAME commit c7b2329",
+    "independently_verified": false,
+    "note": "Git history cannot prove temporal ordering within a single commit. The preregistration-before-calls claim is NOT independently verified."
+  }
+}
