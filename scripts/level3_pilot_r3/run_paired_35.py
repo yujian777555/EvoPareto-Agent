@@ -54,34 +54,87 @@ def sha256_text(s: str) -> str:
 
 
 
+def _is_sha256(value) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(ch in "0123456789abcdef" for ch in value.lower())
+    )
+
+
 def verify_taskset(tasks, declared_hash, expected_hash):
-    """Pure function: verify task-set hash gate. Returns error string or empty."""
-    # field completeness FIRST
+    """Pure, fail-closed verification of the frozen task-set manifest."""
+    if not isinstance(tasks, list):
+        return "TASK_LIST_INVALID"
+    # Validate every required field before hashing or touching runtime resources.
     for t in tasks:
-        if not t.get("task_id") or not t.get("question") or t.get("gold_answer") is None:
-            return f"TASK_FIELD_MISSING:{t.get('task_id')}"
+        if not isinstance(t, dict):
+            return "TASK_RECORD_INVALID"
+        task_id = t.get("task_id")
+        question = t.get("question")
+        gold_answer = t.get("gold_answer")
+        if (
+            not isinstance(task_id, str) or not task_id.strip()
+            or not isinstance(question, str) or not question.strip()
+            or gold_answer is None or not str(gold_answer).strip()
+        ):
+            return f"TASK_FIELD_MISSING:{task_id}"
+
     tids = [t["task_id"] for t in tasks]
     if len(set(tids)) != len(tids):
         return "TASK_ID_DUPLICATE"
     if tids != sorted(tids):
         return "TASK_ORDER_MISMATCH"
+    if not declared_hash:
+        return "DECLARED_HASH_MISSING"
+    if not expected_hash:
+        return "EXPECTED_HASH_MISSING"
+    if not _is_sha256(declared_hash):
+        return "DECLARED_HASH_INVALID"
+    if not _is_sha256(expected_hash):
+        return "EXPECTED_HASH_INVALID"
+
+    # Keep the R3 frozen serialization unchanged: tuple list + json.dumps defaults.
     blob = json.dumps(
         [(t["task_id"], t["question"], t["gold_answer"]) for t in tasks],
         sort_keys=True,
     )
     recomputed = hashlib.sha256(blob.encode("utf-8")).hexdigest()
-    if not declared_hash:
-        return "DECLARED_HASH_MISSING"
-    if not expected_hash:
-        return "EXPECTED_HASH_MISSING"
     if recomputed != declared_hash:
         return f"TASK_SET_HASH_MISMATCH:recomputed={recomputed[:16]} declared={declared_hash[:16]}"
     if declared_hash != expected_hash:
         return f"TASK_SET_HASH_UNEXPECTED:declared={declared_hash[:16]} expected={expected_hash[:16]}"
     return ""
 
+
+def load_verified_taskset(path=None):
+    """Load and validate the frozen task set before credentials or budget state."""
+    task_path = Path(path) if path is not None else OUT / "paired_confirmation_set_35.json"
+    try:
+        conf = json.loads(task_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return None, None, f"TASKSET_LOAD_FAILED:{type(exc).__name__}"
+    if not isinstance(conf, dict):
+        return None, None, "TASKSET_MANIFEST_INVALID"
+    tasks = conf.get("tasks")
+    if not isinstance(tasks, list):
+        return None, None, "TASK_LIST_INVALID"
+    if len(tasks) != 35:
+        return None, None, f"TASK_COUNT_MISMATCH:{len(tasks)}"
+    err = verify_taskset(tasks, conf.get("task_set_sha256"), EXPECTED_TASK_HASH)
+    if err:
+        return None, None, err
+    return conf, tasks, ""
 def main() -> int:
     global STOP_REASON
+
+    # The task-set gate must run before API-key checks, authorization state,
+    # budget-ledger creation, or any possible HTTP client invocation.
+    conf, tasks_data, taskset_error = load_verified_taskset()
+    if taskset_error:
+        print(taskset_error)
+        return 3
+
     api_key = os.environ.get("DEEPSEEK_API_KEY", "")
     if not api_key:
         print("DEEPSEEK_API_KEY missing")
@@ -201,15 +254,7 @@ def main() -> int:
         print(f"PARENT_SHA_MISMATCH:byte={parent_byte_sha[:16]} lf={parent_lf_sha[:16]}")
         return 3
 
-    conf = json.loads((OUT / "paired_confirmation_set_35.json").read_text(encoding="utf-8"))
-    tasks_data = conf["tasks"]
-    if len(tasks_data) != 35:
-        print(f"TASK_COUNT_MISMATCH:{len(tasks_data)}")
-        return 3
-    err = verify_taskset(tasks_data, conf.get("task_set_sha256"), EXPECTED_TASK_HASH)
-    if err:
-        print(err)
-        return 3
+    # conf/tasks_data were validated at function entry, before any side effects.
 
     # dependency stubs for Docker
     GENERIC = (

@@ -1,34 +1,34 @@
-# Hash Gate Review (Task A+B)
+# Hash Gate Review (R3.1-R1)
 
-## Problem
+## Fixed invariant
 
-`EXPECTED_TASK_HASH = "ddf055537d4618c8"` was a truncated prefix and the
-comparison only checked the declared hash in the JSON against recomputed —
-the expected constant was unused.
+The frozen task set is pinned to this full SHA-256:
 
-## Fix
+`ddf055537d4618c86d736d4f0ed98fd4b23efec21f9e0ffe65a2c8ee022a6219`
 
-1. `EXPECTED_TASK_HASH` fixed to the full frozen value:
-   `ddf055537d4618c86d736d4f0ed98fd4b23efec21f9e0ffe65a2c8ee022a6219`
-2. `verify_taskset()` extracted as a pure function:
-   - field completeness check FIRST
-   - task ID uniqueness and ordering
-   - recomputed hash == declared hash
-   - declared hash == expected hash (tamper-proof even if attacker updates declared)
-3. Any failure → exit 3 before any HTTP call.
+The serialization remains unchanged from R3: JSON encoding of ordered
+`(task_id, question, gold_answer)` tuples using Python's default
+`json.dumps(..., sort_keys=True)` settings, then UTF-8 SHA-256.
 
-## Regression tests (11)
+`load_verified_taskset()` is now the first operation in `main()`. It validates
+manifest structure, exactly 35 tasks, required fields, unique IDs, task order,
+declared hash, and hard-coded expected hash before checking API credentials,
+opening authorization state, creating a budget ledger, or constructing an HTTP
+client. The manifest's own hash cannot authorize a changed task set.
 
-| Test | Expected |
-|---|---|
-| valid frozen taskset | pass |
-| tampered question | TASK_SET_HASH_MISMATCH |
-| tampered answer | TASK_SET_HASH_MISMATCH |
-| replace task, keep old declared hash | TASK_SET_HASH_MISMATCH |
-| change task AND declared hash | TASK_SET_HASH_UNEXPECTED |
-| duplicate task ID | TASK_ID_DUPLICATE |
-| wrong order | TASK_ORDER_MISMATCH |
-| missing declared hash | DECLARED_HASH_MISSING |
-| missing expected hash | EXPECTED_HASH_MISSING |
-| missing field | TASK_FIELD_MISSING |
-| (audit reproducibility) | 0/35 matches reproduced |
+## Automated coverage
+
+`tests/baseline_first/test_r31r1_hash_gate.py` includes 14 tests covering:
+
+- valid frozen task set;
+- question, answer, or task replacement tampering;
+- task and declared-hash changed together;
+- duplicate IDs and reordered tasks;
+- missing fields/hashes;
+- entry-point fail-closed behavior before HTTP client construction;
+- offline provenance counts, no-write behavior, and unverified gold answers.
+
+The focused GitHub Actions workflow runs these tests plus the existing R3.1/R3.2
+protocol tests. It makes no real API calls. Test success must be read from the
+workflow run for the corresponding commit; adding tests alone is not evidence
+that they passed.

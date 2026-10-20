@@ -1,0 +1,45 @@
+name: Level3 Pilot R3.1-R1 Offline Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/level3_pilot_r3/run_paired_35.py"
+      - "scripts/level3_pilot_r31/**"
+      - "tests/baseline_first/test_r31r1_hash_gate.py"
+      - "tests/test_r3r1_protocol.py"
+      - "tests/test_r3r2_native_protocol.py"
+      - ".github/workflows/level3-pilot-r31-r1.yml"
+  pull_request:
+    paths:
+      - "scripts/level3_pilot_r3/run_paired_35.py"
+      - "scripts/level3_pilot_r31/**"
+      - "tests/baseline_first/test_r31r1_hash_gate.py"
+      - "tests/test_r3r1_protocol.py"
+      - "tests/test_r3r2_native_protocol.py"
+      - ".github/workflows/level3-pilot-r31-r1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  offline-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Run offline R3.1-R1 and adjacent protocol tests
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: >-
+          python -m pytest -q
+          tests/baseline_first/test_r31r1_hash_gate.py
+          tests/test_r3r1_protocol.py
+          tests/test_r3r2_native_protocol.py
