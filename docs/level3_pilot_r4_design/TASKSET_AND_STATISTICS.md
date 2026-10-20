@@ -73,20 +73,32 @@ Every task record must contain exactly these fields:
 | Unicode | UTF-8; keep official bytes for question text |
 | Scoring equality | project extractor; exact match on canonical gold after normalization |
 
-### 2.3 Hashing
+### 2.3 Hashing — **canonical serialization (R4-RF unified)**
 
-Canonical task-set digest:
+Exactly **one** rule is authoritative. Implementation: `src/research/r4_paired_stats.canonical_task_set_sha256`.
+
+| Knob | Frozen value |
+|---|---|
+| Task order | sort by `task_id` ascending (lexicographic / code-point) |
+| Per-task fields | JSON array `[task_id, question, gold_answer]` in that order |
+| Outer structure | JSON array of those arrays |
+| `json.dumps` kwargs | `ensure_ascii=False`, `separators=(",", ":")`, `sort_keys=False` |
+| Text encoding | UTF-8, no BOM |
+| Digest | SHA-256, lowercase hex |
+
+Reference implementation:
 
 ```python
-blob = json.dumps(
-    [(t["task_id"], t["question"], t["gold_answer"]) for t in tasks],
-    sort_keys=True,
-    ensure_ascii=False,
+ordered = sorted(
+    ((t["task_id"], t["question"], t["gold_answer"]) for t in tasks),
+    key=lambda x: x[0],
 )
-sha = hashlib.sha256(blob.encode("utf-8")).hexdigest()
+payload = [[tid, q, g] for tid, q, g in ordered]
+blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), sort_keys=False).encode("utf-8")
+sha = hashlib.sha256(blob).hexdigest()
 ```
 
-Both `ensure_ascii=False` and default-ASCII forms are recorded, because historical CRLF/LF and ASCII-escaping mismatches have already caused SHA confusion in this project. The **authoritative** field is `task_set_sha256` computed with `ensure_ascii=False` and compact `json.dumps` separators.
+**Historical note (do not mix):** v0 (`confirmation_set_proposed.json`) hashed the same tuples with default `json.dumps` separators `', '` / `': '` and no explicit task sort. That digest (`4885c977…`) is kept as `legacy_v0_sha` for audit only. v1 uses the canonical rule below. Changing the rule voids both.
 
 ### 2.4 Gate order at run time (reuse R3 discipline)
 
@@ -100,25 +112,32 @@ Any edit produces a **new version** (`R4-confirm-v1-...`), a new SHA, and requir
 
 ---
 
-## 3. Proposed confirmation freeze (v0)
+## 3. Proposed confirmation freeze (v1 after contamination audit)
 
-**File:** `docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json`
+**Files:**
+
+| Version | Path | `task_set_sha256` | Status |
+|---|---|---|---|
+| v0 (legacy hash) | `docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json` | `4885c9771a53ad1adc2c0bffaff738e4aed3d0de434f9a39a17cba1fdba6204d` | superseded, **preserved** |
+| **v1 (canonical)** | `docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json` | `1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4` | **PROPOSED_PENDING_PLANNER_ACCEPTANCE** |
 
 | Item | Value |
 |---|---|
-| Version | `R4-confirm-v0-proposed` |
-| Status | **PROPOSED_PENDING_PLANNER_ACCEPTANCE** |
+| Version | `R4-confirm-v1-proposed` |
+| Membership change vs v0 | **NONE** (contamination audit found 0 contaminated tasks) |
+| Hash change vs v0 | serialization only (canonical rule) |
 | Population | official GSM8K test.jsonl (1319 records) |
 | Selection | `random.Random(20260601).sample(range(1319), 40)`, then sort by index |
 | `n_conf` | **40** |
-| `task_set_sha256` | `4885c9771a53ad1adc2c0bffaff738e4aed3d0de434f9a39a17cba1fdba6204d` |
-| (alt) ASCII-escaped form | `d48ccd3a47bbb9e0b2ce56ad0cb00a759fce96d1b0ecc97c0afe8339e0a81a9b` |
+| Official file SHA (recomputed in R4-RF) | `3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14` |
 | Selection uses confirmation labels? | **NO** |
-| Groups sharing this set | A, B, C, D, E (identical tasks for all) |
+| Groups sharing this set | A, B, C, D, E |
+| Contamination verdict | `CONFIRMATION_INDEPENDENCE_VERIFIED_BY_ARTIFACT_SEARCH` (see `CONFIRMATION_CONTAMINATION_AUDIT.md`) |
+| Prior model-scored official indices (not in this set) | 1, 2 (R2) |
 
-**Note on n_conf = 40.** This is a **proposed** size, not a size chosen to force significance. See section 5 for detectable effects at N=40. The remaining request quota (56) makes even 40 x 5 groups impossible without new authorization (see budget document).
+**Exclusion rule (pre-declared, applied):** drop any official index whose question text appears in prior model scoring/selection/debug artefacts. Result: 0 exclusions. No performance-based redraw.
 
----
+**Note on n_conf = 40.** Proposed size, not chosen to force significance. See section 5. Remaining quota (56) cannot host A–E (480 calls) — see `BUDGET_AND_EXECUTION_PLAN.md`.
 
 ## 4. Statistical analysis plan (frozen at execution)
 
@@ -234,8 +253,9 @@ with `z_{0.975} = 1.96`, `z_{0.80} = 0.84` for alpha=0.05, power=0.80.
 
 | Artefact | Value |
 |---|---|
-| Confirmation freeze file | `docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json` |
-| Confirmation `task_set_sha256` | `4885c9771a53ad1adc2c0bffaff738e4aed3d0de434f9a39a17cba1fdba6204d` |
+| Confirmation freeze file (v1) | `docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json` |
+| Confirmation `task_set_sha256` (v1 canonical) | `1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4` |
+| Confirmation `task_set_sha256` (v0 legacy) | `4885c9771a53ad1adc2c0bffaff738e4aed3d0de434f9a39a17cba1fdba6204d` |
 | Official test file SHA | `3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14` |
 | Official train file | **UNAVAILABLE — BLOCKED** |
 | New real API requests this round | **0** |

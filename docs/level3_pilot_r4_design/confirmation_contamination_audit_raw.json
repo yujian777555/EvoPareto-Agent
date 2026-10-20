@@ -1,0 +1,996 @@
+{
+  "evidence_class": "REPRODUCIBLE_OFFLINE_AUDIT",
+  "audit": "confirmation_set_historical_contamination",
+  "official_baseline": {
+    "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+    "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+    "record_count": 1319
+  },
+  "confirmation_proposed": {
+    "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+    "task_set_sha256": "4885c9771a53ad1adc2c0bffaff738e4aed3d0de434f9a39a17cba1fdba6204d",
+    "n_tasks": 40,
+    "indices": [
+      13,
+      27,
+      36,
+      92,
+      122,
+      156,
+      164,
+      190,
+      244,
+      270,
+      309,
+      316,
+      339,
+      367,
+      404,
+      420,
+      468,
+      469,
+      543,
+      614,
+      621,
+      643,
+      654,
+      663,
+      668,
+      669,
+      678,
+      703,
+      732,
+      793,
+      839,
+      869,
+      888,
+      922,
+      1019,
+      1063,
+      1064,
+      1085,
+      1090,
+      1300
+    ]
+  },
+  "per_task": [
+    {
+      "task_id": "gsm8k-official-test-0013",
+      "index": 13,
+      "n_hits": 3,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r3/paired_confirmation_set_35.json",
+          "reasons": [
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0027",
+      "index": 27,
+      "n_hits": 3,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r3/paired_confirmation_set_35.json",
+          "reasons": [
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0036",
+      "index": 36,
+      "n_hits": 3,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r3/paired_confirmation_set_35.json",
+          "reasons": [
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0092",
+      "index": 92,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0122",
+      "index": 122,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0156",
+      "index": 156,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0164",
+      "index": 164,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0190",
+      "index": 190,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0244",
+      "index": 244,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0270",
+      "index": 270,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0309",
+      "index": 309,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0316",
+      "index": 316,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0339",
+      "index": 339,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0367",
+      "index": 367,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0404",
+      "index": 404,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0420",
+      "index": 420,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0468",
+      "index": 468,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0469",
+      "index": 469,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0543",
+      "index": 543,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0614",
+      "index": 614,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0621",
+      "index": 621,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0643",
+      "index": 643,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0654",
+      "index": 654,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0663",
+      "index": 663,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0668",
+      "index": 668,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0669",
+      "index": 669,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0678",
+      "index": 678,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0703",
+      "index": 703,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0732",
+      "index": 732,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0793",
+      "index": 793,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0839",
+      "index": 839,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0869",
+      "index": 869,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0888",
+      "index": 888,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-0922",
+      "index": 922,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-1019",
+      "index": 1019,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-1063",
+      "index": 1063,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-1064",
+      "index": 1064,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-1085",
+      "index": 1085,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-1090",
+      "index": 1090,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "gsm8k-official-test-1300",
+      "index": 1300,
+      "n_hits": 2,
+      "hits": [
+        {
+          "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json",
+          "reasons": [
+            "question_frag",
+            "question_frag2",
+            "official_task_id",
+            "index_field"
+          ]
+        },
+        {
+          "file": "results/level3_pilot_r31/gsm8k_test_official.jsonl",
+          "reasons": [
+            "question_frag",
+            "question_frag2"
+          ]
+        }
+      ]
+    }
+  ]
+}

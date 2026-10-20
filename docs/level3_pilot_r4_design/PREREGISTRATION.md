@@ -89,23 +89,75 @@ Shared constants (frozen at execution time by the accepted freeze file):
 - No candidate search, no selection, no mutation.
 - Purpose: upper-bound a "hand-designed structural change" at modest extra cost.
 
-### Group D — Random Mutation + Fixed Selection
+### Group D — Random Search (flat, no lineage)
 
-- Generator: apply random edits to the Parent genome using the project's existing mutation operators (`src/research/fceol/mutation_operators.py` / `src/evolution/operators.py`), seeded RNG, **no model call for mutation** if operators are syntactic; if a mutation step requires an LLM rewrite, those calls are counted and budgeted explicitly (see `BUDGET_AND_EXECUTION_PLAN.md`).
-- Produce exactly `m` candidate workflows.
-- Selection rule (frozen): evaluate every candidate on the **generation/development** set (`n_gen + s` train tasks, or just `s` — frozen in the execution freeze file), pick the candidate with highest development accuracy; ties → lowest candidate index.
-- Confirmation: run only the selected candidate on the confirmation set.
-- **No evolutionary operators across generations.** Single-shot random search + fixed argmax rule.
-- Purpose: control for "any search over edits" without a selection loop.
+*Independence rule:* every candidate is generated **from the frozen Parent only**. No candidate may be generated from another candidate.
 
-### Group E — Evolutionary Selection
+Operational definition (frozen):
 
-- Generator: evolutionary mutation/variation on the same Parent genome, with a **pre-specified** selection mechanism.
-- Proposed default selection mechanism (must be frozen before calls):
-  - Population size μ = m = 4, one generation of variation from Parent, evaluation on development set, survivor selection = top-μ by development accuracy (ties → lower index), then **one** confirmation evaluation of the single best individual.
-  - This is a **(1+λ) / single-generation** design. It is *not* a claim of open-ended recursive self-improvement.
-- If the Planner wants a multi-generation loop, generations `g` must be frozen and budgeted before calls; default `g = 1`.
-- Purpose: measure whether the **selection mechanism** adds value over Group D at matched candidate-evaluation budget.
+1. Start from frozen Parent graph/prompt (Group A artefacts).
+2. Produce exactly **4** random mutation candidates (`cand_d1 … cand_d4`) by applying seeded random edits to the Parent. RNG seed frozen before calls.
+3. Evaluate **each** candidate on the **same development set** (`s` tasks).
+4. Select the candidate with the **highest development accuracy**.
+5. Tie-break: **pre-frozen candidate order** (`cand_d1` < `cand_d2` < `cand_d3` < `cand_d4`), i.e. lowest index wins.
+6. Confirmation: run **only the selected candidate** on the shared confirmation set.
+7. Candidate generation must not read confirmation questions' labels or confirmation accuracy.
+
+Failure rule: a candidate that fails to produce a valid workflow is scored as dev-accuracy 0 and **stays in the candidate list** (it can still lose selection; it is not deleted to tidy the race).
+
+Purpose: price "random search over edits" at a fixed candidate budget, **without** inter-candidate lineage.
+
+### Group E — Two-Generation Evolution (lineage, matched budget)
+
+Operational definition (frozen):
+
+1. **Generation 1:** from frozen Parent, produce **2** mutated candidates (`e1a`, `e1b`) with the same operator distribution as Group D, **seeded independently of D's seed** (or, if a paired seed is used, it must be declared in the freeze file).
+2. Evaluate `e1a`, `e1b` on the **same development set** used by Group D.
+3. **Gen-1 winner** = higher dev accuracy; tie → frozen order (`e1a` before `e1b`).
+4. **Generation 2:** from the **gen-1 winner only** (not from Parent, not from the gen-1 loser), produce **2** further mutants (`e2a`, `e2b`).
+5. Evaluate `e2a`, `e2b` on the **same development set**.
+6. **Final selection among all 4 candidates** `{e1a, e1b, e2a, e2b}` by dev accuracy; tie → frozen order `e1a < e1b < e2a < e2b`.
+7. Confirmation: run **only the final winner** on the shared confirmation set.
+
+Identifiability contract (D vs E):
+
+| Dimension | Group D | Group E | Must match? |
+|---|---|---|---|
+| Total candidates | 4 | 4 | **YES** |
+| Dev-eval calls | 4 × `s` | 4 × `s` | **YES** |
+| Confirmation calls | 1 × `n_conf` | 1 × `n_conf` | **YES** |
+| Mutation operator distribution | frozen | frozen | **YES** |
+| Confirmation tasks | shared | shared | **YES** |
+| Parent of gen-1 mutants | frozen Parent | frozen Parent | **YES** |
+| Parent of later mutants | n/a (all from Parent) | **gen-1 winner** | **NO — this is the only intended difference** |
+| Access to confirmation labels | forbidden | forbidden | **YES** |
+
+The contrast E−D is therefore: *does mutating from a selected ancestor beat mutating from the same root, at equal candidate and evaluation budget?*
+
+**This is NOT a claim of recursive self-improvement.** Two generations is a bounded lineage ablation. Open-ended RSI is not tested and must not be reported as achieved.
+
+### Mutation implementation feasibility (honest status)
+
+| Item | Status |
+|---|---|
+| Clone-and-mutate operators exist | YES — e.g. `src/research/fceol/mutation_operators.py` (`g.clone()` then edit), `src/evolution/operators.py` (`genome.replace(...)`) |
+| Generational parent→child expressible | **YES in protocol** |
+| Adapter from frozen AFlow `parent_graph.py` into those genome types | **NOT YET IMPLEMENTED** |
+| If adapter cannot be built | Group E is marked **`BLOCKED_IMPLEMENTATION`**, and must **not** be replaced by Group D relabelled as "evolution" |
+
+Until the adapter exists and is hashed into the freeze file, Group E remains *specified but unimplemented*. No run may claim "evolution" without the lineage above.
+
+### Shared frozen parameters (D/E)
+
+| Symbol | Meaning | Proposed default |
+|---|---|---:|
+| `m` | candidates per group (total) | **4** |
+| `s` | development-set size (train split) | **20** |
+| `n_conf` | confirmation-set size | **40** (v1 freeze) |
+| seed_D | RNG for Group D | freeze file |
+| seed_E | RNG for Group E | freeze file |
+| tie order | candidate creation order | `cand_d1..4` / `e1a,e1b,e2a,e2b` |
+| failed candidate | dev score | **0**, retained |
 
 ### Budget-matched secondary contrast (pre-specified)
 
@@ -229,8 +281,8 @@ Efficiency view: accuracy vs requests, accuracy vs USD, accuracy vs latency. A g
 | U1 | `n_conf` confirmation size | PROPOSED 40 | Depends on remaining/new quota and detectable effect; see sample-size ranges |
 | U2 | `k` samples for Group B | PROPOSED 3 | Must match a fair budget story vs C/D/E call counts |
 | U3 | Group C exact fixed modification | PROPOSED "add one verify pass" | Planner may choose a different fixed edit; must be frozen before calls |
-| U4 | Group D mutation operator set | PROPOSED use existing fceol/evolution operators, syntactic-only first | If LLM-rewrite mutations are included, cost explodes |
-| U5 | Group E selection mechanism | PROPOSED single-generation top-μ on dev set | Multi-generation needs explicit generations + budget |
+| U4 | Group D mutation operator set | PROPOSED use existing fceol/evolution operators, syntactic-only first | If LLM-rewrite mutations are included, cost explodes. Same operator distribution required for D and E |
+| U5 | Group E selection mechanism | **REDESIGNED in R4-RF**: two-generation lineage (2+2), final pick among all 4 on shared dev set | Adapter from AFlow Parent graph to mutable genome still unimplemented; without it E is `BLOCKED_IMPLEMENTATION` |
 | U6 | Whether to include a "Child replica" group (exact R3 child) as external reference | OPEN | Useful benchmark but costs calls; R3 child already characterized |
 | U7 | New budget authorization amount | OPEN | Current remaining quota is only 56 requests — insufficient for A–E (see budget doc) |
 | U8 | Task-set freeze acceptance | PROPOSED in freeze doc | Planner must accept before sampling |

@@ -1,12 +1,16 @@
-"""Offline paired-comparison statistics for LEVEL3-PILOT-R4 design prep.
+"""Offline paired-comparison statistics for LEVEL3-PILOT-R4.
 
 This module is intentionally model-free: it never imports HTTP clients, never
 reads credentials, and never calls any provider. All inputs are plain dicts or
 path-like objects supplied by the caller. Simulated inputs must be tagged by
 the caller as evidence_class=SIMULATED; this module only reports that tag.
 
-Used by design-prep documentation and by offline unit tests with fixed
-synthetic samples.
+Canonical task-set serialization (R4-RF freeze):
+  * tasks sorted by ``task_id`` ascending (lexicographic, code-point order)
+  * each task contributes a 3-element JSON array: [task_id, question, gold_answer]
+  * outer structure is a JSON array of those arrays
+  * json.dumps(..., ensure_ascii=False, separators=(",", ":"), sort_keys=False)
+  * encoded as UTF-8 (no BOM), SHA-256 hex digest lowercase
 """
 from __future__ import annotations
 
@@ -14,10 +18,10 @@ import hashlib
 import json
 import math
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
 __all__ = [
+    "CANONICAL_TASKSET_JSON_KWARGS",
     "PairedCounts",
     "PairedComparison",
     "count_paired",
@@ -26,11 +30,19 @@ __all__ = [
     "holm_bonferroni",
     "detect_anomalies",
     "canonical_task_set_sha256",
+    "canonical_task_set_blob",
     "verify_task_set",
     "check_frozen_unchanged",
     "check_budget_consistency",
     "summarize_groups",
 ]
+
+#: Frozen JSON kwargs for task-set hashing. Changing these voids all SHAs.
+CANONICAL_TASKSET_JSON_KWARGS = {
+    "ensure_ascii": False,
+    "separators": (",", ":"),
+    "sort_keys": False,
+}
 
 
 # ---------------------------------------------------------------------------
@@ -70,18 +82,55 @@ class PairedCounts:
         }
 
 
+def _strict_bool(value: Any, *, task_id: str, allow_int_01: bool) -> bool:
+    """Coerce a scored result to bool without silent conversion.
+
+    Only ``bool`` is accepted by default. Integers 0/1 are accepted only when
+    ``allow_int_01=True``. Strings ("false", "true", "0"), None, and floats
+    always raise — they must never be treated as correct/incorrect.
+    """
+    if isinstance(value, bool):
+        return value
+    if allow_int_01 and isinstance(value, int) and not isinstance(value, bool) and value in (0, 1):
+        return bool(value)
+    raise TypeError(
+        f"SCORE_TYPE_INVALID task_id={task_id!r} value={value!r} type={type(value).__name__}; "
+        "only bool (or int 0/1 when allow_int_01=True) is allowed"
+    )
+
+
 def count_paired(
-    baseline: Mapping[str, bool],
-    comparator: Mapping[str, bool],
+    baseline: Mapping[str, Any],
+    comparator: Mapping[str, Any],
     *,
     ids: Optional[Sequence[str]] = None,
+    allow_int_01: bool = False,
 ) -> PairedCounts:
     """Build paired counts from {task_id: correct} maps.
 
-    Raises ValueError on missing IDs or on IDs present in only one side
-    (unless an explicit id list is given, in which case missing is an error).
+    Strict rules:
+      * result values must be bool (or int 0/1 only if allow_int_01=True)
+      * missing IDs raise; they are never treated as incorrect and never dropped
+      * duplicate IDs in the explicit ``ids`` list raise
+      * ID set mismatch between the two maps raises
     """
-    if ids is None:
+    if ids is not None:
+        id_list = [str(i) for i in ids]
+        if len(id_list) != len(set(id_list)):
+            seen = set()
+            dups = []
+            for i in id_list:
+                if i in seen:
+                    dups.append(i)
+                seen.add(i)
+            raise ValueError(f"duplicate task ids in explicit id list: {sorted(set(dups))[:5]}")
+        for tid in id_list:
+            if tid not in baseline:
+                raise ValueError(f"missing task id in baseline: {tid}")
+            if tid not in comparator:
+                raise ValueError(f"missing task id in comparator: {tid}")
+        keys = id_list
+    else:
         keys_a = set(baseline)
         keys_b = set(comparator)
         if keys_a != keys_b:
@@ -91,14 +140,14 @@ def count_paired(
                 f"id set mismatch: only_in_comparator={missing_a[:5]} "
                 f"only_in_baseline={missing_b[:5]}"
             )
-        ids = sorted(keys_a)
+        if not keys_a:
+            raise ValueError("empty task id set")
+        keys = sorted(keys_a)
 
     b = c = n11 = n00 = 0
-    for tid in ids:
-        if tid not in baseline or tid not in comparator:
-            raise ValueError(f"missing task id: {tid}")
-        a = bool(baseline[tid])
-        x = bool(comparator[tid])
+    for tid in keys:
+        a = _strict_bool(baseline[tid], task_id=f"baseline:{tid}", allow_int_01=allow_int_01)
+        x = _strict_bool(comparator[tid], task_id=f"comparator:{tid}", allow_int_01=allow_int_01)
         if x and not a:
             b += 1
         elif a and not x:
@@ -108,6 +157,7 @@ def count_paired(
         else:
             n00 += 1
     return PairedCounts(b=b, c=c, n11=n11, n00=n00)
+
 
 
 # ---------------------------------------------------------------------------
@@ -120,21 +170,41 @@ def _binom_pmf(n: int, k: int, p: float = 0.5) -> float:
     return math.comb(n, k) * (p ** k) * ((1.0 - p) ** (n - k))
 
 
-def exact_mcnemar(b: int, c: int) -> Dict[str, float]:
+def exact_mcnemar(
+    b: int,
+    c: int,
+    *,
+    direction: str = "comparator_better",
+) -> Dict[str, Any]:
     """Exact McNemar test on discordant counts (b, c).
 
-    Returns one-sided and two-sided exact p-values. The confirmatory value for
-    R4 is ``p_two_sided``. R3 historically reported the one-sided tail as
-    ``mcnemar_exact_p`` (0.25 for b=2,c=0); two-sided is 0.50.
+    Cell meaning is fixed:
+      * ``b``: comparator correct, baseline wrong  (comparator wins)
+      * ``c``: comparator wrong,  baseline correct (baseline wins)
+
+    ``direction`` declares the one-sided alternative and must be set before
+    seeing results (default: comparator_better). It cannot be chosen to match
+    the observed sign of (b-c).
+
+    * ``comparator_better``: p_one_sided = P[X >= b], X ~ Bin(b+c, 0.5)
+    * ``baseline_better``:   p_one_sided = P[X >= c]
+
+    The confirmatory value for R4 is ``p_two_sided``.
     """
+    if not isinstance(b, int) or isinstance(b, bool) or not isinstance(c, int) or isinstance(c, bool):
+        raise TypeError("b and c must be int (not bool)")
     if b < 0 or c < 0:
         raise ValueError("b and c must be non-negative")
+    if direction not in ("comparator_better", "baseline_better"):
+        raise ValueError("direction must be 'comparator_better' or 'baseline_better'")
+
     n = b + c
     if n == 0:
         return {
             "n_discordant": 0,
             "p_one_sided": 1.0,
             "p_two_sided": 1.0,
+            "direction": direction,
             "note": "no discordant pairs",
         }
 
@@ -144,14 +214,23 @@ def exact_mcnemar(b: int, c: int) -> Dict[str, float]:
     p_high = sum(_binom_pmf(n, k, 0.5) for k in range(k_max, n + 1))
     p_two = min(1.0, 2.0 * min(p_low, p_high))
 
+    if direction == "comparator_better":
+        # P[X >= b]
+        p_one = sum(_binom_pmf(n, k, 0.5) for k in range(b, n + 1))
+    else:
+        # P[X >= c]
+        p_one = sum(_binom_pmf(n, k, 0.5) for k in range(c, n + 1))
+
     return {
         "n_discordant": n,
-        "p_one_sided": p_low,  # P[X <= min(b,c)]
+        "p_one_sided": p_one,
         "p_two_sided": p_two,
+        "direction": direction,
         "b": b,
         "c": c,
         "cohen_g": (b / n) if n else 0.0,
     }
+
 
 
 # ---------------------------------------------------------------------------
@@ -260,19 +339,28 @@ def detect_anomalies(
 # Task-set hashing / verification
 # ---------------------------------------------------------------------------
 
-def canonical_task_set_sha256(tasks: Sequence[Mapping[str, Any]]) -> str:
-    """Canonical SHA-256 of a frozen task list.
+def canonical_task_set_blob(tasks: Sequence[Mapping[str, Any]]) -> bytes:
+    """Canonical UTF-8 bytes for a task list.
 
-    Matches the R4 freeze rule: json.dumps of
-    [(task_id, question, gold_answer), ...] with sort_keys=True and
-    ensure_ascii=False, UTF-8 encoded.
+    Rules (frozen):
+      1. sort tasks by task_id ascending (str order)
+      2. each task -> [task_id, question, gold_answer] as a JSON array
+      3. outer JSON array of those arrays
+      4. json.dumps with CANONICAL_TASKSET_JSON_KWARGS
+         (ensure_ascii=False, separators=(",", ":"), sort_keys=False)
+      5. encode utf-8
     """
-    blob = json.dumps(
-        [(t["task_id"], t["question"], t["gold_answer"]) for t in tasks],
-        sort_keys=True,
-        ensure_ascii=False,
+    ordered = sorted(
+        ((t["task_id"], t["question"], t["gold_answer"]) for t in tasks),
+        key=lambda x: x[0],
     )
-    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+    payload = [[tid, q, g] for tid, q, g in ordered]
+    return json.dumps(payload, **CANONICAL_TASKSET_JSON_KWARGS).encode("utf-8")
+
+
+def canonical_task_set_sha256(tasks: Sequence[Mapping[str, Any]]) -> str:
+    """Canonical SHA-256 hex digest of a frozen task list (see blob rules)."""
+    return hashlib.sha256(canonical_task_set_blob(tasks)).hexdigest()
 
 
 def verify_task_set(
@@ -292,6 +380,8 @@ def verify_task_set(
             v = t.get(k)
             if v is None or v == "":
                 return f"TASKSET_FIELD_MISSING:{k}"
+            if not isinstance(v, str):
+                return f"TASKSET_FIELD_NOT_STR:{k}"
 
     ids = [t["task_id"] for t in tasks]
     if len(ids) != len(set(ids)):
@@ -308,6 +398,7 @@ def verify_task_set(
     if declared_hash != expected_hash:
         return "TASKSET_HASH_NOT_EXPECTED"
     return ""
+
 
 
 # ---------------------------------------------------------------------------
@@ -410,7 +501,7 @@ def summarize_groups(
     raw_p: Dict[str, float] = {}
     for name, comp in comparators.items():
         counts = count_paired(baseline, comp)
-        mcn = exact_mcnemar(counts.b, counts.c)
+        mcn = exact_mcnemar(counts.b, counts.c, direction="comparator_better")
         n_correct = sum(1 for v in comp.values() if v)
         acc = wilson_ci(n_correct, len(comp))
         comparisons[name] = {

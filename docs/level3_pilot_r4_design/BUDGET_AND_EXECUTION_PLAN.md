@@ -6,6 +6,8 @@
 
 > **Terminology.** Every USD figure below is an **internal usage estimate or a settled ledger figure**. None of them is a provider invoice. `PROVIDER_INVOICE = NOT_VERIFIED`.
 
+> **R4-RF update.** Group D is *Random Search* (4 independent mutants from Parent). Group E is *Two-Generation Evolution* (2 from Parent, 2 from gen-1 winner, best of all 4 on the shared dev set). D and E share `m=4` candidates, `s` dev tasks, `n_conf` confirmation tasks, and **equal request totals (120 each)**. Two generations do **not** prove recursive self-improvement.
+
 ---
 
 ## 1. Scope of the planned study (R4 A-E)
@@ -48,36 +50,53 @@ Source: `~/.evopareto/state/level3_pilot_authorization.json` (not modified).
 
 ---
 
-## 3. Request-count budget by group
+## 3. Request-count budget by group (R4-RF redesign)
 
-### 3.1 Formula
+### 3.1 Parameters
 
-| Group | Confirmation calls | Generation/selection calls | Total |
-|---|---|---|---|
-| **A** Parent | `n_conf × 1` | 0 | `40` |
-| **B** Sampling Control | `n_conf × k` | 0 | `120` |
-| **C** Fixed Modification | `n_conf × 2` | 0 | `80` |
-| **D** Random Mutation | `n_conf × 1` | `m × s` dev evaluations (+ `D_mut` mutation calls) | `120` |
-| **E** Evolutionary Selection | `n_conf × 1` | `m × s` dev evaluations (+ `E_mut` mutation calls) | `120` |
-| **Total (A–E)** | | | **480** |
+| Parameter | Symbol | Default | Notes |
+|---|---|---:|---|
+| Confirmation tasks | `n_conf` | 40 | freeze v1 |
+| Samples per task (Group B) | `k` | 3 | |
+| Candidates per run (Group D and E) | `m` | 4 | **matched by design** |
+| Development tasks for candidate ranking | `s` | 20 | **same set for D and E** |
+| D lineage | — | 4 mutants, all from Parent | no inter-candidate parent |
+| E lineage | — | 2 (gen1 from Parent) + 2 (gen2 from gen1 winner) | final pick among all 4 on dev |
+| Syntactic-only mutation calls | `D_mut`, `E_mut` | 0 | LLM-rewrite mutations would add cost |
 
-With the defaults: `n_conf=40`, `k=3`, `m=4`, `s=20`, and syntactic-only mutation (`D_mut=E_mut=0`):
+### 3.2 Formulas and totals
 
-| Group | Breakdown | Requests |
-|---|---|---:|
-| A | 40 × 1 | **40** |
-| B | 40 × 3 | **120** |
-| C | 40 × 2 | **80** |
-| D | 4×20 dev + 40 conf | **120** |
-| E | 4×20 dev + 40 conf | **120** |
-| **Grand total** | | **480** |
+| Group | Confirmation calls | Generation/selection calls | Structure | Total |
+|---|---|---|---|---:|
+| **A** Parent | `n_conf × 1` | 0 | 1-shot | **40** |
+| **B** Sampling Control | `n_conf × k` | 0 | k-sample vote | **120** |
+| **C** Fixed Modification | `n_conf × 2` | 0 | fixed verify pass | **80** |
+| **D** Random Search | `n_conf × 1` | `m × s` = 4×20 | 4 from Parent | **120** |
+| **E** Two-Gen Evolution | `n_conf × 1` | `m × s` = 2×20 + 2×20 | 2 + 2 lineage | **120** |
+| **Total (A–E)** | | | | **480** |
 
-### 3.2 What is NOT counted here (must be added if Planner chooses those options)
+**D and E are request-matched (120 = 120).** The only design difference is candidate parentage (flat vs two-generation lineage). This is what makes E−D identifiable as a *lineage* contrast at equal budget.
 
-- LLM-based mutation/rewrite for D or E (would add `m` or more calls per run).
-- Group "Child replica" external reference (U6 in preregistration).
+### 3.3 Explicit D/E call accounting
+
+| Step | D calls | E calls |
+|---|---:|---:|
+| Mutate Parent → gen-1 candidates | 4 syntactic mutations (0 HTTP if syntactic) | 2 syntactic mutations (0 HTTP if syntactic) |
+| Dev-set scoring of gen-1 candidates | 4 × `s` = 80 | 2 × `s` = 40 |
+| Mutate gen-1 winner → gen-2 | — | 2 syntactic mutations (0 HTTP if syntactic) |
+| Dev-set scoring of gen-2 candidates | — | 2 × `s` = 40 |
+| **Dev-eval HTTP subtotal** | **80** | **80** |
+| Confirmation of selected winner | 40 | 40 |
+| **HTTP subtotal** | **120** | **120** |
+
+If any mutation step requires an LLM rewrite, add those calls to both D and E **symmetrically** (or report the asymmetry and mark the contrast unresolved).
+
+### 3.4 What is NOT counted here
+
+- LLM-based mutation/rewrite (must be symmetric in D/E if used).
+- Optional Child-replica reference arm (U6).
 - Retry calls beyond the frozen retry policy (retries still debit the ledger).
-- Multi-generation evolution (`g > 1`): multiply dev-eval block by `g`.
+- Any generation beyond 2 in E (forbidden by this design; would break budget match with D).
 
 ---
 
@@ -216,7 +235,7 @@ If any gate fails: **stop**. Do not issue partial "just to try" calls.
 ## 10. Summary numbers (copy-ready)
 
 ```
-PLANNED_REQUESTS_FULL_AE = 480
+PLANNED_REQUESTS_FULL_AE = 480  # D and E matched at 120 each
 REMAINING_REQUESTS_NOW   = 56
 REQUEST_GAP              = 424
 PLANNED_COST_WORST_EST   = $1.4400   # estimate, not invoice
