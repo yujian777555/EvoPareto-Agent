@@ -1,13 +1,14 @@
 {
-  "evidence_class": "OFFLINE_AUDIT",
-  "official_source": "https://github.com/openai/grade-school-math/blob/master/grade_school_math/data/test.jsonl",
+  "evidence_class": "REPRODUCIBLE_OFFLINE_AUDIT",
+  "normalization": "whitespace collapse to single spaces; exact text match",
+  "gold_extraction": "text after last '####' marker in official answer field",
+  "official_source": "https://github.com/openai/grade-school-math",
   "official_file_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
   "official_record_count": 1319,
   "r3_task_count": 35,
   "official_match_count": 0,
   "synthetic_or_unmatched_count": 35,
   "gold_mismatch_count": 0,
-  "task_set_sha256_declared": "ddf055537d4618c86d736d4f0ed98fd4b23efec21f9e0ffe65a2c8ee022a6219",
   "rows": [
     {
       "task_id": "gsm8k-test-0012",
@@ -17,9 +18,7 @@
       "gold_match": null,
       "declared_gold": "55",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A bakery made 200 loaves. They sold 80 in the morning and 65 in the afternoon. H"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0013",
@@ -29,9 +28,7 @@
       "gold_match": null,
       "declared_gold": "28",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "Sarah has 5 packs of markers. Each pack has 8 markers. She gives 3 markers to ea"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0014",
@@ -41,9 +38,7 @@
       "gold_match": null,
       "declared_gold": "100",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A movie theater has 12 rows with 15 seats each. If 80 seats are occupied, how ma"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0015",
@@ -53,9 +48,7 @@
       "gold_match": null,
       "declared_gold": "56",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "Tom runs 3 miles every day for a week, then 5 miles every day for another week. "
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0016",
@@ -65,9 +58,7 @@
       "gold_match": null,
       "declared_gold": "21",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A store sells pencils in packs of 12. If a class needs 250 pencils, how many pac"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0017",
@@ -77,9 +68,7 @@
       "gold_match": null,
       "declared_gold": "18",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "There are 45 students. 3/5 of them are girls. How many boys are there?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0018",
@@ -89,9 +78,7 @@
       "gold_match": null,
       "declared_gold": "10",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A tank holds 500 liters. It is filled at 25 liters per minute. How many minutes "
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0019",
@@ -101,9 +88,7 @@
       "gold_match": null,
       "declared_gold": "100",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "Lisa reads 20 pages per day. She has a 340-page book. After 12 days, how many pa"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0020",
@@ -113,9 +98,7 @@
       "gold_match": null,
       "declared_gold": "2",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A pizza is cut into 8 slices. If 3 people each eat 2 slices, how many slices rem"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0021",
@@ -125,9 +108,7 @@
       "gold_match": null,
       "declared_gold": "28.5",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "The sum of two numbers is 45. One number is 12 more than the other. What is the "
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0022",
@@ -137,9 +118,7 @@
       "gold_match": null,
       "declared_gold": "400",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A car travels 240 miles in 3 hours. At the same speed, how far does it travel in"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0023",
@@ -149,9 +128,7 @@
       "gold_match": null,
       "declared_gold": "50",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "There are 120 apples. 1/4 are red, 1/3 are green, and the rest are yellow. How m"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0024",
@@ -161,9 +138,7 @@
       "gold_match": null,
       "declared_gold": "1850",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A school buys 30 desks at $45 each and 20 chairs at $25 each. What is the total "
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0025",
@@ -173,9 +148,7 @@
       "gold_match": null,
       "declared_gold": "40",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "Mary has $150. She spends 2/5 on books and 1/3 on clothes. How much does she hav"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0026",
@@ -185,9 +158,7 @@
       "gold_match": null,
       "declared_gold": "96",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A rectangular garden is 12m long and 8m wide. What is the area in square meters?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0027",
@@ -197,9 +168,7 @@
       "gold_match": null,
       "declared_gold": "5",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "If 5 machines make 5 widgets in 5 minutes, how long for 100 machines to make 100"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0028",
@@ -209,9 +178,7 @@
       "gold_match": null,
       "declared_gold": "180",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A train leaves at 2:30 PM traveling 60 mph. How far has it traveled by 5:30 PM?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0029",
@@ -221,9 +188,7 @@
       "gold_match": null,
       "declared_gold": "0.6",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "There are 15 red balls and 10 blue balls in a bag. What is the probability of pi"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0030",
@@ -233,9 +198,7 @@
       "gold_match": null,
       "declared_gold": "50",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A shirt costs $40 after a 20% discount. What was the original price?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0031",
@@ -245,9 +208,7 @@
       "gold_match": null,
       "declared_gold": "4",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "If x + 2y = 10 and x - y = 1, what is the value of x?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0032",
@@ -257,9 +218,7 @@
       "gold_match": null,
       "declared_gold": "66",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A cyclist rides 15 km/h for 2 hours, then 12 km/h for 3 hours. Total distance?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0033",
@@ -269,9 +228,7 @@
       "gold_match": null,
       "declared_gold": "8",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "The product of two consecutive integers is 56. What is the larger integer?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0034",
@@ -281,9 +238,7 @@
       "gold_match": null,
       "declared_gold": "0.375",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A recipe needs 3/4 cup of sugar. If making 1/2 the recipe, how much sugar is nee"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0035",
@@ -293,9 +248,7 @@
       "gold_match": null,
       "declared_gold": "0.4",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "There are 8 red, 6 blue, and 4 green marbles. What fraction are red?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0036",
@@ -305,9 +258,7 @@
       "gold_match": null,
       "declared_gold": "250",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A factory produces 1500 units in 6 hours. How many units per hour?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0037",
@@ -317,9 +268,7 @@
       "gold_match": null,
       "declared_gold": "Friday",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "If today is Wednesday, what day will it be in 100 days?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0038",
@@ -329,9 +278,7 @@
       "gold_match": null,
       "declared_gold": "10",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A ladder leans against a wall. The base is 6 feet from the wall, the top is 8 fe"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0039",
@@ -341,9 +288,7 @@
       "gold_match": null,
       "declared_gold": "2.5",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "Two trains start from stations 300 miles apart. One travels 50 mph, the other 70"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0040",
@@ -353,9 +298,7 @@
       "gold_match": null,
       "declared_gold": "225",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A $200 item is marked up 25% then discounted 10%. Final price?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0041",
@@ -365,9 +308,7 @@
       "gold_match": null,
       "declared_gold": "80",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "If a number is increased by 30% to get 104, what was the original number?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0042",
@@ -377,9 +318,7 @@
       "gold_match": null,
       "declared_gold": "144",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A company has 240 employees. 40% work remotely. How many work in the office?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0043",
@@ -389,9 +328,7 @@
       "gold_match": null,
       "declared_gold": "28",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "The average of 5 numbers is 20. If one number is removed and the average becomes"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0044",
@@ -401,9 +338,7 @@
       "gold_match": null,
       "declared_gold": "1800",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A printer prints 12 pages per minute. How many pages in 2.5 hours?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0045",
@@ -413,9 +348,7 @@
       "gold_match": null,
       "declared_gold": "12",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "What is 15% of 80?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     },
     {
       "task_id": "gsm8k-test-0046",
@@ -425,10 +358,8 @@
       "gold_match": null,
       "declared_gold": "0.25",
       "official_gold": null,
-      "duplicate_in_history": true,
-      "final_status": "SYNTHETIC_OR_UNMATCHED",
-      "question_head": "A 4-sided die is rolled twice. What is the probability both rolls are even?"
+      "final_status": "SYNTHETIC_OR_UNMATCHED"
     }
   ],
-  "conclusion": "0/35 R3 questions match official GSM8K test records exactly. 35 are synthetic/unmatched. 0 have gold mismatches. The 'official test split' provenance claim is PARTIALLY verified."
+  "conclusion": "0/35 match official; 35 synthetic/unmatched. Provenance NOT verified."
 }

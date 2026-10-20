@@ -43,7 +43,7 @@ SECRET = hashlib.sha256(
 EXPECTED_PARENT_SHA = "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e"
 EXPECTED_CHILD_SHA = "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b"
 EXPECTED_BUNDLE_SHA = "035b51cb257718d8d300ce4793984f8c115ca9efb443f433d01195c94cace173"
-EXPECTED_TASK_HASH = "ddf055537d4618c8"  # will be verified in full
+EXPECTED_TASK_HASH = "ddf055537d4618c86d736d4f0ed98fd4b23efec21f9e0ffe65a2c8ee022a6219"
 
 run_id = "r3-" + uuid.uuid4().hex[:8]
 STOP_REASON = ""
@@ -52,6 +52,33 @@ STOP_REASON = ""
 def sha256_text(s: str) -> str:
     return hashlib.sha256(s.encode("utf-8", errors="replace")).hexdigest()
 
+
+
+def verify_taskset(tasks, declared_hash, expected_hash):
+    """Pure function: verify task-set hash gate. Returns error string or empty."""
+    # field completeness FIRST
+    for t in tasks:
+        if not t.get("task_id") or not t.get("question") or t.get("gold_answer") is None:
+            return f"TASK_FIELD_MISSING:{t.get('task_id')}"
+    tids = [t["task_id"] for t in tasks]
+    if len(set(tids)) != len(tids):
+        return "TASK_ID_DUPLICATE"
+    if tids != sorted(tids):
+        return "TASK_ORDER_MISMATCH"
+    blob = json.dumps(
+        [(t["task_id"], t["question"], t["gold_answer"]) for t in tasks],
+        sort_keys=True,
+    )
+    recomputed = hashlib.sha256(blob.encode("utf-8")).hexdigest()
+    if not declared_hash:
+        return "DECLARED_HASH_MISSING"
+    if not expected_hash:
+        return "EXPECTED_HASH_MISSING"
+    if recomputed != declared_hash:
+        return f"TASK_SET_HASH_MISMATCH:recomputed={recomputed[:16]} declared={declared_hash[:16]}"
+    if declared_hash != expected_hash:
+        return f"TASK_SET_HASH_UNEXPECTED:declared={declared_hash[:16]} expected={expected_hash[:16]}"
+    return ""
 
 def main() -> int:
     global STOP_REASON
@@ -179,21 +206,9 @@ def main() -> int:
     if len(tasks_data) != 35:
         print(f"TASK_COUNT_MISMATCH:{len(tasks_data)}")
         return 3
-    task_blob = json.dumps(
-        [(t["task_id"], t["question"], t["gold_answer"]) for t in tasks_data],
-        sort_keys=True,
-    )
-    recomputed_hash = hashlib.sha256(task_blob.encode("utf-8")).hexdigest()
-    declared_hash = conf.get("task_set_sha256", "")
-    if recomputed_hash != declared_hash:
-        print(f"TASK_SET_HASH_MISMATCH:recomputed={recomputed_hash[:16]} declared={declared_hash[:16]}")
-        return 3
-    tids = [t["task_id"] for t in tasks_data]
-    if len(set(tids)) != len(tids):
-        print("TASK_ID_DUPLICATE")
-        return 3
-    if tids != sorted(tids):
-        print("TASK_ORDER_MISMATCH")
+    err = verify_taskset(tasks_data, conf.get("task_set_sha256"), EXPECTED_TASK_HASH)
+    if err:
+        print(err)
         return 3
 
     # dependency stubs for Docker

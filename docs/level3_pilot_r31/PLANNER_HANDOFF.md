@@ -1,35 +1,25 @@
-# Planner Handoff — Level3-Pilot-R3.1
+# Planner Handoff — Level3-Pilot-R3.1-R1
 
-## Critical finding
+## What changed
 
-**0/35 R3 questions match official GSM8K test records.** All are synthetic
-GSM8K-style problems with fabricated task IDs. The "official test split"
-provenance claim is false.
+1. **Hash gate hardened** — `EXPECTED_TASK_HASH` is the full frozen SHA-256;
+   `verify_taskset()` enforces recomputed == declared == expected with
+   field/ID/order checks first. 11 regression tests.
+2. **Provenance audit reproducible** — standalone script with SHA-256 and
+   record-count verification; reproduces 0/35 match finding.
 
-R3 results are preserved as-is but relabeled:
-**exploratory workflow comparison on 35 synthetic GSM8K-style tasks** — NOT
-official GSM8K generalization.
+## Unchanged
 
-## Statistical correction
-
-Parent 29/35 (82.9%) · Child 31/35 (88.6%) · net +2 · 0 regressions.
-McNemar **one-sided p=0.25, two-sided p=0.50** — neither significant.
-
-## Cost reconciliation
-
-Actual settled: parent $0.0055302 · child
-$0.0154032 · total
-$0.0209334.
-Cumulative debited: $0.0363972.
-Provider invoice: NOT_VERIFIED.
-
-## Budget boundary
-
-56 requests remain (300 cap). Cannot re-run the 140-request experiment.
-New authorization + new preregistration required for any future rerun.
+- R3 original results preserved (35 synthetic tasks, parent 29/35 vs child
+  31/35, McNemar one-sided p=0.25 / two-sided p=0.50)
+- Provenance remains **NOT verified** (0/35 official matches)
+- Frozen results (398 files) untouched
+- Authorization ledger untouched; 56 requests remain
+- NEW REAL HTTP REQUESTS: **0**
 
 ## Not claimed
 
-- official GSM8K generalization (provenance false)
-- statistical significance (p=0.25/0.50)
+- official GSM8K generalization
+- statistical significance
 - recursive self-improvement
+- preregistration temporal ordering (not Git-provable in single commit)
