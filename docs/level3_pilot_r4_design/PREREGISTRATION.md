@@ -60,7 +60,7 @@ Shared constants (frozen at execution time by the accepted freeze file):
 | `m` | candidate workflows generated per run (D/E) | **4** |
 | `s` | development-set tasks used to rank/select candidates | **20** (official train split) |
 | `n_conf` | confirmation tasks | **40** (official test split; see freeze doc) |
-| `n_gen` | generation tasks (candidate production) | **20** (official train split) |
+| `n_gen` | generation tasks (candidate production) | **N/A** — R4 mutations are fixed syntactic operators (`MutationPlan`); no separate generation-task set is consumed. Dev ranking uses `s` only. |
 | Model | same provider/model for all groups | `deepseek-flash` |
 | Scoring | host-side gold; never in container/prompt/IPC | as R3 |
 
@@ -146,11 +146,17 @@ The contrast E−D is therefore: *does mutating from a selected ancestor beat mu
 | Mutations | `M_SET_INSTRUCTION`, `M_ADD_SAMPLING`, `M_ADD_CHECK_STAGE`, `M_SINGLE_EDIT` | clone-and-edit, syntactic, no model calls |
 | Group D lineage | **IMPLEMENTED** | `generate_flat_candidates` — all 4 from frozen Parent; violation raises `LINEAGE_FLAT_VIOLATION` |
 | Group E lineage | **IMPLEMENTED** | `generate_two_generation_candidates` — gen2 must descend from gen-1 winner |
-| Offline tests | 14 adapter tests pass | `tests/baseline_first/test_r4_parent_adapter.py` (SIMULATED mock pipeline only) |
-| Real Docker/DeepSeek candidate eval | **NOT RUN** | requires authorized API budget (see `RQ3_MULTI_SEED_DESIGN.md`) |
+| Offline tests | 30 adapter tests pass | `tests/baseline_first/test_r4_parent_adapter.py` (SIMULATED local execution; selection; Group C; lineage) |
+| Local mock execution | **READY** | `execute_program_locally` (SIMULATED hook; answer extraction; ctor probes) |
+| Real Docker/DeepSeek candidate eval | **NOT RUN** | still authorization-gated (see `RQ3_MULTI_SEED_DESIGN.md`) |
+| Group C fixed-verify | **IMPLEMENTED** | `build_group_c_fixed_verify` (Parent call + one fixed verify, 2 calls) |
 | Algorithm-level claim (RQ3) | **NOT SUPPORTED at R=1** | see multi-seed design: `TOTAL_REQUESTS(R)=240+240R` |
 
-**Honest label for D/E today:** representation + lineage **READY**; real-model candidate scoring **BLOCKED on budget/authorization**, not on missing adapter code.  
+**Status layers (do not conflate):**  
+1. **Representation layer — READY:** `WorkflowProgram`, hashes, lineage, selection, Group C.  
+2. **Execution layer (local mock) — READY:** SIMULATED IPC hook, answer extraction, error paths.  
+3. **Execution layer (Docker + real model) — NOT RUN:** authorization-gated.  
+4. **Formal experiment / final freeze — NOT APPROVED.**  
 **Recursive self-improvement:** still **NOT** claimed. Two-generation lineage ≠ open-ended RSI.
 
 ### Search-seed design (RQ3)
@@ -183,7 +189,8 @@ For every pair (X, Y) where call counts differ, the report **must** also present
 | Role | Split | Used for | Used for final claims? |
 |---|---|---|---|
 | **Generation** | official GSM8K **train** | producing candidates (D/E) | NO |
-| **Development / selection** | official GSM8K **train** (disjoint from generation indices) | ranking/selecting candidates (D/E) | NO |
+| **Development / selection** | official GSM8K **train** (verified 7473 rows) | ranking/selecting candidates (D/E) on `s=20` tasks | NO |
+| **Generation tasks** | **not required** | mutations are fixed syntactic operators from `MutationPlan` (no LLM rewrite) | NO |
 | **Confirmation** | official GSM8K **test** | final scoring for **all** groups A–E | YES |
 | **Calibration / dry-run** | offline fixture or mock only | plumbing tests | NO |
 
@@ -295,7 +302,7 @@ Efficiency view: accuracy vs requests, accuracy vs USD, accuracy vs latency. A g
 | U2 | `k` samples for Group B | PROPOSED 3 | Must match a fair budget story vs C/D/E call counts |
 | U3 | Group C exact fixed modification | PROPOSED "add one verify pass" | Planner may choose a different fixed edit; must be frozen before calls |
 | U4 | Group D mutation operator set | PROPOSED use existing fceol/evolution operators, syntactic-only first | If LLM-rewrite mutations are included, cost explodes. Same operator distribution required for D and E |
-| U5 | Group E selection mechanism | **REDESIGNED in R4-RF**: two-generation lineage (2+2), final pick among all 4 on shared dev set | Adapter from AFlow Parent graph to mutable genome still unimplemented; without it E is `BLOCKED_IMPLEMENTATION` |
+| U5 | Group E selection mechanism | **IMPLEMENTED**: two-generation lineage (2+2) via `generate_two_generation_candidates`; final pick among 4 on shared dev scores with creation-order ties (`select_e_final`) | Real-model scoring still authorization-gated; RQ3 algorithm-level claim needs R≥6 paired seeds (see `RQ3_MULTI_SEED_DESIGN.md`) |
 | U6 | Whether to include a "Child replica" group (exact R3 child) as external reference | OPEN | Useful benchmark but costs calls; R3 child already characterized |
 | U7 | New budget authorization amount | OPEN | Current remaining quota is only 56 requests — insufficient for A–E (see budget doc) |
 | U8 | Task-set freeze acceptance | PROPOSED in freeze doc | Planner must accept before sampling |

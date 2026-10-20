@@ -1,171 +1,218 @@
-# RQ3 Multi-Seed Design — Plan P vs Plan C (R4-R2)
+# RQ3 Multi-Seed Design — Plan P vs Plan C (R4-R3)
 
-**Status:** DESIGN ONLY — zero real model calls. Not an authorization.
-**Baseline commit:** `d1056059e73b46225dd4218b98a9948af7627b19`.
-**Question this document prices:** can we claim that *two-generation evolution* stably beats *random search*, not merely that one lucky search seed produced a better candidate?
+**Status:** DESIGN ONLY — zero real model calls. Not an authorization.  
+**Baseline commit:** `08af0e6cab458febb94a44d0ca87f5343af4bb78`.  
+**Question:** can we claim that two-generation evolution stably beats random search, not merely that one search seed produced a better candidate?
+
+**Companion tables (deterministic script):** `scripts/level3_pilot_r4/rq3_power_tables.py` → `RQ3_POWER_TABLES.txt`.
 
 ---
 
 ## 1. Why a single search seed is insufficient
 
-With one seed per method (old 480-call plan):
+| What Plan P (R=1) can say | What it cannot say |
+|---|---|
+| Under **this** seed, E's selected candidate beat/lost to D's on these 40 tasks | Evolutionary search stably beats random search |
+| Pipeline plumbing works | Cross-seed variance σ_d is estimated |
+| Exploratory effect size on one draw | Algorithm-level RQ3 |
 
-* The unit of comparison is **one selected candidate workflow vs another**, both scored on the same 40 confirmation tasks.
-* A confirmation-set difference (even a significant McNemar result) speaks to **those two candidates**, not to the **search algorithms**.
-* Search RNG variance is completely confounded with method effect.
-
-Therefore RQ3 at the **algorithm** level requires independent search replications.
+Search RNG variance is fully confounded with method at R=1. **Plan P does not estimate cross-seed variance** and must not be quoted as if it did.
 
 ---
 
-## 2. Plan P — single-search exploratory pilot
+## 2. Seed generation and pairing (frozen)
+
+### 2.1 Independent seeds
+
+For block index `r = 1..R`:
+
+```
+plan_seed[r] = BASE_SEED + 1009 * r
+```
+
+`BASE_SEED` is written into the execution freeze file (proposed `20260601`, Planner may change **before** any call). Seeds are therefore deterministic and reproducible from the freeze file alone.
+
+### 2.2 Paired blocking (required for Wilcoxon)
+
+D and E in block `r` share the **same** `MutationPlan(seed=plan_seed[r])`:
+
+| Slot | Group D (flat) | Group E (two-generation) |
+|---|---|---|
+| 0 | mutate **Parent** | mutate **Parent** (same plan draw as D slot 0) |
+| 1 | mutate **Parent** | mutate **Parent** (same plan draw as D slot 1) |
+| 2 | mutate **Parent** | mutate **gen-1 winner** |
+| 3 | mutate **Parent** | mutate **gen-1 winner** |
+
+This is a **valid paired block**: shared mutation randomness on slots 0–1, structural difference only on 2–3 (lineage). Blocks are independent across `r`.
+
+If this pairing is **not** implemented, Wilcoxon signed-rank is **invalid**. Then use an independent-sample method (Mann–Whitney U / permutation test on unpaired seed accuracies) and state the loss of power. **Do not** arbitrarily pair unpaired runs and then apply Wilcoxon.
+
+---
+
+## 3. Exact-test limits at R=5 (critical)
+
+Exact two-sided Wilcoxon signed-rank minimum attainable p-value = `2 / 2^R`:
+
+| R | p_min two-sided | Can reject at α=0.05? |
+|---:|---:|---|
+| 1 | 1.000 | NO |
+| 2 | 0.500 | NO |
+| 3 | 0.250 | NO |
+| 4 | 0.125 | NO |
+| **5** | **0.0625** | **NO** |
+| 6 | 0.03125 | YES |
+| 10 | 0.001953 | YES |
+
+**R=5 cannot achieve two-sided α=0.05 under the standard exact Wilcoxon (or exact sign test).** Any document that claims otherwise is wrong. At R=5, a two-sided exact test can only be reported as “not significant at 0.05 by construction”; a one-sided exact test can reach 1/32≈0.031, but R4 froze **two-sided** confirmatory tests.
+
+**Minimum R for a possible two-sided exact rejection: 6.** Plan C should target **R≥10** if a significant algorithm-level claim is intended.
+
+---
+
+## 4. Plan P — single-search exploratory pilot
 
 | Item | Value |
 |---|---|
 | A / B / C | one run each |
-| D / E | **one** search seed each |
-| Confirmation | same 40 tasks for all groups |
-| Request formula | `240 + 240×1 = 480` |
-| Inference allowed | *“Under this seed, E's selected candidate beat / lost to D's selected candidate on these 40 tasks.”* |
-| Inference **not** allowed | “Evolutionary search is better than random search” / any algorithm-level claim |
-| Role | plumbing + variance scouting; optional precursor to Plan C |
-
-**Evidence boundary (must be printed next to any Plan P result):**  
-`SINGLE_SEED_CANDIDATE_COMPARISON_ONLY — not an algorithm-level test.`
+| D / E | **one** search seed each (paired block r=1) |
+| Confirmation | same 40 tasks |
+| Requests | `240 + 240×1 = 480` (+10% margin 528) |
+| Allowed label | `SINGLE_SEED_CANDIDATE_COMPARISON_ONLY` |
+| Forbidden | algorithm-level claims; σ_d estimation; “evolution is better” |
 
 ---
 
-## 3. Plan C — algorithm-level multi-seed comparison
+## 5. Plan C — algorithm-level multi-seed comparison
 
-### 3.1 Structure
+### 5.1 Structure
 
-* A, B, C: still **one** reference run each (they are not search procedures).
-* D and E: **R independent search seeds** each (`R ∈ {1, 5, 10}` reported).
-* Per seed: same `m=4` candidates, same development set size `s=20`, same confirmation set (40 tasks).
-* Final workflow per seed is scored once on the confirmation set.
-* **D and E request budgets match inside each seed** (120 vs 120).
+* A, B, C: one reference run each (not search procedures).
+* D and E: **R paired search blocks** each (`R ∈ {6, 10, 20}` recommended; `R=5` reported only as underpowered).
+* Per block: same `m=4` candidates, same `s=20` dev tasks, same confirmation set (40 tasks).
+* D/E HTTP budget match inside each block (120 vs 120).
 
-### 3.2 Request accounting
-
-| Component | Formula | R=1 | R=5 | R=10 |
-|---|---|---:|---:|---:|
-| A | 40 | 40 | 40 | 40 |
-| B | 120 | 120 | 120 | 120 |
-| C | 80 | 80 | 80 | 80 |
-| D × R | 120 R | 120 | 600 | 1200 |
-| E × R | 120 R | 120 | 600 | 1200 |
-| **TOTAL** | **`240 + 240 R`** | **480** | **1,440** | **2,640** |
-| vs current 300-request cap | | **+180** | **+1,140** | **+2,340** |
-| 10% retry/safety margin | 0.1×TOTAL | 48 | 144 | 264 |
-| **With margin** | | **528** | **1,584** | **2,904** |
-
-**No silent reduction:** if authorization cannot cover R, the study is reported `INCOMPLETE`; seeds / confirmation tasks / contrasts are not quietly dropped.
-
-### 3.3 Token and cost estimates (estimate ≠ invoice)
-
-Per-request bounds (from R3 observed mix): input 150–400, output 150–800 (median ~300).
-
-| R | TOTAL req | input tok (low–high) | output tok (med) | output tok (high) | worst-case USD (=$0.003/req) | settled-rate USD (≈$0.00016) |
-|---:|---:|---|---|---|---:|---:|
-| 1 | 480 | 72k–192k | ≈144k | 384k | **$1.44** | ≈$0.08 |
-| 5 | 1,440 | 216k–576k | ≈432k | 1.15M | **$4.32** | ≈$0.23 |
-| 10 | 2,640 | 396k–1.06M | ≈792k | 2.11M | **$7.92** | ≈$0.42 |
-
-**Cap checks (existing authorization):**
-
-| Cap | R=1 | R=5 | R=10 |
-|---|---|---|---|
-| requests ≤ 300 | **FAIL** (480>300) | **FAIL** | **FAIL** |
-| output tokens ≤ 200,000 | **FAIL** at high bound (384k); risky at median (144k) | **FAIL** | **FAIL** |
-| cost ≤ $5.00 | PASS worst-case $1.44 | PASS $4.32 | **FAIL $7.92** |
-
-**New authorization required** even for Plan P / R=1. This is the main gate.
-
----
-
-## 4. Statistical design (Plan C)
-
-### 4.1 Analysis units — must be distinguished
-
-| Unit | What varies | Role |
-|---|---|---|
-| **Task** (n=40) | question difficulty | paired correctness within a seed |
-| **Search seed** (n=R) | candidate-generation RNG | **primary unit for algorithm claims** |
-| **Task × seed** (n=40R) | both | descriptive only; **not** 40R independent Bernoulli trials |
-
-Same confirmation task scored by multiple seeds is **not** independent evidence. Treating 40R rows as i.i.d. would inflate significance.
-
-### 4.2 Recommended primary contrast (algorithm level)
-
-For each seed `r=1..R` compute confirmation accuracy `acc_D[r]` and `acc_E[r]` (proportion of 40).
-
-* Difference series `d[r] = acc_E[r] − acc_D[r]`.
-* **Primary test:** exact Wilcoxon signed-rank on `d[r]` (or one-sample t if R is large and d looks normal) — two-sided, α=0.05.
-* Report mean/median `d`, bootstrap CI over seeds, and min/max.
-* **Secondary (candidate level, per seed):** McNemar on that seed's two selected candidates; apply Holm across seeds if interpreted as a family.
-
-### 4.3 Missing / failure rules
-
-* A seed that cannot produce a valid candidate → dev accuracy 0, candidate retained; if the seed cannot score confirmation, that seed is `FAILED_SEED` and **remains in the R denominator** as a pre-declared worst case (or is listed as missing with the primary analysis using available seeds + sensitivity with failed seeds scored 0). Pre-declare: **failed seed scores 0 accuracy for that method**.
-
-### 4.4 Power / sample size stance (offline)
-
-Let `μ_d` be the true mean seed-level accuracy difference and `σ_d` the seed-level SD of differences.
-
-Rough normal-approx for two-sided paired t / Wilcoxon-approx:
-
-`R ≈ ((z_{1-α/2} + z_{1-β}) * σ_d / μ_d)^2`
-
-| Assumed `μ_d` | Assumed `σ_d` | R for 80% power (α=0.05) |
-|---:|---:|---:|
-| 0.02 (2 points) | 0.04 | ≈ 62 |
-| 0.05 (5 points) | 0.06 | ≈ 23 |
-| 0.05 | 0.04 | ≈ 10 |
-| 0.08 | 0.05 | ≈ 5 |
-| 0.10 | 0.06 | ≈ 4 |
-
-**Reading.** R=5 or R=10 is only powered for **large, stable** seed-level effects. R=1 cannot test algorithms at all. Report the detectable `μ_d` at each R rather than pretending R=10 is “enough for anything”.
-
-There is **no pilot estimate of σ_d** yet (we have never run D/E). Until Plan P or a mock search gives a variance estimate, these ranges are assumption-based.
-
----
-
-## 5. Statistical dependence handling (explicit)
-
-1. Confirmation set is **fixed and shared** across all seeds and both methods (paired by design).
-2. Algorithm inference is over **seeds**, not tasks.
-3. Task-level McNemar within a seed describes *that seed's candidates*; it is secondary.
-4. Do not pool 40R task rows into one McNemar.
-5. If reporting task-level effects across seeds, use a hierarchical model or cluster-robust SE at the seed level — and label it exploratory.
-
----
-
-## 6. Planner recommendation (Executor cannot decide)
-
-| Option | Cost | What it can support | Risk |
-|---|---|---|---|
-| **Plan P (R=1)** now, after new auth for ~528 req | lower | exploratory candidate contrast + variance scouting for a later Plan C | over-claiming risk if not labelled |
-| **Plan C with R=5** (1,584 req with margin) | medium-high | algorithm-level test for moderate–large effects | still underpowered for tiny effects; token cap must rise |
-| **Plan C with R=10** (2,904 req with margin) | high | better seed-level CIs; detectable μ_d ≈ 0.05 if σ_d≈0.04 | cost cap $5 also breached (≈$7.92 worst-case) |
-| Do not run D/E yet | 0 | keeps evidence clean | RQ3 unanswered |
-
-**Executor suggestion for Planner:** treat Plan P as a *variance-scoping pilot* under a new request/token authorization, and only promote to Plan C when (a) σ_d can be estimated and (b) request + token + cost caps are explicitly extended. **Do not** run D/E under the current 300-request cap and **do not** call R=1 an algorithm test.
-
----
-
-## 7. Fixed formula summary
+### 5.2 Request accounting (margins included)
 
 ```
-A = 40, B = 120, C = 80
-D_seed = 120, E_seed = 120
 TOTAL_REQUESTS(R) = 240 + 240 * R
-
-R=1   -> 480    (Plan P baseline)
-R=5   -> 1440
-R=10  -> 2640
-
-+10% safety -> 528 / 1584 / 2904
+WITH_MARGIN(R)    = ceil(1.10 * TOTAL_REQUESTS(R))
 ```
 
-New real API requests this round: **0**.
+| R | TOTAL | +10% margin | gap vs 300-cap | worst USD (=$0.003/req) | output tok high (800/req) | output tok med (300/req) |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 480 | 528 | +228 | $1.58 | 422k | 158k |
+| 5 | 1,440 | 1,584 | +1,284 | $4.75 | 1.27M | 475k |
+| 6 | 1,680 | 1,848 | +1,548 | $5.54 | 1.48M | 554k |
+| 10 | 2,640 | 2,904 | +2,604 | $8.71 | 2.32M | 871k |
 
+**Caps (existing authorization, unchanged this round):**
+
+| Cap | R=1 | R=5 | R=6 | R=10 |
+|---|---|---|---|---|
+| requests ≤ 300 | FAIL | FAIL | FAIL | FAIL |
+| output tokens ≤ 200,000 | FAIL at high bound (422k); borderline median (158k) | FAIL | FAIL | FAIL |
+| cost ≤ $5.00 | PASS (est.) | PASS (est.) | **FAIL** (est. $5.54) | FAIL |
+
+**No silent reduction.** If authorization cannot cover R, report `INCOMPLETE`.
+
+### 5.3 Token bounds (estimate ≠ invoice)
+
+Per request: input 150–400, output 150–800 (median ~300). R=10 high-bound output ≈ 2.1M–2.3M tokens ≫ 200k cap.
+
+---
+
+## 6. Statistical analysis (Plan C)
+
+### 6.1 Analysis units — do not conflate
+
+| Unit | n | Role |
+|---|---:|---|
+| Task | 40 | paired correctness within a block |
+| Search block (seed) | R | **primary unit for algorithm claims** |
+| Task × seed | 40R | descriptive only; **not** i.i.d. Bernoulli |
+
+### 6.2 Primary test (algorithm level)
+
+1. For each block `r`, confirmation accuracy `acc_D[r]`, `acc_E[r]` on the frozen 40 tasks.
+2. Differences `d[r] = acc_E[r] − acc_D[r]`.
+3. **Primary:** exact two-sided Wilcoxon signed-rank on `d[r]` (paired design §2.2).  
+   - If R < 6, the test **cannot** reject at α=0.05; report p and the structural limit.  
+   - If pairing (§2.2) is not implemented, switch to **Mann–Whitney U** (independent) and say so.
+4. Report mean/median `d`, bootstrap CI over blocks, min/max, and every `d[r]`.
+
+### 6.3 Task dependence (shared 40 confirmation tasks)
+
+* Seed-level `d[r]` are **conditional on this frozen 40-task set**.  
+* Claims are of the form: *on this confirmation set, E–D differences across search blocks are…*  
+* **Generalization to the GSM8K task distribution is not licensed** by seed-only analysis.
+
+If a distributional claim is required, pre-specify a **crossed** analysis before data:
+
+* hierarchical binomial model: `correct ~ method + (1|task) + (1|seed) + (1|method:seed)`, or  
+* two-way bootstrap resampling tasks **and** seeds.
+
+Label such an analysis **secondary / exploratory** unless it was frozen before outcomes.
+
+### 6.4 Failed seeds and failures
+
+| Event | Primary analysis | Sensitivity |
+|---|---|---|
+| Seed produces only FailedCandidate slots | method–seed accuracy **0.0** (stays in denominator) | complete-case (exclude) reported alongside |
+| Confirmation scoring fails for a method–seed | accuracy **0.0** | complete-case |
+| HTTP/timeout on a confirmation task | task incorrect, **row kept** | none (no task dropping) |
+
+Never silently drop failed runs.
+
+### 6.5 Secondary per-block McNemar
+
+Within block `r`, McNemar on that block's two selected candidates describes **those candidates**. Holm across blocks if treated as a family. Not the algorithm-level claim.
+
+---
+
+## 7. Power / assumptions (explicit)
+
+### 7.1 Normal approximation (quoted only as approximation)
+
+`R ≈ ((z_{0.975}+z_{0.80}) σ_d / μ_d)^2`
+
+| μ_d | σ_d | R approx | Assumptions |
+|---:|---:|---:|---|
+| 0.02 | 0.04 | ≈31 | normal d[r]; σ known-ish |
+| 0.05 | 0.06 | ≈11 | same |
+| 0.05 | 0.04 | ≈5 | same — but exact Wilcoxon still needs R≥6 to reject |
+| 0.08 | 0.05 | ≈4 | normal approx optimistic vs exact |
+| 0.10 | 0.06 | ≈3 | normal approx only |
+
+**No pilot estimate of σ_d exists.** Until Plan P (or mock search variance) is run, these rows are **assumption-based ranges**, not measured power.
+
+### 7.2 Exact-test constraint is binding
+
+Even when the normal formula says R≈5, the **exact** two-sided Wilcoxon cannot reject until R≥6. Prefer R=10+ for Plan C.
+
+---
+
+## 8. Planner recommendation (Executor cannot decide)
+
+| Option | Requests (+margin) | Evidence supported |
+|---|---:|---|
+| Plan P R=1 | 528 | exploratory single-seed candidate contrast only |
+| Plan C R=6 | 1,848 | first exact-two-sided-capable design; cost cap may fail |
+| Plan C R=10 | 2,904 | better CIs; still conditional on the 40 tasks |
+| No D/E yet | 0 | keeps evidence clean |
+
+**Suggestion:** use Plan P only as plumbing/variance scouting under a **new** request+token authorization; promote to Plan C with **R≥6** (prefer 10) when caps are extended. Do **not** run D/E under the 300-request cap. Do **not** call R=1 or R=5 a successful algorithm-level test.
+
+---
+
+## 9. Formula card
+
+```
+A=40, B=120, C=80
+D_block=120, E_block=120
+TOTAL_REQUESTS(R) = 240 + 240 * R
+WITH_MARGIN(R)    = ceil(1.1 * TOTAL_REQUESTS(R))
+
+Exact two-sided Wilcoxon rejects at α=0.05 only if R ≥ 6.
+Plan P (R=1) = SINGLE_SEED_CANDIDATE_COMPARISON_ONLY.
+New real API requests this round: 0.
+```

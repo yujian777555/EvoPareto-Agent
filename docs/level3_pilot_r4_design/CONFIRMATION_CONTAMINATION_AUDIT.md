@@ -33,7 +33,9 @@ For each of the 40 tasks:
 
 Raw machine output (first pass): `confirmation_contamination_audit_raw.json`.
 
-**Reproducible audit program (R4-R2):** `scripts/level3_pilot_r4/audit_confirmation_contamination.py`  
+**Verdict classes (R4-R3):** NO_HIT / ALLOWED_SOURCE_ONLY / PROTOCOL_DECLARED_HIT / HISTORICAL_SCORED_HIT / INCONCLUSIVE_SCAN. No-hit is not automatically DATA_ONLY. Official SHA/count and freeze hash+count gates must pass or independence is BLOCKED.
+
+**Reproducible audit program (R4-R2/R3):** `scripts/level3_pilot_r4/audit_confirmation_contamination.py`  
 Rerun output: `confirmation_contamination_audit_rerun.json` (deterministic, `sort_keys=True`).  
 It records the scan roots/suffixes/exclusions, SHA-256 of every scanned file, per-hit classification, and R2 prior-scored official indices `[1, 2]`.  
 Regression tests: `tests/baseline_first/test_r4_confirmation_audit.py` (6 tests, including a SIMULATED injection that flags a historically scored official question as `CONTAMINATED_SCORED`).

@@ -36,7 +36,7 @@
 | Used for model evaluation this round? | **NO** (zero real model requests) |
 | Test-split substitute? | **NO** |
 
-Generation/development freeze for D/E can now be drawn from this train split under the same hashing rule. A concrete gen/dev freeze file is **not** issued until Planner accepts the search-seed plan (`RQ3_MULTI_SEED_DESIGN.md`) and the sampling seed / sizes (U1–U5).
+Development-set freeze for D/E can be drawn from this train split under the same hashing rule (s=20). A separate generation-task set is NOT required: R4 mutations are fixed syntactic MutationPlan operators (no LLM rewrite). A concrete gen/dev freeze file is **not** issued until Planner accepts the search-seed plan (`RQ3_MULTI_SEED_DESIGN.md`) and the sampling seed / sizes (U1–U5).
 
 ### 1.3 Legacy split manifest warning
 

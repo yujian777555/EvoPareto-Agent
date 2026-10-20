@@ -6,7 +6,7 @@
 
 > **Terminology.** Every USD figure below is an **internal usage estimate or a settled ledger figure**. None of them is a provider invoice. `PROVIDER_INVOICE = NOT_VERIFIED`.
 
-> **R4-R2 update.** Algorithm-level RQ3 needs independent search seeds (see `RQ3_MULTI_SEED_DESIGN.md`): `TOTAL_REQUESTS(R) = 240 + 240R`. The single-seed 480-call plan is **Plan P (exploratory only)**. D and E both require the WorkflowProgram adapter (`src/research/r4_workflow_program.py`) before they are executable.
+> **R4-R3 update.** `TOTAL_REQUESTS(R)=240+240R`, `WITH_MARGIN=ceil(1.1*TOTAL)`. Plan P (R=1) = exploratory single-seed only. Plan C needs **R≥6** for exact two-sided Wilcoxon at α=0.05 (R=5 min p=0.0625). WorkflowProgram adapter is **READY** (representation + local mock); real Docker/model eval remains **authorization-gated**. See `RQ3_MULTI_SEED_DESIGN.md`.
 
 > **R4-RF update.** Group D is *Random Search* (4 independent mutants from Parent). Group E is *Two-Generation Evolution* (2 from Parent, 2 from gen-1 winner, best of all 4 on the shared dev set). D and E share `m=4` candidates, `s` dev tasks, `n_conf` confirmation tasks, and **equal request totals (120 each)**. Two generations do **not** prove recursive self-improvement.
 
@@ -77,7 +77,15 @@ Source: `~/.evopareto/state/level3_pilot_authorization.json` (not modified).
 | **E** Two-Gen Evolution | `n_conf × 1` | `m × s` = 2×20 + 2×20 | 2 + 2 lineage | **120** |
 | **Total (A–E)** | | | | **480** |
 
-**D and E are request-matched (120 = 120).** The only design difference is candidate parentage (flat vs two-generation lineage). This is what makes E−D identifiable as a *lineage* contrast at equal budget.
+**D and E are request-matched (120 = 120) per search block.** Safety margin 10% is part of every planning number: `WITH_MARGIN(R)=ceil(1.1*(240+240R))`.
+
+| R | TOTAL | WITH_MARGIN | vs 300-cap | worst USD @$0.003 | out-tok high 800/req | out-tok med 300/req |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 480 | 528 | FAIL +228 | $1.58 | 422k (FAIL>200k) | 158k (borderline) |
+| 5 | 1440 | 1584 | FAIL +1284 | $4.75 | 1.27M FAIL | 475k FAIL |
+| 6 | 1680 | 1848 | FAIL +1548 | $5.54 FAIL cost | 1.48M FAIL | 554k FAIL |
+| 10 | 2640 | 2904 | FAIL +2604 | $8.71 FAIL | 2.32M FAIL | 871k FAIL |
+ The only design difference is candidate parentage (flat vs two-generation lineage). This is what makes E−D identifiable as a *lineage* contrast at equal budget.
 
 ### 3.3 Explicit D/E call accounting
 
@@ -184,7 +192,9 @@ If any gate fails: **stop**. Do not issue partial "just to try" calls.
 
 | Item | Requests |
 |---|---:|
-| Planned A–E grand total (defaults) | **480** |
+| Planned A–E grand total (Plan P, R=1) | **480** |
+| With 10% safety margin | **528** |
+| Plan C R=6 / R=10 (with margin) | **1848 / 2904** |
 | Remaining under current authorization | **56** |
 | **Gap** | **424** |
 
