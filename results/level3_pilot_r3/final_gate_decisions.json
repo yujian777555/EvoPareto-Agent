@@ -1,0 +1,33 @@
+{
+  "PREREGISTERED_BEFORE_CALLS": true,
+  "TASK_SET_FROZEN": true,
+  "CANDIDATE_HASHES_VERIFIED": true,
+  "EXCLUSION_RULE_FROZEN": true,
+  "PARENT_CORRECT": 29,
+  "CHILD_CORRECT": 31,
+  "PARENT_ACCURACY": 0.8286,
+  "CHILD_ACCURACY": 0.8857,
+  "PAIRED": {
+    "child_improved_over_parent": 2,
+    "child_regressed_vs_parent": 0,
+    "both_correct": 29,
+    "both_wrong": 4,
+    "net_gain": 2,
+    "mcnemar_exact_p": 0.25,
+    "discordant_pairs": 2
+  },
+  "STATISTICALLY_SIGNIFICANT": false,
+  "NEW_HTTP_REQUESTS": 140,
+  "BUDGET_DEBITED_USD": 0.036397199999999984,
+  "BUDGET_REMAINING_USD": 4.9636028,
+  "PROVIDER_INVOICE": "NOT_VERIFIED",
+  "RECURSIVE_SELF_IMPROVEMENT_PROVEN": false,
+  "NSGA3_EVIDENCE_SUFFICIENT": false,
+  "FROZEN_RESULTS_UNCHANGED": true,
+  "n_frozen_files": 394,
+  "TESTS_PASSED": 908,
+  "TESTS_FAILED": 0,
+  "TESTS_SKIPPED": 2,
+  "GITHUB_CI": "NOT_CONFIGURED",
+  "FINAL_DECISION": "DIRECTIONALLY_POSITIVE_NOT_SIGNIFICANT_INSUFFICIENT_FOR_NSGA3"
+}

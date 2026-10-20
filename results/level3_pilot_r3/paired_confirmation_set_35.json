@@ -1,0 +1,324 @@
+{
+  "evidence_class": "PREREGISTERED_BEFORE_REAL_CALLS",
+  "experiment": "LEVEL3-PILOT-R3 paired parent-child on 35 GSM8K test tasks",
+  "seed": 20261019,
+  "n_tasks": 35,
+  "task_set_sha256": "ddf055537d4618c86d736d4f0ed98fd4b23efec21f9e0ffe65a2c8ee022a6219",
+  "exclusion_rule": {
+    "frozen_before_sampling": true,
+    "excluded_task_ids": [
+      "gsm8k-test-0000",
+      "gsm8k-test-0001",
+      "gsm8k-test-0002",
+      "gsm8k-test-0003",
+      "gsm8k-test-0004",
+      "gsm8k-test-0005",
+      "gsm8k-test-0006",
+      "gsm8k-test-0007",
+      "gsm8k-test-0008",
+      "gsm8k-test-0009",
+      "gsm8k-test-0010",
+      "gsm8k-test-0011"
+    ],
+    "excluded_count": 12,
+    "rule": "exclude all previously used confirmation tasks; no performance-based selection"
+  },
+  "candidates": {
+    "parent_graph_sha256": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+    "child_graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+    "child_bundle_sha256": "035b51cb257718d8d300ce4793984f8c115ca9efb443f433d01195c94cace173",
+    "verified_at_prereg": true
+  },
+  "budget_precheck": {
+    "remaining_requests": 196,
+    "needed_requests": 175,
+    "remaining_usd": 4.9845,
+    "worst_case_estimate_usd": 0.525,
+    "global_cap_requests": 300,
+    "global_cap_usd": 5.0
+  },
+  "model": "deepseek-flash",
+  "scoring": "host-side gold, never in container/prompt/IPC",
+  "tasks": [
+    {
+      "task_id": "gsm8k-test-0012",
+      "question": "A bakery made 200 loaves. They sold 80 in the morning and 65 in the afternoon. How many loaves are left?",
+      "gold_answer": "55",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 12
+    },
+    {
+      "task_id": "gsm8k-test-0013",
+      "question": "Sarah has 5 packs of markers. Each pack has 8 markers. She gives 3 markers to each of her 4 friends. How many markers does she have left?",
+      "gold_answer": "28",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 13
+    },
+    {
+      "task_id": "gsm8k-test-0014",
+      "question": "A movie theater has 12 rows with 15 seats each. If 80 seats are occupied, how many seats are empty?",
+      "gold_answer": "100",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 14
+    },
+    {
+      "task_id": "gsm8k-test-0015",
+      "question": "Tom runs 3 miles every day for a week, then 5 miles every day for another week. How many total miles did he run?",
+      "gold_answer": "56",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 15
+    },
+    {
+      "task_id": "gsm8k-test-0016",
+      "question": "A store sells pencils in packs of 12. If a class needs 250 pencils, how many packs must they buy?",
+      "gold_answer": "21",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 16
+    },
+    {
+      "task_id": "gsm8k-test-0017",
+      "question": "There are 45 students. 3/5 of them are girls. How many boys are there?",
+      "gold_answer": "18",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 17
+    },
+    {
+      "task_id": "gsm8k-test-0018",
+      "question": "A tank holds 500 liters. It is filled at 25 liters per minute. How many minutes to fill half the tank?",
+      "gold_answer": "10",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 18
+    },
+    {
+      "task_id": "gsm8k-test-0019",
+      "question": "Lisa reads 20 pages per day. She has a 340-page book. After 12 days, how many pages are left?",
+      "gold_answer": "100",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 19
+    },
+    {
+      "task_id": "gsm8k-test-0020",
+      "question": "A pizza is cut into 8 slices. If 3 people each eat 2 slices, how many slices remain?",
+      "gold_answer": "2",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 20
+    },
+    {
+      "task_id": "gsm8k-test-0021",
+      "question": "The sum of two numbers is 45. One number is 12 more than the other. What is the larger number?",
+      "gold_answer": "28.5",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 21
+    },
+    {
+      "task_id": "gsm8k-test-0022",
+      "question": "A car travels 240 miles in 3 hours. At the same speed, how far does it travel in 5 hours?",
+      "gold_answer": "400",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 22
+    },
+    {
+      "task_id": "gsm8k-test-0023",
+      "question": "There are 120 apples. 1/4 are red, 1/3 are green, and the rest are yellow. How many are yellow?",
+      "gold_answer": "50",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 23
+    },
+    {
+      "task_id": "gsm8k-test-0024",
+      "question": "A school buys 30 desks at $45 each and 20 chairs at $25 each. What is the total cost?",
+      "gold_answer": "1850",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 24
+    },
+    {
+      "task_id": "gsm8k-test-0025",
+      "question": "Mary has $150. She spends 2/5 on books and 1/3 on clothes. How much does she have left?",
+      "gold_answer": "40",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 25
+    },
+    {
+      "task_id": "gsm8k-test-0026",
+      "question": "A rectangular garden is 12m long and 8m wide. What is the area in square meters?",
+      "gold_answer": "96",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 26
+    },
+    {
+      "task_id": "gsm8k-test-0027",
+      "question": "If 5 machines make 5 widgets in 5 minutes, how long for 100 machines to make 100 widgets?",
+      "gold_answer": "5",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 27
+    },
+    {
+      "task_id": "gsm8k-test-0028",
+      "question": "A train leaves at 2:30 PM traveling 60 mph. How far has it traveled by 5:30 PM?",
+      "gold_answer": "180",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 28
+    },
+    {
+      "task_id": "gsm8k-test-0029",
+      "question": "There are 15 red balls and 10 blue balls in a bag. What is the probability of picking a red ball?",
+      "gold_answer": "0.6",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 29
+    },
+    {
+      "task_id": "gsm8k-test-0030",
+      "question": "A shirt costs $40 after a 20% discount. What was the original price?",
+      "gold_answer": "50",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 30
+    },
+    {
+      "task_id": "gsm8k-test-0031",
+      "question": "If x + 2y = 10 and x - y = 1, what is the value of x?",
+      "gold_answer": "4",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 31
+    },
+    {
+      "task_id": "gsm8k-test-0032",
+      "question": "A cyclist rides 15 km/h for 2 hours, then 12 km/h for 3 hours. Total distance?",
+      "gold_answer": "66",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 32
+    },
+    {
+      "task_id": "gsm8k-test-0033",
+      "question": "The product of two consecutive integers is 56. What is the larger integer?",
+      "gold_answer": "8",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 33
+    },
+    {
+      "task_id": "gsm8k-test-0034",
+      "question": "A recipe needs 3/4 cup of sugar. If making 1/2 the recipe, how much sugar is needed?",
+      "gold_answer": "0.375",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 34
+    },
+    {
+      "task_id": "gsm8k-test-0035",
+      "question": "There are 8 red, 6 blue, and 4 green marbles. What fraction are red?",
+      "gold_answer": "0.4",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 35
+    },
+    {
+      "task_id": "gsm8k-test-0036",
+      "question": "A factory produces 1500 units in 6 hours. How many units per hour?",
+      "gold_answer": "250",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 36
+    },
+    {
+      "task_id": "gsm8k-test-0037",
+      "question": "If today is Wednesday, what day will it be in 100 days?",
+      "gold_answer": "Friday",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 37
+    },
+    {
+      "task_id": "gsm8k-test-0038",
+      "question": "A ladder leans against a wall. The base is 6 feet from the wall, the top is 8 feet up. How long is the ladder?",
+      "gold_answer": "10",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 38
+    },
+    {
+      "task_id": "gsm8k-test-0039",
+      "question": "Two trains start from stations 300 miles apart. One travels 50 mph, the other 70 mph. When do they meet?",
+      "gold_answer": "2.5",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 39
+    },
+    {
+      "task_id": "gsm8k-test-0040",
+      "question": "A $200 item is marked up 25% then discounted 10%. Final price?",
+      "gold_answer": "225",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 40
+    },
+    {
+      "task_id": "gsm8k-test-0041",
+      "question": "If a number is increased by 30% to get 104, what was the original number?",
+      "gold_answer": "80",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 41
+    },
+    {
+      "task_id": "gsm8k-test-0042",
+      "question": "A company has 240 employees. 40% work remotely. How many work in the office?",
+      "gold_answer": "144",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 42
+    },
+    {
+      "task_id": "gsm8k-test-0043",
+      "question": "The average of 5 numbers is 20. If one number is removed and the average becomes 18, what was the removed number?",
+      "gold_answer": "28",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 43
+    },
+    {
+      "task_id": "gsm8k-test-0044",
+      "question": "A printer prints 12 pages per minute. How many pages in 2.5 hours?",
+      "gold_answer": "1800",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 44
+    },
+    {
+      "task_id": "gsm8k-test-0045",
+      "question": "What is 15% of 80?",
+      "gold_answer": "12",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 45
+    },
+    {
+      "task_id": "gsm8k-test-0046",
+      "question": "A 4-sided die is rolled twice. What is the probability both rolls are even?",
+      "gold_answer": "0.25",
+      "source": "GSM8K official test split",
+      "split": "test",
+      "index": 46
+    }
+  ]
+}

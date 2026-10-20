@@ -1,0 +1,1439 @@
+{
+  "run_id": "r3-9e46ca35",
+  "n_tasks": 35,
+  "task_set_sha256": "ddf055537d4618c86d736d4f0ed98fd4b23efec21f9e0ffe65a2c8ee022a6219",
+  "child_graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+  "parent_graph_sha256": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+  "PARENT": {
+    "correct": 29,
+    "total": 35,
+    "accuracy": 0.8285714285714286,
+    "cost_usd_estimate": 0.0055302,
+    "requests": 35
+  },
+  "CHILD": {
+    "correct": 31,
+    "total": 35,
+    "accuracy": 0.8857142857142857,
+    "cost_usd_estimate": 0.0154032,
+    "requests": 105
+  },
+  "PAIRED": {
+    "child_improved_over_parent": 2,
+    "child_regressed_vs_parent": 0,
+    "both_correct": 29,
+    "both_wrong": 4,
+    "net_gain": 2,
+    "mcnemar_exact_p": 0.25,
+    "discordant_pairs": 2
+  },
+  "PER_TASK": [
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0012",
+      "role": "parent",
+      "gold_answer": "55",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.497,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "8828314aed192dbfae5d32d41ef6641529dd7dc4c325312fbbcd0b6f4c8b0d45",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "55",
+      "correct": true,
+      "raw_output_full": "Let's solve it step by step.\n\n- Starting loaves: 200  \n- Sold in the morning: 80 → \\( 200 - 80 = 120 \\) left  \n- Sold in the afternoon: 65 → \\( 120 - 65 = 55 \\) left  \n\n\\[\n\\boxed{55}\n\\]",
+      "answer_sha256": "3c0db0186cb6fbc908184785ca57441a2f653ef2880ab29796ac2f739669cfba"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0012",
+      "role": "child",
+      "gold_answer": "55",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.358,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "1157df3223a546ea1670695097f98121686492256d785200eae43e1efe04d973",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "55",
+      "correct": true,
+      "raw_output_full": "55",
+      "answer_sha256": "02d20bbd7e394ad5999a4cebabac9619732c343a4cac99470c03e23ba2bdc2bc"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0013",
+      "role": "child",
+      "gold_answer": "28",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.541,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "341ff726e6f8f29b2890af532a710d78ff94ffa3bdebeff3b210c96864a8fb9d",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "28",
+      "correct": true,
+      "raw_output_full": "28",
+      "answer_sha256": "59e19706d51d39f66711c2653cd7eb1291c94d9b55eb14bda74ce4dc636d015a"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0013",
+      "role": "parent",
+      "gold_answer": "28",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.003,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "d8302a46480a8d530bd3b24d22662d9a40d263ede462c101ca6d1577596934be",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "28",
+      "correct": true,
+      "raw_output_full": "Let’s go step by step.  \n\n**Step 1: Total markers Sarah starts with**  \nShe has 5 packs, each with 8 markers:  \n\\[\n5 \\times 8 = 40\n\\]  \nSo she starts with 40 markers.\n\n**Step 2: Markers she gives away**  \nShe gives 3 markers to each of her 4 friends:  \n\\[\n3 \\times 4 = 12\n\\]  \nShe gives away 12 markers.\n\n**Step 3: Markers left**  \n\\[\n40 - 12 = 28\n\\]\n\n**Final answer:**  \n\\[\n\\boxed{28}\n\\]",
+      "answer_sha256": "250999d25955619fcd4971c19608bc1f327f90b28b74d0a7c9ce0aadad1533a9"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0014",
+      "role": "parent",
+      "gold_answer": "100",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.022,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "0fa57917c52cf3461b6cbae1b692753510c03be57d116193680f939484c0de97",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "100",
+      "correct": true,
+      "raw_output_full": "Let’s go step-by-step.\n\n1. **Total seats in the theater**:  \nThere are 12 rows, each with 15 seats.  \n\\[\n12 \\times 15 = 180\n\\]\n\n2. **Occupied seats**:  \nWe are told 80 seats are occupied.\n\n3. **Empty seats**:  \nSubtract occupied from total:  \n\\[\n180 - 80 = 100\n\\]\n\n\\[\n\\boxed{100}\n\\]",
+      "answer_sha256": "678511abed44fa618d35d0e7913d5a9dfc023aefa0dd5da1fd28c3dd4d04e6d1"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0014",
+      "role": "child",
+      "gold_answer": "100",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.605,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "d86d24305a249814aae0873e24f685c68cdf8106a7037ee07c7820125d3a5cf4",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "100",
+      "correct": true,
+      "raw_output_full": "100",
+      "answer_sha256": "ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0015",
+      "role": "child",
+      "gold_answer": "56",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.682,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "9619c175b8caa2aab7a104eed33233fa3e8207256464ae6526329bd09372d72e",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "56",
+      "correct": true,
+      "raw_output_full": "56",
+      "answer_sha256": "7688b6ef52555962d008fff894223582c484517cea7da49ee67800adc7fc8866"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0015",
+      "role": "parent",
+      "gold_answer": "56",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.739,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "5b5476d8ab094bf4e170767d5113ce3ab253b27f3e381c241efbb0d9e3b179e3",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "56",
+      "correct": true,
+      "raw_output_full": "Let’s break it down:\n\n- **First week**: 3 miles per day for 7 days  \n  \\( 3 \\times 7 = 21 \\) miles\n\n- **Second week**: 5 miles per day for 7 days  \n  \\( 5 \\times 7 = 35 \\) miles\n\n- **Total**:  \n  \\( 21 + 35 = 56 \\) miles\n\n\\[\n\\boxed{56}\n\\]",
+      "answer_sha256": "8a916d6c93cac3c66669ac63bb1010ea88c6cb0a013a42f2adb22ced4c308e84"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0016",
+      "role": "parent",
+      "gold_answer": "21",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.175,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "330814b95d327b0c11a87b22605daec268403124a9d28f43b4664b1415f48090",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "21",
+      "correct": true,
+      "raw_output_full": "Let's go step-by-step.\n\n1. Each pack contains **12 pencils**.\n2. The class needs **250 pencils** in total.\n3. Divide the total needed by pencils per pack:\n\n\\[\n250 \\div 12 = 20 \\text{ remainder } 10\n\\]\n\nSince \\(12 \\times 20 = 240\\), which is less than 250, they would still need 10 more pencils.\n\n4. That means they must buy **one extra pack** to cover the remaining 10 pencils.\n\nSo the total packs needed:\n\n\\[\n20 + 1 = 21\n\\]\n\n\\[\n\\boxed{21}\n\\]",
+      "answer_sha256": "d5cca45c69e1271e73de5d19598c47cb6944bd493c27a041bd6b9235c1421518"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0016",
+      "role": "child",
+      "gold_answer": "21",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 7.023,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "2748926d6d69a092d8f6686cfc589302ee0f073d21aa0ade81d1dbffdbb486bd",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "21",
+      "correct": true,
+      "raw_output_full": "21",
+      "answer_sha256": "6f4b6612125fb3a0daecd2799dfd6c9c299424fd920f9b308110a2c1fbd8f443"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0017",
+      "role": "child",
+      "gold_answer": "18",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.555,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "b78eadd097bf74aa560e3b1f647272b1f14644997ff4729e586647e945e587d6",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "18",
+      "correct": true,
+      "raw_output_full": "18",
+      "answer_sha256": "4ec9599fc203d176a301536c2e091a19bc852759b255bd6818810a42c5fed14a"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0017",
+      "role": "parent",
+      "gold_answer": "18",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.113,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "9046dcd7bc5479dd09a30574334f6c6b6c2f3a8162720a3abf8fdc1ad7cadcd4",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "18",
+      "correct": true,
+      "raw_output_full": "Let's go step-by-step.\n\nWe know:\n\n- Total students = 45  \n- \\( \\frac{3}{5} \\) of them are girls.\n\n---\n\n**Step 1: Find the number of girls**\n\n\\[\n\\frac{3}{5} \\times 45 = \\frac{135}{5} = 27\n\\]\n\nSo, there are 27 girls.\n\n---\n\n**Step 2: Find the number of boys**\n\nTotal students − girls:\n\n\\[\n45 - 27 = 18\n\\]\n\n---\n\n**Step 3: Conclusion**\n\nThere are **18 boys**.\n\n\\[\n\\boxed{18}\n\\]",
+      "answer_sha256": "0277e9c0695163cc73eadb24e1768c9ff428d62965ec767cde739a2dc6fe67c1"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0018",
+      "role": "parent",
+      "gold_answer": "10",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.882,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "75b74c27e25ab6fff175a25b28116de9ffca05d49d1224ad2010316ee094d5ef",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "10",
+      "correct": true,
+      "raw_output_full": "Let's go step-by-step.\n\n1. **Find half the tank's capacity**  \n   The tank holds 500 liters.  \n   Half the tank = \\( 500 \\div 2 = 250 \\) liters.\n\n2. **Determine the fill rate**  \n   The tank fills at 25 liters per minute.\n\n3. **Calculate time to fill 250 liters**  \n   \\[\n   \\text{Time} = \\frac{250}{25} = 10 \\ \\text{minutes}\n   \\]\n\n**Final answer:**  \n\\[\n\\boxed{10}\n\\]",
+      "answer_sha256": "dfd78ab72588e398ca4c519b23b0f4f7b40ccc6368f8f8de43df067dd5d2afc2"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0018",
+      "role": "child",
+      "gold_answer": "10",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.8,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "7faba7c77266b6e971edd7e6f1a1b20259727f2bb4d12da8335d4ec2dbe38aa2",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "10",
+      "correct": true,
+      "raw_output_full": "10",
+      "answer_sha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0019",
+      "role": "child",
+      "gold_answer": "100",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 4.954,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "278bf893d587fc35a9dbad3cb57f6d276ba66c30be32cc002d006da4af5890dc",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "100",
+      "correct": true,
+      "raw_output_full": "100",
+      "answer_sha256": "ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0019",
+      "role": "parent",
+      "gold_answer": "100",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.562,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "e1c4d0a95f7e5af8c5e691af1420d4ba1376ebb9b2a851893e84855dfb54b82f",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "100",
+      "correct": true,
+      "raw_output_full": "Let’s go step-by-step.\n\n**Step 1: Determine how many pages Lisa reads in 12 days.**  \nLisa reads 20 pages per day.  \nIn 12 days, she reads:  \n\\( 20 \\times 12 = 240 \\) pages.\n\n**Step 2: Subtract the pages read from the total pages in the book.**  \nThe book has 340 pages.  \nPages left:  \n\\( 340 - 240 = 100 \\) pages.\n\n**Step 3: Conclusion.**  \n\\[\n\\boxed{100}\n\\]",
+      "answer_sha256": "6832c31156a97aba46b53d9e33b446df3887f82c75225c3dfc0c0433696ceabe"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0020",
+      "role": "parent",
+      "gold_answer": "2",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.487,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "fedf4275c6ebb091cf73d4dcc886b2c859dfa5eac3dbcfae4661b8800b05b51b",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "2",
+      "correct": true,
+      "raw_output_full": "Let's go step-by-step.  \n\nThe pizza starts with **8 slices**.  \n\nEach of the 3 people eats 2 slices:  \n\\( 3 \\times 2 = 6 \\) slices eaten.  \n\nSlices remaining:  \n\\( 8 - 6 = 2 \\) slices.  \n\n\\[\n\\boxed{2}\n\\]",
+      "answer_sha256": "e6978c7a7902e4c995c019d4578c6d890dc13b90e4707ff979194d0b4ace822c"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0020",
+      "role": "child",
+      "gold_answer": "2",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.462,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "adc608ef4bc884e84847c44f419afeac77472a1b673474807c4d987e7c13ba62",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "2",
+      "correct": true,
+      "raw_output_full": "2",
+      "answer_sha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0021",
+      "role": "child",
+      "gold_answer": "28.5",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.387,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "b1a7d9abfa205e5d31ee4e088cc8291d40b6c0613e3acfd20931636f60eabcce",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "28.5",
+      "correct": true,
+      "raw_output_full": "28.5",
+      "answer_sha256": "1fc9751ecae53b75a9e41299443acc6a0ed7f89946fce19bf1a0180331bc8301"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0021",
+      "role": "parent",
+      "gold_answer": "28.5",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.656,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "7d2e76af3eb03ca0cd00861e00bf156ac7805b007337f17881b519eca35d750a",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "28.5",
+      "correct": true,
+      "raw_output_full": "Let's define the numbers:\n\nLet the smaller number be \\( x \\).  \nThen the larger number is \\( x + 12 \\).\n\nWe know their sum is 45:\n\n\\[\nx + (x + 12) = 45\n\\]\n\nCombine terms:\n\n\\[\n2x + 12 = 45\n\\]\n\nSubtract 12 from both sides:\n\n\\[\n2x = 33\n\\]\n\nDivide by 2:\n\n\\[\nx = 16.5\n\\]\n\nSo the larger number is:\n\n\\[\nx + 12 = 16.5 + 12 = 28.5\n\\]\n\n\\[\n\\boxed{28.5}\n\\]",
+      "answer_sha256": "ea1999db3ecf6e97ae9acef37557fcdb32244d884e99a7c4537c4b387d7c0c46"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0022",
+      "role": "parent",
+      "gold_answer": "400",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.644,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "2dca948a3a23dc9cadcab460f717601dadd911429d9fada0a5158cad4a6512c4",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "400",
+      "correct": true,
+      "raw_output_full": "Let's solve it step-by-step.\n\n---\n\n**Step 1: Find the speed of the car**  \nThe car travels 240 miles in 3 hours.  \nSpeed = distance ÷ time  \nSpeed = \\( 240 \\div 3 = 80\\) miles per hour.\n\n---\n\n**Step 2: Calculate the distance in 5 hours**  \nAt 80 miles per hour for 5 hours:  \nDistance = speed × time  \nDistance = \\( 80 \\times 5 = 400\\) miles.\n\n---\n\n**Final Answer:**  \n\\[\n\\boxed{400}\n\\]",
+      "answer_sha256": "daaf9cc774488922c131e46c529f1c279d664670602c2a1cc768fd28728eb80e"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0022",
+      "role": "child",
+      "gold_answer": "400",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.588,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "7de64586e88972fe17ab8ab2348d1321a59772c26295ec3a7dd9a3e6e6561f15",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "400",
+      "correct": true,
+      "raw_output_full": "400",
+      "answer_sha256": "26d228663f13a88592a12d16cf9587caab0388b262d6d9f126ed62f9333aca94"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0023",
+      "role": "child",
+      "gold_answer": "50",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.706,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "dd064cd607d8f316e5cce1c01a62ac6cc31daf1ba9af13a2c05030898f8d39fd",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "50",
+      "correct": true,
+      "raw_output_full": "50",
+      "answer_sha256": "1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0023",
+      "role": "parent",
+      "gold_answer": "50",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.497,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "0bf5ee0b5a8f5da17efdd2f5e163a7e1b4077c5a1e2e03bc64c797d81186e21f",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "50",
+      "correct": true,
+      "raw_output_full": "Let's go step by step.\n\nWe have:\n\n- Total apples: 120  \n- Red apples: \\( \\frac14 \\) of 120  \n\n\\[\n\\frac14 \\times 120 = 30\n\\]\n\n- Green apples: \\( \\frac13 \\) of 120  \n\n\\[\n\\frac13 \\times 120 = 40\n\\]\n\nSo far, we have \\(30 + 40 = 70\\) apples that are red or green.\n\nThe rest are yellow:\n\n\\[\n120 - 70 = 50\n\\]\n\nTherefore, the number of yellow apples is:\n\n\\[\n\\boxed{50}\n\\]",
+      "answer_sha256": "3bdf03719496ac7c035f70060c6679beba921e9617583f5606ade35cbb1e039c"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0024",
+      "role": "parent",
+      "gold_answer": "1850",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.499,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "69f06d2346433dc3e2250a3541b69583ae3bdd1924d5b1e0bf868c2f90a69369",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "1850",
+      "correct": true,
+      "raw_output_full": "Let's calculate step by step.\n\n**Desks:**  \n30 desks × $45 each =  \n\\( 30 \\times 45 = 1350 \\)\n\n**Chairs:**  \n20 chairs × $25 each =  \n\\( 20 \\times 25 = 500 \\)\n\n**Total cost:**  \n\\( 1350 + 500 = 1850 \\)\n\n\\[\n\\boxed{1850}\n\\]",
+      "answer_sha256": "885f25b1375d7b125f94e58218e1102fb757e8a490e52415a286a9956c6f05b3"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0024",
+      "role": "child",
+      "gold_answer": "1850",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.566,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "4b446482586d5352493dc2be6bb9e8f5ae66795b94517fdd31ddda79680ea4be",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "1850",
+      "correct": true,
+      "raw_output_full": "1850",
+      "answer_sha256": "202fd26f14d638ccb40975163ab0f05e1acf24c04a30708b3e0abfac44301a08"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0025",
+      "role": "child",
+      "gold_answer": "40",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.725,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "ee15c012caf88757f4e4cdae7f4eba4100cd060ec25d85c998b8261aeacd72d9",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "40",
+      "correct": true,
+      "raw_output_full": "40",
+      "answer_sha256": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0025",
+      "role": "parent",
+      "gold_answer": "40",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.854,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "ad8fc66dd5447f82e237127d5ef19420d7f8dc46979dce0ba29a265b3c80379c",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "40",
+      "correct": true,
+      "raw_output_full": "Let's go step-by-step.\n\n**Step 1: Amount spent on books**  \nShe spends \\( \\frac{2}{5} \\) of $150 on books:  \n\\[\n\\frac{2}{5} \\times 150 = 60\n\\]  \nSo, $60 on books.\n\n**Step 2: Amount spent on clothes**  \nShe spends \\( \\frac{1}{3} \\) of $150 on clothes:  \n\\[\n\\frac{1}{3} \\times 150 = 50\n\\]  \nSo, $50 on clothes.\n\n**Step 3: Total spent**  \n\\[\n60 + 50 = 110\n\\]\n\n**Step 4: Amount left**  \n\\[\n150 - 110 = 40\n\\]\n\n**Final answer:**  \n\\[\n\\boxed{40}\n\\]",
+      "answer_sha256": "f48f66214f3987e2bac9b0f98fb729cc91d1d25b19fea22d10c61737847e39c7"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0026",
+      "role": "parent",
+      "gold_answer": "96",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.981,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "09d1cae499ca5fb573006b42ed5b77e86a15220ff29dc6e57a95d7ddc38cf2e2",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "96",
+      "correct": true,
+      "raw_output_full": "Let’s calculate step by step.\n\nWe are given:\n\n- Length = 12 m  \n- Width = 8 m  \n\nThe formula for the area of a rectangle is:\n\n\\[\n\\text{Area} = \\text{length} \\times \\text{width}\n\\]\n\nSubstitute the numbers:\n\n\\[\n\\text{Area} = 12 \\times 8 = 96\n\\]\n\nThe area is **96 square meters**.\n\n\\[\n\\boxed{96}\n\\]",
+      "answer_sha256": "ebe9931e8476846879c9d68d42512cdfc2b292059a1f417d7179e9f08e1ca102"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0026",
+      "role": "child",
+      "gold_answer": "96",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.278,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "eb27d14c4b6570f01702a6536375af35cfae48c2460d715225d99b00985bda43",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "96",
+      "correct": true,
+      "raw_output_full": "96",
+      "answer_sha256": "7b1a278f5abe8e9da907fc9c29dfd432d60dc76e17b0fabab659d2a508bc65c4"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0027",
+      "role": "child",
+      "gold_answer": "5",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.302,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "7e291950b22db23cdbaa0e03cb6447b4da9527216b8fce9965e34e02dda6306d",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "5",
+      "correct": true,
+      "raw_output_full": "5**",
+      "answer_sha256": "49fe196b32dc175b149f909a456ddef0050854163071c48a72669002c7dfac37"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0027",
+      "role": "parent",
+      "gold_answer": "5",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.283,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "1fd333ffb3c3509fd05af579f75337ca0bb90cfe3aa72a5b423757c4a21fa220",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "5",
+      "correct": true,
+      "raw_output_full": "Let’s break this down carefully.\n\n**Step 1: Understand the given rate.**  \nIf 5 machines make 5 widgets in 5 minutes, then each machine makes 1 widget in 5 minutes (because the work is shared equally among them).\n\n**Step 2: Find the rate per machine.**  \nIf 1 machine makes 1 widget in 5 minutes, then in 5 minutes:  \n- 100 machines will make 100 widgets.\n\n**Step 3: The key is parallelism.**  \nWith 100 machines working simultaneously, each making one widget in 5 minutes, they’ll collectively produ",
+      "answer_sha256": "32289eb2d468d209349bb500a0b6ab7a8c2cb3f4685d60b4ee99528699c2de5d"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0028",
+      "role": "parent",
+      "gold_answer": "180",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.529,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "cee0a1e7e7cf341ec8d7f369cde0747e7ca9c5e4d837c6a1009d4450a6cdf6e9",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "180",
+      "correct": true,
+      "raw_output_full": "Alright, let's go through it step-by-step.  \n\n---\n\n**Step 1: Determine the travel time**  \nFrom 2:30 PM to 5:30 PM is a time difference of:\n\n5:30 PM − 2:30 PM = 3 hours\n\n---\n\n**Step 2: Apply distance formula**  \nDistance = Speed × Time  \nSpeed = 60 mph  \nTime = 3 hours\n\nDistance = 60 × 3 = **180 miles**\n\n---\n\n**Step 3: Final answer**  \n\\[\n\\boxed{180}\n\\]",
+      "answer_sha256": "7f07b90b0631647a15ebeede8dfe674b4ac3f5a26b2932626af60a1820d50422"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0028",
+      "role": "child",
+      "gold_answer": "180",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.188,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "a3e07557b46932e54b689f17ac73a0a1a6205bd74e7666eb203c3434ee86015e",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "180",
+      "correct": true,
+      "raw_output_full": "180",
+      "answer_sha256": "7b69759630f869f2723875f873935fed29d2d12b10ef763c1c33b8e0004cb405"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0029",
+      "role": "child",
+      "gold_answer": "0.6",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.184,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "207770afc4ea7aeeda403c4a14c85f436d90335fe92e366c61bdddff7b0577e2",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "5",
+      "correct": false,
+      "raw_output_full": "3/5",
+      "answer_sha256": "e8692ca200b54ddada768e71960a0511416137a374776dcfd1aa8305d0a96fa3"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0029",
+      "role": "parent",
+      "gold_answer": "0.6",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.115,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "5b2f08bf977f5f733efcd21d8fde130e76dabcc3f9d7a96ad3b5cc43c419fa41",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "5",
+      "correct": false,
+      "raw_output_full": "Let's go step-by-step.\n\nWe have:\n- Red balls = 15\n- Blue balls = 10\n- Total balls = 15 + 10 = 25\n\nThe probability of picking a red ball is:\n\n\\[\nP(\\text{red}) = \\frac{\\text{Number of red balls}}{\\text{Total number of balls}} = \\frac{15}{25}\n\\]\n\nSimplify the fraction:\n\n\\[\n\\frac{15}{25} = \\frac{3}{5}\n\\]\n\nSo, the probability is \\(\\frac{3}{5}\\), or **0.6** (60%).\n\n\\[\n\\boxed{\\frac{3}{5}}\n\\]",
+      "answer_sha256": "50dd9b022ff3142716e1a72d089548fe98614044440b3e2d640910d19f0a565d"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0030",
+      "role": "parent",
+      "gold_answer": "50",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.655,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "69a0f52c225bf019e3c9111c1da557a5ba598c751aed7a6382aa733a146f1fbb",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "50",
+      "correct": true,
+      "raw_output_full": "Let's work through it step by step.\n\n---\n\nLet the original price be \\( x \\).\n\nA 20% discount means the customer pays **80%** of the original price.\n\nSo:\n\n\\[\n0.80x = 40\n\\]\n\nNow solve for \\( x \\):\n\n\\[\nx = \\frac{40}{0.80}\n\\]\n\\[\nx = 50\n\\]\n\n---\n\n**Answer:** The original price was **$50**.\n\n\\[\n\\boxed{50}\n\\]",
+      "answer_sha256": "2aeecfac77e93abc515f47e1650a4395c53852903d05ab65ecfc369bd19a8e89"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0030",
+      "role": "child",
+      "gold_answer": "50",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.254,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "d506a52f9815de5032ab5f7f5470e48e3acc33d343709d1c27af931920269460",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "50",
+      "correct": true,
+      "raw_output_full": "50",
+      "answer_sha256": "1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0031",
+      "role": "child",
+      "gold_answer": "4",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.469,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "4e9768cdb50583d14595501c8bf9d6f3aef486f0ad3b183e872b9bb638219ad2",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "4",
+      "correct": true,
+      "raw_output_full": "4",
+      "answer_sha256": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0031",
+      "role": "parent",
+      "gold_answer": "4",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.826,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "8c01cd5321155eef8f543f7d5728e96a5d86ab1e9094429bb20bbd158c674138",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "4",
+      "correct": true,
+      "raw_output_full": "Let's solve the system step-by-step.\n\nWe are given:  \n1. \\( x + 2y = 10 \\)  \n2. \\( x - y = 1 \\)\n\n**Step 1: Solve equation (2) for x.**  \nFrom \\( x - y = 1 \\), we get:  \n\\( x = y + 1 \\)\n\n**Step 2: Substitute into equation (1).**  \n\\( (y + 1) + 2y = 10 \\)  \n\\( y + 1 + 2y = 10 \\)  \n\\( 3y + 1 = 10 \\)  \n\\( 3y = 9 \\)  \n\\( y = 3 \\)\n\n**Step 3: Find x.**  \nSince \\( x = y + 1 \\),  \n\\( x = 3 + 1 = 4 \\)\n\n**Final answer:**  \n\\[\n\\boxed{4}\n\\]",
+      "answer_sha256": "027a3ad95a6f6f3d702e4ff68c056ff44e86b4992075c83f4f82ba76fd2c8865"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0032",
+      "role": "parent",
+      "gold_answer": "66",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.928,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "fffc252a4e7ae873b7269f78b181e1cad29c058d09eb6098f27db4cd63aba49d",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "66",
+      "correct": true,
+      "raw_output_full": "Let’s calculate it step by step.\n\n**First segment:**  \nSpeed = 15 km/h  \nTime = 2 hours  \nDistance = Speed × Time = 15 × 2 = **30 km**\n\n**Second segment:**  \nSpeed = 12 km/h  \nTime = 3 hours  \nDistance = 12 × 3 = **36 km**\n\n**Total distance:**  \n30 + 36 = **66 km**\n\n\\[\n\\boxed{66 \\text{ km}}\n\\]",
+      "answer_sha256": "f7a4850a2a098f15bc7818906240ad71541921916dda90305c731539fefab47b"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0032",
+      "role": "child",
+      "gold_answer": "66",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.694,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "9e48c7591cdd184e96ebc1067827b16421811895c76f46f1a98379e1ac7b26b6",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "66",
+      "correct": true,
+      "raw_output_full": "66",
+      "answer_sha256": "3ada92f28b4ceda38562ebf047c6ff05400d4c572352a1142eedfef67d21e662"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0033",
+      "role": "child",
+      "gold_answer": "8",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.768,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "f1369e2d62c045e06550b63cfad34957e46c9855d313d863056588c7d06aea3d",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "8",
+      "correct": true,
+      "raw_output_full": "8",
+      "answer_sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0033",
+      "role": "parent",
+      "gold_answer": "8",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.864,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "4076a7fcc4ab0f3fec2b8a8e788284e9f449c0402cf9b283916b1335b2dfaafc",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "8",
+      "correct": true,
+      "raw_output_full": "Let's go step-by-step.  \n\nWe’re told the product of two consecutive integers is 56.\n\nLet the smaller integer be \\( x \\).  \nThen the larger integer is \\( x + 1 \\).  \n\nThe equation is:  \n\\[\nx(x + 1) = 56\n\\]  \n\\[\nx^2 + x = 56\n\\]  \n\\[\nx^2 + x - 56 = 0\n\\]  \n\nNow factor the quadratic:  \nWe need two numbers that multiply to \\(-56\\) and add to \\(1\\). Those numbers are \\(8\\) and \\(-7\\).  \n\nSo:  \n\\[\n(x + 8)(x - 7) = 0\n\\]  \nThus:  \n\\[\nx = -8 \\quad\\text{or}\\quad x = 7\n\\]  \n\n**Case 1:** \\(x = 7\\), larger int",
+      "answer_sha256": "8912713dc47a2cbdb4cee60afd7fde6027bc71dc673cdf895534136e5c784576"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0034",
+      "role": "parent",
+      "gold_answer": "0.375",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.58,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "83a079b113589c54a5bbf19c4770a44fee941a9863ee2c0168d713baf300a1bd",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "8",
+      "correct": false,
+      "raw_output_full": "Let's go step-by-step.\n\nThe full recipe needs \\( \\frac{3}{4} \\) cup of sugar.\n\nIf you make \\( \\frac{1}{2} \\) of the recipe, you multiply the sugar amount by \\( \\frac{1}{2} \\):\n\n\\[\n\\frac{3}{4} \\times \\frac{1}{2} = \\frac{3}{8}\n\\]\n\nSo you need \\( \\frac{3}{8} \\) cup of sugar.\n\n\\[\n\\boxed{\\frac{3}{8}}\n\\]",
+      "answer_sha256": "2fe61990bf22334f63fb818774588e4770fcc04ab3a0371b1c84ea06f9cee6ba"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0034",
+      "role": "child",
+      "gold_answer": "0.375",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.6,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "37c54a9fe6f897202ab86a5cbcc7a45afd12aa86b196119c36cdb042332e94a9",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "8",
+      "correct": false,
+      "raw_output_full": "3/8",
+      "answer_sha256": "896af01783cc4ba66a114b2b1cc0284bad63a52fca0571dafbbed491c95972c5"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0035",
+      "role": "child",
+      "gold_answer": "0.4",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.357,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "eaeb3896582cd00169ab88eb12423cf3b4283130df92a3fb634d9e3e28295f75",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "9",
+      "correct": false,
+      "raw_output_full": "4/9",
+      "answer_sha256": "2b4a3397494a9e1bf65517b40760ebeb3313a738a9eabd4e73f0ddbf1df441a5"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0035",
+      "role": "parent",
+      "gold_answer": "0.4",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.805,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "27db74d0851311758584e79ef8f9de256a044bbf6e4ae5c039597b0988448002",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "9",
+      "correct": false,
+      "raw_output_full": "Let's go through the problem step-by-step.\n\n**Step 1: Find the total number of marbles**  \nWe have:  \nRed = 8  \nBlue = 6  \nGreen = 4  \n\nTotal marbles = \\( 8 + 6 + 4 = 18 \\)\n\n**Step 2: Find the fraction that are red**  \nNumber of red marbles = 8  \nTotal marbles = 18  \n\nFraction red = \\( \\frac{8}{18} \\)\n\n**Step 3: Simplify the fraction**  \nDivide numerator and denominator by 2:  \n\\( \\frac{8}{18} = \\frac{4}{9} \\)\n\n**Final Answer:**  \n\\[\n\\boxed{\\frac{4}{9}}\n\\]",
+      "answer_sha256": "3870cba7decdf7e1c3910102d2ad19af6bc52907d7a125d6b04d5fed1164cd9a"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0036",
+      "role": "parent",
+      "gold_answer": "250",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.544,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "02746e0db58b7c8131adca5a6647ee15a651658c9e8d1a7a8617614317364016",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "250",
+      "correct": true,
+      "raw_output_full": "Let's solve it step-by-step.\n\nWe’re told:\n\n- Total units = 1500  \n- Total time = 6 hours  \n\nTo find units per hour, divide total units by total hours:\n\n\\[\n\\frac{1500}{6} = 250\n\\]\n\nSo the factory produces **250 units per hour**.\n\n\\[\n\\boxed{250}\n\\]",
+      "answer_sha256": "032dfa842228f5b05dedfde7be37c0dbad6c4ca1565739e9ada33809c41f3028"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0036",
+      "role": "child",
+      "gold_answer": "250",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 4.553,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "3d6c2d21007b56f0725356861159c75f33c82659769fa8558e81c2fda2273ee2",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "250",
+      "correct": true,
+      "raw_output_full": "250",
+      "answer_sha256": "1e472b39b105d349bcd069c4a711b44a2fffb8e274714bb07ecfff69a9a7f67b"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0037",
+      "role": "child",
+      "gold_answer": "Friday",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.525,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "f7ef840280900febededabb6cfdd2cfaba864ed9b9c6caf7e9fa9b9cd337cc44",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": null,
+      "correct": false,
+      "raw_output_full": "Friday",
+      "answer_sha256": "e21f3f372a46d4be7b49f6809fc91baefeadae004af06485518e124a142c0271"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0037",
+      "role": "parent",
+      "gold_answer": "Friday",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.318,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "ae8f500b76ab4df400cd50544cce8426cca1cfd7b67bc70124a83c1fc6c76813",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "2",
+      "correct": false,
+      "raw_output_full": "Let's go through it step by step.\n\n**Step 1: Understand the cycle**  \nA week has 7 days, so day patterns repeat every 7 days.\n\n**Step 2: Divide 100 by 7**  \n\\( 100 \\div 7 = 14\\) remainder \\(2\\).  \nThat means 100 days is 14 full weeks plus 2 extra days.\n\n**Step 3: Add the remainder days**  \nToday is Wednesday.  \n+1 day → Thursday  \n+2 days → Friday  \n\n**Final Answer:**  \n\\[\n\\boxed{\\text{Friday}}\n\\]",
+      "answer_sha256": "71956dcbe0f62f8493c1b314ae13c7006c96b0c03f622822445566d5192410a8"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0038",
+      "role": "parent",
+      "gold_answer": "10",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.012,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "b4207fde3a7f38d43a0f06c47549cdfd8b3fb79cbdd161d77a2cfe8b55bd9556",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "10",
+      "correct": true,
+      "raw_output_full": "Let's solve it with the Pythagorean theorem.  \n\nThe ladder, wall, and ground form a right triangle:\n\n- Distance from the wall to the base: **6 feet** (one leg)  \n- Height up the wall: **8 feet** (other leg)  \n- Ladder length: **hypotenuse**\n\n\\[\n\\text{Ladder length}^2 = 6^2 + 8^2\n\\]\n\\[\n= 36 + 64 = 100\n\\]\n\\[\n\\text{Ladder length} = \\sqrt{100} = 10\n\\]\n\nSo the ladder is **10 feet long**.\n\n\\[\n\\boxed{10}\n\\]",
+      "answer_sha256": "9a9609c72c3c5fdc1d92097911fca8beb0d0b56e7eac572930627c97a3a2f9d1"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0038",
+      "role": "child",
+      "gold_answer": "10",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.156,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "25ef4c34f0e0dd8f6d61dbfe87fcc04e7f199b997017a06a24ef812cd3601622",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "10",
+      "correct": true,
+      "raw_output_full": "10",
+      "answer_sha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0039",
+      "role": "child",
+      "gold_answer": "2.5",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.394,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "7cc329f7bdd13249201f1663e2b53dc1bd4d83f7aac2b7779880cad6cbd06276",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "2.5",
+      "correct": true,
+      "raw_output_full": "2.5",
+      "answer_sha256": "b8736b999909049671d0ea075a42b308a5fbe2df1854899123fe09eb0ee9de61"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0039",
+      "role": "parent",
+      "gold_answer": "2.5",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.874,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "9be874993cb39264b1c593e8279767f40b145a02f7afdebb10002848cb718619",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "30",
+      "correct": false,
+      "raw_output_full": "Let’s work through the problem step-by-step.  \n\n**Step 1: Understand the situation**  \nThe two trains are 300 miles apart and are moving toward each other.  \n- Train A speed = 50 mph  \n- Train B speed = 70 mph  \n\nWhen two objects move toward each other, their relative speed is the sum of their speeds.\n\n**Step 2: Find their combined speed**  \nCombined speed = \\( 50 + 70 = 120 \\) mph.\n\n**Step 3: Find time to meet**  \nThey need to close a 300-mile gap at 120 mph:\n\n\\[\n\\text{Time} = \\frac{\\text{Dista",
+      "answer_sha256": "6abd14b0104fcd1e52954245bfaecc757aa89d0ae3074ca3efae0fcd772042f9"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0040",
+      "role": "parent",
+      "gold_answer": "225",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.301,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "71ab100211c0e96f29e89d2a860bbdaf14002c9eb453c4993b3e33252ddebf1c",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "225",
+      "correct": true,
+      "raw_output_full": "Let's go through it step by step.\n\n1. **Markup of 25% on $200**  \n   Markup amount = \\( 25\\% \\times 200 = 0.25 \\times 200 = 50 \\)  \n   Price after markup = \\( 200 + 50 = 250 \\)\n\n2. **Discount of 10% on $250**  \n   Discount amount = \\( 10\\% \\times 250 = 0.10 \\times 250 = 25 \\)  \n   Final price = \\( 250 - 25 = 225 \\)\n\n\\[\n\\boxed{225}\n\\]",
+      "answer_sha256": "45785431d77de9c7d8461004814f8cb3e584c39635d3ba8de20ff71351ee91db"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0040",
+      "role": "child",
+      "gold_answer": "225",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.74,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "64f9f69fc5a82d25308a996db686a37e380c633e7116af305ab4e98423175464",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "225",
+      "correct": true,
+      "raw_output_full": "225**",
+      "answer_sha256": "52bd08b3397d963f3ba0b81236eca11720476d3dc94955514a0c91ad2dd47ff6"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0041",
+      "role": "child",
+      "gold_answer": "80",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.698,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "6bface3886616e38c927259207eaf0c2c62e45a4cc730476c4a4114fb7b5352f",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "80",
+      "correct": true,
+      "raw_output_full": "80",
+      "answer_sha256": "48449a14a4ff7d79bb7a1b6f3d488eba397c36ef25634c111b49baf362511afc"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0041",
+      "role": "parent",
+      "gold_answer": "80",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 5.093,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "287b0e649c94300ee203fdeb2fd15da34fa02cd03fba071f4d54cab5f4ad8d64",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "80",
+      "correct": true,
+      "raw_output_full": "Let's solve step-by-step.\n\nLet the original number be \\( x \\).\n\nWhen increased by 30%, the new number is:\n\n\\[\nx + 0.30x = 1.30x\n\\]\n\nWe are told this equals 104:\n\n\\[\n1.30x = 104\n\\]\n\nNow solve for \\( x \\):\n\n\\[\nx = \\frac{104}{1.30}\n\\]\n\n\\[\nx = \\frac{1040}{13} = 80\n\\]\n\nSo, the original number was:\n\n\\[\n\\boxed{80}\n\\]",
+      "answer_sha256": "65f14c5865c4278f5d3701034d20b9c7a528b763d03b5631764e1c6f2b4a4a5a"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0042",
+      "role": "parent",
+      "gold_answer": "144",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.584,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "75dcb3398abdee10ccd171efdf91735dae2e623a8069df114095eb53016495d4",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "144",
+      "correct": true,
+      "raw_output_full": "Let's go step by step.  \n\n- Total employees = 240  \n- 40% work remotely → Remote employees = \\( 240 \\times 0.40 = 96 \\)  \n- Employees working in the office = \\( 240 - 96 = 144 \\)  \n\nAlternatively: If 40% work remotely, then 60% work in the office.  \nOffice employees = \\( 240 \\times 0.60 = 144 \\).  \n\n\\[\n\\boxed{144}\n\\]",
+      "answer_sha256": "36a200546f5057f601ef95953d904aa357dc080841b91b334313221fa2452b0a"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0042",
+      "role": "child",
+      "gold_answer": "144",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 4.83,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "ac728a7e5cc5c8527420e48971e334bd2b42c9c2378a3bdb0d8c2ca0294f682e",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "144",
+      "correct": true,
+      "raw_output_full": "144",
+      "answer_sha256": "5ec1a0c99d428601ce42b407ae9c675e0836a8ba591c8ca6e2a2cf5563d97ff0"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0043",
+      "role": "child",
+      "gold_answer": "28",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.025,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "9714f894cefacdd587fb1edf6f793e19dce619121a6dbd04a2c96996402fc370",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "28",
+      "correct": true,
+      "raw_output_full": "28",
+      "answer_sha256": "59e19706d51d39f66711c2653cd7eb1291c94d9b55eb14bda74ce4dc636d015a"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0043",
+      "role": "parent",
+      "gold_answer": "28",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.789,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "e2d972eb2d847772b3232e47276a1350bad67c863f9cbb75ca3e9ba97984fc35",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "28",
+      "correct": true,
+      "raw_output_full": "Let's go step-by-step.\n\n---\n\n**Step 1: Find the total sum of the 5 numbers.**\n\nThe average of 5 numbers is 20.  \nSo:\n\n\\[\n\\text{Total sum} = 5 \\times 20 = 100\n\\]\n\n---\n\n**Step 2: Let the removed number be \\( x \\).**  \nAfter removing \\( x \\), we have 4 numbers left, and their average is 18.  \nSo:\n\n\\[\n\\text{Sum of 4 numbers} = 4 \\times 18 = 72\n\\]\n\n---\n\n**Step 3: Relate the sums.**\n\nThe sum of the remaining 4 numbers = Total sum − removed number:\n\n\\[\n72 = 100 - x\n\\]\n\n---\n\n**Step 4: Solve for \\( x \\).",
+      "answer_sha256": "8250cac968864de264aacbac5c14b8c0d3991cd5098b9c6289e67e51b1420c8e"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0044",
+      "role": "parent",
+      "gold_answer": "1800",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.289,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "0813f1a27a9cbd6a51d66c0495a2380283463f2a79777dac255294dddf24552f",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "1800",
+      "correct": true,
+      "raw_output_full": "Let’s go step by step.\n\n**Step 1: Convert hours to minutes.**  \n2.5 hours = 2.5 × 60 = 150 minutes.\n\n**Step 2: Multiply pages per minute by total minutes.**  \n12 pages/minute × 150 minutes = 1800 pages.\n\n\\[\n\\boxed{1800}\n\\]",
+      "answer_sha256": "f4bc105ac52e0e889ecc05843a7df216be20b1b1b33b6975e8b8bc9e1141b14b"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0044",
+      "role": "child",
+      "gold_answer": "1800",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.035,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "b486411904a0f2ab8f52e4f262f980994e3117d270d6f881c7ca3ac3ad03d34f",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "1800",
+      "correct": true,
+      "raw_output_full": "1800",
+      "answer_sha256": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0045",
+      "role": "child",
+      "gold_answer": "12",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 5.086,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "ca13e9d3105afbd8d713a7e36cae8e025acd650cc2710cd126d3a7ed677144e8",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "12",
+      "correct": true,
+      "raw_output_full": "12",
+      "answer_sha256": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0045",
+      "role": "parent",
+      "gold_answer": "12",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.669,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "89bda1d60c3e3a3815a3b63a3f8939437f54324172933d3b6662592676cb3764",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "12",
+      "correct": true,
+      "raw_output_full": "15% of 80 is **12**.\n\nCalculation:  \n\\( 80 \\times 0.15 = 12 \\)",
+      "answer_sha256": "b4bcc67756d64e86d6d2422a8a9caeaa1d470541eccb18445ee9f6eaba3267da"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0046",
+      "role": "parent",
+      "gold_answer": "0.25",
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "latency_s": 4.166,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "b20d9dbb5ef5e5aa484f48e052a818c6c9aab1189665178010de9bf21befcd59",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 1,
+      "predicted": "4",
+      "correct": false,
+      "raw_output_full": "Let's go step by step.\n\n---\n\n**Step 1: Understand the die**  \nA 4-sided die has outcomes: {1, 2, 3, 4}.  \nThe even numbers are {2, 4}.\n\nProbability of rolling an even number in one roll:\n\n\\[\nP(\\text{even}) = \\frac{2}{4} = \\frac{1}{2}\n\\]\n\n---\n\n**Step 2: Two independent rolls**  \nThe rolls are independent, so:\n\n\\[\nP(\\text{both even}) = P(\\text{even}) \\times P(\\text{even}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}\n\\]\n\n---\n\n**Step 3: Conclusion**  \nThe probability is:\n\n\\[\n\\boxed{\\frac{1}{4}}\n\\]",
+      "answer_sha256": "718316ab21aa3b47913a1f774db13764397188043ed64a1b2134c5815df840ac"
+    },
+    {
+      "run_id": "r3-9e46ca35",
+      "task_id": "gsm8k-test-0046",
+      "role": "child",
+      "gold_answer": "0.25",
+      "graph_sha256": "a0add78f10e666845367f31e560181cf403b7c39d3a44d0daa5264a4285edf7b",
+      "latency_s": 6.669,
+      "docker_ok": true,
+      "docker_cleanup": {
+        "container_id": "1d335ef9c7b4c81fbff79c729f62c2c0b1555b056e89fe51446dcce3005b06b8",
+        "cleaned": true,
+        "error": null,
+        "container_created": true
+      },
+      "ipc_processed": 3,
+      "predicted": "0.25",
+      "correct": true,
+      "raw_output_full": "0.25",
+      "answer_sha256": "a30a043314fa89294fa2c1c989a01fbb5329e5c085a5c5a8d27317656de24ae0"
+    }
+  ],
+  "docker_failure_rate": 0.0,
+  "ipc_total": 140,
+  "NEW_HTTP_REQUESTS": 140,
+  "BUDGET_DEBITED_USD": 0.036397199999999984,
+  "BUDGET_REMAINING_USD": 4.9636028,
+  "STOP_REASON": "R3_PAIRED_EXPERIMENT_COMPLETE",
+  "exploratory_note": "35-task paired comparison. Child uses multi-sample self-consistency and explicit answer format — system-level workflow comparison, not isolated evolutionary algorithm attribution."
+}
