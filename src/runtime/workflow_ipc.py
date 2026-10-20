@@ -66,8 +66,9 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
             if cleanup_fn:
                 try:
                     cleanup_fn()
-                except Exception:
-                    pass
+                except Exception as cfn_err:
+                    cleanup_status["cleaned"] = False
+                    cleanup_status["error"] = f"CLEANUP_FN_EXCEPTION:{type(cfn_err).__name__}"
             return
         cleanup_status["container_created"] = True
         try:
@@ -94,8 +95,11 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
         if cleanup_fn:
             try:
                 cleanup_fn()
-            except Exception:
-                pass
+            except Exception as cfn_err:
+                cleanup_status["cleaned"] = False
+                cleanup_status["error"] = (
+                    cleanup_status.get("error", "") + f"|CLEANUP_FN_EXCEPTION:{type(cfn_err).__name__}"
+                )
 
     try:
         proc = _sp.Popen(full_cmd, stdout=_sp.PIPE, stderr=_sp.PIPE, stdin=_sp.DEVNULL)
@@ -112,8 +116,11 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
         if cleanup_fn:
             try:
                 cleanup_fn()
-            except Exception:
-                pass
+            except Exception as cfn_err:
+                cleanup_status["cleaned"] = False
+                cleanup_status["error"] = (
+                    cleanup_status.get("error", "") + f"|CLEANUP_FN_EXCEPTION:{type(cfn_err).__name__}"
+                )
         return None, b"", b"", {"out": False, "err": False, "popen_failed": True}, cleanup_status
     out_buf = bytearray()
     err_buf = bytearray()
@@ -508,6 +515,7 @@ def run_workflow_code_isolated(
     cpus: float = 1.0,
     llm: Any = None,
     extra_modules: Optional[Dict[str, str]] = None,
+    cleanup_fn=None,
 ) -> Dict[str, Any]:
     """Run generated Workflow in Docker with a controlled model mailbox.
 
@@ -592,7 +600,7 @@ def run_workflow_code_isolated(
             "python", "runner.py",
         ]
         try:
-            proc, out_bytes, err_bytes, overflow, cleanup_status = _run_bounded(cmd, timeout=timeout + 15)
+            proc, out_bytes, err_bytes, overflow, cleanup_status = _run_bounded(cmd, timeout=timeout + 15, cleanup_fn=cleanup_fn)
         except subprocess.TimeoutExpired:
             if server:
                 server.stop()
@@ -602,9 +610,37 @@ def run_workflow_code_isolated(
                 "ipc_processed": [],
                 "docker_cleanup": {"error": "TIMEOUT_PATH"},
             }
+        except Exception as e:
+            if server:
+                server.stop()
+            return {
+                "ok": False, "error": f"RUN_BOUNDED_EXCEPTION:{type(e).__name__}",
+                "returncode": -1, "task_id": task_id,
+                "answer_text": None, "answer_len": 0, "answer_sha256": None,
+                "cost_meta": None, "out_kind": None,
+                "stdout_excerpt": "", "stderr_excerpt": str(e)[:200],
+                "question_len": len(problem), "ipc_processed": [],
+                "security_events": [],
+                "docker_cleanup": {"error": f"EXCEPTION:{type(e).__name__}"},
+            }
         finally:
             if server:
                 server.stop()
+
+        # Popen failed: proc is None — return structured failure, never touch proc.*
+        if proc is None or (isinstance(overflow, dict) and overflow.get("popen_failed")):
+            return {
+                "ok": False,
+                "error": "POPEN_FAILED",
+                "returncode": -1,
+                "task_id": task_id,
+                "answer_text": None, "answer_len": 0, "answer_sha256": None,
+                "cost_meta": None, "out_kind": None,
+                "stdout_excerpt": "", "stderr_excerpt": "",
+                "question_len": len(problem),
+                "ipc_processed": [], "security_events": [],
+                "docker_cleanup": cleanup_status,
+            }
 
         # ---- Task A: parse the FULL stdout before any excerpting ----
         full_stdout = out_bytes.decode("utf-8", errors="replace")
