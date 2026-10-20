@@ -10,6 +10,8 @@ on:
       - "tests/test_r3r1_protocol.py"
       - "tests/test_r3r2_native_protocol.py"
       - ".github/workflows/level3-pilot-r31-r1.yml"
+      - "results/level3_pilot_r3/**"
+      - "results/level3_pilot_r31/**"
   pull_request:
     paths:
       - "scripts/level3_pilot_r3/run_paired_35.py"
@@ -18,6 +20,8 @@ on:
       - "tests/test_r3r1_protocol.py"
       - "tests/test_r3r2_native_protocol.py"
       - ".github/workflows/level3-pilot-r31-r1.yml"
+      - "results/level3_pilot_r3/**"
+      - "results/level3_pilot_r31/**"
 
 permissions:
   contents: read
