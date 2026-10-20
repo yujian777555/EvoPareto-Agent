@@ -42,6 +42,7 @@ __all__ = [
     "mutate_single_edit",
     "build_group_c_fixed_verify",
     "MUTATION_OPERATORS",
+    "OPERATOR_SPECS",
     "default_mutation_plan",
     "apply_mutation",
     "generate_flat_candidates",
@@ -268,10 +269,17 @@ def mutate_insert_instruction(parent: WorkflowProgram, *, instruction: str) -> W
     if not instruction:
         raise MutationError("INSTRUCTION_EMPTY")
     src = _lf(parent.graph_source)
-    pattern = re.compile(r"instruction\s*=\s*(?:\"[^\"]*\"|'[^']*')")
-    if not pattern.search(src):
+    # Two known instruction slots:
+    #  1. AFlow-style: instruction=<literal>
+    #  2. direct-llm sampling style: self.solve = <literal>
+    pattern_af = re.compile(r"instruction\s*=\s*(?:\"[^\"]*\"|'[^']*')")
+    pattern_solve = re.compile(r"self\.solve\s*=\s*(?:\"[^\"]*\"|'[^']*')")
+    if pattern_af.search(src):
+        new_src, nsub = pattern_af.subn("instruction=" + repr(instruction), src, count=1)
+    elif pattern_solve.search(src):
+        new_src, nsub = pattern_solve.subn("self.solve = " + repr(instruction), src, count=1)
+    else:
         raise MutationError("PARENT_INSTRUCTION_SLOT_NOT_FOUND")
-    new_src, nsub = pattern.subn("instruction=" + repr(instruction), src, count=1)
     if nsub != 1 or new_src == src:
         raise MutationError("INSTRUCTION_REWRITE_NOOP")
     err = validate_graph_source(new_src)
@@ -383,13 +391,39 @@ def mutate_single_edit(
 GROUP_C_CHECK_INSTRUCTION = "Recompute the arithmetic and output the final number only."
 
 
-def build_group_c_fixed_verify(parent: WorkflowProgram) -> WorkflowProgram:
-    """Group C operational definition: Parent call, then one fixed verify.
+def parent_stage1_prompt(instruction: str, problem: str) -> str:
+    """Prompt actually sent for Parent-style single Custom(input, instruction).
 
-    Stage 1: single call with parent instruction.
-    Stage 2: one verification prompt with the FIXED checker instruction.
-    Scoring uses the checker output. Calls per task = 2. No sampling.
-    Independent of mutate_add_check_stage.
+    Frozen Parent uses ``instruction=""`` so the effective user content is the
+    problem text. Group C stage-1 MUST use this same function so the first
+    stage is prompt-equivalent to Parent.
+    """
+    if not instruction:
+        return problem
+    return "%s\n%s" % (instruction, problem)
+
+
+def group_c_stage2_prompt(problem: str, first_output: str) -> str:
+    """Verification prompt: fixed instruction + problem + stage-1 actual output."""
+    return (
+        "%s\n"
+        "Problem: %s\n"
+        "First output: %s\n"
+        % (GROUP_C_CHECK_INSTRUCTION, problem, first_output)
+    )
+
+
+def build_group_c_fixed_verify(parent: WorkflowProgram) -> WorkflowProgram:
+    """Group C: Parent stage-1 call, then ONE verification with stage-1 answer.
+
+    Execution contract (must be sequential and awaited):
+      1. await stage-1 model call with Parent prompt (parent_stage1_prompt)
+      2. wait for stage-1 answer text
+      3. build verify prompt = frozen verify instruction + problem + first output
+      4. await stage-2 model call
+      5. return stage-2 output as the scored answer
+
+    Stage-2 must NOT resend the bare problem without the first output.
     """
     if parent.call_style != "aflow_custom":
         raise MutationError("GROUP_C_REQUIRES_PARENT_STYLE")
@@ -397,6 +431,9 @@ def build_group_c_fixed_verify(parent: WorkflowProgram) -> WorkflowProgram:
         raise MutationError("GROUP_C_REQUIRES_SINGLE_CALL_PARENT")
     if parent.fixed_verify:
         raise MutationError("GROUP_C_ALREADY_FIXED_VERIFY")
+
+    # Generate a fully async two-stage workflow. Stage-1 prompt construction
+    # is delegated to the same formula as parent_stage1_prompt.
     src = (
         "class Workflow:\n"
         "    def __init__(self, *args, **kwargs):\n"
@@ -404,19 +441,38 @@ def build_group_c_fixed_verify(parent: WorkflowProgram) -> WorkflowProgram:
         "        self._instr1 = " + repr(parent.instruction) + "\n"
         "        self._instr2 = " + repr(GROUP_C_CHECK_INSTRUCTION) + "\n"
         "\n"
-        "    async def __call__(self, problem):\n"
-        "        first = self._call_llm(self._instr1, problem)\n"
-        "        second = self._call_llm(self._instr2, problem)\n"
-        "        return second\n"
+        "    def _stage1_prompt(self, problem):\n"
+        "        if not self._instr1:\n"
+        "            return problem\n"
+        "        return self._instr1 + '\\n' + problem\n"
         "\n"
-        "    def _call_llm(self, instruction, problem):\n"
+        "    def _stage2_prompt(self, problem, first_output):\n"
+        "        return (\n"
+        "            self._instr2 + '\\n'\n"
+        "            + 'Problem: ' + problem + '\\n'\n"
+        "            + 'First output: ' + first_output + '\\n'\n"
+        "        )\n"
+        "\n"
+        "    async def __call__(self, problem):\n"
+        "        p1 = self._stage1_prompt(problem)\n"
+        "        first = await self._call_llm_async(p1)\n"
+        "        p2 = self._stage2_prompt(problem, first if first is not None else '')\n"
+        "        second = await self._call_llm_async(p2)\n"
+        "        return second if second is not None else ''\n"
+        "\n"
+        "    async def _call_llm_async(self, prompt):\n"
         "        hook = getattr(self, 'llm', None)\n"
         "        if hook is None:\n"
         "            raise RuntimeError('LLM_NOT_BOUND')\n"
-        "        prompt = f'{instruction}\\n{problem}' if instruction else problem\n"
+        "        # Real IPC: _request(prompt) -> str (may be sync).\n"
+        "        # Support async callables and async _request.\n"
         "        if hasattr(hook, '_request'):\n"
-        "            return hook._request(prompt)\n"
-        "        return hook(prompt)\n"
+        "            out = hook._request(prompt)\n"
+        "        else:\n"
+        "            out = hook(prompt)\n"
+        "        if hasattr(out, '__await__'):\n"
+        "            out = await out\n"
+        "        return out\n"
     )
     err = validate_graph_source(src)
     if err:
@@ -527,9 +583,9 @@ def apply_mutation(
             return mutate_add_check_stage(parent)
         raise MutationError(f"UNKNOWN_OPERATOR:{op}")
     except MutationError as exc:
+        # ALL mutation failures (including NOOP) become FailedCandidate slots.
+        # They never abort the search loop or force a silent redraw.
         reason = str(exc.args[0]) if exc.args else type(exc).__name__
-        if not plan.allow_noop and reason == "NOOP_MUTATION":
-            raise
         return FailedCandidate(
             slot=slot,
             operator=op,
@@ -694,13 +750,16 @@ def execute_program_locally(
     program: WorkflowProgram,
     problem: str,
     *,
-    llm_hook: Callable[[str], str],
+    llm_hook: Callable[..., Any],
+    timeout_s: float = 5.0,
 ) -> Dict[str, Any]:
     """Execute a compiled program in-process with a controlled fake model.
 
     Mirrors construction / call / answer extraction of run_workflow_code_isolated
-    WITHOUT Docker or HTTP. SIMULATED evidence that the adapter produces
-    runnable programs. Full Docker-path proof still requires an authorized run.
+    WITHOUT Docker or HTTP. Supports sync or async hooks. Records every prompt
+    in ``request_log`` so tests can assert call order and content.
+
+    evidence_class is always SIMULATED. This is NOT real-model evidence.
     """
     src = compile_graph_source(program)
     ns: Dict[str, Any] = {"__name__": "r4_candidate"}
@@ -711,33 +770,45 @@ def execute_program_locally(
             "ok": False,
             "error": "GRAPH_EXEC:%s:%s" % (type(exc).__name__, exc),
             "answer_text": None,
+            "request_log": [],
             "evidence_class": "SIMULATED",
         }
 
     Workflow = ns.get("Workflow")
     if Workflow is None:
-        return {"ok": False, "error": "GRAPH_MISSING_WORKFLOW_CLASS", "answer_text": None, "evidence_class": "SIMULATED"}
+        return {
+            "ok": False,
+            "error": "GRAPH_MISSING_WORKFLOW_CLASS",
+            "answer_text": None,
+            "request_log": [],
+            "evidence_class": "SIMULATED",
+        }
 
     import asyncio
 
-    class _HookLLM:
-        """Fake model hook.
+    request_log: List[str] = []
 
-        ``_request`` is sync (matches R3 IPC). ``__call__`` returns a coroutine
-        so ``asyncio.gather(self.llm(...))`` in sampling graphs works.
+    class _HookLLM:
+        """Fake model hook with request log.
+
+        ``_request`` returns the hook result (str or awaitable).
+        ``__call__`` is async and awaits the hook result so
+        ``asyncio.gather(self.llm(...))`` works in sampling graphs.
         """
 
         def __init__(self, fn):
             self._fn = fn
-            self.calls: List[str] = []
 
-        def _request(self, prompt: str) -> str:
-            self.calls.append(prompt)
+        def _request(self, prompt: str):
+            request_log.append(prompt)
             return self._fn(prompt)
 
         async def __call__(self, prompt: str) -> str:
-            self.calls.append(prompt)
-            return self._fn(prompt)
+            request_log.append(prompt)
+            out = self._fn(prompt)
+            if hasattr(out, "__await__"):
+                out = await out
+            return out
 
         def get_usage_summary(self):
             return {"total_cost": 0.0}
@@ -764,6 +835,7 @@ def execute_program_locally(
             "ok": False,
             "error": "WORKFLOW_CTOR_FAILED:%s" % errors,
             "answer_text": None,
+            "request_log": request_log,
             "evidence_class": "SIMULATED",
         }
 
@@ -773,19 +845,36 @@ def execute_program_locally(
     except Exception:
         pass
 
-    import asyncio
-
     async def _run():
         return await obj(problem)
 
     try:
-        result = asyncio.run(_run())
+        result = asyncio.run(asyncio.wait_for(_run(), timeout=timeout_s))
+    except asyncio.TimeoutError:
+        return {
+            "ok": False,
+            "error": "WORKFLOW_TIMEOUT",
+            "answer_text": None,
+            "request_log": request_log,
+            "n_llm_calls": len(request_log),
+            "evidence_class": "SIMULATED",
+        }
+    except asyncio.CancelledError:
+        return {
+            "ok": False,
+            "error": "WORKFLOW_CANCELLED",
+            "answer_text": None,
+            "request_log": request_log,
+            "n_llm_calls": len(request_log),
+            "evidence_class": "SIMULATED",
+        }
     except Exception as exc:
         return {
             "ok": False,
             "error": "WORKFLOW_CALL:%s:%s" % (type(exc).__name__, exc),
             "answer_text": None,
-            "n_llm_calls": len(hook.calls),
+            "request_log": request_log,
+            "n_llm_calls": len(request_log),
             "evidence_class": "SIMULATED",
         }
 
@@ -793,8 +882,9 @@ def execute_program_locally(
     return {
         "ok": True,
         "answer_text": answer,
-        "answer_len": len(answer),
-        "n_llm_calls": len(hook.calls),
+        "answer_len": len(answer) if answer is not None else 0,
+        "n_llm_calls": len(request_log),
+        "request_log": request_log,
         "call_style": program.call_style,
         "program_id": program.program_id,
         "evidence_class": "SIMULATED",
@@ -807,3 +897,47 @@ MUTATION_OPERATORS = (
     "M_ADD_CHECK_STAGE",
     "M_SINGLE_EDIT",
 )
+
+#: Structured applicability contract for every mutation operator.
+OPERATOR_SPECS = {
+    "M_SET_INSTRUCTION": {
+        "supported_style": ["aflow_custom", "direct_llm", "aflow_custom_verify"],
+        "preconditions": ["graph contains instruction=<literal> OR self.solve=<literal> slot", "new instruction differs from current"],
+        "params": {"instruction": "non-empty str, != current instruction"},
+        "semantics_after": "same call graph; instruction text replaced",
+        "failure_reasons": ["INSTRUCTION_EMPTY", "NOOP_MUTATION", "PARENT_INSTRUCTION_SLOT_NOT_FOUND", "INSTRUCTION_REWRITE_NOOP", "GRAPH_SYNTAX_ERROR", "GRAPH_MISSING_WORKFLOW_CLASS", "GRAPH_MISSING_ASYNC_CALL"],
+        "slot_effect": "success -> new child; failure -> FailedCandidate kept at slot",
+    },
+    "M_ADD_SAMPLING": {
+        "supported_style": ["aflow_custom", "direct_llm"],
+        "preconditions": ["n_samples==1", "aggregation==none", "not fixed_verify"],
+        "params": {"n_samples": "int in [2,8]"},
+        "semantics_after": "k samples + deterministic majority vote (first-occurrence ties)",
+        "failure_reasons": ["N_SAMPLES_OUT_OF_RANGE", "SAMPLING_REQUIRES_SINGLE_CALL_BASE", "SAMPLING_REQUIRES_NON_VERIFY_BASE"],
+        "slot_effect": "success -> new child; failure -> FailedCandidate kept at slot",
+    },
+    "M_ADD_CHECK_STAGE": {
+        "supported_style": ["direct_llm"],
+        "preconditions": ["aggregation==majority_vote"],
+        "params": {},
+        "semantics_after": "vote + check pass when no strict majority",
+        "failure_reasons": ["CHECK_REQUIRES_MAJORITY_VOTE"],
+        "slot_effect": "success -> new child; failure -> FailedCandidate kept at slot",
+    },
+    "M_SINGLE_EDIT": {
+        "supported_style": ["any valid graph source"],
+        "preconditions": ["old literal occurs in source", "old != new"],
+        "params": {"old": "non-empty str", "new": "str"},
+        "semantics_after": "one literal replacement",
+        "failure_reasons": ["EDIT_EMPTY_OLD", "NOOP_MUTATION", "EDIT_TARGET_NOT_FOUND"],
+        "slot_effect": "success -> new child; failure -> FailedCandidate kept at slot",
+    },
+    "GROUP_C_FIXED_VERIFY": {
+        "supported_style": ["aflow_custom"],
+        "preconditions": ["single-call parent", "not already fixed_verify"],
+        "params": {},
+        "semantics_after": "stage-1 Parent call + stage-2 verify with first output",
+        "failure_reasons": ["GROUP_C_REQUIRES_PARENT_STYLE", "GROUP_C_REQUIRES_SINGLE_CALL_PARENT", "GROUP_C_ALREADY_FIXED_VERIFY"],
+        "slot_effect": "not a search mutation; used for Group C arm",
+    },
+}

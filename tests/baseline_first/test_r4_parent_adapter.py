@@ -169,8 +169,9 @@ def test_group_c_fixed_verify_definition(parent: WorkflowProgram):
     assert c.parent_program_id == parent.program_id
     assert "GROUP_C_FIXED_VERIFY" in c.operator_history
     assert GROUP_C_CHECK_INSTRUCTION in c.graph_source
+    assert "_stage2_prompt" in c.graph_source
     # two _call_llm sites (stage1 + stage2)
-    assert c.graph_source.count("_call_llm(") >= 2
+    assert c.graph_source.count("_call_llm_async(") >= 2
     assert validate_graph_source(c.graph_source) == ""
 
 

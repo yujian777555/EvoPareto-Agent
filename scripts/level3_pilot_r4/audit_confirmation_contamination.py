@@ -154,22 +154,34 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
         if len(official) != OFFICIAL_N:
             problems.append("OFFICIAL_COUNT_MISMATCH")
 
-    freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
-    tasks = freeze.get("tasks") or []
-    declared_sha = freeze.get("task_set_sha256")
-    recomputed_sha = canonical_task_set_sha256(tasks) if tasks else ""
-    gate_err = verify_task_set(
-        tasks,
-        declared_sha,
-        EXPECTED_V1_SHA,
-        expected_count=EXPECTED_FREEZE_COUNT,
-    ) if tasks else "TASKSET_EMPTY"
-    freeze_gate_ok = gate_err == ""
-    if not freeze_gate_ok:
-        problems.append("FREEZE_GATE:%s" % gate_err)
+    tasks = []
+    declared_sha = None
+    recomputed_sha = ""
+    gate_err = "TASKSET_EMPTY"
+    freeze_gate_ok = False
+    if not freeze_path.exists():
+        problems.append("FREEZE_FILE_MISSING")
+        gate_err = "FREEZE_FILE_MISSING"
+    else:
+        try:
+            freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            problems.append("FREEZE_PARSE_ERROR:%s" % type(exc).__name__)
+            freeze = {}
+        tasks = freeze.get("tasks") or []
+        declared_sha = freeze.get("task_set_sha256")
+        recomputed_sha = canonical_task_set_sha256(tasks) if tasks else ""
+        gate_err = verify_task_set(
+            tasks,
+            declared_sha,
+            EXPECTED_V1_SHA,
+            expected_count=EXPECTED_FREEZE_COUNT,
+        ) if tasks else "TASKSET_EMPTY"
+        freeze_gate_ok = gate_err == ""
+        if not freeze_gate_ok:
+            problems.append("FREEZE_GATE:%s" % gate_err)
 
-    gate_ok = (not problems)
-
+    # gate_ok is computed ONLY after scan + history parsing (fail-closed).
     qn_to_idx = {r["question_norm"]: r["index"] for r in official}
 
     scan_manifest = []
@@ -214,6 +226,22 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
     if scan_errors:
         problems.extend(scan_errors)
 
+    r2_path = root / "results/level3_pilot_r2/paired_confirmation_set.json"
+    r2_official_indices: List[int] = []
+    if r2_path.exists():
+        try:
+            r2 = json.loads(r2_path.read_text(encoding="utf-8"))
+            for t in r2.get("tasks", []):
+                qn = " ".join(t.get("question", "").split())
+                if qn in qn_to_idx:
+                    r2_official_indices.append(qn_to_idx[qn])
+        except Exception as exc:
+            problems.append("R2_PARSE_ERROR:%s" % type(exc).__name__)
+
+    # ---- FINAL gate: only after official + freeze + scan + history parse ----
+    final_gate_ok = not problems
+    gate_ok = final_gate_ok
+
     per_task = []
     for t in tasks:
         qn = " ".join((t.get("question") or "").split())
@@ -238,7 +266,7 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
                     "source_class": source_class(rel),
                     "n_frags_matched": len(matched),
                 })
-        verdict = classify_verdict(hits, gate_ok)
+        verdict = classify_verdict(hits, final_gate_ok)
         per_task.append({
             "task_id": t.get("task_id"),
             "index": idx,
@@ -247,17 +275,6 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
             "hits": hits,
         })
 
-    r2_path = root / "results/level3_pilot_r2/paired_confirmation_set.json"
-    r2_official_indices: List[int] = []
-    if r2_path.exists():
-        try:
-            r2 = json.loads(r2_path.read_text(encoding="utf-8"))
-            for t in r2.get("tasks", []):
-                qn = " ".join(t.get("question", "").split())
-                if qn in qn_to_idx:
-                    r2_official_indices.append(qn_to_idx[qn])
-        except Exception as exc:
-            problems.append("R2_PARSE_ERROR:%s" % type(exc).__name__)
 
     conf_indices = [t.get("index") for t in tasks if isinstance(t.get("index"), int)]
     n_scored = sum(1 for r in per_task if r["verdict"] == V_SCORED)
@@ -266,7 +283,7 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
     n_declared = sum(1 for r in per_task if r["verdict"] == V_DECLARED)
     n_nohit = sum(1 for r in per_task if r["verdict"] == V_NO_HIT)
 
-    if not gate_ok or n_inconc > 0:
+    if not final_gate_ok or n_inconc > 0 or scan_errors or problems:
         independence = "CONFIRMATION_INDEPENDENCE_BLOCKED"
     elif n_scored > 0:
         independence = "CONFIRMATION_INDEPENDENCE_UNVERIFIED"
@@ -291,7 +308,7 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
             "record_count_match": len(official) == OFFICIAL_N,
         },
         "freeze_gate": {
-            "file": str(freeze_path.relative_to(root).as_posix()),
+            "file": (str(freeze_path.relative_to(root).as_posix()) if str(freeze_path).startswith(str(root)) else str(freeze_path)),
             "declared_sha256": declared_sha,
             "recomputed_sha256": recomputed_sha,
             "expected_sha256": EXPECTED_V1_SHA,
@@ -301,7 +318,7 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
         },
         "scan_errors": scan_errors,
         "problems": problems,
-        "gate_ok": gate_ok,
+        "gate_ok": final_gate_ok,
         "scan_file_count": len(scan_manifest),
         "scan_manifest": scan_manifest,
         "summary": {

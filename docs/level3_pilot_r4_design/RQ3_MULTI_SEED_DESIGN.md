@@ -123,6 +123,57 @@ Per request: input 150–400, output 150–800 (median ~300). R=10 high-bound ou
 
 ## 6. Statistical analysis (Plan C)
 
+### 6.0 Multiplicity: ONE pre-declared scheme (R4-R4 decision)
+
+There are two layers of comparisons. They must not be mixed ad hoc.
+
+| Layer | Comparisons | Test | Multiplicity |
+|---|---|---|---|
+| **Task-level (within block)** | B−A, C−A, D−A, E−A, E−D on 40 confirmation tasks | exact McNemar two-sided | **Holm–Bonferroni over 5** (family F1) |
+| **Seed-level (algorithm)** | E−D across R paired blocks | exact Wilcoxon signed-rank two-sided | **separate family F2 = {E−D} only**; no Holm inside F2 |
+
+**Canonical plan (frozen):**
+
+1. **Primary RQ3 claim = seed-level E−D Wilcoxon (family F2), unadjusted exact two-sided p**, because RQ3 is about the *search algorithm*, not the five arm contrasts.
+2. The five-contrast Holm family (F1) is the **task-level** family from the original preregistration and is **secondary** for RQ3. E−D **also appears** in F1 for task-level McNemar; that Holm adjustment applies **only** to the task-level table, not to the seed-level Wilcoxon.
+3. Do **not** apply the 5-way Holm threshold to the seed-level Wilcoxon and do **not** claim a seed-level hit from a Holm-adjusted task-level p.
+
+**Why this split is required:**  
+If one incorrectly put seed-level E−D into the 5-Holm family, the first Holm step threshold is `0.05/5 = 0.01`. Exact two-sided Wilcoxon minimum p:
+
+| R | p_min = 2/2^R | ≤ 0.05? | ≤ 0.01 (5-Holm step 1)? |
+|---:|---:|---|---|
+| 6 | 0.03125 | YES (unadj.) | NO |
+| 7 | 0.015625 | YES | NO |
+| **8** | **0.0078125** | YES | **YES** |
+| 10 | 0.001953 | YES | YES |
+
+So **R=6 can reject unadjusted α=0.05 but cannot pass the first 5-Holm step (0.01)**. Under the canonical plan (F2 separate), R=6 is theoretically able to reject; under a mistaken F1+Wilcoxon merge, R≥8 is required. These are **theoretical rejectability floors, not power guarantees**.
+
+**Zero / tied differences:** Wilcoxon drops zero differences (standard); report n_nonzero. Ties in |d| use the average-rank exact method or a permutation version — freeze `wilcoxon_method: "exact_pratt"` (Pratt: zeros included in ranking but dropped from sum) OR `"exact_dropzeros"`; default **`exact_dropzeros`**. Sign test as sensitivity.
+
+**Failed seeds:** primary scores method–seed accuracy 0.0 (denominator retained); sensitivity = complete-case.
+
+**Confidence intervals:** bootstrap over blocks (10,000 resamples, seed frozen) for mean `d[r]`; Wilson for per-arm accuracy.
+
+**Primary endpoint:** seed-level `acc_E − acc_D` on the frozen 40 tasks (conditional).  
+**Secondary endpoints:** task-level Holm family F1; per-block McNemar; cost/calls.
+
+**Fixed-N stopping:** R is fixed before data (6 or 10). No optional stopping. No method switching after seeing results.
+
+**Generalization limit:** seed-level inference is **conditional on the frozen 40-task confirmation set**. Task-distribution claims need a pre-specified crossed (task × seed) model — not licensed by seed-only Wilcoxon.
+
+### 6.0b Evidence classes for power statements
+
+| Statement type | Allowed? |
+|---|---|
+| Normal-approximation R formula | YES — label **approximation** |
+| Exact minimum p table | YES — label **theoretical rejectability** |
+| "Power is 80% at R=…" without simulation | **NO** |
+| Monte Carlo power simulation | only if the simulation script is actually run and logged; otherwise do not claim it |
+
+
+
 ### 6.1 Analysis units — do not conflate
 
 | Unit | n | Role |
