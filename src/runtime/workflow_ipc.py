@@ -97,9 +97,8 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
                 cleanup_fn()
             except Exception as cfn_err:
                 cleanup_status["cleaned"] = False
-                cleanup_status["error"] = (
-                    cleanup_status.get("error", "") + f"|CLEANUP_FN_EXCEPTION:{type(cfn_err).__name__}"
-                )
+                prev = cleanup_status.get("error") or ""
+                cleanup_status["error"] = (prev + f"|CLEANUP_FN_EXCEPTION:{type(cfn_err).__name__}").lstrip("|")
 
     try:
         proc = _sp.Popen(full_cmd, stdout=_sp.PIPE, stderr=_sp.PIPE, stdin=_sp.DEVNULL)
@@ -118,9 +117,8 @@ def _run_bounded(cmd, *, timeout, max_bytes=MAX_PIPE_BYTES, cleanup_fn=None):
                 cleanup_fn()
             except Exception as cfn_err:
                 cleanup_status["cleaned"] = False
-                cleanup_status["error"] = (
-                    cleanup_status.get("error", "") + f"|CLEANUP_FN_EXCEPTION:{type(cfn_err).__name__}"
-                )
+                prev = cleanup_status.get("error") or ""
+                cleanup_status["error"] = (prev + f"|CLEANUP_FN_EXCEPTION:{type(cfn_err).__name__}").lstrip("|")
         return None, b"", b"", {"out": False, "err": False, "popen_failed": True}, cleanup_status
     out_buf = bytearray()
     err_buf = bytearray()
@@ -718,7 +716,16 @@ def run_workflow_code_isolated(
             answer_len = len(answer_text) if answer_text is not None else 0
 
         return {
-            "ok": proc.returncode == 0 and answer_text is not None and (cleanup_status.get("cleaned") is True or cleanup_status.get("container_created") is False),
+            "ok": (
+                proc.returncode == 0
+                and answer_text is not None
+                and cleanup_status.get("container_created") is True
+                and cleanup_status.get("cleaned") is True
+                and not any(
+                    tag in str(cleanup_status.get("error") or "")
+                    for tag in ("DOCKER_RM_FAILED", "CLEANUP_EXCEPTION", "CLEANUP_FN_EXCEPTION")
+                )
+            ),
             "returncode": proc.returncode,
             # full structured result (never truncated for scoring)
             "answer_text": answer_text,
