@@ -9,6 +9,7 @@
   "official_match_count": 0,
   "synthetic_or_unmatched_count": 35,
   "gold_mismatch_count": 0,
+  "gold_unverified_count": 0,
   "rows": [
     {
       "task_id": "gsm8k-test-0012",
@@ -361,6 +362,5 @@
       "final_status": "SYNTHETIC_OR_UNMATCHED"
     }
   ],
-  "conclusion": "0/35 match both official question and gold; 35 synthetic/unmatched; provenance NOT verified.",
-  "gold_unverified_count": 0
+  "conclusion": "0/35 match both official question and gold; 35 synthetic/unmatched; provenance NOT verified."
 }
