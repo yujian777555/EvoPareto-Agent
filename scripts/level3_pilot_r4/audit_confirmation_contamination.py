@@ -41,7 +41,7 @@ EXPECTED_FREEZE_COUNT = 40
 EXPECTED_V1_SHA = "1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4"
 
 SCAN_ROOTS = ("results", "docs", "scripts", "tests", "src")
-SCAN_SUFFIXES = {".json", ".jsonl", ".md", ".py", ".txt", ".csv", ".yml", ".yaml"}
+SCAN_SUFFIXES = {".json", ".jsonl", ".md", ".py", ".txt", ".csv", ".yml", ".yaml", ".html", ".htm", ".rst", ".ipynb", ".cfg", ".ini", ".toml"}
 EXCLUDE_DIR_NAMES = {".git", "external", "__pycache__", "node_modules", ".pytest_cache"}
 # R7: NO substring excludes. Only exact reviewed POSIX paths.
 # Official source / freeze drafts / self / known audit outputs.
@@ -53,23 +53,71 @@ LEGACY_ENCODING_PROBES = {
     },
 }
 
-REVIEWED_NON_TEXT_EXCLUSIONS = {
-    "results/pilot1_live_run/docker_live_stdout.txt": "binary docker stdout log",
-    "results/stage1_6/docker_run_stdout.txt": "binary docker stdout log",
-    "results/stage1_8/docker_run_stdout.txt": "binary docker stdout log",
-    "results/stage1_feasibility/docker_run_stdout.txt": "binary docker stdout log",
+# Pinned exclusion contract (path -> expected sha256, size, reason, rule_id).
+# Hash mismatch => file is RE-SCANNED as required text (never silently skipped).
+PINNED_EXCLUSIONS = {
+    "results/pilot1_live_run/docker_live_stdout.txt": {
+        "sha256": "f865b3f1af8832794125cb7593b8bbba2860e4f757b16cd1d2dafe7e0e4a70a9",
+        "size": 6438,
+        "reason": "binary docker stdout log",
+        "rule_id": "R8_NON_TEXT_PINNED",
+    },
+    "results/stage1_6/docker_run_stdout.txt": {
+        "sha256": "659bc49e6141aeb163acd31046dadafc62d90d06bf8383b897c656d1dfc8f140",
+        "size": 10842,
+        "reason": "binary docker stdout log",
+        "rule_id": "R8_NON_TEXT_PINNED",
+    },
+    "results/stage1_8/docker_run_stdout.txt": {
+        "sha256": "53ca2f5b470ccb658d7546538f6d02157ecf3d0865fb7fbc026617cc99cebee5",
+        "size": 5222,
+        "reason": "binary docker stdout log",
+        "rule_id": "R8_NON_TEXT_PINNED",
+    },
+    "results/stage1_feasibility/docker_run_stdout.txt": {
+        "sha256": "d2c0be5fdf1eca534ccbd259641c2d64ec1eaa6eb74c881f0f2f983cd7f7f8e7",
+        "size": 13988,
+        "reason": "binary docker stdout log",
+        "rule_id": "R8_NON_TEXT_PINNED",
+    },
+    "results/level3_pilot_r31/gsm8k_test_official.jsonl": {
+        "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+        "size": 749738,
+        "reason": "official source file",
+        "rule_id": "R8_OFFICIAL_SOURCE_PINNED",
+    },
+    "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json": {
+        "sha256": "8f7821f24a2efefc5a054cbd0530ffcc64e6abcb899027ca01f58d54745c2d8b",
+        "size": 18815,
+        "reason": "freeze draft v0",
+        "rule_id": "R8_FREEZE_V0_PINNED",
+    },
+    "docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json": {
+        "sha256": "9294a32469d9e0162221a0dc9dc712125802bd1103e7e8093a998bf1a45d6b19",
+        "size": 20999,
+        "reason": "freeze draft v1",
+        "rule_id": "R8_FREEZE_V1_PINNED",
+    },
 }
 
-REVIEWED_PATH_EXCLUSIONS = {
-    "results/level3_pilot_r31/gsm8k_test_official.jsonl": "official source file (not a candidate hit)",
-    "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json": "freeze draft v0",
-    "docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json": "freeze draft v1",
-    "docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json": "freeze draft v1",
-    "scripts/level3_pilot_r4/audit_confirmation_contamination.py": "this audit script (self)",
-    "docs/level3_pilot_r4_design/confirmation_contamination_audit_raw.json": "prior audit output",
-    "docs/level3_pilot_r4_design/confirmation_contamination_audit_rerun.json": "prior audit output",
-    "docs/level3_pilot_r4_design/CONFIRMATION_CONTAMINATION_AUDIT.md": "prior audit narrative",
-    "docs/level3_pilot_r4_design/R4_R5_STATISTICAL_CONSISTENCY.md": "stats doc (no task bank)",
+# Self-reference (circular hash) — exact path only, documented.
+SELF_EXCLUSIONS = {
+    "scripts/level3_pilot_r4/audit_confirmation_contamination.py": {
+        "reason": "this audit script (self-reference; hash not pinned)",
+        "rule_id": "R8_SELF_REF",
+    },
+}
+
+# Known audit outputs (path exact; hash not pinned because they regenerate)
+OUTPUT_EXCLUSIONS = {
+    "docs/level3_pilot_r4_design/confirmation_contamination_audit_raw.json": {
+        "reason": "prior audit output",
+        "rule_id": "R8_AUDIT_OUTPUT",
+    },
+    "docs/level3_pilot_r4_design/confirmation_contamination_audit_rerun.json": {
+        "reason": "prior audit output",
+        "rule_id": "R8_AUDIT_OUTPUT",
+    },
 }
 
 V_NO_HIT = "NO_HIT"
@@ -210,6 +258,7 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
     exclusion_log: List[Dict[str, Any]] = []
     texts: List[Tuple[str, str]] = []
     scan_errors: List[str] = []
+    dir_skip_counts: Dict[str, Any] = {}
     for scan_root in SCAN_ROOTS:
         base = root / scan_root
         if not base.exists():
@@ -224,32 +273,43 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
             if not p.is_file():
                 continue
             if any(part in EXCLUDE_DIR_NAMES for part in p.parts):
+                # B2: auditable skip (not silent). Impact: those trees are NOT
+                # searched for confirmation leaks; recorded as scope limitation.
+                dir_skip = next(part for part in p.parts if part in EXCLUDE_DIR_NAMES)
+                key = "DIRSKIP:" + dir_skip
+                if key not in dir_skip_counts:
+                    dir_skip_counts[key] = {"dir": dir_skip, "count": 0, "rule_id": "R8_DIR_SKIP"}
+                dir_skip_counts[key]["count"] += 1
                 continue
             if p.suffix.lower() not in SCAN_SUFFIXES:
                 continue
             rel = p.relative_to(root).as_posix()
-            if rel in REVIEWED_NON_TEXT_EXCLUSIONS:
-                exclusion_log.append({
-                    "path": rel,
-                    "sha256": sha256_bytes(p.read_bytes()) if p.exists() else None,
-                    "size": p.stat().st_size if p.exists() else None,
-                    "reason": REVIEWED_NON_TEXT_EXCLUSIONS[rel],
-                    "kind": "REVIEWED_NON_TEXT",
-                    "rule_id": "R7_NON_TEXT_V2",
-                })
-                continue  # precise reviewed exclusion (not a decode failure)
-            if rel in REVIEWED_PATH_EXCLUSIONS:
+            # pinned / self / output exclusions — verify hash when pinned
+            if rel in PINNED_EXCLUSIONS or rel in SELF_EXCLUSIONS or rel in OUTPUT_EXCLUSIONS:
                 raw_x = p.read_bytes()
-                exclusion_log.append({
-                    "path": rel,
-                    "sha256": sha256_bytes(raw_x),
-                    "size": len(raw_x),
-                    "reason": REVIEWED_PATH_EXCLUSIONS[rel],
-                    "kind": "REVIEWED_EXACT_PATH",
-                    "rule_id": "R7_EXACT_PATH_V1",
-                })
-                continue
-            # NOTE: no substring matching — unknown copies are scanned
+                got_sha = sha256_bytes(raw_x)
+                meta = PINNED_EXCLUSIONS.get(rel) or SELF_EXCLUSIONS.get(rel) or OUTPUT_EXCLUSIONS.get(rel)
+                pinned = PINNED_EXCLUSIONS.get(rel)
+                if pinned and (got_sha != pinned["sha256"] or len(raw_x) != pinned["size"]):
+                    # hash changed -> do NOT skip; rescan as required text
+                    exclusion_log.append({
+                        "path": rel,
+                        "sha256": got_sha,
+                        "size": len(raw_x),
+                        "reason": "PINNED_HASH_MISMATCH_RESACN",
+                        "kind": "PINNED_MISMATCH",
+                        "rule_id": meta.get("rule_id", "R8"),
+                    })
+                else:
+                    exclusion_log.append({
+                        "path": rel,
+                        "sha256": got_sha,
+                        "size": len(raw_x),
+                        "reason": meta.get("reason", ""),
+                        "kind": "REVIEWED_EXACT_PATH",
+                        "rule_id": meta.get("rule_id", "R8"),
+                    })
+                    continue
             try:
                 raw = p.read_bytes()
             except Exception as exc:
@@ -304,12 +364,14 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
         hits = []
         for rel, txt in texts:
             flat = " ".join(txt.split())
-            matched = [f for f in frags if f and f in flat]
+            matched_frags = [f for f in frags if f and f in flat]
             reasons = []
-            if matched:
-                # require the 70-char head or full text to avoid tiny-false hits
-                if qn in flat or (frags[1] if len(frags) > 1 else qn) in flat:
-                    reasons.append("question_text")
+            if qn and qn in flat:
+                reasons.append("question_full")
+            elif matched_frags:
+                # middle/end fragments count as leakage signals, not NO_HIT
+                reasons.append("question_fragment")
+                reasons.append("frags:" + ",".join(str(len(f)) for f in matched_frags[:4]))
             if idf and idf in txt:
                 reasons.append("official_task_id")
             if reasons:
@@ -317,7 +379,8 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
                     "file": rel,
                     "reasons": reasons,
                     "source_class": source_class(rel),
-                    "n_frags_matched": len(matched),
+                    "n_frags_matched": len(matched_frags),
+                    "match_kind": "FULL" if "question_full" in reasons else "FRAGMENT",
                 })
         verdict = classify_verdict(hits, final_gate_ok)
         per_task.append({
@@ -371,6 +434,8 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
         },
         "scan_errors": scan_errors,
         "exclusion_log": exclusion_log,
+        "directory_skips": list(dir_skip_counts.values()),
+        "directory_skip_impact": "external/.git/__pycache__/node_modules/.pytest_cache are not scanned; if confirmation content only existed there it would be unverified",
         "legacy_encoding_probes": LEGACY_ENCODING_PROBES,
         "problems": problems,
         "gate_ok": final_gate_ok,
@@ -391,6 +456,8 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
         "notes": [
             "NO_HIT is not DATA_ONLY and is not absolute independence.",
             "STRICT utf-8 decode: decode errors are scan errors and block independence.",
+            "FRAGMENT matches count as hits (not NO_HIT).",
+            "Pinned exclusion hash mismatch forces rescan.",
             "Allowed sources are official file, freeze draft, audit self.",
             "HISTORICAL_SCORED_HIT downgrades independence; gate failure blocks it.",
             "No performance-based selection or exclusion is applied.",

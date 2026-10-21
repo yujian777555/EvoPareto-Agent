@@ -20,7 +20,7 @@ from src.runtime.r4_http_gate import (
     R4HttpBlocked,
     clear_r4_http_gate,
     install_r4_http_gate,
-    make_r4_checker,
+    make_r4_real_checker as make_r4_checker,
 )
 
 SOCKET_CONNECTS = {"n": 0}

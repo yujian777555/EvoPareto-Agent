@@ -30,7 +30,7 @@
     ],
     "worst_case_usd_per_req": 0.003
   },
-  "config_sha256": "9a52ad91db18070e4bb37033b96be7f6ada0bf5f60c2cd52175b4fd55420e355",
+  "config_sha256": "34015d7206b8b4b688320f64ef0f492560aa4920920b63773c9b950d4cbce678",
   "created_for": "LEVEL3-PILOT-R4 execution protocol (zero real model calls at freeze time)",
   "datasets": {
     "confirmation": {
@@ -60,7 +60,7 @@
       "E-A",
       "E-D"
     ],
-    "holm_note": "F1 Holm(5) is TASK-level only. Seed-level RQ3 uses family F2 = {E-D, E-C} with Holm(2) if both are co-primary; see R4_R5_STATISTICAL_CONSISTENCY.md. R=6 unadj. min Wilcoxon p=0.03125 is NOT enough for Holm(5) step-1 (0.01).",
+    "holm_note": "F1 Holm(5) is TASK-level only. Seed-level RQ3 family F2 = {E-D, E-C} uses IUT (both must reject favoring E). No Holm(2) on F2. R>=6 is necessary not sufficient (n_eff).",
     "primary": "co-primary seed-level paired E-D and E-C confirmation accuracy (IUT; conditional on frozen 40 tasks)",
     "rq3_comparisons": {
       "E-C": {
@@ -103,7 +103,6 @@
     "request_log_required": true,
     "scoring": "host-side gold; never in container/prompt/IPC"
   },
-  "execution_authorized": false,
   "mutation_plan": {
     "allow_noop": false,
     "base_seed": 20260601,

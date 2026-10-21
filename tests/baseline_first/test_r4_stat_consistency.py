@@ -141,3 +141,79 @@ def test_r_values_must_be_true_ints():
         c["config_sha256"] = canonical_config_sha256(c)
         err = verify_exec_config_structure(c)
         assert err.startswith("BUDGET_R_NOT_INT") or err.startswith("BUDGET_PLANNED_R"), (bad, err)
+
+
+
+def test_v2_freeze_has_no_execution_flag_and_valid_structure():
+    import json as _json
+
+    from src.research.r4_exec_freeze import verify_exec_config_structure
+
+    p = ROOT / "docs/level3_pilot_r4_design/execution_freeze_v2_proposed.json"
+    cfg = _json.loads(p.read_text(encoding="utf-8"))
+    assert "execution_authorized" not in cfg
+    assert verify_exec_config_structure(cfg) == ""
+    assert cfg["config_sha256"]
+    # recompute
+    from src.research.r4_exec_freeze import canonical_config_sha256
+
+    assert canonical_config_sha256(cfg) == cfg["config_sha256"]
+
+
+def test_v2_rq3_iut_consistency():
+    import json as _json
+
+    p = ROOT / "docs/level3_pilot_r4_design/execution_freeze_v2_proposed.json"
+    cfg = _json.loads(p.read_text(encoding="utf-8"))
+    ep = cfg["endpoints"]
+    rq3 = ep["rq3_comparisons"]
+    assert rq3["E-D"]["role"] == "co-primary"
+    assert rq3["E-C"]["role"] == "co-primary"
+    assert rq3.get("multiplicity") == "IUT"
+    assert "iut" in rq3["claim_rule"].lower()
+    assert "Holm(2) on F2" in ep.get("holm_note", "") or "No Holm(2)" in ep.get("holm_note", "")
+    assert "E-D" in ep["primary"] or "E−D" in ep["primary"]
+
+
+def test_no_active_holm2_alternative_in_freeze():
+    import json as _json
+
+    p = ROOT / "docs/level3_pilot_r4_design/execution_freeze_v2_proposed.json"
+    raw = p.read_text(encoding="utf-8")
+    assert "with Holm(2) if both are co-primary" not in raw
+
+
+def test_seed_type_attacks():
+    import copy
+
+    from src.research.r4_exec_freeze import (
+        BASE_SEED,
+        DEFAULT_EXEC_FREEZE,
+        canonical_config_sha256,
+        verify_exec_config_structure,
+    )
+
+    for bad in (20260601.0, True, "20260601"):
+        cfg = copy.deepcopy(DEFAULT_EXEC_FREEZE)
+        cfg["seeds"]["base_seed"] = bad
+        cfg["mutation_plan"]["base_seed"] = bad if not isinstance(bad, str) else int(bad) if str(bad).isdigit() else bad
+        cfg["config_sha256"] = canonical_config_sha256(cfg)
+        err = verify_exec_config_structure(cfg)
+        assert err.startswith("EXEC_SEEDS"), (bad, err)
+
+
+def test_plan_seed_key_semantics():
+    import copy
+
+    from src.research.r4_exec_freeze import (
+        DEFAULT_EXEC_FREEZE,
+        canonical_config_sha256,
+        verify_exec_config_structure,
+    )
+
+    cfg = copy.deepcopy(DEFAULT_EXEC_FREEZE)
+    # non-canonical key
+    cfg["seeds"]["plan_seeds"] = {"06": cfg["seeds"]["plan_seeds"]["6"], "10": cfg["seeds"]["plan_seeds"]["10"]}
+    cfg["config_sha256"] = canonical_config_sha256(cfg)
+    err = verify_exec_config_structure(cfg)
+    assert err.startswith("EXEC_SEEDS") or err.startswith("BUDGET_PLANNED_R")

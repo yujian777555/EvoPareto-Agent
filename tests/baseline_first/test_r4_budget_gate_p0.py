@@ -30,7 +30,7 @@ from src.research.r4_exec_freeze import (
 from src.research.r4_execution_authorization import (
     AuthorizationRecord,
     make_test_authorization,
-    verify_execution_allowed,
+    verify_execution_allowed_inject as verify_execution_allowed,
 )
 
 
@@ -230,9 +230,11 @@ def test_budget_exceeded_blocks_http(auth):
 
 
 def test_corrupt_auth_blocks_http():
+    from src.research.r4_execution_authorization import compute_record_sha256
+
     cfg = copy.deepcopy(DEFAULT_EXEC_FREEZE)
     cfg["status"] = "APPROVED_FOR_EXECUTION"
-    cfg = _rehash(cfg)
+    cfg["config_sha256"] = canonical_config_sha256(cfg)
     rec = AuthorizationRecord(
         status="AUTHORIZED",
         config_sha256=cfg["config_sha256"],
@@ -241,12 +243,15 @@ def test_corrupt_auth_blocks_http():
         max_tokens_in=10,
         max_tokens_out=10,
         max_cost_usd=1.0,
+        nonce="X",
         source="TEST",
     )
+    rec = AuthorizationRecord(**{**rec.__dict__, "record_sha256": compute_record_sha256(rec)})
     err = verify_execution_allowed(
         cfg, auth_record=rec, ledger={"blocked": False}, allow_test_injection=True
     )
     assert err.startswith("BUDGET_REMAINING_MISSING")
+
 
 
 def test_zero_model_calls_in_gate_paths():

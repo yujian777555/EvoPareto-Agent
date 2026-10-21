@@ -388,12 +388,13 @@ def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)
                 "cost/call/latency (RQ4)",
             ],
             "holm_family": ["B-A", "C-A", "D-A", "E-A", "E-D"],
-            "holm_note": "F1 Holm(5) is TASK-level only. Seed-level RQ3 uses family F2 = {E-D, E-C} with Holm(2) if both are co-primary; see R4_R5_STATISTICAL_CONSISTENCY.md. R=6 unadj. min Wilcoxon p=0.03125 is NOT enough for Holm(5) step-1 (0.01).",
+            "holm_note": "F1 Holm(5) is TASK-level only. Seed-level RQ3 family F2 = {E-D, E-C} uses IUT (both must reject favoring E). No Holm(2) on F2. R>=6 is necessary not sufficient (n_eff).",
             "rq3_comparisons": {
                 "E-D": {"role": "co-primary", "family": "F2", "test": "exact_wilcoxon_signed_rank_two_sided", "alpha": 0.05, "direction": "favor_E"},
                 "E-C": {"role": "co-primary", "family": "F2", "test": "exact_wilcoxon_signed_rank_two_sided", "alpha": 0.05, "direction": "favor_E"},
                 "multiplicity": "IUT",
                 "claim_rule": "IUT: joint claim E beats BOTH D and C requires BOTH E-D and E-C to reject in favor of E at alpha=0.05; no Holm(2) on F2. Single-comparison confirmatory claims need separate pre-declared FWER control else exploratory only.",
+                "multiplicity": "IUT",
             },
             "tests": {
                 "task_level": "exact McNemar two-sided",
@@ -482,9 +483,11 @@ def verify_exec_config_structure(config: Dict[str, Any]) -> str:
         if isinstance(r, bool):
             return "EXEC_SEEDS_KEY_TYPE"
         try:
-            if not str(r).lstrip("-").isdigit():
+            if not str(r).isdigit():
                 return "EXEC_SEEDS_KEY_TYPE:%s" % r
             ri = int(r)
+            if str(ri) != str(r):
+                return "EXEC_SEEDS_KEY_NONCANONICAL:%s" % r
             expected = BASE_SEED + 1009 * ri
             if int(s) != expected:
                 return "EXEC_SEEDS_RULE_MISMATCH:%s" % r
@@ -623,9 +626,9 @@ def verify_exec_freeze(
 
 
 def verify_execution_allowed(*args, **kwargs):
-    """Deprecated wrapper — see r4_execution_authorization.verify_execution_allowed."""
+    """Deprecated alias for test injection. Real path: verify_execution_allowed_real."""
     from src.research.r4_execution_authorization import (
-        verify_execution_allowed as _v,
+        verify_execution_allowed_inject as _v,
     )
 
     return _v(*args, **kwargs)

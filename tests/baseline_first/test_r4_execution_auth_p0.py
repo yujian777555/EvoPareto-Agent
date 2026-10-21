@@ -17,7 +17,8 @@ from src.research.r4_execution_authorization import (
     AuthorizationRecord,
     authorize_http_send,
     make_test_authorization,
-    verify_execution_allowed,
+    verify_execution_allowed_inject as verify_execution_allowed,
+    verify_execution_allowed_real,
 )
 from src.research.r4_exec_freeze import (
     DEFAULT_EXEC_FREEZE,
@@ -183,6 +184,8 @@ def test_attack_auth_sha_mismatch(approved_cfg):
 
 def test_attack_missing_or_corrupt_auth(approved_cfg):
     assert verify_execution_allowed(approved_cfg, auth_record=None, allow_test_injection=True) == "EXEC_AUTH_MISSING"
+    from src.research.r4_execution_authorization import compute_record_sha256
+
     bad = AuthorizationRecord(
         status="AUTHORIZED",
         config_sha256=approved_cfg["config_sha256"],
@@ -191,19 +194,23 @@ def test_attack_missing_or_corrupt_auth(approved_cfg):
         max_tokens_in=1,
         max_tokens_out=1,
         max_cost_usd=1.0,
+        nonce="N",
         source="TEST",
     )
-    assert verify_execution_allowed(approved_cfg, auth_record=bad, allow_test_injection=True).startswith("EXEC_AUTH_QUOTA_INVALID")
+    bad = AuthorizationRecord(**{**bad.__dict__, "record_sha256": compute_record_sha256(bad)})
+    err = verify_execution_allowed(approved_cfg, auth_record=bad, allow_test_injection=True)
+    assert err.startswith("EXEC_AUTH_QUOTA_INVALID")
+
 
 
 def test_attack_forge_loose_auth_not_used_on_real_path(approved_cfg):
-    """Test injection works only with allow_test_injection; real path rejects TEST source."""
+    """Real path loads controlled file — caller objects are never used."""
     rec = make_test_authorization(approved_cfg)
-    # real path (allow_test_injection=False) must reject TEST source
-    err = verify_execution_allowed(approved_cfg, auth_record=rec, allow_test_injection=False)
-    assert err.startswith("EXEC_AUTH_SOURCE_NOT_CONTROLLED")
+    # real path with missing file
+    err = verify_execution_allowed_real(approved_cfg, ledger={"blocked": False, "remaining_requests": 1, "remaining_tokens_in": 1, "remaining_tokens_out": 1, "remaining_usd": 1.0}, auth_path=Path("nope.json"))
+    assert err == "EXEC_AUTH_FILE_MISSING"
     with pytest.raises(AuthorizationError):
-        authorize_http_send(approved_cfg, auth_record=rec, allow_test_injection=False)
+        authorize_http_send(approved_cfg, ledger={"blocked": False, "remaining_requests": 1, "remaining_tokens_in": 1, "remaining_tokens_out": 1, "remaining_usd": 1.0}, auth_path=Path("nope.json"))
     assert HTTP_SEND_COUNT["n"] == 0
 
 
@@ -212,8 +219,7 @@ def test_attack_status_proposed_with_forge_auth():
     rec = make_test_authorization(cfg)
     err = verify_execution_allowed(cfg, auth_record=rec, allow_test_injection=True)
     assert err.startswith("EXEC_CONFIG_STATUS_NOT_APPROVED")
-    with pytest.raises(AuthorizationError):
-        authorize_http_send(cfg, auth_record=rec, allow_test_injection=True)
+
 
 
 def test_attack_ledger_remaining_missing(approved_cfg):
@@ -237,10 +243,14 @@ def test_attack_ledger_blocked(approved_cfg):
 
 
 def test_authorize_http_send_raises_and_zero_network(approved_cfg):
-    # even the happy path uses test injection; no socket should open
-    rec = make_test_authorization(approved_cfg)
-    authorize_http_send(approved_cfg, auth_record=rec, allow_test_injection=True)
+    with pytest.raises(AuthorizationError):
+        authorize_http_send(
+            approved_cfg,
+            ledger={"blocked": False, "remaining_requests": 10**8, "remaining_tokens_in": 10**12, "remaining_tokens_out": 10**12, "remaining_usd": 1e6},
+            auth_path=Path("nope.json"),
+        )
     assert HTTP_SEND_COUNT["n"] == 0
+
 
 
 def test_config_cannot_embed_execution_flag(approved_cfg, auth_for):

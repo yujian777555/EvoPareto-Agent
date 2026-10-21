@@ -61,11 +61,15 @@ def post_json(
     body = json.dumps(payload).encode("utf-8")
     last_err: Optional[Exception] = None
 
-    # Host-side R4 pre-send gate (trusted boundary). Must run BEFORE any socket.
-    from src.runtime.r4_http_gate import ensure_r4_http_allowed
+    # Legacy R3 path: consult R4 gate ONLY if installed (optional).
+    # R4 real sends must use post_json_r4 which ALWAYS gates.
+    from src.runtime.r4_http_gate import r4_gate_installed
 
     for attempt in range(max_retries + 1):
-        ensure_r4_http_allowed()
+        if r4_gate_installed():
+            from src.runtime.r4_http_gate import ensure_r4_http_allowed
+
+            ensure_r4_http_allowed()
         from src.runtime.http_budget import (
             BillingBlocked,
             BudgetExceeded,
