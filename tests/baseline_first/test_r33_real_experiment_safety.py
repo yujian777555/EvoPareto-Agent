@@ -128,3 +128,10 @@ def test_frozen_parent_placeholder_is_explicitly_labelled():
     parent = load_frozen_parent(ROOT / "results/level3_pilot_r2/frozen_candidates")
     assert parent.source_artifact_status == "KNOWN_PLACEHOLDER_UNREFERENCED"
     assert parent.lineage()["source_artifact_status"] == "KNOWN_PLACEHOLDER_UNREFERENCED"
+
+
+def test_workflow_ipc_prevents_root_owned_bytecode_in_temp_mounts():
+    source = (ROOT / "src/runtime/workflow_ipc.py").read_text(encoding="utf-8")
+    assert 'run_user = ["--user", f"{os.getuid()}:{os.getgid()}"]' in source
+    assert '"PYTHONDONTWRITEBYTECODE=1"' in source
+    assert '"python", "-B", "runner.py"' in source

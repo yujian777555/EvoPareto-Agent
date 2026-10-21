@@ -583,8 +583,15 @@ def run_workflow_code_isolated(
                         (pkg / "__init__.py").touch()
         (work / "runner.py").write_text(build_runner_script(problem, task_id), encoding="utf-8")
 
+        # Keep bind-mounted files owned by the host runner, not root inside
+        # Docker; otherwise TemporaryDirectory cleanup can fail on __pycache__.
+        # This workflow needs no root privileges. Disable bytecode as a second guard.
+        run_user = []
+        if hasattr(os, "getuid") and hasattr(os, "getgid"):
+            run_user = ["--user", f"{os.getuid()}:{os.getgid()}"]
         cmd = [
             "docker", "run", "--rm",
+            *run_user,
             "--network", "none",
             "--memory", f"{memory_mb}m",
             "--memory-swap", f"{memory_mb}m",
@@ -593,9 +600,10 @@ def run_workflow_code_isolated(
             "-v", f"{work}:/work",
             "-v", f"{ipc}:/ipc",
             "-w", "/work",
+            "-e", "PYTHONDONTWRITEBYTECODE=1",
             "-e", "PYTHONUNBUFFERED=1",
             "python:3.10-slim",
-            "python", "runner.py",
+            "python", "-B", "runner.py",
         ]
         try:
             proc, out_bytes, err_bytes, overflow, cleanup_status = _run_bounded(cmd, timeout=timeout + 15, cleanup_fn=cleanup_fn)
