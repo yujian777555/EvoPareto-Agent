@@ -51,3 +51,11 @@ Cost estimate worst-case ≈ $0.036–$0.045; suggest **$0.05** cap.
 
 `Docker/IPC executor READY (offline)` · `R/F/E2 lineage READY` ·  
 `Real model run NOT authorized` · `RSI/NSGA-III NOT claimed`
+
+
+## R3.2 fixes
+
+- Mock mailbox: task-level fixtures; unconfigured raises; no silent default.
+- E2 feedback now from **gen-1 winner** FailureRecords (not Parent summary).
+- Real entry scripts/level3_pilot_r4/run_micro_r3.py (Docker/IPC + independent ledger + pre-send reserve).
+- Mock rehearsal: 0 real requests, . Budget plan: **50 baseline / 55 cap / .05**.

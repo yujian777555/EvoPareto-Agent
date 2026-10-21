@@ -1,0 +1,27 @@
+{
+  "budget": {
+    "baseline": 50,
+    "max_cost_usd": 0.05,
+    "suggested_cap": 55
+  },
+  "confirm": [
+    3098,
+    6031,
+    4459,
+    6404,
+    2184,
+    1856,
+    856,
+    4627
+  ],
+  "dev": [
+    4336,
+    2201,
+    2495,
+    5648,
+    4346
+  ],
+  "evidence_class": "SIMULATED_REHEARSAL",
+  "model": "deepseek-flash",
+  "seed": 20260603
+}

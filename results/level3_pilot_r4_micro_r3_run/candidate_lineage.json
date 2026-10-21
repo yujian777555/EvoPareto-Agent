@@ -1,0 +1,70 @@
+{
+  "E2": {
+    "child_graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+    "child_program_id": "wfp-60812ecc5c2d",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_rationale": "single verifiable coarse category from failure records",
+    "generation": 2,
+    "operator": "OP_ARITH_RECHECK",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+    "parent_program_id": "wfp-106ab78cdae6",
+    "seed": 20260603,
+    "selected_operator": "OP_ARITH_RECHECK",
+    "selection_reason": "policy[ANSWER_MISMATCH] -> OP_ARITH_RECHECK",
+    "slot": 3,
+    "status": "SUCCESS"
+  },
+  "F": {
+    "child_graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+    "child_program_id": "wfp-48b1a879e10c",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_rationale": "single verifiable coarse category from failure records",
+    "generation": 1,
+    "operator": "OP_ARITH_RECHECK",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260603,
+    "selected_operator": "OP_ARITH_RECHECK",
+    "selection_reason": "policy[ANSWER_MISMATCH] -> OP_ARITH_RECHECK",
+    "slot": 2,
+    "status": "SUCCESS"
+  },
+  "P": {
+    "generation": 0,
+    "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "program_id": "parent-frozen-0001"
+  },
+  "R": {
+    "child_graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+    "child_program_id": "wfp-106ab78cdae6",
+    "generation": 1,
+    "operator": "OP_ERROR_RECOVERY",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 1
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260603,
+    "slot": 1,
+    "status": "SUCCESS"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "budget_baseline_requests": 50,
+  "budget_cap_usd": 0.05,
+  "budget_suggested_cap_requests": 55,
+  "confirm_used_for_selection": false,
+  "cost_usd_total": 0.0,
+  "dev_scores": {
+    "F": 0.0,
+    "R": 0.0
+  },
+  "e2_feedback_label": "ANSWER_MISMATCH",
+  "e2_generation": 2,
+  "e2_parent_ok": true,
+  "e2_status": "SUCCESS",
+  "evidence_class": "SIMULATED_REHEARSAL",
+  "gen1_winner": "R",
+  "mock_mode": true,
+  "requests_total": 0,
+  "statistical_claim": "NONE"
+}

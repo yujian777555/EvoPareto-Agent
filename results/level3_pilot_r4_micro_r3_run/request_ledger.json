@@ -1,0 +1,12 @@
+{
+  "evidence_class": "REAL_OR_MOCK_R3_LEDGER",
+  "max_cost_usd": 0.05,
+  "max_physical": 55,
+  "model": "deepseek-flash",
+  "n_physical_requests": 0,
+  "requests": [],
+  "stop_reason": null,
+  "tokens_in": 0,
+  "tokens_out": 0,
+  "total_cost_usd": 0.0
+}
