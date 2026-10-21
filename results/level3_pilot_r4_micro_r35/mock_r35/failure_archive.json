@@ -1,0 +1,50 @@
+{
+  "parent_dev": [
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "100",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-5425"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "212",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-1071"
+    }
+  ],
+  "winner_dev": [
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "100",
+      "parent_graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+      "parent_program_id": "wfp-57c9954f160a",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-5425"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "212",
+      "parent_graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+      "parent_program_id": "wfp-57c9954f160a",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-1071"
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "confirm": {
+    "E2_local": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "919d130761edd28f7b43fe5b7975c26a7509c91d46173b5ca0cb8b97812d18f5",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:E2_local",
+        "predicted": "12345",
+        "program_id": "wfp-0c054be462be",
+        "task_id": "gsm8k-train-0211"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "919d130761edd28f7b43fe5b7975c26a7509c91d46173b5ca0cb8b97812d18f5",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:E2_local",
+        "predicted": "12345",
+        "program_id": "wfp-0c054be462be",
+        "task_id": "gsm8k-train-3779"
+      }
+    ],
+    "F_local": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "1eedaa21071e017e935c8de5da6000f6123a27d44dd0829eef188e8ffa3212c0",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:F_local",
+        "predicted": "12345",
+        "program_id": "wfp-a3002bc9edb3",
+        "task_id": "gsm8k-train-0211"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "1eedaa21071e017e935c8de5da6000f6123a27d44dd0829eef188e8ffa3212c0",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:F_local",
+        "predicted": "12345",
+        "program_id": "wfp-a3002bc9edb3",
+        "task_id": "gsm8k-train-3779"
+      }
+    ],
+    "F_old": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:F_old",
+        "predicted": "12345",
+        "program_id": "wfp-64ac2106bf18",
+        "task_id": "gsm8k-train-0211"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:F_old",
+        "predicted": "12345",
+        "program_id": "wfp-64ac2106bf18",
+        "task_id": "gsm8k-train-3779"
+      }
+    ],
+    "P": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:P",
+        "predicted": "12345",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-0211"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:P",
+        "predicted": "12345",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-3779"
+      }
+    ],
+    "R": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:R",
+        "predicted": "12345",
+        "program_id": "wfp-57c9954f160a",
+        "task_id": "gsm8k-train-0211"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "conf:R",
+        "predicted": "12345",
+        "program_id": "wfp-57c9954f160a",
+        "task_id": "gsm8k-train-3779"
+      }
+    ]
+  },
+  "dev": {
+    "F_local": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "1eedaa21071e017e935c8de5da6000f6123a27d44dd0829eef188e8ffa3212c0",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:F_local",
+        "predicted": "12345",
+        "program_id": "wfp-a3002bc9edb3",
+        "task_id": "gsm8k-train-5425"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "1eedaa21071e017e935c8de5da6000f6123a27d44dd0829eef188e8ffa3212c0",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:F_local",
+        "predicted": "12345",
+        "program_id": "wfp-a3002bc9edb3",
+        "task_id": "gsm8k-train-1071"
+      }
+    ],
+    "F_old": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:F_old",
+        "predicted": "12345",
+        "program_id": "wfp-64ac2106bf18",
+        "task_id": "gsm8k-train-5425"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:F_old",
+        "predicted": "12345",
+        "program_id": "wfp-64ac2106bf18",
+        "task_id": "gsm8k-train-1071"
+      }
+    ],
+    "P": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:P",
+        "predicted": "12345",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-5425"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:P",
+        "predicted": "12345",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-1071"
+      }
+    ],
+    "R": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:R",
+        "predicted": "12345",
+        "program_id": "wfp-57c9954f160a",
+        "task_id": "gsm8k-train-5425"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "phase": "dev:R",
+        "predicted": "12345",
+        "program_id": "wfp-57c9954f160a",
+        "task_id": "gsm8k-train-1071"
+      }
+    ]
+  }
+}

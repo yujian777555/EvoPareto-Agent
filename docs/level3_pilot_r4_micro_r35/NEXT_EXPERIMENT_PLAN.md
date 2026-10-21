@@ -55,3 +55,13 @@ Do not reset ledgers. Do not run partial live experiments.
 - [x] Offline tests  
 - [ ] Planner/user budget grant  
 - [ ] Live run entry wiring (reuse `run_micro_r34` pattern)
+
+
+## R3.5.1 readiness update
+
+* E2 contract fixed: `generate_e2_from_winner` uses **winner's own** FailureRecords
+  (`e2_feedback_from=winner_own_failure_records`, `source_task_ids` traceable).
+* Real entry: `scripts/level3_pilot_r4/run_micro_r35.py` (5 arms: P, R, F_old, F_local, E2_local).
+* Mock smoke validates lineage + paired interface; real mode returns BLOCKED without new auth.
+* Budget proposal (unchanged): full 5-arm ≈ **275 req / $0.23** worst; suggest cap **300 req / $0.30**.
+* **Authorization: NOT GRANTED** — no real HTTP this round.

@@ -1,0 +1,91 @@
+{
+  "E2_local": {
+    "child_graph_sha256": "919d130761edd28f7b43fe5b7975c26a7509c91d46173b5ca0cb8b97812d18f5",
+    "child_program_id": "wfp-0c054be462be",
+    "diff_note": "append-only instruction suffix; original solve logic retained",
+    "e2_feedback_from": "winner_own_failure_records",
+    "e2_feedback_id": "d4cc71b19f1dc53c",
+    "e2_source_task_ids": [
+      "gsm8k-train-5425",
+      "gsm8k-train-1071"
+    ],
+    "feedback_id": "d4cc71b19f1dc53c",
+    "feedback_label": "ANSWER_MISMATCH",
+    "generation": 2,
+    "gold_in_candidate_prompt": false,
+    "instruction_after": "Output only the final integer after the token Answer:. Double-check the final calculation before answering.",
+    "instruction_before": "Output only the final integer after the token Answer:.",
+    "local_prefix_preserved": true,
+    "operator": "F_LOCAL_APPEND_SUFFIX",
+    "parent_graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+    "parent_program_id": "wfp-57c9954f160a",
+    "status": "SUCCESS",
+    "suffix_index": 0
+  },
+  "F_local": {
+    "child_graph_sha256": "1eedaa21071e017e935c8de5da6000f6123a27d44dd0829eef188e8ffa3212c0",
+    "child_program_id": "wfp-a3002bc9edb3",
+    "diff_note": "append-only instruction suffix; original solve logic retained",
+    "feedback_id": "d4cc71b19f1dc53c",
+    "feedback_label": "ANSWER_MISMATCH",
+    "generation": 1,
+    "gold_in_candidate_prompt": false,
+    "instruction_after": "Solve the problem. Double-check the final calculation before answering.",
+    "instruction_before": "",
+    "local_prefix_preserved": true,
+    "operator": "F_LOCAL_APPEND_SUFFIX",
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "status": "SUCCESS",
+    "suffix_index": 0
+  },
+  "F_old": {
+    "child_graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+    "child_program_id": "wfp-64ac2106bf18",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_rationale": "single verifiable coarse category from failure records",
+    "generation": 1,
+    "operator": "OP_ARITH_RECHECK",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260605,
+    "selected_operator": "OP_ARITH_RECHECK",
+    "selection_reason": "policy[ANSWER_MISMATCH] -> OP_ARITH_RECHECK",
+    "slot": 2,
+    "status": "SUCCESS"
+  },
+  "P": {
+    "generation": 0,
+    "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "program_id": "parent-frozen-0001"
+  },
+  "R": {
+    "child_graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+    "child_program_id": "wfp-57c9954f160a",
+    "generation": 1,
+    "operator": "OP_OUTPUT_CONSTRAINT",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260605,
+    "slot": 1,
+    "status": "SUCCESS"
+  },
+  "winner": {
+    "arm": "R",
+    "program_id": "wfp-57c9954f160a"
+  }
+}

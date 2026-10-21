@@ -140,3 +140,66 @@ def apply_f_local(
         "local_prefix_preserved": prefix_ok,
     })
     return {"child": child, "record": record}
+
+def generate_e2_from_winner(
+    winner: WorkflowProgram,
+    winner_failure_records: Sequence[FailureRecord],
+    *,
+    suffix_index: int = 0,
+) -> Dict[str, Any]:
+    """E2 must use the gen-1 winner's OWN failure records (not the parent's).
+
+    If the winner has no real failures, returns NOT_GENERATED_NO_FAILURE and
+    does not fabricate feedback. Records whose parent_program_id does not
+    match the winner are rejected (FAILURE_RECORD_PARENT_MISMATCH).
+    """
+    record_base = {
+        "operator": "E2_LOCAL_FROM_WINNER",
+        "parent_program_id": winner.program_id,
+        "parent_graph_sha256": program_provenance(winner)["graph_sha256"],
+    }
+    for r in winner_failure_records:
+        if r.parent_program_id != winner.program_id:
+            return {
+                "child": None,
+                "record": {
+                    **record_base,
+                    "status": "NOT_GENERATED_NO_FAILURE",
+                    "reason": "FAILURE_RECORD_PARENT_MISMATCH",
+                },
+            }
+    fails = [r for r in winner_failure_records if not r.success]
+    if not fails:
+        return {
+            "child": None,
+            "record": {
+                **record_base,
+                "status": "NOT_GENERATED_NO_FAILURE",
+                "reason": "WINNER_NO_FAILURES",
+                "feedback_id": None,
+                "source_task_ids": [],
+            },
+        }
+    diag = build_feedback_diagnosis(fails)
+    if diag is None:
+        return {
+            "child": None,
+            "record": {
+                **record_base,
+                "status": "NOT_GENERATED_NO_FAILURE",
+                "reason": "NO_USABLE_FEEDBACK",
+                "source_task_ids": [r.task_id for r in fails],
+            },
+        }
+    out = apply_f_local(winner, diag, suffix_index=suffix_index)
+    rec = dict(out["record"])
+    rec["e2_feedback_id"] = diag.feedback_id
+    rec["e2_source_task_ids"] = list(diag.source_task_ids)
+    rec["e2_feedback_from"] = "winner_own_failure_records"
+    child = out["child"]
+    if child is not None:
+        rec["parent_program_id"] = child.parent_program_id
+        rec["generation"] = child.generation
+        rec["status"] = "SUCCESS"
+    return {"child": child, "record": rec}
+

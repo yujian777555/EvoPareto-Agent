@@ -1,0 +1,102 @@
+{
+  "budget": {
+    "max_cost_usd": 0.3,
+    "max_physical": 300
+  },
+  "confirm_accuracy": {
+    "E2_local": 0.0,
+    "F_local": 0.0,
+    "F_old": 0.0,
+    "P": 0.0,
+    "R": 0.0
+  },
+  "confirm_used_for_selection": false,
+  "cost_usd_total": 0.0,
+  "dev_scores": {
+    "F_local": 0.0,
+    "F_old": 0.0,
+    "R": 0.0
+  },
+  "e2_feedback_from": "winner_own_failure_records",
+  "e2_generation": 2,
+  "e2_parent_ok": true,
+  "e2_reason": null,
+  "e2_source_task_ids": [
+    "gsm8k-train-5425",
+    "gsm8k-train-1071"
+  ],
+  "e2_status": "SUCCESS",
+  "evidence_class": "SIMULATED",
+  "f_local_status": "SUCCESS",
+  "f_old_status": "SUCCESS",
+  "gen1_winner": "R",
+  "n_confirm": 2,
+  "n_dev": 2,
+  "paired_analysis": {
+    "E2_local_vs_R": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0
+    },
+    "F_local_vs_F_old": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0
+    },
+    "F_local_vs_R": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0
+    },
+    "P_vs_E2_local": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0
+    },
+    "P_vs_F_local": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0
+    },
+    "P_vs_F_old": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0
+    },
+    "P_vs_R": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0
+    }
+  },
+  "protocol": "MICRO-R3.5.1",
+  "requests_total": 0,
+  "seed": 20260605,
+  "statistical_claim": "SIMULATED_ONLY",
+  "stop_reason": null,
+  "taskset_sha256": {
+    "confirm": "8bafc69872c8583fd79556ba932da7aded988936bb193fcebd6d28416cd2ea42",
+    "dev": "5838ae12ac4b55019f1286ef79eed7509dd3893a3e180099e9db32a4e64a8890"
+  }
+}

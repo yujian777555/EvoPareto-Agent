@@ -85,13 +85,61 @@ def test_no_feedback_rejected(parent):
     assert out["record"]["status"] == "NO_USABLE_FEEDBACK"
 
 
-def test_e2_lineage_local(parent):
-    recs = [FailureRecord("t", parent.program_id, hash_program(parent), False, "ANSWER_MISMATCH", predicted="1", gold="2")]
-    diag = build_feedback_diagnosis(recs)
-    g1 = apply_f_local(parent, diag)["child"]
-    e2 = apply_f_local(g1, diag)["child"]
-    assert e2.parent_program_id == g1.program_id
+def test_e2_uses_winner_own_failures_not_parent(parent):
+    """Parent failures and winner failures differ; E2 must use winner's records."""
+    from src.research.r35_f_local import generate_e2_from_winner
+
+    parent_fails = [
+        FailureRecord("PARENT_FAIL_1", parent.program_id, hash_program(parent),
+                      False, "ANSWER_MISMATCH", predicted="1", gold="2")
+    ]
+    diag_p = build_feedback_diagnosis(parent_fails)
+    winner = apply_f_local(parent, diag_p)["child"]
+    assert winner is not None
+
+    # winner's own dev failures — different task ids
+    winner_fails = [
+        FailureRecord("WINNER_FAIL_9", winner.program_id, hash_program(winner),
+                      False, "ANSWER_MISMATCH", predicted="7", gold="8"),
+        FailureRecord("WINNER_FAIL_10", winner.program_id, hash_program(winner),
+                      False, "ANSWER_MISMATCH", predicted="3", gold="4"),
+    ]
+    out = generate_e2_from_winner(winner, winner_fails)
+    e2, rec = out["child"], out["record"]
+    assert e2 is not None
+    assert rec["status"] == "SUCCESS"
+    assert e2.parent_program_id == winner.program_id
     assert e2.generation == 2
+    assert rec["e2_feedback_from"] == "winner_own_failure_records"
+    assert set(rec["e2_source_task_ids"]) == {"WINNER_FAIL_9", "WINNER_FAIL_10"}
+    assert "PARENT_FAIL_1" not in rec["e2_source_task_ids"]
+    # feedback_id traces to winner records, not parent-only
+    assert rec["e2_feedback_id"]
+
+
+def test_e2_rejects_foreign_failure_records(parent):
+    from src.research.r35_f_local import generate_e2_from_winner
+
+    parent_fails = [FailureRecord("PF", parent.program_id, hash_program(parent), False, "ANSWER_MISMATCH", predicted="1", gold="2")]
+    winner = apply_f_local(parent, build_feedback_diagnosis(parent_fails))["child"]
+    # smuggle parent's record under wrong parent id
+    foreign = [FailureRecord("X", parent.program_id, hash_program(parent), False, "ANSWER_MISMATCH", predicted="1", gold="2")]
+    out = generate_e2_from_winner(winner, foreign)
+    assert out["child"] is None
+    assert out["record"]["status"] == "NOT_GENERATED_NO_FAILURE"
+    assert out["record"]["reason"] == "FAILURE_RECORD_PARENT_MISMATCH"
+
+
+def test_e2_not_generated_when_winner_perfect(parent):
+    from src.research.r35_f_local import generate_e2_from_winner
+
+    parent_fails = [FailureRecord("PF", parent.program_id, hash_program(parent), False, "ANSWER_MISMATCH", predicted="1", gold="2")]
+    winner = apply_f_local(parent, build_feedback_diagnosis(parent_fails))["child"]
+    perfect = [FailureRecord("OK", winner.program_id, hash_program(winner), True, "NO_FAILURE", predicted="2", gold="2")]
+    out = generate_e2_from_winner(winner, perfect)
+    assert out["child"] is None
+    assert out["record"]["status"] == "NOT_GENERATED_NO_FAILURE"
+    assert out["record"]["reason"] == "WINNER_NO_FAILURES"
 
 
 def test_tasksets_disjoint_and_new():

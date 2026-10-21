@@ -1,0 +1,58 @@
+{
+  "E2_local_vs_R": {
+    "both_correct": 0,
+    "both_wrong": 2,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 2,
+    "regressed": 0
+  },
+  "F_local_vs_F_old": {
+    "both_correct": 0,
+    "both_wrong": 2,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 2,
+    "regressed": 0
+  },
+  "F_local_vs_R": {
+    "both_correct": 0,
+    "both_wrong": 2,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 2,
+    "regressed": 0
+  },
+  "P_vs_E2_local": {
+    "both_correct": 0,
+    "both_wrong": 2,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 2,
+    "regressed": 0
+  },
+  "P_vs_F_local": {
+    "both_correct": 0,
+    "both_wrong": 2,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 2,
+    "regressed": 0
+  },
+  "P_vs_F_old": {
+    "both_correct": 0,
+    "both_wrong": 2,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 2,
+    "regressed": 0
+  },
+  "P_vs_R": {
+    "both_correct": 0,
+    "both_wrong": 2,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 2,
+    "regressed": 0
+  }
+}
