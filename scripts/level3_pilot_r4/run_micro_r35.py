@@ -581,7 +581,7 @@ def main() -> int:
         "stop_reason": budget.stop,
         "budget": {"max_physical": MAX_PHYSICAL, "max_cost_usd": MAX_COST_USD},
         "confirm_used_for_selection": False,
-        "statistical_claim": "EXPLORATORY_ONLY" if not args.mock else "SIMULATED_ONLY",
+        "statistical_claim": ("SIMULATED_INCOMPLETE" if incomplete else "SIMULATED_ONLY") if args.mock else ("INCOMPLETE" if incomplete else "EXPLORATORY_ONLY"),
     }
     lineage = {
         "P": {"program_id": parent.program_id, "graph_sha256": hash_program(parent), "generation": 0},
