@@ -1,0 +1,258 @@
+{
+  "dev": {
+    "C1": [
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "72",
+        "task_id": "gsm8k-train-0000"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "10",
+        "task_id": "gsm8k-train-0001"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "5",
+        "task_id": "gsm8k-train-0002"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "task_id": "gsm8k-train-0003"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "624",
+        "task_id": "gsm8k-train-0004"
+      }
+    ],
+    "C2": [
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 2,
+        "ok": true,
+        "predicted": "72",
+        "task_id": "gsm8k-train-0000"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 2,
+        "ok": true,
+        "predicted": "10",
+        "task_id": "gsm8k-train-0001"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 2,
+        "ok": true,
+        "predicted": "5",
+        "task_id": "gsm8k-train-0002"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 2,
+        "ok": true,
+        "predicted": "42",
+        "task_id": "gsm8k-train-0003"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 2,
+        "ok": true,
+        "predicted": "624",
+        "task_id": "gsm8k-train-0004"
+      }
+    ],
+    "C3": [
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "72",
+        "task_id": "gsm8k-train-0000"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "10",
+        "task_id": "gsm8k-train-0001"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "5",
+        "task_id": "gsm8k-train-0002"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "task_id": "gsm8k-train-0003"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "624",
+        "task_id": "gsm8k-train-0004"
+      }
+    ],
+    "P": [
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "72",
+        "task_id": "gsm8k-train-0000"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "10",
+        "task_id": "gsm8k-train-0001"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "5",
+        "task_id": "gsm8k-train-0002"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "task_id": "gsm8k-train-0003"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "624",
+        "task_id": "gsm8k-train-0004"
+      }
+    ]
+  },
+  "dev_scores": {
+    "C1": 1.0,
+    "C2": 1.0,
+    "C3": 1.0,
+    "P": 1.0
+  },
+  "evidence_class": "REAL_MODEL_MICRO_EXPLORATORY",
+  "gen1_winner": "P",
+  "holdout": {
+    "C3": [
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "35",
+        "task_id": "gsm8k-train-0005"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "48",
+        "task_id": "gsm8k-train-0006"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "16",
+        "task_id": "gsm8k-train-0007"
+      }
+    ],
+    "P": [
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "35",
+        "task_id": "gsm8k-train-0005"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "48",
+        "task_id": "gsm8k-train-0006"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "16",
+        "task_id": "gsm8k-train-0007"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "35",
+        "task_id": "gsm8k-train-0005"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "48",
+        "task_id": "gsm8k-train-0006"
+      },
+      {
+        "correct": true,
+        "error": null,
+        "n_calls": 1,
+        "ok": true,
+        "predicted": "16",
+        "task_id": "gsm8k-train-0007"
+      }
+    ]
+  }
+}

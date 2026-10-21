@@ -1,0 +1,70 @@
+{
+  "candidates": [
+    {
+      "aggregation": "none",
+      "generation": 0,
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "id": "P",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT"
+      ],
+      "parent_program_id": null,
+      "program_id": "parent-frozen-0001",
+      "seed": 20260601
+    },
+    {
+      "aggregation": "none",
+      "generation": 1,
+      "graph_sha256": "19eee99da54f94f9a6faf7c70dc50be075496c7946d96d6b8a103eb71edb4b8f",
+      "id": "C1",
+      "instruction": "Solve step by step, end with 'Answer: <num>'.",
+      "instruction_sha256": "6944cc0378d57ccede46329522fe79456416e4774e97c564094a3df7fcf44813",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-2094e75e9fc8",
+      "seed": 20260601
+    },
+    {
+      "aggregation": "majority_vote",
+      "generation": 1,
+      "graph_sha256": "1005e3ba265ae17bf258d1320a5548979521fe4a284526bd696e9a14914043f5",
+      "id": "C2",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 2,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_ADD_SAMPLING"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-f91e898a073e",
+      "seed": 20260601
+    },
+    {
+      "aggregation": "none",
+      "derived_from": "P",
+      "generation": 1,
+      "graph_sha256": "8092b8c97d8fcd9ceb72b39821fc7cd32418d02461415302810c871615210905",
+      "id": "C3",
+      "instruction": "Verify each step, then output the final number after 'Answer:'.",
+      "instruction_sha256": "f4b5381fb4a92bffacc0a3e1b26b5ce0e74abd141187df048d20828ab56f7265",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-e8665687b7d5",
+      "seed": 20260601
+    }
+  ],
+  "evidence_class": "REAL_MODEL_MICRO_EXPLORATORY",
+  "seed": 20260601
+}

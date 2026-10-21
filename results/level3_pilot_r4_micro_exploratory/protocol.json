@@ -1,0 +1,91 @@
+{
+  "base_url": "https://api.deepseek.com",
+  "candidates_initial": [
+    {
+      "aggregation": "none",
+      "generation": 0,
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "id": "P",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT"
+      ],
+      "parent_program_id": null,
+      "program_id": "parent-frozen-0001",
+      "seed": 20260601
+    },
+    {
+      "aggregation": "none",
+      "generation": 1,
+      "graph_sha256": "19eee99da54f94f9a6faf7c70dc50be075496c7946d96d6b8a103eb71edb4b8f",
+      "id": "C1",
+      "instruction": "Solve step by step, end with 'Answer: <num>'.",
+      "instruction_sha256": "6944cc0378d57ccede46329522fe79456416e4774e97c564094a3df7fcf44813",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-2094e75e9fc8",
+      "seed": 20260601
+    },
+    {
+      "aggregation": "majority_vote",
+      "generation": 1,
+      "graph_sha256": "1005e3ba265ae17bf258d1320a5548979521fe4a284526bd696e9a14914043f5",
+      "id": "C2",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 2,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_ADD_SAMPLING"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-f91e898a073e",
+      "seed": 20260601
+    }
+  ],
+  "dataset": {
+    "dev_task_ids": [
+      "gsm8k-train-0000",
+      "gsm8k-train-0001",
+      "gsm8k-train-0002",
+      "gsm8k-train-0003",
+      "gsm8k-train-0004"
+    ],
+    "file": "results\\level3_pilot_r4_data\\gsm8k_train_official.jsonl",
+    "holdout_task_ids": [
+      "gsm8k-train-0005",
+      "gsm8k-train-0006",
+      "gsm8k-train-0007"
+    ],
+    "record_count_used": 8,
+    "selection": "first 8 official train records in file order",
+    "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+    "uses_formal_confirmation_set": false,
+    "uses_official_test": false
+  },
+  "evidence_class": "REAL_MODEL_MICRO_EXPLORATORY",
+  "experiment": "LEVEL3-PILOT-R4 micro exploratory (dev 5 / holdout 3)",
+  "holdout_compare": [
+    "P",
+    "GEN1_WINNER",
+    "C3"
+  ],
+  "micro_budget": {
+    "estimated_normal_requests": 45,
+    "max_cost_usd": 0.05,
+    "max_in_tokens": 1500,
+    "max_out_tokens": 300,
+    "max_physical_requests": 50,
+    "policy_version": "R4-MICRO-BUDGET-v1"
+  },
+  "model": "deepseek-flash",
+  "note": "NOT formal R4 confirmation. 3 holdout tasks => directional only.",
+  "seed": 20260601,
+  "selection_rule": "max dev accuracy; tie -> order P < C1 < C2 then C3"
+}

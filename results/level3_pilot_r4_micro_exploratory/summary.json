@@ -1,0 +1,42 @@
+{
+  "c3_vs_winner_on_holdout": {
+    "improved": 0,
+    "improved_ids": [],
+    "regressed": 0,
+    "regressed_ids": []
+  },
+  "cost_usd_total": 0.0060921,
+  "dev_scores": {
+    "C1": 1.0,
+    "C2": 1.0,
+    "C3": 1.0,
+    "P": 1.0
+  },
+  "evidence_class": "REAL_MODEL_MICRO_EXPLORATORY",
+  "gen1_winner": "P",
+  "holdout_accuracy": {
+    "C3": 1.0,
+    "P": 1.0
+  },
+  "n_tasks_dev": 5,
+  "n_tasks_holdout": 3,
+  "paired_vs_parent_on_holdout": {
+    "C3": {
+      "improved": 0,
+      "improved_ids": [],
+      "regressed": 0,
+      "regressed_ids": []
+    },
+    "P": {
+      "improved": 0,
+      "improved_ids": [],
+      "regressed": 0,
+      "regressed_ids": []
+    }
+  },
+  "requests_total": 34,
+  "statistical_claim": "NONE — 3 holdout tasks; directional engineering signal only; not significant; not RSI proof",
+  "stop_reason": null,
+  "tokens_in": 2363,
+  "tokens_out": 4486
+}
