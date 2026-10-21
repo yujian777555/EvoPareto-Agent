@@ -825,6 +825,14 @@ def execute_program_locally(
             return {"total_cost": 0.0}
 
     hook = _HookLLM(llm_hook)
+    try:
+        import sys as _sys
+
+        _al = _sys.modules.get("scripts.async_llm")
+        if _al is not None:
+            _al._live_hook = llm_hook
+    except Exception:
+        pass
     obj = None
     errors = []
     for maker in (

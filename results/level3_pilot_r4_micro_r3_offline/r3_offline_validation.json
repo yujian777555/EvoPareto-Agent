@@ -1,0 +1,183 @@
+{
+  "e2": {
+    "expected_parent": "wfp-bd66121e8e07",
+    "generation": 2,
+    "parent_ok": true,
+    "parent_program_id": "wfp-bd66121e8e07",
+    "status": "SUCCESS"
+  },
+  "evidence_class": "OFFLINE_MOCK_VALIDATION_ZERO_API",
+  "execution_fidelity_gap_r2": {
+    "confirmed": true,
+    "detail": "R2 run_prog() built prompts from prog.instruction and called real_chat directly; graph_source was never compiled/executed."
+  },
+  "feedback": {
+    "child_operator": "OP_ARITH_RECHECK",
+    "child_status": "SUCCESS",
+    "no_feedback_reason": "NO_USABLE_FEEDBACK",
+    "no_feedback_status": "FAILED",
+    "selected_operator": "OP_ARITH_RECHECK",
+    "summary": {
+      "coarse_label": "ANSWER_MISMATCH",
+      "eligible": true,
+      "n_records": 1,
+      "rationale": "single verifiable coarse category from failure records",
+      "records": [
+        {
+          "diagnosis_uses_gold": true,
+          "diagnostic": "host-side gold compare only; gold NOT in solve prompt",
+          "error_category": "ANSWER_MISMATCH",
+          "gold": "42",
+          "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+          "parent_program_id": "parent-frozen-0001",
+          "predicted": "7",
+          "success": false,
+          "task_id": "mock-task-1"
+        }
+      ]
+    }
+  },
+  "fidelity": {
+    "behavior_differs": true,
+    "child_answer": "1 line: 40+2=42 Answer: 42",
+    "child_executed_graph": true,
+    "child_execution_ok": true,
+    "child_graph_sha256": "d8eb7d740ec4765cc32608becca759387f7ff0e43725e4b5ad50745fd398f3b2",
+    "child_sha_differs_from_parent": true,
+    "parent_answer": "Reasoning... Answer: 42",
+    "parent_executed_graph": true,
+    "parent_execution_ok": true,
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_sha_matches_frozen": true
+  },
+  "gold_leak": {
+    "note": "mock gold=42 appears as answer text in model output, not as gold field in prompt",
+    "parent_request_log_has_gold": false
+  },
+  "parent_provenance": {
+    "aggregation": "none",
+    "call_style": "aflow_custom",
+    "fixed_verify": false,
+    "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lineage": {
+      "aggregation": "none",
+      "call_style": "aflow_custom",
+      "check_on_split_vote": false,
+      "failed": false,
+      "failure_reason": null,
+      "fixed_verify": false,
+      "generation": 0,
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT"
+      ],
+      "parent_program_id": null,
+      "program_id": "parent-frozen-0001"
+    },
+    "n_samples": 1,
+    "program_id": "parent-frozen-0001"
+  },
+  "random_repro": {
+    "record_a": {
+      "child_graph_sha256": "d8eb7d740ec4765cc32608becca759387f7ff0e43725e4b5ad50745fd398f3b2",
+      "child_program_id": "wfp-5a2c4c6abe66",
+      "generation": 1,
+      "operator": "OP_INSTRUCTION_STYLE",
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "params": {
+        "instruction_pool_index": 1
+      },
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "seed": 20260603,
+      "slot": 3,
+      "status": "SUCCESS"
+    },
+    "record_b": {
+      "child_graph_sha256": "d8eb7d740ec4765cc32608becca759387f7ff0e43725e4b5ad50745fd398f3b2",
+      "child_program_id": "wfp-b56f771fddfc",
+      "generation": 1,
+      "operator": "OP_INSTRUCTION_STYLE",
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "params": {
+        "instruction_pool_index": 1
+      },
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "seed": 20260603,
+      "slot": 3,
+      "status": "SUCCESS"
+    },
+    "same_operator": true,
+    "same_seed_same_child": true
+  },
+  "seed": 20260603,
+  "split": {
+    "confirm_indices": [
+      3098,
+      6031,
+      4459,
+      6404,
+      2184,
+      1856,
+      856,
+      4627
+    ],
+    "dev_indices": [
+      4336,
+      2201,
+      2495,
+      5648,
+      4346
+    ],
+    "excluded_prior": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      475,
+      499,
+      1066,
+      1139,
+      2354,
+      2518,
+      3324,
+      3741,
+      4900,
+      5516,
+      6245,
+      6996,
+      7193
+    ],
+    "mutually_exclusive": true,
+    "n_confirm": 8,
+    "n_dev": 5,
+    "n_screening": 10,
+    "r2_stratify_note": "R2 used refill-after-filter which could distort quotas; R3 split uses disjoint index sampling with explicit counts",
+    "screening_indices": [
+      5895,
+      1540,
+      6485,
+      7068,
+      7166,
+      3011,
+      7396,
+      6596,
+      1900,
+      6752
+    ],
+    "seed": 20260603,
+    "train_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465"
+  }
+}
