@@ -86,3 +86,58 @@ def test_wilcoxon_min_p_uses_nonzero_n():
     assert abs(mod.exact_wilcoxon_min_two_sided_p(4) - 0.125) < 1e-12
     assert mod.can_reject_alpha05_exact_two_sided(4) is False
     assert mod.can_reject_alpha05_exact_two_sided(6) is True
+
+
+
+def test_no_stale_f2_choice_language():
+    for name in (
+        "R4_R5_STATISTICAL_CONSISTENCY.md",
+        "RQ3_MULTI_SEED_DESIGN.md",
+        "PREREGISTRATION.md",
+        "TASKSET_AND_STATISTICS.md",
+        "RQ3_POWER_TABLES.txt",
+    ):
+        p = ROOT / "docs/level3_pilot_r4_design" / name
+        if not p.exists():
+            continue
+        t = p.read_text(encoding="utf-8")
+        # active choice language must not remain
+        assert "Choose F2-a" not in t
+        assert "per option F2-a/b/c" not in t
+        # IUT must be present in the main consistency doc
+        if name == "R4_R5_STATISTICAL_CONSISTENCY.md":
+            assert "IUT" in t
+            assert "NOT used" in t or "SUPERSEDED" in t
+
+
+def test_seed_contract_fixed_base():
+    from src.research.r4_exec_freeze import BASE_SEED, DEFAULT_EXEC_FREEZE, canonical_config_sha256
+
+    assert BASE_SEED == 20260601
+    cfg = DEFAULT_EXEC_FREEZE
+    assert cfg["seeds"]["base_seed"] == BASE_SEED
+    assert cfg["mutation_plan"]["base_seed"] == BASE_SEED
+    # tamper base and resync derived — still rejected
+    import copy
+
+    c2 = copy.deepcopy(cfg)
+    c2["seeds"]["base_seed"] = 999
+    c2["mutation_plan"]["base_seed"] = 999
+    c2["seeds"]["plan_seeds"] = {"6": 999 + 1009 * 6, "10": 999 + 1009 * 10}
+    c2["config_sha256"] = canonical_config_sha256(c2)
+    from src.research.r4_exec_freeze import verify_exec_config_structure
+
+    assert verify_exec_config_structure(c2) == "EXEC_SEEDS_BASE_MISMATCH"
+
+
+def test_r_values_must_be_true_ints():
+    import copy
+
+    from src.research.r4_exec_freeze import DEFAULT_EXEC_FREEZE, canonical_config_sha256, verify_exec_config_structure
+
+    for bad in (True, "6", 6.0, 6.9):
+        c = copy.deepcopy(DEFAULT_EXEC_FREEZE)
+        c["budget_caps"]["planned_r_values"] = [bad, 10] if bad != 10 else [6, bad]
+        c["config_sha256"] = canonical_config_sha256(c)
+        err = verify_exec_config_structure(c)
+        assert err.startswith("BUDGET_R_NOT_INT") or err.startswith("BUDGET_PLANNED_R"), (bad, err)

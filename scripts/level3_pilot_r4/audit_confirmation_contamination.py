@@ -43,19 +43,16 @@ EXPECTED_V1_SHA = "1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d5873
 SCAN_ROOTS = ("results", "docs", "scripts", "tests", "src")
 SCAN_SUFFIXES = {".json", ".jsonl", ".md", ".py", ".txt", ".csv", ".yml", ".yaml"}
 EXCLUDE_DIR_NAMES = {".git", "external", "__pycache__", "node_modules", ".pytest_cache"}
-# Narrow suffix/substring excludes — only the official source file (self) and
-# freeze drafts / prior audit outputs. Avoid broad substrings that could hide
-# historical result copies.
-EXCLUDE_PATH_SUBSTRINGS = (
-    "/gsm8k_test_official.jsonl",
-    "confirmation_contamination_audit",
-    "freeze/confirmation_set_proposed.json",
-    "freeze/confirmation_set_v1_proposed.json",
-    "audit_confirmation_contamination.py",
-)
+# R7: NO substring excludes. Only exact reviewed POSIX paths.
+# Official source / freeze drafts / self / known audit outputs.
+LEGACY_ENCODING_PROBES = {
+    "docs/PHASE2_EVOLUTION_MEMORY.md": {
+        "probed_encodings": ["utf-8", "big5", "cp950", "gbk", "gb18030", "latin-1"],
+        "utf8_result": "UnicodeDecodeError@5452",
+        "conclusion": "MIXED_ENCODING_NOT_RELIABLY_IDENTIFIABLE",
+    },
+}
 
-# Precise reviewed exclusions (relative POSIX paths). Unknown files with the
-# same basename are NOT excluded — they must decode or fail closed.
 REVIEWED_NON_TEXT_EXCLUSIONS = {
     "results/pilot1_live_run/docker_live_stdout.txt": "binary docker stdout log",
     "results/stage1_6/docker_run_stdout.txt": "binary docker stdout log",
@@ -63,17 +60,16 @@ REVIEWED_NON_TEXT_EXCLUSIONS = {
     "results/stage1_feasibility/docker_run_stdout.txt": "binary docker stdout log",
 }
 
-# Historical mixed-encoding files: probed this round; cannot confirm a single
-# original encoding. They remain REQUIRED_TEXT and must BLOCK if undecodable.
-# Do NOT add them here to force VERIFIED.
-LEGACY_ENCODING_PROBES = {
-    "docs/PHASE2_EVOLUTION_MEMORY.md": {
-        "probed_encodings": ["utf-8", "big5", "cp950", "gbk", "gb18030", "latin-1"],
-        "utf8_result": "UnicodeDecodeError@5452",
-        "big5_result": "UnicodeDecodeError@10 (em-dash utf8 prefix)",
-        "latin1_result": "decodes but not a verified source encoding",
-        "conclusion": "MIXED_ENCODING_NOT_RELIABLY_IDENTIFIABLE",
-    },
+REVIEWED_PATH_EXCLUSIONS = {
+    "results/level3_pilot_r31/gsm8k_test_official.jsonl": "official source file (not a candidate hit)",
+    "docs/level3_pilot_r4_design/freeze/confirmation_set_proposed.json": "freeze draft v0",
+    "docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json": "freeze draft v1",
+    "docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json": "freeze draft v1",
+    "scripts/level3_pilot_r4/audit_confirmation_contamination.py": "this audit script (self)",
+    "docs/level3_pilot_r4_design/confirmation_contamination_audit_raw.json": "prior audit output",
+    "docs/level3_pilot_r4_design/confirmation_contamination_audit_rerun.json": "prior audit output",
+    "docs/level3_pilot_r4_design/CONFIRMATION_CONTAMINATION_AUDIT.md": "prior audit narrative",
+    "docs/level3_pilot_r4_design/R4_R5_STATISTICAL_CONSISTENCY.md": "stats doc (no task bank)",
 }
 
 V_NO_HIT = "NO_HIT"
@@ -239,10 +235,21 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
                     "size": p.stat().st_size if p.exists() else None,
                     "reason": REVIEWED_NON_TEXT_EXCLUSIONS[rel],
                     "kind": "REVIEWED_NON_TEXT",
+                    "rule_id": "R7_NON_TEXT_V2",
                 })
                 continue  # precise reviewed exclusion (not a decode failure)
-            if any(s in rel for s in EXCLUDE_PATH_SUBSTRINGS):
+            if rel in REVIEWED_PATH_EXCLUSIONS:
+                raw_x = p.read_bytes()
+                exclusion_log.append({
+                    "path": rel,
+                    "sha256": sha256_bytes(raw_x),
+                    "size": len(raw_x),
+                    "reason": REVIEWED_PATH_EXCLUSIONS[rel],
+                    "kind": "REVIEWED_EXACT_PATH",
+                    "rule_id": "R7_EXACT_PATH_V1",
+                })
                 continue
+            # NOTE: no substring matching — unknown copies are scanned
             try:
                 raw = p.read_bytes()
             except Exception as exc:
@@ -343,7 +350,7 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
         "scan_roots": list(SCAN_ROOTS),
         "scan_suffixes": sorted(SCAN_SUFFIXES),
         "exclude_dir_names": sorted(EXCLUDE_DIR_NAMES),
-        "exclude_path_substrings": list(EXCLUDE_PATH_SUBSTRINGS),
+        "exclude_rule": "exact POSIX paths only (R7)",
         "official_baseline": {
             "file": OFFICIAL_REL,
             "sha256": official_sha,

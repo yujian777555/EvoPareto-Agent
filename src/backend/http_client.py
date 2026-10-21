@@ -61,7 +61,11 @@ def post_json(
     body = json.dumps(payload).encode("utf-8")
     last_err: Optional[Exception] = None
 
+    # Host-side R4 pre-send gate (trusted boundary). Must run BEFORE any socket.
+    from src.runtime.r4_http_gate import ensure_r4_http_allowed
+
     for attempt in range(max_retries + 1):
+        ensure_r4_http_allowed()
         from src.runtime.http_budget import (
             BillingBlocked,
             BudgetExceeded,

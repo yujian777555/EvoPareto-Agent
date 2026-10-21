@@ -255,7 +255,7 @@ Also reported for every group: accuracy, Wilson 95% CI for accuracy, paired risk
 Four primary contrasts vs A: B−A, C−A, D−A, E−A.
 Plus the RQ3-specific contrast: **E−D** (and E−C as secondary).
 
-Holm–Bonferroni family-wise correction at α = 0.05 over the **family of five** listed above (**task-level family F1**, secondary for RQ3). Seed-level RQ3 uses **family F2 = {E−D, E−C} with IUT** (both must reject favoring E; no Holm(2) on F2). See `RQ3_MULTI_SEED_DESIGN.md` §6.0 — do not merge F1 and F2. R=6 unadjusted min p=0.03125; 5-Holm step-1 threshold is 0.01 (needs R≥8 for that merged mistake). Unadjusted p-values also reported. No switching to uncorrected tests after seeing data.
+Holm–Bonferroni family-wise correction at α = 0.05 over the **family of five** listed above (**task-level family F1**, secondary for RQ3). Seed-level RQ3 uses **family F2 = {E−D, E−C} with IUT** (both must reject favoring E; no Holm(2) on F2). See `RQ3_MULTI_SEED_DESIGN.md` §6.0 — do not merge F1 and F2; F2 = IUT over {E−D, E−C} (decided). R≥6 is necessary not sufficient (n_eff). Joint claim = IUT on both E−D and E−C. Unadjusted p-values also reported. No switching to uncorrected tests after seeing data.
 
 ### 6.4 Stopping rules
 

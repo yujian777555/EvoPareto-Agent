@@ -158,6 +158,9 @@ Report `b`, `c`, `n11`, `n00`, `n = b+c+n11+n00`, net gain `b-c`.
 
 ### 4.3 Hypothesis tests
 
+RQ3 seed-level family F2 = {E−D, E−C} uses **IUT** (both must reject favoring E). See `R4_R5_STATISTICAL_CONSISTENCY.md`. This is decided — not an open F2 choice.
+
+
 | Test | Specification |
 |---|---|
 | Primary | **Exact McNemar**, two-sided, on `(b, c)` |

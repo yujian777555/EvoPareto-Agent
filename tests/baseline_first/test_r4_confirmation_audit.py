@@ -273,3 +273,88 @@ def test_r6_reports_include_exclusion_log():
     report = mod.audit(ROOT, FREEZE)
     assert "exclusion_log" in report
     assert isinstance(report["exclusion_log"], list)
+
+
+
+# ---------------------------------------------------------------------------
+# R7: leak injection — unknown copies must NOT be excluded
+# ---------------------------------------------------------------------------
+
+def test_unknown_official_name_copy_is_scanned(tmp_path):
+    """A copy of gsm8k_test_official.jsonl at a random path must be scanned."""
+    root, fp = _clean_repo(tmp_path)
+    hist = root / "results" / "old_run"
+    hist.mkdir(parents=True, exist_ok=True)
+    # same basename as official source
+    (hist / "gsm8k_test_official.jsonl").write_bytes(b'{"question": "LEAK_Q", "answer": "x"}\n')
+    report = mod.audit(root, fp)
+    # not in exclusion_log as official source
+    excl_paths = [e["path"] for e in report["exclusion_log"]]
+    assert not any(e.endswith("old_run/gsm8k_test_official.jsonl") for e in excl_paths)
+    # must have been text-scanned (appears in scan_manifest)
+    assert any(m["path"].endswith("old_run/gsm8k_test_official.jsonl") for m in report["scan_manifest"])
+
+
+def test_unknown_audit_similar_name_is_scanned(tmp_path):
+    root, fp = _clean_repo(tmp_path)
+    d = root / "docs" / "misc"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "confirmation_contamination_audit_backup.json").write_text("{\"x\":1}", encoding="utf-8")
+    report = mod.audit(root, fp)
+    excl_paths = [e["path"] for e in report["exclusion_log"]]
+    assert not any("backup" in e for e in excl_paths)
+    assert any("backup" in m["path"] for m in report["scan_manifest"])
+
+
+def test_freeze_copy_nonstandard_path_is_scanned(tmp_path):
+    root, fp = _clean_repo(tmp_path)
+    d = root / "docs" / "copies"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "confirmation_set_v1_proposed.json").write_text("{}", encoding="utf-8")
+    report = mod.audit(root, fp)
+    assert any("copies/confirmation_set_v1_proposed.json" in m["path"] for m in report["scan_manifest"])
+
+
+def test_historical_result_with_questions_is_scored_class(tmp_path):
+    root, fp = _clean_repo(tmp_path)
+    official = root / "results" / "level3_pilot_r31" / "gsm8k_test_official.jsonl"
+    q = json.loads(official.read_text(encoding="utf-8").splitlines()[1])["question"]
+    hist = root / "results" / "archive"
+    hist.mkdir(parents=True, exist_ok=True)
+    (hist / "old_results.json").write_text(json.dumps({"tasks": [{"question": q}]}), encoding="utf-8")
+    freeze = json.loads(FREEZE.read_text(encoding="utf-8"))
+    freeze["tasks"][0]["question"] = q
+    freeze["task_set_sha256"] = "0" * 64
+    fp.write_text(json.dumps(freeze), encoding="utf-8")
+    report = mod.audit(root, fp)
+    # archive hit classified as scored / blocks VERIFIED
+    assert report["independence"] in (
+        "CONFIRMATION_INDEPENDENCE_BLOCKED",
+        "CONFIRMATION_INDEPENDENCE_UNVERIFIED",
+    )
+
+
+def test_every_skipped_file_logged(tmp_path):
+    root, fp = _clean_repo(tmp_path)
+    d = root / "results" / "stage1_6"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "docker_run_stdout.txt").write_bytes(b"\x00\xff")
+    report = mod.audit(root, fp)
+    for e in report["exclusion_log"]:
+        assert e.get("sha256")
+        assert e.get("size") is not None
+        assert e.get("reason")
+        assert e.get("rule_id")
+        assert e.get("path")
+
+
+def test_phase2_bytes_unchanged_still_blocked():
+    import hashlib
+
+    pth = ROOT / "docs/PHASE2_EVOLUTION_MEMORY.md"
+    assert pth.exists()
+    # still mixed encoding
+    with pytest.raises(UnicodeDecodeError):
+        pth.read_bytes().decode("utf-8", errors="strict")
+    report = mod.audit(ROOT, FREEZE)
+    assert report["independence"] == "CONFIRMATION_INDEPENDENCE_BLOCKED"

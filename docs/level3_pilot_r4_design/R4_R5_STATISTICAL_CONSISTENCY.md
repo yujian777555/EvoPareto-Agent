@@ -1,6 +1,6 @@
 # R4-R5 Statistical Protocol Consistency
 
-**Status:** PROPOSED freeze status; **F2 method decided (IUT)** by Planner — still not an execution approval. Zero real model results this round.  
+**Status:** F2 **IUT** decided; freeze remains PROPOSED — still not an execution approval. Zero real model results this round.  
 **Files unified:** `PREREGISTRATION.md`, `TASKSET_AND_STATISTICS.md`, `RQ3_MULTI_SEED_DESIGN.md`, `RQ3_POWER_TABLES.txt`, `BUDGET_AND_EXECUTION_PLAN.md`, `execution_freeze_v1_proposed.json`, `src/research/r4_exec_freeze.py`.
 
 ---
@@ -52,7 +52,7 @@ A hit on E−D alone supports only “E beats random search”, not the joint cl
 | **Primary endpoints** | Seed-level `acc_E−acc_D` and `acc_E−acc_C` on the **frozen 40 tasks** (conditional) |
 | **Secondary** | Task-level Holm(5) F1; per-block McNemar; cost/calls; B/C/D vs A |
 | **Test methods** | Task: exact McNemar two-sided. Seed: exact Wilcoxon signed-rank two-sided on paired `d[r]` (drop zeros) |
-| **Multiplicity** | F1 Holm(5) task-level only. F2 = {E−D, E−C} per option F2-a/b/c above |
+| **Multiplicity** | F1 Holm(5) task-level only. F2 = {E−D, E−C} **IUT (decided)** |
 | **Sample size** | Fixed R ∈ {6,10} declared before data; n_conf=40 fixed |
 | **Failed seeds** | Primary: method–seed accuracy = 0.0, denominator kept. Sensitivity: complete-case |
 | **Zero / tied differences** | Zeros dropped from Wilcoxon (report n_nonzero); ties in \|d\| → average ranks; sign test sensitivity |
@@ -77,7 +77,7 @@ A hit on E−D alone supports only “E beats random search”, not the joint cl
 
 ## 4. Remaining Planner decisions
 
-1. Choose F2-a / F2-b / F2-c.  
+1. F2 multiplicity is fixed to **IUT** (historical F2-a/b/c options are SUPERSEDED).  
 2. Confirm co-primary wording in PREREGISTRATION.md.  
 3. Accept R=6 vs R=10 (budget: R=6 already exceeds request cap).  
 4. Accept execution freeze **v1** (budget gate fail-closed) as the one to freeze later.  

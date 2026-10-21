@@ -26,6 +26,10 @@ from src.research.r4_exec_freeze import (
     verify_budget_feasibility,
     verify_exec_config_structure,
     verify_exec_freeze,
+)
+from src.research.r4_execution_authorization import (
+    AuthorizationRecord,
+    make_test_authorization,
     verify_execution_allowed,
 )
 
@@ -199,37 +203,50 @@ def test_plan_fits_when_remaining_sufficient():
 # ---------------------------------------------------------------------------
 
 def test_proposed_status_blocks_http_even_with_loose_budget(good_auth):
+    rec = make_test_authorization(DEFAULT_EXEC_FREEZE)
     err = verify_execution_allowed(
-        DEFAULT_EXEC_FREEZE, auth=good_auth, execution_authorized=True
+        DEFAULT_EXEC_FREEZE, auth_record=rec, allow_test_injection=True
     )
-    assert err.startswith("EXEC_STATUS_BLOCKS_HTTP")
+    assert err.startswith("EXEC_CONFIG_STATUS_NOT_APPROVED")
 
 
 def test_missing_planner_authorization_blocks(good_auth):
     cfg = copy.deepcopy(DEFAULT_EXEC_FREEZE)
-    cfg["status"] = "APPROVED"  # still needs execution_authorized
-    err = verify_execution_allowed(cfg, auth=good_auth, execution_authorized=False)
-    assert err == "EXEC_NOT_AUTHORIZED_BY_PLANNER"
+    cfg["status"] = "APPROVED_FOR_EXECUTION"
+    cfg = _rehash(cfg)
+    err = verify_execution_allowed(cfg, auth_record=None, allow_test_injection=True)
+    assert err == "EXEC_AUTH_MISSING"
 
 
 def test_budget_exceeded_blocks_http(auth):
     cfg = copy.deepcopy(DEFAULT_EXEC_FREEZE)
-    cfg["status"] = "APPROVED"
-    cfg["execution_authorized"] = True
-    err = verify_execution_allowed(cfg, auth=auth, execution_authorized=True)
+    cfg["status"] = "APPROVED_FOR_EXECUTION"
+    cfg = _rehash(cfg)
+    rec = make_test_authorization(cfg)
+    err = verify_execution_allowed(
+        cfg, auth_record=rec, ledger=auth, allow_test_injection=True
+    )
     assert err.startswith("BUDGET_")
 
 
 def test_corrupt_auth_blocks_http():
     cfg = copy.deepcopy(DEFAULT_EXEC_FREEZE)
-    cfg["status"] = "APPROVED"
-    cfg["execution_authorized"] = True
-    err = verify_execution_allowed(
-        cfg,
-        auth=AuthSnapshot(blocked=False, auth_id="x"),  # missing remaining
-        execution_authorized=True,
+    cfg["status"] = "APPROVED_FOR_EXECUTION"
+    cfg = _rehash(cfg)
+    rec = AuthorizationRecord(
+        status="AUTHORIZED",
+        config_sha256=cfg["config_sha256"],
+        experiment_version=cfg["version"],
+        max_requests=10,
+        max_tokens_in=10,
+        max_tokens_out=10,
+        max_cost_usd=1.0,
+        source="TEST",
     )
-    assert err.startswith("BUDGET_REMAINING_MISSING") or err.startswith("BUDGET_FIELDS_INVALID")
+    err = verify_execution_allowed(
+        cfg, auth_record=rec, ledger={"blocked": False}, allow_test_injection=True
+    )
+    assert err.startswith("BUDGET_REMAINING_MISSING")
 
 
 def test_zero_model_calls_in_gate_paths():
@@ -237,7 +254,6 @@ def test_zero_model_calls_in_gate_paths():
     src = Path(ROOT / "src/research/r4_exec_freeze.py").read_text(encoding="utf-8")
     for banned in ("import requests", "import httpx", "import urllib.request", "deepseek.com"):
         assert banned not in src
-    # execution gate module likewise
     assert "http" not in src.lower() or "https://github.com/openai" not in src.lower()
 
 

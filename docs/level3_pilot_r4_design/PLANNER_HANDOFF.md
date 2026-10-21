@@ -1,64 +1,56 @@
-# LEVEL3-PILOT-R4 R6 — Planner Handoff
+# LEVEL3-PILOT-R4 R7 — Planner Handoff
 
-**Start:** `877fc0d2cb8097fa91da599f155b7ee921f348f0`  
-**Real API:** **0** · Auth read-only · Historical results unmodified
+**Baseline:** `0ce4e0305a3bb928a3b81c91139c3dd072b038bf`  
+**Real API:** **0** · Auth read-only · R3 / v1 confirm / PHASE2 bytes unchanged
 
 ---
 
-## P0 — budget bypass (Task A)
+## P0 — execution gate bypass closed (Task A)
 
-| Control | Implementation |
+| Fix | Detail |
 |---|---|
-| Policy in **code** | `src/research/r4_budget_policy.py` `R4-BUDGET-POLICY-v1` |
-| Hash-recompute bypass | config must match POLICY; tests lower every numeric + rehash → **REJECT** |
-| Type/NaN/inf | `BUDGET_POLICY_TYPE/NOT_FINITE` |
-| planned R vs seeds | `BUDGET_PLANNED_R_NEQ_SEEDS` / `NEQ_PLAN_SEEDS` |
-| Remaining quota | demand vs `max−consumed`; missing remaining → fail closed |
-| HTTP block | `verify_execution_allowed`: PROPOSED → `EXEC_STATUS_BLOCKS_HTTP` even with loose auth |
-| Zero model calls in gates | no HTTP imports; tests assert |
+| Contradiction removed | freeze config **cannot** carry `execution_authorized` (`EXEC_AUTH_FIELD_FORBIDDEN_IN_CONFIG`) |
+| Separate grant | `AuthorizationRecord` bound to `config_sha256` + `version` + quotas; source `controlled_file` on real path |
+| Strict allow-list | config status must be `APPROVED_FOR_EXECUTION` / `FROZEN_ACCEPTED`; PROPOSED/DRAFT/unknown **fail closed** |
+| Entry re-validates | `verify_execution_allowed` always runs full structure + `R4-BUDGET-POLICY-v1` + seeds |
+| No loose snapshot on real path | `allow_test_injection=False` rejects `source=TEST` |
+| Host HTTP gate | `r4_http_gate` at start of `post_json` **before socket**; `R4HttpBlocked` |
+| Attack tests | 19 auth + 4 HTTP = all reject with **socket count 0** |
 
-**R=6 / R=10 rejected before any HTTP** (`need=1848/2904`, `remaining=56`).
+## Task B — audit exclusions
 
-## Task B — contamination audit
+* **No substring excludes.** Exact POSIX paths + `REVIEWED_NON_TEXT_EXCLUSIONS` only.
+* Every skip logged with path/SHA/size/reason/`rule_id`.
+* Unknown same-name copies (official jsonl, audit-like names, freeze copies) are **scanned**.
+* `PHASE2_EVOLUTION_MEMORY.md` unchanged; independence stays **`CONFIRMATION_INDEPENDENCE_BLOCKED`**.
 
-* Precise path exclusions with SHA/size/reason (`exclusion_log`); unknown same basename **not** excluded.
-* `PHASE2_EVOLUTION_MEMORY.md` mixed UTF-8/Big5 — **encoding not reliably identifiable** → remains required-text **BLOCKED** (honest). Original bytes unchanged.
-* Live-repo independence: **`CONFIRMATION_INDEPENDENCE_BLOCKED`**. Clean trees can still VERIFY.
+## Task C/D — IUT + seeds
 
-## Task C — IUT (Planner decision applied)
+* F2 = **IUT** {E−D, E−C} decided; F2-a/b/c language removed/superseded.
+* E−D and E−C **co-primary**; joint claim needs both.
+* `BASE_SEED=20260601` fixed in code; config cannot redefine; R values must be true ints.
 
-* F2 = {E−D, E−C}, both **co-primary**; **IUT**; no Holm(2) on F2.
-* Joint claim only if **both** reject favoring E at α=0.05.
-* Freeze **v2** primary/secondary aligned; v0/v1 preserved.
-* R≥6 is **necessary not sufficient** (`n_eff` nonzero pairs govern min p).
+## Task E — evidence layers
 
-## Task D — evidence boundary
+`SIMULATED_LOCAL` / `SIMULATED_DOCKER_IPC` / `PRODUCTION_ADAPTER` / **R4 full pipeline NOT READY** / **auth ledger not wired for R4** / `REAL_MODEL BLOCKED`.
 
-`SIMULATED_LOCAL` / `SIMULATED_DOCKER_IPC` / **`PRODUCTION_ADAPTER` (real AFlow Custom, mock model)** / `REAL_MODEL` (blocked).
-
-## Tests (JUnit)
+## Tests (JUnit this round)
 
 | Suite | passed / failed / skipped |
 |---|---|
 | Budget P0 | 18 / 0 / 0 |
-| Freeze | 15 / 0 / 0 |
-| Audit | 21 / 0 / 0 |
-| Stats | 11 / 0 / 0 |
-| Docker/IPC | 20 / 0 / 0 |
-| Historical | 119 / 0 / 0 |
-| **Full** | **1091 / 0 / 2** (1093) RETCODE 0 |
+| Auth bypass | 19 / 0 / 0 |
+| HTTP gate | 4 / 0 / 0 |
+| Audit | 27 / 0 / 0 |
+| Stats | 14 / 0 / 0 |
+| IPC/Freeze | 24 / 0 / 0 |
+| Historical | 76 / 0 / 0 |
+| **Full** | **1123 / 0 / 2** (1125) RETCODE 0 |
 
 ## Integrity
 
-R3 0 modified · R3 gate unchanged · v1 confirm `1771a67c…` · v0 exec freeze kept · auth 244 / $0.0363972.
-
-## Still open / BLOCKED
-
-1. Live-repo audit independence BLOCKED (legacy mixed-encoding doc).  
-2. Exec freeze **not** approved (PROPOSED).  
-3. No Planner execution authorization → HTTP stays blocked.  
-4. Quota insufficient for Plan P (528 > 56 remaining).
+R3 0 modified · R3 gate unchanged · v1 `1771a67c…` · PHASE2 `abab3a36…` · auth 244 / $0.0363972.
 
 ## STOP
 
-Awaiting Planner independent review. No formal freeze, no preregistration approval, no real model experiment.
+No execution freeze approval, no preregistration approval, no real model experiment. Awaiting Planner review.

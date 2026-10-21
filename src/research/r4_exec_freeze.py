@@ -422,7 +422,6 @@ def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)
             "budget_gate_is_fail_closed": True,
             "policy_version": POLICY_VERSION,
         },
-        "execution_authorized": False,
     }
     cfg["config_sha256"] = canonical_config_sha256(cfg)
     return cfg
@@ -465,12 +464,28 @@ def verify_exec_config_structure(config: Dict[str, Any]) -> str:
     seeds = config.get("seeds") or {}
     if "base_seed" not in seeds or "plan_seeds" not in seeds:
         return "EXEC_SEEDS_INCOMPLETE"
+    # R7: base_seed is fixed in protocol code — config cannot redefine it
+    base = seeds.get("base_seed")
+    if isinstance(base, bool) or not isinstance(base, int):
+        return "EXEC_SEEDS_BASE_TYPE"
+    if base != BASE_SEED:
+        return "EXEC_SEEDS_BASE_MISMATCH"
+    mp = config.get("mutation_plan") or {}
+    if mp.get("base_seed") != BASE_SEED:
+        return "EXEC_SEEDS_PLAN_BASE_MISMATCH"
     pss = list(seeds["plan_seeds"].values())
+    if any(isinstance(v, bool) or not isinstance(v, int) for v in pss):
+        return "EXEC_SEEDS_VALUE_TYPE"
     if len(pss) != len(set(pss)):
         return "EXEC_SEEDS_NOT_UNIQUE"
     for r, s in seeds["plan_seeds"].items():
+        if isinstance(r, bool):
+            return "EXEC_SEEDS_KEY_TYPE"
         try:
-            expected = int(seeds["base_seed"]) + 1009 * int(r)
+            if not str(r).lstrip("-").isdigit():
+                return "EXEC_SEEDS_KEY_TYPE:%s" % r
+            ri = int(r)
+            expected = BASE_SEED + 1009 * ri
             if int(s) != expected:
                 return "EXEC_SEEDS_RULE_MISMATCH:%s" % r
         except Exception:
@@ -504,10 +519,19 @@ def verify_exec_config_structure(config: Dict[str, Any]) -> str:
     plan_keys = sorted((seeds.get("plan_seeds") or {}).keys(), key=lambda x: int(x))
     if not isinstance(planned, (list, tuple)) or not planned:
         return "BUDGET_PLANNED_R_INVALID"
+    def _strict_int(x, label):
+        if isinstance(x, bool) or not isinstance(x, int):
+            raise ValueError(label)
+        return x
+
     try:
-        planned_ints = [int(x) for x in planned]
-        r_ints = [int(x) for x in r_values]
-        key_ints = [int(x) for x in plan_keys]
+        planned_ints = [_strict_int(x, "planned") for x in planned]
+        r_ints = [_strict_int(x, "r_values") for x in r_values]
+        key_ints = []
+        for x in plan_keys:
+            if isinstance(x, bool) or not str(x).isdigit():
+                raise ValueError("plan_key")
+            key_ints.append(int(x))
     except Exception:
         return "BUDGET_R_NOT_INT"
     if planned_ints != r_ints:
@@ -530,12 +554,10 @@ def verify_exec_config_structure(config: Dict[str, Any]) -> str:
     if "iut" not in claim and "both" not in claim:
         return "EXEC_ENDPOINTS_RQ3_CLAIM_RULE"
 
-    # status must be PROPOSED-ish and execution_authorized must be false/absent
-    status = str(config.get("status", ""))
-    if status in HTTP_FORBIDDEN_STATUSES:
-        pass  # expected for proposed freeze
-    if config.get("execution_authorized") is True:
-        return "EXEC_EXECUTION_AUTH_FLAG"
+    # R7: authorization is NOT expressed in the freeze config. Presence of a
+    # config-level execution flag is rejected so protocol and grant cannot mix.
+    if "execution_authorized" in config:
+        return "EXEC_AUTH_FIELD_FORBIDDEN_IN_CONFIG"
 
     return ""
 
@@ -600,45 +622,10 @@ def verify_exec_freeze(
     return ""
 
 
-def verify_execution_allowed(
-    config: Dict[str, Any],
-    *,
-    auth: Optional[AuthSnapshot] = None,
-    execution_authorized: bool = False,
-) -> str:
-    """Gate BEFORE any HTTP. Budget/config success never implies authorization.
+def verify_execution_allowed(*args, **kwargs):
+    """Deprecated wrapper — see r4_execution_authorization.verify_execution_allowed."""
+    from src.research.r4_execution_authorization import (
+        verify_execution_allowed as _v,
+    )
 
-    Returns '' only when:
-      * config status is not a forbidden/PROPOSED status, AND
-      * explicit execution_authorized flag is True, AND
-      * auth snapshot is present, not blocked, and remaining budget is sufficient
-        for the plan (re-checked here).
-
-    Otherwise a stable error code. Never mutates auth.
-    """
-    status = str((config or {}).get("status", ""))
-    if status in HTTP_FORBIDDEN_STATUSES or not status:
-        return "EXEC_STATUS_BLOCKS_HTTP:status=%s" % status
-    if not execution_authorized:
-        return "EXEC_NOT_AUTHORIZED_BY_PLANNER"
-    if (config or {}).get("execution_authorized") is not True:
-        return "EXEC_CONFIG_AUTH_FLAG"
-    if auth is None:
-        try:
-            auth = load_auth_snapshot()
-        except AuthError as exc:
-            return "BUDGET_AUTH_UNAVAILABLE:%s" % (exc.args[0] if exc.args else "")
-    if auth.get("blocked"):
-        return "BUDGET_AUTH_BLOCKED"
-    # re-check budget vs remaining
-    bc = config.get("budget_caps") or {}
-    planned = bc.get("planned_r_values") or []
-    for r in planned:
-        try:
-            req = _requirements_from_config(config, int(r))
-        except Exception as exc:
-            return "BUDGET_REQ_INVALID:%s" % exc
-        err = verify_budget_feasibility(req, auth)
-        if err:
-            return err
-    return ""
+    return _v(*args, **kwargs)

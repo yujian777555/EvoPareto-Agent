@@ -1,34 +1,36 @@
-# R4 Execution Pipeline Status (R4-R4)
+# R4 Execution Pipeline Status (R7)
 
-**Evidence class:** STATUS_INVENTORY (not a real-run result)  
+**Evidence class:** STATUS_INVENTORY — not a real-run result.  
 **Real API requests this document round:** **0**
 
-Pipeline stages and their true implementation status.  
-READY means offline code + tests exist. NOT RUN means no real-model evidence. BLOCKED means authorization or missing implementation.
+## Evidence layers (do not conflate)
 
-| # | Stage | Entry point | Data contract | Error path | Offline tests | Status |
-|---|---|---|---|---|---|---|
-| 1 | Candidate generation | `generate_flat_candidates` / `generate_two_generation_candidates` + `apply_mutation` | `WorkflowProgram` / `FailedCandidate` | FailedCandidate retained | `test_r4_mutation_seeds.py`, `test_r4_parent_adapter.py` | **READY** |
-| 2 | Docker execution | `src/runtime/workflow_ipc.run_workflow_code_isolated` | graph_src + extras + IPC llm | docker_cleanup / CONTAINER_NOT_CREATED | existing R3 tests (not re-proven for R4 programs) | **NOT VERIFIED for R4 programs** |
-| 3 | Model call (real) | IPC `_request` → DeepSeek | prompt str → content | ledger RESERVED→SETTLED | — | **BLOCKED (authorization)** |
-| 4 | Model call (simulated) | `execute_program_locally` + `_HookLLM` | prompt → str/awaitable | WORKFLOW_* errors | `test_r4_group_c_async.py` | **READY (SIMULATED only)** |
-| 5 | Dev-set scoring | `evaluate_workflow_output` (host gold) | predicted vs gold | invalid → incorrect | existing scorer tests | **READY (offline)** |
-| 6 | E gen-1 selection | `select_by_dev_accuracy` | program_id → dev score | MISSING_DEV_SCORE raises | adapter tests | **READY** |
-| 7 | Gen-2 generation | `mutator(winner, slot)` | same | FailedCandidate | seed audit + tests | **READY** |
-| 8 | Final candidate selection | `select_e_final` / D select | 4 candidates + scores | requires exactly 4 | adapter tests | **READY** |
-| 9 | Confirmation evaluation | same as 4/5 on freeze v1 | per-task rows | failures stay in denominator | — | **NOT RUN (authorization)** |
-| 10 | Budget settlement | `src/runtime/auth_ledger.py` | RESERVED/SETTLED | fail-closed PERSIST_FAULT | budget tests | **READY (code); NOT USED for R4** |
-| 11 | Result archive | results/ namespace + frozen_guard | hashed files | immutability check | frozen_guard tests | **READY** |
+| # | Layer | Meaning | Status |
+|---|---|---|---|
+| 1 | `SIMULATED_LOCAL` | in-process HookLLM | READY |
+| 2 | `SIMULATED_DOCKER_IPC` | Docker + stub Custom / mock mailbox | READY |
+| 3 | `PRODUCTION_ADAPTER` | real AFlow `Custom`/`call_with_format` + **mock model** | READY (Parent identity only) |
+| 4 | R4 full candidate gen → evolve select → dev score → confirm score | complete A–E / Plan P pipeline | **NOT READY / NOT RUN** |
+| 5 | R4 real authorization ledger integration | `AUTH_PATH` controlled grant + `auth_ledger` settle | **NOT WIRED for R4 real runs** (gate exists; no approved grant) |
+| 6 | `REAL_MODEL` | DeepSeek HTTP | **BLOCKED** |
 
-## Summary layers
+**Parent PRODUCTION_ADAPTER success does NOT make layers 4–6 READY.**
 
-| Layer | Status |
+## Host-side HTTP gate (R7)
+
+`src/runtime/r4_http_gate.py` is invoked at the start of `src/backend/http_client.post_json` **before any socket**.  
+`verify_execution_allowed` re-validates full config + policy + seeds + AUTHORIZED grant bound to `config_sha256`.  
+PROPOSED / unknown config status, missing/corrupt grant, or budget over remaining → `R4HttpBlocked`.  
+Container-generated code cannot install this gate.
+
+## Per-stage table (unchanged honesty)
+
+| Stage | Status |
 |---|---|
-| Representation | READY |
-| Local mock execution | READY (SIMULATED) |
-| Docker execution of R4 programs | NOT VERIFIED |
-| Real model | BLOCKED (auth) |
-| Formal experiment / final freeze | NOT APPROVED |
-
-**Rule:** mock/simulated outputs must never be filed as real-model results.  
-**Rule:** pipeline is **not** claimed READY end-to-end.
+| Candidate generation / lineage | READY (offline) |
+| Docker R4 programs | SIMULATED / PRODUCTION_ADAPTER only |
+| Real model call | BLOCKED |
+| Dev-set scoring | READY offline |
+| Confirmation evaluation | NOT RUN |
+| Budget settlement (R4) | code READY; no R4 grants issued |
+| Formal experiment / freeze / prereg | **NOT APPROVED** |
