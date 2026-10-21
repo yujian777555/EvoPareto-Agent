@@ -1,0 +1,90 @@
+{
+  "budget": {
+    "max_cost_usd": 0.15,
+    "max_physical": 165
+  },
+  "confirm_accuracy": {
+    "E2": 0.0,
+    "F": 0.0,
+    "P": 0.0,
+    "R": 0.0
+  },
+  "cost_usd_total": 0.0,
+  "dev_scores": {
+    "F": 0.0,
+    "R": 0.0
+  },
+  "e2_generation": 2,
+  "e2_parent_ok": true,
+  "e2_reason": null,
+  "e2_status": "SUCCESS",
+  "evidence_class": "SIMULATED",
+  "f_feedback": "ANSWER_MISMATCH",
+  "f_status": "SUCCESS",
+  "feedback_utilization": {
+    "e2_generated": true,
+    "f_generated": true,
+    "parent_failures": 17
+  },
+  "gen1_winner": "R",
+  "n_calib": 12,
+  "n_confirm": 30,
+  "n_dev": 5,
+  "paired_analysis": {
+    "E2_vs_R": {
+      "both_correct": 0,
+      "both_wrong": 30,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 0
+    },
+    "F_vs_R": {
+      "both_correct": 0,
+      "both_wrong": 30,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 0
+    },
+    "P_vs_E2": {
+      "both_correct": 0,
+      "both_wrong": 30,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 0
+    },
+    "P_vs_F": {
+      "both_correct": 0,
+      "both_wrong": 30,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 0
+    },
+    "P_vs_R": {
+      "both_correct": 0,
+      "both_wrong": 30,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 0
+    }
+  },
+  "parent_calib_accuracy": 0.0,
+  "parent_calib_errors": 12,
+  "parent_dev_accuracy": 0.0,
+  "protocol": "MICRO-R3.4-HARDSET",
+  "requests_total": 0,
+  "seed": 20260604,
+  "statistical_claim": "EXPLORATORY_ONLY_NOT_CONFIRMATORY",
+  "stop_reason": null,
+  "taskset_sha256": {
+    "calib": "736cb168157bc42519e56cc3a09b60c2140293e1b96f5b5db3ef175b551c7665",
+    "confirm": "7478e5951103d052af1f2ccb2e953140796874f07aa384f2e22ca8003db28dec",
+    "dev": "3d432440b775ae92732c25b12af46b7dca78c6e47c689505a4c638a756362aca"
+  },
+  "tokens_in": 0,
+  "tokens_out": 0
+}

@@ -1,0 +1,194 @@
+{
+  "calibration": [
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "3000",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-1279"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "6",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-6952"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "4",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-7364"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "40",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-1819"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "10",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-2512"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "11",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-4471"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "35",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-4516"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "102",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-6311"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "2",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-7406"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "960",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-1375"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "54",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-2002"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": "host-side only",
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "850",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-5192"
+    }
+  ],
+  "dev_parent": [
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "96",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-5321"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "18",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-5432"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "10",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-5986"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "50",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-6660"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "4,582",
+      "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "parent_program_id": "parent-frozen-0001",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-7261"
+    }
+  ],
+  "evidence_class": "SIMULATED"
+}

@@ -1,0 +1,449 @@
+{
+  "calibration": {
+    "indices": [
+      1279,
+      6952,
+      7364,
+      1819,
+      2512,
+      4471,
+      4516,
+      6311,
+      7406,
+      1375,
+      2002,
+      5192
+    ],
+    "n": 12,
+    "role": "calibration",
+    "tasks": [
+      {
+        "complexity_heuristic": 35,
+        "gold_answer": "3000",
+        "question": "Bill is buying healthcare on an exchange. The normal monthly price of the plan he wants is $500. The government will pay for part of this cost depending on Bill's income: 90% if he makes less than $10,000, 50% if he makes between $10,001 and $40,000, and 20% if he makes more than $50,000. Bill earns $25/hour and works 30 hours per week, four weeks per month. How much will Bill spend for health insurance in a year?",
+        "question_norm_sha256": "644c78371fa285ad5a4fdff0b172eb56a0353ec6867b7fa785aeed327a3308f1",
+        "sol_len": 134,
+        "task_id": "gsm8k-train-1279"
+      },
+      {
+        "complexity_heuristic": 34,
+        "gold_answer": "6",
+        "question": "Lauren wanted to make burgers and fries for dinner.  She needed a few things from the grocery store and bought the following:  2 pounds of hamburger meat that was on sale for $3.50 a pound.  1 pack of hamburger buns for $1.50.  A head of lettuce for $1.00 and a large 1.5-pound tomato that was priced at $2.00 per pound.  She also needed a jar of pickles that cost $2.50 and she had a $1.00 off coupon for that item.  How much change would Lauren get back if she paid with a $20 bill?",
+        "question_norm_sha256": "f660512d835c69bf3a3f676e13988bf9e2816a3d84692c8f3088f23f469921d9",
+        "sol_len": 71,
+        "task_id": "gsm8k-train-6952"
+      },
+      {
+        "complexity_heuristic": 34,
+        "gold_answer": "4",
+        "question": "Angelo and Melanie want to plan how many hours over the next week they should study together for their test next week. They have 2 chapters of their textbook to study and 4 worksheets to memorize. They figure out that they should dedicate 3 hours to each chapter of their textbook and 1.5 hours for each worksheet. If they plan to study no more than 4 hours each day, how many days should they plan to study total over the next week if they take a 10-minute break every hour, include 3 10-minute snack breaks each day, and 30 minutes for lunch each day?",
+        "question_norm_sha256": "40c1a60c6ce4f6795ac04f8ed46ab87452bd1f18b5e039db92d5754e56aebe29",
+        "sol_len": 216,
+        "task_id": "gsm8k-train-7364"
+      },
+      {
+        "complexity_heuristic": 33,
+        "gold_answer": "40",
+        "question": "Teresa orders 2 fancy ham and cheese sandwiches for $7.75 each at a local shop.  While there, she decides to pick up some salami for $4.00, more brie which is three times the price of the salami,  a 1/4 pound of olives that are $10.00 per pound, 1/2 pound of feta cheese that’s $8.00 a pound and another loaf of french bread that is $2.00.  How much does she spend at the local shop?",
+        "question_norm_sha256": "ad5251c10ee9b5c39e189e41414800ebd1489ea6c7a6c4964f09f086d7c47d76",
+        "sol_len": 103,
+        "task_id": "gsm8k-train-1819"
+      },
+      {
+        "complexity_heuristic": 33,
+        "gold_answer": "10",
+        "question": "Scott wants to make and freeze a large batch of ratatouille.  At the farmers' market he buys 5 pounds of eggplants and 4 pounds of zucchini at $2.00 a pound.  He needs 4 pounds of tomatoes that are $3.50 a pound.  The onions are $1.00 a pound and he needs 3 pounds.  Then he needs a pound of basil which is sold for $2.50 per half pound.  If this yields 4 quarts, how much does each quart cost?",
+        "question_norm_sha256": "5cbfaac90cf55d7a0cb2edc6156627bc77c16193eef3c3437cf0c10e1506a8d2",
+        "sol_len": 135,
+        "task_id": "gsm8k-train-2512"
+      },
+      {
+        "complexity_heuristic": 33,
+        "gold_answer": "11",
+        "question": "To get free delivery, Alice needs to spend a minimum of $35.00 online at her favorite grocery store.  In her cart she has 1.5 pounds of chicken at $6.00 per pound, 1 pack of lettuce for $3.00, cherry tomatoes for $2.50, 4 sweet potatoes at $0.75 each, 2 heads of broccoli for $2.00 each and a pound of Brussel sprouts for $2.50.  How much more does she need to spend in order to get free delivery?",
+        "question_norm_sha256": "188722cb3b19f75519a98e34e02be2c79cddef17a933c6e0a6ca8ff99429da11",
+        "sol_len": 109,
+        "task_id": "gsm8k-train-4471"
+      },
+      {
+        "complexity_heuristic": 33,
+        "gold_answer": "35",
+        "question": "Ian used a grocery delivery app to have his groceries delivered.  His original order was $25 before delivery and tip.  He noticed that 3 items changed on his order.  A $0.99 can of tomatoes was replaced by a $2.20 can of tomatoes, his $1.00 lettuce was replaced with $1.75 head of lettuce and his $1.96 celery was replaced with celery that cost $2.00.  Delivery and tip came to a total of $8.00.  How much is his new bill now, with the food substitutes and delivery/tip?",
+        "question_norm_sha256": "7b910539dac9baf302d9ac9c5bee0f8761c55cbc469dc3df0f55ab1ca6b8d64b",
+        "sol_len": 108,
+        "task_id": "gsm8k-train-4516"
+      },
+      {
+        "complexity_heuristic": 33,
+        "gold_answer": "102",
+        "question": "An online website offers a flat rate shipping price of $5.00 if the purchase is below $50.00.  If it's above $50.00 then they will charge 20% of the purchase price for shipping.  Thomas orders 3 shirts for $12.00 each, a pack of socks for $5.00, 2 pairs of shorts for $15.00 each and a pair of swim trunks for $14.00  How much will his total bill be, including shipping?",
+        "question_norm_sha256": "fd291b86e57d2627a5b866f688829d23babc09fece456950e645cda61f3f63fb",
+        "sol_len": 100,
+        "task_id": "gsm8k-train-6311"
+      },
+      {
+        "complexity_heuristic": 33,
+        "gold_answer": "2",
+        "question": "In today's field day challenge, the 4th graders were competing against the 5th graders.  Each grade had 2 different classes.  The first 4th grade class had 12 girls and 13 boys.  The second 4th grade class had 15 girls and 11 boys.  The first 5th grade class had 9 girls and 13 boys while the second 5th grade class had 10 girls and 11 boys.  In total, how many more boys were competing than girls?",
+        "question_norm_sha256": "ad5b9b51211ee3f461023abd2e4da451d64a0abe5b4a8369cb8e9d0d86e5e477",
+        "sol_len": 48,
+        "task_id": "gsm8k-train-7406"
+      },
+      {
+        "complexity_heuristic": 32,
+        "gold_answer": "960",
+        "question": "A farmer owns a hog that recently gave birth to 6 piglets.  If the farmer raises the piglets until they are fully grown, he can sell the fully grown pig for $300.  Each piglet must grow for at least 12 months before it is large enough to be sold. It costs the farmer $10 per month to feed each animal until it is sold.  If the farmer sells 3 pigs after 12 months, and the remaining 3 pigs after 16 months, how much profit did he earn in total (after deducting the cost of food)?",
+        "question_norm_sha256": "d17e5f34ac3d1f9783181509d8f3d19737aae5d58c9c3288d98bef0ca4fdabd2",
+        "sol_len": 87,
+        "task_id": "gsm8k-train-1375"
+      },
+      {
+        "complexity_heuristic": 32,
+        "gold_answer": "54",
+        "question": "The United States flag has 50 stars, one for every state in the union, and 13 stripes, which represent the original 13 colonies.  Pete, inspired by history, decided to make his own flag.  He used circles, to represent how many scoops of ice cream he can consume in one sitting, and squares, to represent the number of brownies he has hidden beneath his bed.  For circles, he used 3 less than half the number of stars on the US flag, and for squares, he used six more than twice the number of stripes on the US flag.  What is the combined total number of circles and squares on Pete's flag?",
+        "question_norm_sha256": "6d12d6b3bcf7f730b73f7eb354c95bca56deaccd1a28d46747a53b58311f45ca",
+        "sol_len": 63,
+        "task_id": "gsm8k-train-2002"
+      },
+      {
+        "complexity_heuristic": 32,
+        "gold_answer": "850",
+        "question": "Martha gets prize points every time she shops at her local grocery store. She gets 50 points per $10 spent, plus a 250 point bonus if she spends more than $100. Martha buys 3 pounds of beef for $11 each, 8 pounds of fruits and vegetables for $4/pound, 3 jars of spices for $6 each, and other groceries totaling $37. How many points does Martha get?",
+        "question_norm_sha256": "95251e6fc201c53d75033f017458205e065bb2e9d41ed084a247051db67251d3",
+        "sol_len": 137,
+        "task_id": "gsm8k-train-5192"
+      }
+    ]
+  },
+  "confirm": {
+    "indices": [
+      304,
+      3444,
+      3445,
+      4408,
+      7219,
+      334,
+      636,
+      1202,
+      1647,
+      3454,
+      3645,
+      3913,
+      4269,
+      6392,
+      616,
+      675,
+      1424,
+      2239,
+      2317,
+      2871,
+      6229,
+      6440,
+      7372,
+      131,
+      497,
+      1902,
+      3599,
+      3714,
+      4262,
+      4569
+    ],
+    "n": 30,
+    "role": "confirmation",
+    "tasks": [
+      {
+        "complexity_heuristic": 31,
+        "gold_answer": "36",
+        "question": "Cary is an engineer in charge of designing an irrigation system for three farmers. Farmer Bob grows 3 acres of corn, 9 acres of cotton, and 12 acres of beans. Farmer Brenda grows 6 acres of corn, 7 acres of cotton, and 14 acres of beans. Farmer Bernie grows 2 acres of corn and 12 acres of cotton. If corn takes 20 gallons of water an acre, cotton takes 80 gallons of water an acre, and beans take twice as much water as corn, what percentage of the total water used will go to Farmer Bob's farm?",
+        "question_norm_sha256": "57d26669856e4b027f9a6681f21f74b62b65e6738efd13eef7a9100874316e44",
+        "sol_len": 156,
+        "task_id": "gsm8k-train-0304"
+      },
+      {
+        "complexity_heuristic": 31,
+        "gold_answer": "4",
+        "question": "Josie's mom gave her a $20 bill and asked her to go to the store for a few items.  The list included a carton of milk for $4.00, a loaf of bread for $3.50, a box of laundry detergent for $10.25 and 2 pounds of bananas that were $0.75 per pound.  Her mom also gave her a coupon for $1.25 off of the laundry detergent.  At checkout, the clerk told her the milk was 1/2 off today.  How much money did Josie have left over after she bought all of the groceries?",
+        "question_norm_sha256": "c7d06a36f3c56b5b2285751d34fffe26760a1c25c1e12268cb7c6ce2f8032f33",
+        "sol_len": 76,
+        "task_id": "gsm8k-train-3444"
+      },
+      {
+        "complexity_heuristic": 31,
+        "gold_answer": "10",
+        "question": "At the burger hut, you can buy a burger for $5, french fries for $3, and a soft drink for $3.  If you order a special burger meal, you get all 3 of these food items for $9.50. A kid’s burger is $3, a kid’s french fries are $2, and a kid's juice box is $2.  They also have a kids meal of all 3 kids' food items for $5. Mr. Parker buys 2 burger meals for his wife and himself.  He also buys 2 burger meals and 2 kid's meals for his 4 children.  How much money does Mr. Parker save by buying the 6 meals versus buying the individual food items?",
+        "question_norm_sha256": "32c6b595ac61d864f4855bb0e58d21cde807fb5485f8a5d26bf5c73de7402cd9",
+        "sol_len": 101,
+        "task_id": "gsm8k-train-3445"
+      },
+      {
+        "complexity_heuristic": 31,
+        "gold_answer": "2",
+        "question": "For every loaf of bread that Ted buys, he needs an additional 2 packs of sandwich meat and 2 packs of sliced cheese to make 10 sandwiches.  The bread costs $4.00, the sandwich meat costs $5.00 per pack and the cheese costs $4.00 per pack.  He has a $1.00 off  coupon for one pack of cheese and an additional $1.00 coupon for one pack of meat.  How much does each sandwich cost?",
+        "question_norm_sha256": "c5b2396ff7b00c8fc119f4aa6c1fc251ae60cecd2c2cf9ddc0465588f77a3835",
+        "sol_len": 85,
+        "task_id": "gsm8k-train-4408"
+      },
+      {
+        "complexity_heuristic": 31,
+        "gold_answer": "252",
+        "question": "Paul needed to buy some new clothes for work.  He had a 10% off coupon that he could use on his entire purchase after any other discounts.  Paul bought 4 dress shirts at $15.00 apiece, 2 pairs of pants that each cost $40.00.  He found a suit for $150.00 and 2 sweaters for $30.00 each.  When he got to the register, the clerk told him that the store was offering 20% off of everything in the store.  After the discounts and the coupon, how much did Paul spend on his new clothes?",
+        "question_norm_sha256": "963e0654df5cafaf50d7b069baa6fd59f149aa2067a8a4a4731997751635f3df",
+        "sol_len": 82,
+        "task_id": "gsm8k-train-7219"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "20",
+        "question": "Martha needs 4 cups of berries and 2 cups of heavy cream to make 1 quart of ice cream.  She wants to make 1 quart of strawberry ice cream and 1 quart of raspberry ice cream.  At the farmers market, the 2 cup packages of strawberries are $3.00 each and the 2 cup package of raspberries are $5.00 each.  The heavy cream is sold for $4.00 for a 4 cup container.  How much will it cost her to make 1 quart of each ice cream?",
+        "question_norm_sha256": "66fb1d8881a9ec7dc73ff5f9ce32583c1cda4dda91bd75516120667d5783120a",
+        "sol_len": 121,
+        "task_id": "gsm8k-train-0334"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "52",
+        "question": "Tina is working on her homework when she realizes she's having a hard time typing out her answers on her laptop because a lot of the keys are sticky. She is trying to get her homework done before dinner, though, so she needs to decide if she has time to clean her keyboard first. Tina knows her assignment will only take 10 minutes to complete. Dinner will be ready at 5:30 p.m. Tina decides to time how long it takes to remove and clean one key and will then multiply that time by how many keys she needs to fix. She counts 15 keys that are sticky and times it to take 3 minutes to clean one. After Tina has cleaned one key, there are 14 left to clean. How many minutes total will it take for Tina to both clean the remaining keys and finish her assignment?",
+        "question_norm_sha256": "49d3cb91de939cd906cfb88415ab9435ee9236bce7e55ec1d6268ee74a268ef6",
+        "sol_len": 54,
+        "task_id": "gsm8k-train-0636"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "76",
+        "question": "A man is trying to maximize the amount of money he saves each month. In particular, he is trying to decide between two different apartments. The first apartment costs $800 per month in rent and will cost an additional $260 per month in utilities. The second apartment costs $900 per month and will cost an additional $200 per month in utilities. The first apartment is slightly further from the man's work, and the man would have to drive 31 miles per day to get to work. The second apartment is closer, and the man would only have to drive 21 miles to get to work. According to the IRS, each mile a person drives has an average cost of 58 cents. If the man must drive to work 20 days each month, what is the difference between the total monthly costs of these two apartments after factoring in utility and driving-related costs (to the nearest whole dollar)?",
+        "question_norm_sha256": "2a8d607a57a6ba8f77100d02d911d4008b762e5107a74b0b0e8bba91394557ea",
+        "sol_len": 74,
+        "task_id": "gsm8k-train-1202"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "88",
+        "question": "Ellie went to visit a circus with Sarah and they both got lost in the house of mirrors. They have to travel through the house of mirrors a few times before they finally get out and when they leave, they discuss how many times they've seen their own reflections. Sarah says that every time they were in the room with tall mirrors, she saw her reflection 10 times and every time they were in the room with wide mirrors, she saw her reflection 5 times. Ellie says that every time they were in the room with tall mirrors, she saw her reflection 6 times and every time they were in the room with wide mirrors she saw her reflection 3 times. They both passed through the room with tall mirrors 3 times each and they both passed through the room with wide mirrors 5 times each. In total, how many times did Sarah and Ellie see their reflections?",
+        "question_norm_sha256": "92c03324eb0d1c2fe37f315da29c0cd71aa626c658ced1cf6f7653c5c4913148",
+        "sol_len": 130,
+        "task_id": "gsm8k-train-1647"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "19",
+        "question": "A local college is offering German lessons and currently has 8 students enrolled. Through advertising, 8 more became interested but a fourth of these dropped out within a day. 2 more got frustrated and left. The class then rallied to show how simple the course actually is and increased enrollment by 5 times the amount of students already enrolled in the class, but 2 had to drop it because of scheduling conflicts. After one last rally, 6 more people enrolled. As the days passed, half of the class eventually dropped, and half of the remaining students graduated. How many are still enrolled?",
+        "question_norm_sha256": "e214aaeb5bec7657bf5b86ac41470581a2de39563de00bd9e971bb80a437edf8",
+        "sol_len": 73,
+        "task_id": "gsm8k-train-3454"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "118",
+        "question": "Geordie takes a toll road on his drive to work and back every day of his five-day workweek. The toll is $12.50 per car or $7 per motorcycle. Both his car and his motorcycle get 35 miles per gallon of gas and the commute to work is 14 miles. Gas costs him $3.75 per gallon. Geordie drives his car to work three times a week and his motorcycle to work twice a week. How many dollars does he spend driving to work and back on the same route in a week?",
+        "question_norm_sha256": "744ada6cb46a9ebe893b69c82f0cdea4925e1f14d757df00fd161d7ea6162f26",
+        "sol_len": 103,
+        "task_id": "gsm8k-train-3645"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "120",
+        "question": "Marites internet speed is 10 megabits per second and her monthly internet bill is $20. Marites is planning to upgrade her service and choosing between 20 Mbps and 30 Mbps. If the price of the 30 Mbps is twice the amount of her current monthly bill and the price of the 20 Mbps is $10 more than her current monthly bill, how much will she save per year if she chooses the 20 Mbps than 30 Mbps?",
+        "question_norm_sha256": "1209b95e733042f13e94d718c1f22f09d08bbe44a24e5190fd358359807d5be2",
+        "sol_len": 75,
+        "task_id": "gsm8k-train-3913"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "147700",
+        "question": "Timothy decides he wants to start living off the land.  He buys 30 acres of land for $20 an acre.  He then builds himself a large house for $120,000.  After that, he gets himself 20 cows for $1000 per cow and 100 chickens for $5 per chicken.  The last thing is solar panels which take 6 hours to install with an installation cost of $100 an hour and then a flat fee of $6000 for the equipment.  How much did everything cost?",
+        "question_norm_sha256": "a8ab445259206fee3b3527f5dbaa48f4433aa79d5e1e402f101cc006dd4eb028",
+        "sol_len": 31,
+        "task_id": "gsm8k-train-4269"
+      },
+      {
+        "complexity_heuristic": 30,
+        "gold_answer": "1234",
+        "question": "Ariana is past due on three bills. The first bill for $200 charges 10% simple interest for each overdue month and it's 2 months overdue. The second bill for $130 charges a flat $50 late fee per month and is 6 months overdue. The last bill is two months late and charges a $40 fee the first month overdue and twice that fee the second month overdue and is for $444. How much does Ariana owe in total?",
+        "question_norm_sha256": "34069260bbe4464f8107eba7dbe669ba8ff1c4b40f7ddf98d02ba5fac67ca8b4",
+        "sol_len": 96,
+        "task_id": "gsm8k-train-6392"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "240",
+        "question": "Kris is blowing u balloons for her sister’s party. She has 30 minutes to blow up as many balloons as possible and decides to enlist her brother’s help to increase the number of balloons. Kris can blow up a total of 2 balloon per minute, and her brother works twice as fast. After 15 minutes, her brother doubles his speed and works at this new speed for the remaining 15 minutes. After the 30 minutes, how many balloons, in total, did Kris and her brother blow up?",
+        "question_norm_sha256": "ff653b4a8405e4119704af34864f562e6c048cae3f7d243204f98cc242e62503",
+        "sol_len": 155,
+        "task_id": "gsm8k-train-0616"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "20",
+        "question": "Andy is a lawyer who's working on two lawsuits. The first lawsuit has a 30% chance of paying out $5,000,000 upon a win and $0 if he loses it. The second lawsuit has a 50% chance of paying out $1,000,000 if Andy loses and a 50% chance of paying out $2,000,000 if he wins.  Expressed as a percentage, how much more likely is it that Andy loses both lawsuits compared to winning both of them?",
+        "question_norm_sha256": "208efe4254235161955b1b0e0e4b84b0e7c543c00323f746561a7005b99e6ca5",
+        "sol_len": 81,
+        "task_id": "gsm8k-train-0675"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "6",
+        "question": "Christian and Sue wanted to get a $50.00 bottle of perfume for their mom for her birthday.  Christian had $5.00 saved up and Sue had $7.00.  Christian then mowed 4 of his neighbors' yards, charging $5.00 each, while Sue walked 6 dogs for her neighbors, charging $2.00 per dog.  How much more money will Christian and Sue need to make in order to buy the bottle of perfume for their mom?",
+        "question_norm_sha256": "9ddcb073ea66345285f5d9e9345a0354c086ea188ea6237005aa069f0e906b74",
+        "sol_len": 72,
+        "task_id": "gsm8k-train-1424"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "810",
+        "question": "Frank and his friends Betty and Bill went to their farm and picked oranges to eat. Betty picked 15 oranges and Bill picked 12 oranges. Frank picked three times the number that Betty and Bill picked combined. Frank then planted 2 seeds from each of his oranges into the ground and waited 20 years for each seed to turn into a beautiful orange tree. If each orange tree contains 5 oranges for Frank's son Philip to pick, how many oranges are there for Philip to pick in total?",
+        "question_norm_sha256": "c9dcb1e2c85ff9ce9aa18d7c5a3996d0b168bdca1b09ce3442afe630efe8ce0f",
+        "sol_len": 50,
+        "task_id": "gsm8k-train-2239"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "144",
+        "question": "Zach was a waiter in a fancy restaurant.  His last table for the night was a party for 4 people.  The mom ordered lobster for $25.50, the dad ordered steak for $35.00 their twin boys both ordered a cheeseburger and fries for $13.50 each.  They started their meal with an appetizer that cost 8.50.  Everyone also ordered a dessert that cost $6.00 each.  They wanted to give a 20% tip for Zach on the bill.  What did the final bill total come to?",
+        "question_norm_sha256": "c9dd78be03b38596708eff2093cc0c28b3f431ae10fd1c71bab55857d97e543c",
+        "sol_len": 67,
+        "task_id": "gsm8k-train-2317"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "350",
+        "question": "Gloria wants to buy the $129,000 mountain cabin that her friend Alfonso is selling. She only has $150 in cash. She intends to raise the remaining amount by selling her mature trees for lumber. She has 20 cypress trees, 600 pine trees, and 24 maple trees. She will get $100 for each cypress tree, $300 for a maple tree, and $200 per pine tree. After paying Alfonso for the cabin, how much money will Gloria have left?",
+        "question_norm_sha256": "c9d4f9fc1a943c49f147945c82c3dce838770dec466bb537afe635cbd374775e",
+        "sol_len": 85,
+        "task_id": "gsm8k-train-2871"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "25",
+        "question": "It’s Meghan’s turn to pick up her team's coffee order.  She needs 2 drip coffees that are $2.25 each and one double shot espresso that’s $3.50.  She needs 2 lattes that are $4.00 and needs to add vanilla syrup to one of those for an additional $0.50.  She also needs 2 cold brew coffees that are $2.50 each and 1 cappuccino for $3.50.  How much is the coffee order?",
+        "question_norm_sha256": "c39fa7f439295b86acf582908a4b4da27f5d3613932fa5b2843ce1ac3b0ff41c",
+        "sol_len": 74,
+        "task_id": "gsm8k-train-6229"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "36",
+        "question": "Each member of Greg’s softball team needs to buy one uniform made up of a shirt, a pair of pants, and socks. A shirt costs $7.50, a pair of pants cost $15, and socks cost $4.50 each if each team member buys the uniform items on their own. If they buy the items as a group, they are given a discount. A discounted shirt cost $6.75, a discounted pair of pants cost $13.50, and discounted socks cost $3.75. How much would their team of 12 save with the group discount?",
+        "question_norm_sha256": "25f941a32de0984a333f8216c54c36dc146994fb590086dd4a6fd36502ea6f28",
+        "sol_len": 77,
+        "task_id": "gsm8k-train-6440"
+      },
+      {
+        "complexity_heuristic": 29,
+        "gold_answer": "550",
+        "question": "A plane flies between 4 cities; A, B, C and D. Passengers board and alight at each airport in every city when it departs and lands, respectively.  The distance between city A and city B is 100 miles.  The distance between city B and city C is 50 miles more than the distance between city A and city B.  The distance between city C and city D is twice the distance between city B and city C. Calculate the total distance between city A and city D.",
+        "question_norm_sha256": "7d803d782dfd23ae21fa9953651d5aea342265e85bb8a19880bf8aff0a2ce5a1",
+        "sol_len": 99,
+        "task_id": "gsm8k-train-7372"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "500",
+        "question": "Studying for her test, Mitchell had read ten chapters of a book before 4 o'clock. When it clocked 4, Mitchell had read 20 pages of the 11th chapter of the book she was studying from. After 4 o'clock, she didn't read the remaining pages of chapter eleven but proceeded and read 2 more chapters of the book. If each chapter in the book had 40 pages, calculate the total number of pages that Mitchell had read altogether?",
+        "question_norm_sha256": "67741235f59cd6a45009dd9e3664df72fc367dcf6cc75399c88d865101430884",
+        "sol_len": 69,
+        "task_id": "gsm8k-train-0131"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "10,000",
+        "question": "James's favorite basketball player got paid based on how many points he averaged each week. He gets $10,000 if he averages 30 or more points a game and $8,000 if he averages under 30 points a game. For his last week, in the first game he scored 30 points and in the second game he scored 28 points. In the third game he scored 32 points. In the fourth game he scored 34 points and in the fifth game he scored 26 points. How much does he get paid for the week?",
+        "question_norm_sha256": "dde84f61218a2ad715f9135b5def07e5be6530e9304dc1a8545b30d9854ff064",
+        "sol_len": 55,
+        "task_id": "gsm8k-train-0497"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "605",
+        "question": "Josie and her family went on a safari and had an exciting time watching different animals grazing and playing together. She decided to count each animal she saw and calculated their total number. She counted 80 antelopes, 34 more rabbits than antelopes, 42 fewer hyenas than the total number of antelopes and rabbits combined, 50 more wild dogs than hyenas, and the number of leopards was half the number of rabbits. What the total number of animals that Josie counted?",
+        "question_norm_sha256": "489d26d4019bf1288096ff83260a399d9994a3398fc9b50be63f1a52d7a4a9ce",
+        "sol_len": 77,
+        "task_id": "gsm8k-train-1902"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "14",
+        "question": "Victor, Austin, and Brian made traps to catch shrimp. Victor's trap caught 26 shrimp and Austin's trap caught 8 less than Victor's. Brian's trap caught half of Victor and Austin's total number of shrimp. If the boys then sold their shrimp for $7 for every 11 tails of shrimp and then divided their earnings equally amongst themselves, how much money does each boy make?",
+        "question_norm_sha256": "0c8e2edb8de87db6cd2531263a2efdf3b3b39e18c678b68d292e765ad51ffc29",
+        "sol_len": 70,
+        "task_id": "gsm8k-train-3599"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "3214",
+        "question": "Jacoby wants to save money for a trip to Brickville. He needs to have $5000 total to go on his trip. He works a job earning $20 per hour and works 10 hours. He then finds he can sell cookies for $4 each, and he sells 24 pieces of cookies. With the money he has so far, he buys a lottery ticket for $10 and wins $500. Finally, he gets $500 from both of his sisters as a gift. How much more, in dollars, does Jacob need to go to Brickville?",
+        "question_norm_sha256": "fe474ce796601bdbec2f9d6b09e9f267c17dff5d012a091c1a5ffa1e4e4fd9ec",
+        "sol_len": 96,
+        "task_id": "gsm8k-train-3714"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "115",
+        "question": "Barry and his friend, Jim, went horseback riding across central Texas. They traveled at 5 miles per hour for 7 hours, and then stopped for the evening.  The next day, they traveled at 6 miles per hour for 6 hours, and then at half that speed for another three hours, before stopping to rest for the night.  On the third and final day, they traveled for 5 hours at 7 miles per hour.  In total, how far did they travel, in miles, during their horseback riding trip?",
+        "question_norm_sha256": "4af08d88e297cc9d0d7aa6b037acf5cf52358ddf6b10b49b7ea23e05af37e29c",
+        "sol_len": 52,
+        "task_id": "gsm8k-train-4262"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "360",
+        "question": "A rancher owns a mixture of 8 sheep and 5 cattle that graze on his land.  In a typical year, the rancher will allow his animals to feed off his pastures for as long as possible before they run out of grass.  After the pastures run out of grass, he must buy feed corn for $10 per bag.  Each cow eats 2 acres of grass per month, and each sheep eats 1 acre of grass per month.  Additionally, a bag of feed corn can feed each cow for 1 month and each sheep for 2 months.   If the rancher's pasture contains 144 acres of grass, how much will the rancher need to spend on feed corn to feed his animals each year?",
+        "question_norm_sha256": "e9c8e81f977419a54311e541ea9e88c7fc39d66acc0c7f53bf169b02aa51f9c1",
+        "sol_len": 152,
+        "task_id": "gsm8k-train-4569"
+      }
+    ]
+  },
+  "dev": {
+    "indices": [
+      5321,
+      5432,
+      5986,
+      6660,
+      7261
+    ],
+    "n": 5,
+    "role": "development",
+    "tasks": [
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "96",
+        "question": "Julia just adopted a puppy for $20.00 from the local pet shelter.  Before she brings the puppy home, she needs to buy a bag of dog food for $20.00, 2 bags of treats for $2.50 a bag, an assortment box of toys for $15.00, a crate and a bed for $20.00 each, and the collar/leash combo for $15.00.  The store offered Julia a 20% new-customer discount.  How much will Julia spend on the new puppy?",
+        "question_norm_sha256": "4ebbbc2d17a10e3ce4f6309bd970ea659dcd888b9c861299db9f0ccb33371415",
+        "sol_len": 114,
+        "task_id": "gsm8k-train-5321"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "18",
+        "question": "What is the average age of the 1st and 5th fastest dogs if the 1st fastest dog is 10 years old, the 2nd fastest dog is 2 years younger than the first fastest dog, the 3rd fastest dog is 4 years older than the 2nd fastest dog, the 4th fastest dog is half the age of the 3rd fastest dog, and the 5th fastest dog is 20 years older than the 4th fastest dog?",
+        "question_norm_sha256": "b78df3ce27ff1dd7813615c19676f94aeeb0e8b0ae55e933872739764e2cee37",
+        "sol_len": 121,
+        "task_id": "gsm8k-train-5432"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "10",
+        "question": "Nancy wants to figure out if she can afford to apply to the University of Michigan. The tuition costs $22,000 per semester. Her parents can pay half the cost, and each semester Nancy can get a scholarship for $3,000 and a student loan for twice her scholarship amount. If Nancy can work a total of 200 hours during the semester, how many dollars does she have to make per hour to pay the rest of the tuition?",
+        "question_norm_sha256": "6f1eec141d606161a3ce2cc1ffd736aca653d2ef93e0e197bc6c25369ca1875e",
+        "sol_len": 107,
+        "task_id": "gsm8k-train-5986"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "50",
+        "question": "James started a food fight in his school's cafeteria, and the school administration is making him work off the cost of all the food he wasted at minimum wage ($8). James has to pay for 20 wasted pounds of meat at $5/pound, 15 wasted pounds of fruits and vegetables at $4/pound, 60 wasted pounds of bread products at $1.50/pound, and 10 hours of time-and-a-half pay for the janitorial staff, who normally make $10/hour. How many hours will James have to work to pay for everything?",
+        "question_norm_sha256": "4c04ed0e37b5120a06ee1b384d4862d674ff4444ffca61f4461c46b17bf926dc",
+        "sol_len": 128,
+        "task_id": "gsm8k-train-6660"
+      },
+      {
+        "complexity_heuristic": 28,
+        "gold_answer": "4,582",
+        "question": "Mr. Fortchaud turns on his heater on the 1st of November, 2005. The fuel tank was then full and contained 3,000 L. On January 1, 2006, the tank counter indicated that 180 L remained. Mr. Fortchaud again filled his tank completely. On 1 May 2006, Mr. Fortchaud decided to stop heating and he read 1,238 L on the meter. What the volume of fuel oil that was used between 1 November 2005 and 1 May 2006?",
+        "question_norm_sha256": "9df6b2777ad8e132678a83aa1f756b057110804712273d074563fa6777b0dc63",
+        "sol_len": 53,
+        "task_id": "gsm8k-train-7261"
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "E2_vs_R": {
+    "both_correct": 0,
+    "both_wrong": 30,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 30,
+    "regressed": 0
+  },
+  "F_vs_R": {
+    "both_correct": 0,
+    "both_wrong": 30,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 30,
+    "regressed": 0
+  },
+  "P_vs_E2": {
+    "both_correct": 0,
+    "both_wrong": 30,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 30,
+    "regressed": 0
+  },
+  "P_vs_F": {
+    "both_correct": 0,
+    "both_wrong": 30,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 30,
+    "regressed": 0
+  },
+  "P_vs_R": {
+    "both_correct": 0,
+    "both_wrong": 30,
+    "improved": 0,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 30,
+    "regressed": 0
+  }
+}

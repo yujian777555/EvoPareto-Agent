@@ -1,0 +1,73 @@
+{
+  "E2": {
+    "child_graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+    "child_program_id": "wfp-a4199b0d86e2",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_rationale": "single verifiable coarse category from failure records",
+    "generation": 2,
+    "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+    "operator": "OP_ARITH_RECHECK",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "f0b64540f68c3d9777f284812480ae3ed6768f925f592f60d318327ba1a51385",
+    "parent_program_id": "wfp-2d57a9a6663b",
+    "seed": 20260604,
+    "selected_operator": "OP_ARITH_RECHECK",
+    "selection_reason": "policy[ANSWER_MISMATCH] -> OP_ARITH_RECHECK",
+    "slot": 3,
+    "status": "SUCCESS"
+  },
+  "F": {
+    "child_graph_sha256": "f28443fdf01b235421b9249557bae8b282cb6420f0ca7650aa74db2052c12aca",
+    "child_program_id": "wfp-b6e0deb7589f",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_rationale": "single verifiable coarse category from failure records",
+    "generation": 1,
+    "graph_sha256": "f28443fdf01b235421b9249557bae8b282cb6420f0ca7650aa74db2052c12aca",
+    "operator": "OP_ARITH_RECHECK",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 1
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260604,
+    "selected_operator": "OP_ARITH_RECHECK",
+    "selection_reason": "policy[ANSWER_MISMATCH] -> OP_ARITH_RECHECK",
+    "slot": 2,
+    "status": "SUCCESS"
+  },
+  "P": {
+    "generation": 0,
+    "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "program_id": "parent-frozen-0001"
+  },
+  "R": {
+    "child_graph_sha256": "f0b64540f68c3d9777f284812480ae3ed6768f925f592f60d318327ba1a51385",
+    "child_program_id": "wfp-2d57a9a6663b",
+    "generation": 1,
+    "graph_sha256": "f0b64540f68c3d9777f284812480ae3ed6768f925f592f60d318327ba1a51385",
+    "operator": "OP_ERROR_RECOVERY",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260604,
+    "slot": 1,
+    "status": "SUCCESS"
+  }
+}
