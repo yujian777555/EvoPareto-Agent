@@ -201,5 +201,10 @@ def generate_e2_from_winner(
         rec["parent_program_id"] = child.parent_program_id
         rec["generation"] = child.generation
         rec["status"] = "SUCCESS"
+        # reject stacking an identical suffix with no effective change
+        if child.instruction == winner.instruction:
+            rec["status"] = "NO_OP"
+            rec["reason"] = "IDENTICAL_INSTRUCTION_TO_WINNER"
+            return {"child": None, "record": rec}
     return {"child": child, "record": rec}
 

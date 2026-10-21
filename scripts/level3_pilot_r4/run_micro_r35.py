@@ -65,9 +65,16 @@ class Budget:
     def add(self, row):
         self.rows.append(row)
         self.n += 1
+        settle = str(row.get("settle") or "")
+        if settle == "fail_closed_unknown" or row.get("cost_usd") is None and row.get("error"):
+            self.stop = "INCOMPLETE_BUDGET_STOP"
+        if self.stop and self.stop.startswith("REQUEST_CAP"):
+            self.stop = "INCOMPLETE_BUDGET_STOP"
         self.cost += float(row.get("cost_usd") or 0)
         self.tok_in += int(row.get("tokens_in") or 0)
         self.tok_out += int(row.get("tokens_out") or 0)
+        if self.n >= MAX_PHYSICAL:
+            self.stop = self.stop or "INCOMPLETE_BUDGET_STOP"
 
     def dump(self):
         return {
@@ -119,15 +126,31 @@ class Mailbox:
             row.update({"error": f"{type(e).__name__}:{e}", "cost_usd": 0.0, "tokens_in": 0, "tokens_out": 0, "settle": "fail_closed_unknown"})
             self.budget.add(row)
             raise RuntimeError(row["error"])
-        data = json.loads(raw.decode("utf-8"))
+        try:
+            data = json.loads(raw.decode("utf-8"))
+        except Exception as e:
+            # HTTP was sent but body unusable -> physical request recorded, unsettled, stop
+            row.update({"error": f"JSON:{type(e).__name__}", "cost_usd": None, "tokens_in": 0, "tokens_out": 0, "settle": "fail_closed_unknown", "http_sent": True})
+            self.budget.add(row)
+            raise RuntimeError(row["error"])
         usage = data.get("usage") or {}
-        t_in, t_out = int(usage.get("prompt_tokens") or 0), int(usage.get("completion_tokens") or 0)
+        t_in, t_out = usage.get("prompt_tokens"), usage.get("completion_tokens")
+        if t_in is None or t_out is None:
+            row.update({"error": "USAGE_MISSING", "cost_usd": None, "tokens_in": 0, "tokens_out": 0, "settle": "fail_closed_unknown", "http_sent": True})
+            self.budget.add(row)
+            raise RuntimeError("USAGE_MISSING")
+        t_in, t_out = int(t_in), int(t_out)
         content = ""
         ch = data.get("choices") or []
         if ch:
             content = (ch[0].get("message") or {}).get("content") or ""
-        cost = estimate_cost(MODEL_ID, t_in, t_out, peak=True)
-        row.update({"tokens_in": t_in, "tokens_out": t_out, "cost_usd": cost, "settle": "settled_actual", "usage_raw": usage})
+        try:
+            cost = estimate_cost(MODEL_ID, t_in, t_out, peak=True)
+        except Exception as e:
+            row.update({"error": f"COST:{type(e).__name__}", "cost_usd": None, "tokens_in": t_in, "tokens_out": t_out, "settle": "fail_closed_unknown", "http_sent": True})
+            self.budget.add(row)
+            raise RuntimeError(row["error"])
+        row.update({"tokens_in": t_in, "tokens_out": t_out, "cost_usd": cost, "settle": "settled_actual", "usage_raw": usage, "http_sent": True})
         self.budget.add(row)
         return content
 
@@ -160,14 +183,41 @@ def run_arm(prog, tasks, budget, phase, mock_mode, fixtures=None):
     return rows
 
 
+def classify_row(row) -> str:
+    """Strict failure taxonomy (R3.5.2).
+
+    ANSWER_MISMATCH only if execution chain was valid, graph hash matched,
+    and an answer was parsed. Budget stop / container fail / no answer must
+    not masquerade as ordinary answer errors.
+    """
+    if row.get("error"):
+        err = str(row["error"])
+        if "BUDGET" in err or "REQUEST_CAP" in err or "COST_RESERVE" in err or "INCOMPLETE_BUDGET" in err:
+            return "EXECUTION_ERROR"
+        return "EXECUTION_ERROR"
+    if not row.get("executed_graph_source"):
+        return "EXECUTION_ERROR"
+    if row.get("graph_sha256_match") is False:
+        return "EXECUTION_ERROR"
+    if row.get("ok") is not True:
+        return "EXECUTION_ERROR"
+    if row.get("predicted") in (None, ""):
+        return "PARSE_ERROR"
+    return "ANSWER_MISMATCH" if not row.get("correct") else "NO_FAILURE"
+
+
 def fails_from(prog, tasks, rows):
     out = []
     for t, r in zip(tasks, rows):
+        cat = classify_row(r)
         out.append(FailureRecord(
             task_id=t.task_id, parent_program_id=prog.program_id,
-            parent_graph_sha256=hash_program(prog), success=bool(r.get("correct")),
-            error_category="ANSWER_MISMATCH" if not r.get("correct") else "NO_FAILURE",
-            predicted=r.get("predicted"), gold=t.gold_answer, diagnosis_uses_gold=True,
+            parent_graph_sha256=r.get("graph_sha256") or hash_program(prog),
+            success=bool(r.get("correct")),
+            error_category=cat,
+            predicted=r.get("predicted"), gold=t.gold_answer,
+            diagnosis_uses_gold=True,
+            diagnostic=f"executed={r.get('executed_graph_source')} sha_match={r.get('graph_sha256_match')} ok={r.get('ok')} err={r.get('error')}",
         ))
     return out
 
@@ -187,6 +237,83 @@ def paired(a_rows, b_rows):
     p = 1.0 if n == 0 else min(1.0, 2 * sum(__import__("math").comb(n, i) for i in range(0, min(imp, reg) + 1)) / (2 ** n))
     return {"improved": imp, "regressed": reg, "both_correct": both_c, "both_wrong": both_w,
             "mcnemar_exact_p_two_sided": p, "n": len(a_rows)}
+
+
+AUTH_PATH_ENV = "EVOPARETO_R35_EXEC_AUTH"
+AUTH_PATH_DEFAULT = Path.home() / ".evopareto" / "state" / "r35_execution_authorization.json"
+
+
+def preflight_verify(man: dict, ts: dict) -> dict:
+    """Recompute task hashes from content; verify counts, disjointness, source."""
+    import hashlib as _h
+
+    errors = []
+    train = ROOT / "results/level3_pilot_r4_data/gsm8k_train_official.jsonl"
+    train_sha = _h.sha256(train.read_bytes()).hexdigest()
+    if train_sha != man.get("train_sha256"):
+        errors.append("TRAIN_SHA_MISMATCH")
+
+    def content_sha(block):
+        items = block["tasks"]
+        blob = json.dumps(
+            [(t["task_id"], " ".join(t["question"].split()), t["gold_answer"]) for t in items],
+            sort_keys=True, ensure_ascii=False, separators=(",", ":"),
+        )
+        return _h.sha256(blob.encode("utf-8")).hexdigest()
+
+    dev_sha = content_sha(ts["dev"])
+    conf_sha = content_sha(ts["confirm"])
+    if dev_sha != man.get("dev_task_set_sha256"):
+        errors.append("DEV_SHA_MISMATCH")
+    if conf_sha != man.get("confirm_task_set_sha256"):
+        errors.append("CONFIRM_SHA_MISMATCH")
+    if len(ts["dev"]["tasks"]) != man.get("n_dev"):
+        errors.append("DEV_COUNT_MISMATCH")
+    if len(ts["confirm"]["tasks"]) != man.get("n_confirm"):
+        errors.append("CONFIRM_COUNT_MISMATCH")
+    di = {t["task_id"] for t in ts["dev"]["tasks"]}
+    ci = {t["task_id"] for t in ts["confirm"]["tasks"]}
+    if di & ci:
+        errors.append("DEV_CONFIRM_OVERLAP")
+    used = set(man.get("used_indices_excluded") or [])
+    for block in (ts["dev"], ts["confirm"]):
+        if set(block["indices"]) & used:
+            errors.append("HISTORICAL_INDEX_REUSE")
+    # parent frozen hash
+    try:
+        from src.research.r4_workflow_program import PARENT_GRAPH_LF_SHA256, program_provenance
+
+        pg = load_frozen_parent(FROZEN)
+        if program_provenance(pg)["graph_sha256"] != PARENT_GRAPH_LF_SHA256:
+            errors.append("PARENT_GRAPH_SHA_MISMATCH")
+    except Exception as e:
+        errors.append(f"PARENT_LOAD:{type(e).__name__}")
+    return {"errors": errors, "dev_sha": dev_sha, "confirm_sha": conf_sha, "train_sha": train_sha}
+
+
+def verify_execution_authorization(*, protocol: str, model: str, confirm_sha: str, max_requests: int, max_cost_usd: float) -> str:
+    """Fail-closed authorization check. Never creates or enables an auth record."""
+    import os as _os
+
+    path = Path(_os.environ.get(AUTH_PATH_ENV) or AUTH_PATH_DEFAULT)
+    if not path.exists():
+        return "EXEC_AUTH_FILE_MISSING"
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as e:
+        return f"EXEC_AUTH_PARSE:{type(e).__name__}"
+    required = {
+        "status": "AUTHORIZED",
+        "protocol": protocol,
+        "model": model,
+        "confirm_task_set_sha256": confirm_sha,
+        "max_requests": max_requests,
+        "max_cost_usd": max_cost_usd,
+    }
+    for k, v in required.items():
+        if raw.get(k) != v:
+            return f"EXEC_AUTH_FIELD_MISMATCH:{k}"
+    return ""
 
 
 def main() -> int:
@@ -210,9 +337,29 @@ def main() -> int:
         dev_tasks = dev_tasks[:2]
         conf_tasks = conf_tasks[:2]
 
+    # Pre-run integrity (must pass before any HTTP)
+    ver = preflight_verify(man, ts)
+    if ver["errors"]:
+        print("PREFLIGHT_FAILED:", ver["errors"])
+        return 5
     parent = load_frozen_parent(FROZEN)
+    # Authorization gate (fail-closed; no auth record is created here)
+    if not args.mock:
+        auth_err = verify_execution_authorization(
+            protocol="MICRO-R3.5.1",
+            model=MODEL_ID,
+            confirm_sha=man["confirm_task_set_sha256"],
+            max_requests=MAX_PHYSICAL,
+            max_cost_usd=MAX_COST_USD,
+        )
+        if auth_err:
+            print("BLOCKED:", auth_err)
+            return 3
     budget = Budget()
     outdir = Path(args.out)
+    if outdir.exists() and any(outdir.iterdir()):
+        print(f"BLOCKED: output directory not empty: {outdir}")
+        return 4
     outdir.mkdir(parents=True, exist_ok=True)
 
     # Dev P
@@ -298,6 +445,8 @@ def main() -> int:
         "budget": {"max_physical": MAX_PHYSICAL, "max_cost_usd": MAX_COST_USD},
         "confirm_used_for_selection": False,
         "statistical_claim": "EXPLORATORY_ONLY" if not args.mock else "SIMULATED_ONLY",
+        "experiment_complete": budget.stop is None,
+        "incomplete_reason": budget.stop,
     }
     lineage = {
         "P": {"program_id": parent.program_id, "graph_sha256": hash_program(parent), "generation": 0},
