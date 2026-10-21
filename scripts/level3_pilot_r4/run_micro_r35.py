@@ -215,6 +215,10 @@ def run_arm(prog, tasks, budget, phase, mock_mode, fixtures=None):
             "skipped": False, "counts_toward_accuracy": valid_execution,
         })
 
+        # Infrastructure/evidence failures invalidate the arm and stop further spend.
+        if not valid_execution and not getattr(budget, "stop", None):
+            budget.stop = "EXECUTION_ERROR_STOP"
+
         # A stop triggered during this task must prevent all later task executions.
         if getattr(budget, "stop", None) and i + 1 < len(tasks):
             rows.extend(_skipped_rows(tasks[i + 1:], budget.stop))
