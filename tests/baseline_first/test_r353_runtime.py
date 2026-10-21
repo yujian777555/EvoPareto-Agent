@@ -169,3 +169,45 @@ def test_classify_execution_fail_no_answer_feedback(parent):
 
     fails = r35.fails_from(parent, [T], rows)
     assert fails[0].error_category == "EXECUTION_ERROR"
+
+
+def test_run_arm_stops_mid_arm_and_does_not_fabricate_failures(parent, monkeypatch):
+    budget = r35.Budget()
+    calls = []
+    tasks = [
+        r35.GSM8KTask("t0", "question 0", "1", "#### 1", "train"),
+        r35.GSM8KTask("t1", "question 1", "2", "#### 2", "train"),
+    ]
+
+    def fake_execute(prog, question, *, llm, task_id, expect_graph_sha256):
+        calls.append(task_id)
+        budget.stop = "INCOMPLETE_BUDGET_STOP"
+        return {
+            "ok": False,
+            "error": "UNKNOWN_USAGE",
+            "answer_text": None,
+            "executed_graph_source": False,
+            "graph_sha256_match": False,
+            "n_llm_calls": 1,
+        }
+
+    monkeypatch.setattr(r35, "execute_candidate_docker", fake_execute)
+    rows = r35.run_arm(parent, tasks, budget, "dev:test", False)
+
+    assert calls == ["t0"]
+    assert len(rows) == 2
+    assert rows[0]["counts_toward_accuracy"] is False
+    assert rows[1]["skipped"] is True
+    assert rows[1]["counts_toward_accuracy"] is False
+    assert r35.accuracy(rows) is None
+    assert r35.fails_from(parent, tasks, rows) == []
+    assert r35.paired(rows, rows)["status"] == "INCOMPLETE"
+
+
+def test_preflight_rejects_boolean_task_index():
+    ts = json.loads((ROOT / "results/level3_pilot_r4_micro_r35/taskset_r35.json").read_text(encoding="utf-8"))
+    man = json.loads((ROOT / "results/level3_pilot_r4_micro_r35/taskset_r35_manifest.json").read_text(encoding="utf-8"))
+    bad = json.loads(json.dumps(ts))
+    bad["dev"]["indices"][0] = True
+    result = r35.preflight_verify(man, bad)
+    assert any("INDEX_TYPE_INVALID" in error for error in result["errors"])
