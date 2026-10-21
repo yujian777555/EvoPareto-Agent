@@ -34,3 +34,8 @@ Container-generated code cannot install this gate.
 | Confirmation evaluation | NOT RUN |
 | Budget settlement (R4) | code READY; no R4 grants issued |
 | Formal experiment / freeze / prereg | **NOT APPROVED** |
+
+
+## R3.1 update
+
+`execute_candidate_docker` links R3 candidates to production `run_workflow_code_isolated`. Offline E2E validated with Mock IPC. Real model still BLOCKED.

@@ -28,3 +28,16 @@
 | Tokens in/out | 1500 / 300 per request |
 
 **Not authorized this round.** Must be a new independent grant.
+
+
+## Corrected request plan (R3.1)
+
+| Block | Requests |
+|---|---:|
+| Parent dev (feedback source) | 5 |
+| R + F dev | 10 |
+| E2 dev | 5 |
+| Confirm 8×3 | 24 |
+| S probe 3×2 | 6 |
+| **Baseline** | **50** |
+| **+10% → suggested cap** | **55** |

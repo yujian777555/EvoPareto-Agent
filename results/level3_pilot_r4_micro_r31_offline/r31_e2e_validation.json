@@ -1,0 +1,760 @@
+{
+  "budget_plan_note": "Parent dev 5 + R/F dev 10 + E2 dev 5 + confirm 24 + S probe 6 = 50; +10% -> 55",
+  "confirm_rows": {
+    "E2": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-3098"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-6031"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-4459"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-6404"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-2184"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-1856"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-0856"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-4627"
+      }
+    ],
+    "P": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-3098"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-6031"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-4459"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-6404"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-2184"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-1856"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-0856"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-4627"
+      }
+    ],
+    "R": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-3098"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-6031"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-4459"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-6404"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-2184"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-1856"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-0856"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-4627"
+      }
+    ]
+  },
+  "dev_feedback_summary": {
+    "coarse_label": "ANSWER_MISMATCH",
+    "eligible": true,
+    "n_records": 5,
+    "rationale": "single verifiable coarse category from failure records",
+    "records": [
+      {
+        "diagnosis_uses_gold": true,
+        "diagnostic": "host-side scoring only",
+        "error_category": "ANSWER_MISMATCH",
+        "gold": "90",
+        "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "parent_program_id": "parent-frozen-0001",
+        "predicted": "42",
+        "success": false,
+        "task_id": "gsm8k-train-4336"
+      },
+      {
+        "diagnosis_uses_gold": true,
+        "diagnostic": "host-side scoring only",
+        "error_category": "ANSWER_MISMATCH",
+        "gold": "220",
+        "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "parent_program_id": "parent-frozen-0001",
+        "predicted": "42",
+        "success": false,
+        "task_id": "gsm8k-train-2201"
+      },
+      {
+        "diagnosis_uses_gold": true,
+        "diagnostic": "host-side scoring only",
+        "error_category": "ANSWER_MISMATCH",
+        "gold": "2",
+        "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "parent_program_id": "parent-frozen-0001",
+        "predicted": "42",
+        "success": false,
+        "task_id": "gsm8k-train-2495"
+      },
+      {
+        "diagnosis_uses_gold": true,
+        "diagnostic": "host-side scoring only",
+        "error_category": "ANSWER_MISMATCH",
+        "gold": "15",
+        "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "parent_program_id": "parent-frozen-0001",
+        "predicted": "42",
+        "success": false,
+        "task_id": "gsm8k-train-5648"
+      },
+      {
+        "diagnosis_uses_gold": true,
+        "diagnostic": "host-side scoring only",
+        "error_category": "ANSWER_MISMATCH",
+        "gold": "14",
+        "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "parent_program_id": "parent-frozen-0001",
+        "predicted": "42",
+        "success": false,
+        "task_id": "gsm8k-train-4346"
+      }
+    ]
+  },
+  "dev_rows": {
+    "E2": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-4336"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-2201"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-2495"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-5648"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-b83b6ad36810",
+        "task_id": "gsm8k-train-4346"
+      }
+    ],
+    "F": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-735248b67935",
+        "task_id": "gsm8k-train-4336"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-735248b67935",
+        "task_id": "gsm8k-train-2201"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-735248b67935",
+        "task_id": "gsm8k-train-2495"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-735248b67935",
+        "task_id": "gsm8k-train-5648"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-735248b67935",
+        "task_id": "gsm8k-train-4346"
+      }
+    ],
+    "P": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-4336"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-2201"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-2495"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-5648"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "parent-frozen-0001",
+        "task_id": "gsm8k-train-4346"
+      }
+    ],
+    "R": [
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-4336"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-2201"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-2495"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-5648"
+      },
+      {
+        "correct": false,
+        "error": null,
+        "executed_graph_source": true,
+        "graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+        "graph_sha256_match": true,
+        "n_llm_calls": 1,
+        "ok": true,
+        "predicted": "42",
+        "production_entry": "run_workflow_code_isolated",
+        "program_id": "wfp-5e15324cdbff",
+        "task_id": "gsm8k-train-4346"
+      }
+    ]
+  },
+  "dev_scores": {
+    "F": 0.0,
+    "R": 0.0
+  },
+  "evidence_class": "SIMULATED_DOCKER_IPC_E2E",
+  "exec_flags": {
+    "E2": true,
+    "F": true,
+    "P": true,
+    "R": true
+  },
+  "gen1_winner": "R",
+  "graph_sha_match": {
+    "E2": true,
+    "P": true,
+    "R": true
+  },
+  "lineage": [
+    {
+      "generation": 0,
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "id": "P",
+      "parent_program_id": null,
+      "program_id": "parent-frozen-0001",
+      "status": "SUCCESS"
+    },
+    {
+      "child_graph_sha256": "53fdac19a5b33c948af823494948b236022ee66725505a3c412eb3f5a22ded3a",
+      "child_program_id": "wfp-5e15324cdbff",
+      "generation": 1,
+      "id": "R",
+      "operator": "OP_ERROR_RECOVERY",
+      "params": {
+        "instruction_pool_index": 1
+      },
+      "parent_program_id": "parent-frozen-0001",
+      "status": "SUCCESS"
+    },
+    {
+      "child_graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+      "child_program_id": "wfp-735248b67935",
+      "feedback_label": "ANSWER_MISMATCH",
+      "generation": 1,
+      "id": "F",
+      "operator": "OP_ARITH_RECHECK",
+      "parent_program_id": "parent-frozen-0001",
+      "reason": null,
+      "selected_operator": "OP_ARITH_RECHECK",
+      "status": "SUCCESS"
+    },
+    {
+      "child_graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+      "child_program_id": "wfp-b83b6ad36810",
+      "generation": 2,
+      "id": "E2",
+      "parent_program_id": "wfp-5e15324cdbff",
+      "reason": null,
+      "selected_operator": "OP_ARITH_RECHECK",
+      "status": "SUCCESS"
+    }
+  ],
+  "parent": {
+    "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "matches_frozen": true,
+    "program_id": "parent-frozen-0001"
+  },
+  "reproducible_mutations": true,
+  "seed": 20260603,
+  "splits": {
+    "confirm": [
+      3098,
+      6031,
+      4459,
+      6404,
+      2184,
+      1856,
+      856,
+      4627
+    ],
+    "dev": [
+      4336,
+      2201,
+      2495,
+      5648,
+      4346
+    ],
+    "disjoint": true,
+    "excludes_prior": true,
+    "n_prior_excluded": 21,
+    "screening": [
+      5895,
+      1540,
+      6485,
+      7068,
+      7166,
+      3011,
+      7396,
+      6596,
+      1900,
+      6752
+    ]
+  },
+  "statistical_claim": "NONE — SIMULATED fixtures; not real model performance",
+  "train_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465"
+}
