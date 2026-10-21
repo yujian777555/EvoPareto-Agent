@@ -62,7 +62,7 @@ def test_real_mode_requires_auth_not_unconditional_block():
 
 def test_auth_fields_include_protocol_and_revision():
     assert r35.EXPERIMENT_PROTOCOL_ID == "MICRO-R3.5-EXP-v1"
-    assert r35.CODE_REVISION == "r3.5.3"
+    assert r35.CODE_REVISION == "r3.5.3-planner-fix1"
     # mismatch on revision fails
     import tempfile, os
 
