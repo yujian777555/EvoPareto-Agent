@@ -1,0 +1,53 @@
+{
+  "cost_usd_total": 0.0092115,
+  "dev_scores": {
+    "E2": 1.0,
+    "F": 0.8,
+    "P": 1.0,
+    "R": 0.8
+  },
+  "e2_vs_winner": {
+    "improved": 0,
+    "improved_ids": [],
+    "regressed": 0,
+    "regressed_ids": []
+  },
+  "evidence_class": "REAL_MODEL_MICRO_EXPLORATORY_R2",
+  "gen1_winner": "R",
+  "holdout_accuracy": {
+    "E2": 1.0,
+    "P": 1.0,
+    "R": 1.0,
+    "S": 1.0
+  },
+  "paired_vs_P": {
+    "E2": {
+      "improved": 0,
+      "improved_ids": [],
+      "regressed": 0,
+      "regressed_ids": []
+    },
+    "R": {
+      "improved": 0,
+      "improved_ids": [],
+      "regressed": 0,
+      "regressed_ids": []
+    },
+    "S": {
+      "improved": 0,
+      "improved_ids": [],
+      "regressed": 0,
+      "regressed_ids": []
+    }
+  },
+  "requests_total": 50,
+  "rq2_dev_random_vs_feedback": {
+    "F": 0.8,
+    "R": 0.8,
+    "winner": "R"
+  },
+  "statistical_claim": "NONE — directional only; n_dev=5 n_hold=8; not significance; not RSI proof",
+  "stop_reason": null,
+  "tokens_in": 3777,
+  "tokens_out": 6732
+}

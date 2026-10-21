@@ -1,0 +1,87 @@
+{
+  "candidates": [
+    {
+      "aggregation": "none",
+      "generation": 0,
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "id": "P",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT"
+      ],
+      "parent_program_id": null,
+      "program_id": "parent-frozen-0001",
+      "seed": 20260602
+    },
+    {
+      "aggregation": "none",
+      "generation": 1,
+      "graph_sha256": "8f1466702db3640c7c194ac45022a5a6bc6449c87c791ddb9550e47b962caad0",
+      "id": "R",
+      "instruction": "Give a short guess quickly. End with 'Answer: <num>'.",
+      "instruction_sha256": "879dcdfe8c6445e53b2f29f2308c9c1ef856d7358b0fdf583675ff0b2409c052",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-5f2c570c7345",
+      "seed": 20260602
+    },
+    {
+      "aggregation": "none",
+      "generation": 1,
+      "graph_sha256": "1ad810aa0b08a62e880859a19fead8741caa6a2ef8769551510e9266a37fc2ec",
+      "id": "F",
+      "instruction": "Solve step by step, check the arithmetic once, then end with 'Answer: <num>'.",
+      "instruction_sha256": "57c668c67d6c5e802c65eb48b02ec6027ae9141273883df698bcae9a2f4cf7bf",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-2ae3f158deb3",
+      "seed": 20260602
+    },
+    {
+      "aggregation": "majority_vote",
+      "generation": 1,
+      "graph_sha256": "1005e3ba265ae17bf258d1320a5548979521fe4a284526bd696e9a14914043f5",
+      "id": "S",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 2,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_ADD_SAMPLING"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-7eadcbf23dda",
+      "seed": 20260602
+    },
+    {
+      "aggregation": "none",
+      "derived_from": "R",
+      "generation": 2,
+      "graph_sha256": "857f0bf1873f0fe66a58db006b994a0083823d394c6998e7b2bcacf4eb3666aa",
+      "id": "E2",
+      "instruction": "Re-read the question, recompute, then end with 'Answer: <num>'.",
+      "instruction_sha256": "1d13c7ece556048e052702dcaf95cfdb09b45d971ae583ccfc2699af56a3c331",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "wfp-5f2c570c7345",
+      "program_id": "wfp-9d50b30370ee",
+      "seed": 20260602
+    }
+  ],
+  "evidence_class": "REAL_MODEL_MICRO_EXPLORATORY_R2",
+  "seed": 20260602
+}

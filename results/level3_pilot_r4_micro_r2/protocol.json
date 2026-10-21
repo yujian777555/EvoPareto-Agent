@@ -1,0 +1,129 @@
+{
+  "candidates_initial": [
+    {
+      "aggregation": "none",
+      "generation": 0,
+      "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+      "id": "P",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT"
+      ],
+      "parent_program_id": null,
+      "program_id": "parent-frozen-0001",
+      "seed": 20260602
+    },
+    {
+      "aggregation": "none",
+      "generation": 1,
+      "graph_sha256": "8f1466702db3640c7c194ac45022a5a6bc6449c87c791ddb9550e47b962caad0",
+      "id": "R",
+      "instruction": "Give a short guess quickly. End with 'Answer: <num>'.",
+      "instruction_sha256": "879dcdfe8c6445e53b2f29f2308c9c1ef856d7358b0fdf583675ff0b2409c052",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-5f2c570c7345",
+      "seed": 20260602
+    },
+    {
+      "aggregation": "none",
+      "generation": 1,
+      "graph_sha256": "1ad810aa0b08a62e880859a19fead8741caa6a2ef8769551510e9266a37fc2ec",
+      "id": "F",
+      "instruction": "Solve step by step, check the arithmetic once, then end with 'Answer: <num>'.",
+      "instruction_sha256": "57c668c67d6c5e802c65eb48b02ec6027ae9141273883df698bcae9a2f4cf7bf",
+      "n_samples": 1,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_SET_INSTRUCTION"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-2ae3f158deb3",
+      "seed": 20260602
+    },
+    {
+      "aggregation": "majority_vote",
+      "generation": 1,
+      "graph_sha256": "1005e3ba265ae17bf258d1320a5548979521fe4a284526bd696e9a14914043f5",
+      "id": "S",
+      "instruction": "",
+      "instruction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "n_samples": 2,
+      "operator_history": [
+        "ROOT_PARENT",
+        "M_ADD_SAMPLING"
+      ],
+      "parent_program_id": "parent-frozen-0001",
+      "program_id": "wfp-7eadcbf23dda",
+      "seed": 20260602
+    }
+  ],
+  "dataset": {
+    "dev_indices": [
+      "gsm8k-train-6245",
+      "gsm8k-train-0499",
+      "gsm8k-train-6996",
+      "gsm8k-train-4900",
+      "gsm8k-train-2518"
+    ],
+    "dev_n": 5,
+    "excluded_prior_used_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "file": "results\\level3_pilot_r4_data\\gsm8k_train_official.jsonl",
+    "gold_never_in_prompt": true,
+    "holdout_indices": [
+      "gsm8k-train-3741",
+      "gsm8k-train-0475",
+      "gsm8k-train-5516",
+      "gsm8k-train-2354",
+      "gsm8k-train-1139",
+      "gsm8k-train-1066",
+      "gsm8k-train-3324",
+      "gsm8k-train-7193"
+    ],
+    "holdout_n": 8,
+    "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+    "stratification": {
+      "mid_max": 58,
+      "note": "solution-word-count difficulty PROXY, not true difficulty label",
+      "short_max": 37
+    },
+    "stratum_rule": "solution word-count tertiles on unused pool (difficulty PROXY)",
+    "uses_formal_confirmation_set": false,
+    "uses_official_test": false
+  },
+  "design_note": "Brief's Task B table was truncated at delivery; candidates implemented against the four stated RQs.",
+  "evidence_class": "REAL_MODEL_MICRO_EXPLORATORY_R2",
+  "experiment": "LEVEL3-PILOT-R4-MICRO-R2 difficulty-stratified",
+  "micro_budget": {
+    "max_cost_usd": 0.05,
+    "max_in_tokens": 1500,
+    "max_out_tokens": 300,
+    "max_physical_requests": 50,
+    "policy_version": "R4-MICRO2-BUDGET-v1"
+  },
+  "model": "deepseek-flash",
+  "note": "NOT formal R4. Directional engineering signal only.",
+  "research_questions": [
+    "RQ1 harder tasks: children vs Parent",
+    "RQ2 random (R) vs feedback-driven (F)",
+    "RQ3 gen2 inherits gen1 gains",
+    "RQ4 voting-controlled: S is sampling-only; R/F/E2 are single-call"
+  ],
+  "seed": 20260602,
+  "selection_rule": "dev accuracy max among R,F; tie -> R before F (fixed order)."
+}
