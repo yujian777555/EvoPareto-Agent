@@ -84,7 +84,13 @@ def test_token_out_and_usd_breach_when_requests_fit():
         max_tokens_out=200_000,
         max_cost_usd=5.0,
         consumed_requests=0,
+        consumed_tokens_in=0,
+        consumed_tokens_out=0,
         spent_usd=0.0,
+        remaining_requests=10_000_000,
+        remaining_tokens_in=10 ** 12,
+        remaining_tokens_out=200_000,
+        remaining_usd=5.0,
         blocked=False,
         auth_id="test",
     )
@@ -97,7 +103,13 @@ def test_token_out_and_usd_breach_when_requests_fit():
         max_tokens_out=10 ** 12,
         max_cost_usd=1.0,
         consumed_requests=0,
+        consumed_tokens_in=0,
+        consumed_tokens_out=0,
         spent_usd=0.0,
+        remaining_requests=10_000_000,
+        remaining_tokens_in=10 ** 12,
+        remaining_tokens_out=10 ** 12,
+        remaining_usd=1.0,
         blocked=False,
         auth_id="test",
     )
@@ -165,8 +177,9 @@ def test_seed_rule_mismatch():
 
 def test_budget_fields_invalid():
     auth = AuthSnapshot(
-        max_requests="bad", max_tokens_in=1, max_tokens_out=1, max_cost_usd=1.0,
+        max_requests=10, max_tokens_in=10, max_tokens_out=10, max_cost_usd=1.0,
         consumed_requests=0, spent_usd=0.0, blocked=False, auth_id="x",
+        remaining_requests="bad", remaining_tokens_in=10, remaining_tokens_out=10, remaining_usd=1.0,
     )
     assert verify_budget_feasibility(compute_budget_requirements(1), auth) == "BUDGET_FIELDS_INVALID"
 
@@ -183,6 +196,6 @@ def test_v1_freeze_on_disk():
     if not p.exists():
         pytest.skip("v1 freeze absent")
     cfg = json.loads(p.read_text(encoding="utf-8"))
-    assert cfg["version"] == "R4-exec-v1-proposed"
+    assert cfg["version"].startswith("R4-exec-")
     assert verify_exec_config_structure(cfg) == ""
     assert cfg["budget_caps"]["budget_gate_is_fail_closed"] is True

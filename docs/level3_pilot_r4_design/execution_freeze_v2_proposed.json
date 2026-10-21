@@ -1,0 +1,190 @@
+{
+  "baseline_commit": "ed1623a7fae56d6293fb05a71258b5d3747af7c5",
+  "budget_caps": {
+    "authorization_required": true,
+    "base_requests": 240,
+    "budget_gate_is_fail_closed": true,
+    "current_auth_caps_reference": {
+      "max_cost_usd": 5.0,
+      "max_requests": 300,
+      "max_tokens_in": 2000000,
+      "max_tokens_out": 200000,
+      "note": "reference only; feasibility is computed against a live AuthSnapshot at verify time"
+    },
+    "per_r_requests": 240,
+    "planned_r_values": [
+      6,
+      10
+    ],
+    "policy_version": "R4-BUDGET-POLICY-v1",
+    "real_api_allowed_at_freeze_time": false,
+    "requests_formula": "240 + 240 * R",
+    "safety_margin": 0.1,
+    "token_in_per_req": [
+      150,
+      400
+    ],
+    "token_out_per_req": [
+      150,
+      800
+    ],
+    "worst_case_usd_per_req": 0.003
+  },
+  "config_sha256": "9a52ad91db18070e4bb37033b96be7f6ada0bf5f60c2cd52175b4fd55420e355",
+  "created_for": "LEVEL3-PILOT-R4 execution protocol (zero real model calls at freeze time)",
+  "datasets": {
+    "confirmation": {
+      "file": "docs/level3_pilot_r4_design/freeze/confirmation_set_v1_proposed.json",
+      "n": 40,
+      "role": "final scoring only; never selection",
+      "task_set_sha256": "1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4"
+    },
+    "development": {
+      "file": "results/level3_pilot_r4_data/gsm8k_train_official.jsonl",
+      "n_available": 7473,
+      "n_used": 20,
+      "role": "candidate ranking only",
+      "selection_rule": "first 20 official train indices (frozen before calls; not performance-based)",
+      "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465"
+    },
+    "generation_tasks": {
+      "note": "R4 mutations are syntactic MutationPlan operators; no LLM rewrite generation set",
+      "required": false
+    }
+  },
+  "endpoints": {
+    "holm_family": [
+      "B-A",
+      "C-A",
+      "D-A",
+      "E-A",
+      "E-D"
+    ],
+    "holm_note": "F1 Holm(5) is TASK-level only. Seed-level RQ3 uses family F2 = {E-D, E-C} with Holm(2) if both are co-primary; see R4_R5_STATISTICAL_CONSISTENCY.md. R=6 unadj. min Wilcoxon p=0.03125 is NOT enough for Holm(5) step-1 (0.01).",
+    "primary": "co-primary seed-level paired E-D and E-C confirmation accuracy (IUT; conditional on frozen 40 tasks)",
+    "rq3_comparisons": {
+      "E-C": {
+        "alpha": 0.05,
+        "direction": "favor_E",
+        "family": "F2",
+        "role": "co-primary",
+        "test": "exact_wilcoxon_signed_rank_two_sided"
+      },
+      "E-D": {
+        "alpha": 0.05,
+        "direction": "favor_E",
+        "family": "F2",
+        "role": "co-primary",
+        "test": "exact_wilcoxon_signed_rank_two_sided"
+      },
+      "claim_rule": "IUT: joint claim E beats BOTH D and C requires BOTH E-D and E-C to reject in favor of E at alpha=0.05; no Holm(2) on F2. Single-comparison confirmatory claims need separate pre-declared FWER control else exploratory only.",
+      "multiplicity": "IUT"
+    },
+    "secondary": [
+      "task-level McNemar within block",
+      "task-level Holm family F1",
+      "cost/call/latency (RQ4)"
+    ],
+    "stopping": "fixed-N; no optional stopping",
+    "tests": {
+      "seed_level": "exact Wilcoxon signed-rank two-sided on paired d[r]",
+      "task_level": "exact McNemar two-sided"
+    }
+  },
+  "evaluation": {
+    "answer_extract": "project extractor; exact match on canonical gold",
+    "failure_scoring": {
+      "execution_failure": "incorrect",
+      "invalid_output": "incorrect",
+      "missing_row": "incorrect",
+      "no_task_dropping": true,
+      "timeout": "incorrect"
+    },
+    "request_log_required": true,
+    "scoring": "host-side gold; never in container/prompt/IPC"
+  },
+  "execution_authorized": false,
+  "mutation_plan": {
+    "allow_noop": false,
+    "base_seed": 20260601,
+    "disabled_operators": [
+      "M_ADD_CHECK_STAGE",
+      "M_SINGLE_EDIT"
+    ],
+    "enabled_operators": [
+      "M_SET_INSTRUCTION",
+      "M_ADD_SAMPLING"
+    ],
+    "instruction_pool": [
+      "Solve step by step, end with 'Answer: <num>'.",
+      "Think carefully, verify arithmetic, final number after 'Answer:'.",
+      "Compute directly. Output the numeric answer after 'Answer:'.",
+      "Solve briefly. Final answer after 'Answer:'."
+    ],
+    "operator_names": [
+      "M_SET_INSTRUCTION",
+      "M_ADD_SAMPLING"
+    ],
+    "operator_probs": [
+      0.5,
+      0.5
+    ],
+    "rng": "LCG (1664525, 1013904223, 2^32) keyed by (plan.seed + 10007*(slot+1))",
+    "sampling_ks": [
+      2,
+      3,
+      4
+    ],
+    "seed_rule": "plan_seed[r] = BASE_SEED + 1009 * r"
+  },
+  "operator_policy": {
+    "failure_mode": "FailedCandidate retained at slot with dev_accuracy=0; never silent redraw",
+    "noop": "NOOP_MUTATION becomes FailedCandidate",
+    "specs_ref": "src/research/r4_workflow_program.OPERATOR_SPECS"
+  },
+  "pairing_blocks": {
+    "d_slots": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "description": "D and E share MutationPlan seed in block r; slots 0-1 from Parent; E slots 2-3 from gen-1 winner",
+    "e_gen1_slots": [
+      0,
+      1
+    ],
+    "e_gen2_slots": [
+      2,
+      3
+    ]
+  },
+  "parent_artefacts": {
+    "graph_path": "results/level3_pilot_r2/frozen_candidates/parent_graph.py",
+    "graph_sha256_byte": "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e",
+    "graph_sha256_lf": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "prompt_path": "results/level3_pilot_r2/frozen_candidates/parent_prompt.py",
+    "prompt_sha256": "34b149ab37e571def0875faeac171867c3a2bb9fff03db4bc0ccca034e48e979"
+  },
+  "seeds": {
+    "base_seed": 20260601,
+    "plan_seeds": {
+      "10": 20270691,
+      "6": 20266655
+    },
+    "r_values": [
+      6,
+      10
+    ]
+  },
+  "selection_rules": {
+    "d_final": "max dev accuracy among 4 slots; ties -> creation order",
+    "e_final": "max dev accuracy among 4 slots; ties -> creation order e1a<e1b<e2a<e2b",
+    "failed_candidate_score": 0.0,
+    "gen1_winner": "max dev accuracy on shared dev set; ties -> creation order"
+  },
+  "status": "PROPOSED_PENDING_PLANNER_ACCEPTANCE",
+  "supersedes": "R4-exec-v0-proposed and R4-exec-v1-proposed",
+  "supersedes_reason": "v2 hardens budget policy in code (anti hash-recompute), remaining-quota checks, IUT F2, execution_authorized flag",
+  "version": "R4-exec-v2-proposed"
+}

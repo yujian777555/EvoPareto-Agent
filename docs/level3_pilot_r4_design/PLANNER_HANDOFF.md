@@ -1,58 +1,64 @@
-# LEVEL3-PILOT-R4 R5 — Planner Handoff
+# LEVEL3-PILOT-R4 R6 — Planner Handoff
 
-**Round:** `LEVEL3-PILOT-R4-DESIGN-REVIEW-FIX-R5`  
-**Start SHA:** `ed1623a7fae56d6293fb05a71258b5d3747af7c5`  
-**End SHA:** `ed1623a…` → (push target)  
-**Real API requests:** **0**
+**Start:** `877fc0d2cb8097fa91da599f155b7ee921f348f0`  
+**Real API:** **0** · Auth read-only · Historical results unmodified
 
 ---
 
-## Defect fixes
+## P0 — budget bypass (Task A)
 
-| Defect | Fix | Evidence |
-|---|---|---|
-| Budget gate ignored real caps | `compute_budget_requirements` + `verify_budget_feasibility` + `verify_exec_freeze(require_budget=True)`; structure ≠ budget | R=6/10 **REJECT** `BUDGET_REQUESTS_EXCEEDED` |
-| Float margin 1849 vs 1848 | exact `Fraction` ceil | 528 / 1848 / 2904 |
-| Audit `errors="replace"` | strict UTF-8; decode error → BLOCKED | `FILE_DECODE_ERROR…required_text=true` |
-| Binary docker logs confused with text fail | explicit `NON_TEXT_BASENAMES` exclusion | test binary stdout still VERIFIED on clean tree |
-| `M_SINGLE_EDIT` not dispatched | branch + `single_edit_pool`; no pool → FailedCandidate | `M_SINGLE_EDIT_NO_POOL` |
-| Unknown operator silent | FailedCandidate `UNKNOWN_OPERATOR:…` | slot retained |
-| Holm vs seed Wilcoxon conflict | F1 task Holm(5) / F2 seed {E−D,E−C}; IUT vs Holm(2) options | `R4_R5_STATISTICAL_CONSISTENCY.md` |
-| E−C missing from RQ3 claim | co-primary + claim rule “both must pass” | freeze v1 `rq3_comparisons` |
-| Docker/IPC NOT VERIFIED | SIMULATED_DOCKER_IPC E2E | 6 tests, daemon 29.3.1 |
-
-## Budget gate verdict (before any HTTP)
-
-| R | +10% requests | tokens_out worst | USD | Decision |
-|---:|---:|---:|---:|---|
-| 1 | 528 | 422,400 | $1.58 | REJECT requests |
-| 6 | 1,848 | 1,478,400 | $5.54 | REJECT requests (USD would also fail) |
-| 10 | 2,904 | 2,323,200 | $8.71 | REJECT requests (USD/token also fail) |
-
-## Test counts (JUnit, this round)
-
-15 + 16 + 41 + 19 + 17 + 93 targeted; **full 1062 / 0 / 2 (1064)** RETCODE 0.
-
-## Execution layers
-
-| Layer | Status |
+| Control | Implementation |
 |---|---|
-| SIMULATED_LOCAL | READY |
-| SIMULATED_DOCKER_IPC | READY |
-| REAL_MODEL | BLOCKED |
-| Formal experiment | NOT APPROVED |
+| Policy in **code** | `src/research/r4_budget_policy.py` `R4-BUDGET-POLICY-v1` |
+| Hash-recompute bypass | config must match POLICY; tests lower every numeric + rehash → **REJECT** |
+| Type/NaN/inf | `BUDGET_POLICY_TYPE/NOT_FINITE` |
+| planned R vs seeds | `BUDGET_PLANNED_R_NEQ_SEEDS` / `NEQ_PLAN_SEEDS` |
+| Remaining quota | demand vs `max−consumed`; missing remaining → fail closed |
+| HTTP block | `verify_execution_allowed`: PROPOSED → `EXEC_STATUS_BLOCKS_HTTP` even with loose auth |
+| Zero model calls in gates | no HTTP imports; tests assert |
+
+**R=6 / R=10 rejected before any HTTP** (`need=1848/2904`, `remaining=56`).
+
+## Task B — contamination audit
+
+* Precise path exclusions with SHA/size/reason (`exclusion_log`); unknown same basename **not** excluded.
+* `PHASE2_EVOLUTION_MEMORY.md` mixed UTF-8/Big5 — **encoding not reliably identifiable** → remains required-text **BLOCKED** (honest). Original bytes unchanged.
+* Live-repo independence: **`CONFIRMATION_INDEPENDENCE_BLOCKED`**. Clean trees can still VERIFY.
+
+## Task C — IUT (Planner decision applied)
+
+* F2 = {E−D, E−C}, both **co-primary**; **IUT**; no Holm(2) on F2.
+* Joint claim only if **both** reject favoring E at α=0.05.
+* Freeze **v2** primary/secondary aligned; v0/v1 preserved.
+* R≥6 is **necessary not sufficient** (`n_eff` nonzero pairs govern min p).
+
+## Task D — evidence boundary
+
+`SIMULATED_LOCAL` / `SIMULATED_DOCKER_IPC` / **`PRODUCTION_ADAPTER` (real AFlow Custom, mock model)** / `REAL_MODEL` (blocked).
+
+## Tests (JUnit)
+
+| Suite | passed / failed / skipped |
+|---|---|
+| Budget P0 | 18 / 0 / 0 |
+| Freeze | 15 / 0 / 0 |
+| Audit | 21 / 0 / 0 |
+| Stats | 11 / 0 / 0 |
+| Docker/IPC | 20 / 0 / 0 |
+| Historical | 119 / 0 / 0 |
+| **Full** | **1091 / 0 / 2** (1093) RETCODE 0 |
 
 ## Integrity
 
-R3 results 0 modified; R3 gate unchanged; v1 confirmation SHA `1771a67c…`; v0 exec freeze preserved; auth read-only 244 / $0.0363972.
+R3 0 modified · R3 gate unchanged · v1 confirm `1771a67c…` · v0 exec freeze kept · auth 244 / $0.0363972.
 
-## Open for Planner
+## Still open / BLOCKED
 
-1. F2-a Holm(2) vs F2-c IUT for {E−D, E−C}.  
-2. Legacy `PHASE2_EVOLUTION_MEMORY.md` non-UTF-8 blocks live-repo audit independence (exclude vs re-encode — **not** done).  
-3. Accept exec freeze **v1** later; **not** approved now.  
-4. New request/token authorization required for any real run.
+1. Live-repo audit independence BLOCKED (legacy mixed-encoding doc).  
+2. Exec freeze **not** approved (PROPOSED).  
+3. No Planner execution authorization → HTTP stays blocked.  
+4. Quota insufficient for Plan P (528 > 56 remaining).
 
 ## STOP
 
-No formal experiment, no prereg sign-off, no real API. Awaiting Planner.
+Awaiting Planner independent review. No formal freeze, no preregistration approval, no real model experiment.

@@ -43,21 +43,38 @@ EXPECTED_V1_SHA = "1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d5873
 SCAN_ROOTS = ("results", "docs", "scripts", "tests", "src")
 SCAN_SUFFIXES = {".json", ".jsonl", ".md", ".py", ".txt", ".csv", ".yml", ".yaml"}
 EXCLUDE_DIR_NAMES = {".git", "external", "__pycache__", "node_modules", ".pytest_cache"}
+# Narrow suffix/substring excludes — only the official source file (self) and
+# freeze drafts / prior audit outputs. Avoid broad substrings that could hide
+# historical result copies.
 EXCLUDE_PATH_SUBSTRINGS = (
-    "gsm8k_test_official.jsonl",
+    "/gsm8k_test_official.jsonl",
     "confirmation_contamination_audit",
-    "confirmation_set_proposed.json",
-    "confirmation_set_v1_proposed.json",
+    "freeze/confirmation_set_proposed.json",
+    "freeze/confirmation_set_v1_proposed.json",
+    "audit_confirmation_contamination.py",
 )
 
-# Binary / non-text artefacts: excluded from TEXT scan by explicit rule.
-# This is NOT the same as a decode failure on a required text file.
-NON_TEXT_BASENAMES = (
-    "docker_live_stdout.txt",
-    "docker_run_stdout.txt",
-    "docker_live_stderr.txt",
-    "docker_run_stderr.txt",
-)
+# Precise reviewed exclusions (relative POSIX paths). Unknown files with the
+# same basename are NOT excluded — they must decode or fail closed.
+REVIEWED_NON_TEXT_EXCLUSIONS = {
+    "results/pilot1_live_run/docker_live_stdout.txt": "binary docker stdout log",
+    "results/stage1_6/docker_run_stdout.txt": "binary docker stdout log",
+    "results/stage1_8/docker_run_stdout.txt": "binary docker stdout log",
+    "results/stage1_feasibility/docker_run_stdout.txt": "binary docker stdout log",
+}
+
+# Historical mixed-encoding files: probed this round; cannot confirm a single
+# original encoding. They remain REQUIRED_TEXT and must BLOCK if undecodable.
+# Do NOT add them here to force VERIFIED.
+LEGACY_ENCODING_PROBES = {
+    "docs/PHASE2_EVOLUTION_MEMORY.md": {
+        "probed_encodings": ["utf-8", "big5", "cp950", "gbk", "gb18030", "latin-1"],
+        "utf8_result": "UnicodeDecodeError@5452",
+        "big5_result": "UnicodeDecodeError@10 (em-dash utf8 prefix)",
+        "latin1_result": "decodes but not a verified source encoding",
+        "conclusion": "MIXED_ENCODING_NOT_RELIABLY_IDENTIFIABLE",
+    },
+}
 
 V_NO_HIT = "NO_HIT"
 V_ALLOWED = "ALLOWED_SOURCE_ONLY"
@@ -194,6 +211,7 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
     qn_to_idx = {r["question_norm"]: r["index"] for r in official}
 
     scan_manifest = []
+    exclusion_log: List[Dict[str, Any]] = []
     texts: List[Tuple[str, str]] = []
     scan_errors: List[str] = []
     for scan_root in SCAN_ROOTS:
@@ -214,8 +232,15 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
             if p.suffix.lower() not in SCAN_SUFFIXES:
                 continue
             rel = p.relative_to(root).as_posix()
-            if p.name in NON_TEXT_BASENAMES:
-                continue  # documented non-text exclusion
+            if rel in REVIEWED_NON_TEXT_EXCLUSIONS:
+                exclusion_log.append({
+                    "path": rel,
+                    "sha256": sha256_bytes(p.read_bytes()) if p.exists() else None,
+                    "size": p.stat().st_size if p.exists() else None,
+                    "reason": REVIEWED_NON_TEXT_EXCLUSIONS[rel],
+                    "kind": "REVIEWED_NON_TEXT",
+                })
+                continue  # precise reviewed exclusion (not a decode failure)
             if any(s in rel for s in EXCLUDE_PATH_SUBSTRINGS):
                 continue
             try:
@@ -338,6 +363,8 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
             "ok": freeze_gate_ok,
         },
         "scan_errors": scan_errors,
+        "exclusion_log": exclusion_log,
+        "legacy_encoding_probes": LEGACY_ENCODING_PROBES,
         "problems": problems,
         "gate_ok": final_gate_ok,
         "scan_file_count": len(scan_manifest),

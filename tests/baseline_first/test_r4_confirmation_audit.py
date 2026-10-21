@@ -178,11 +178,13 @@ def test_known_scored_question_flagged(tmp_path):
 
 def test_binary_docker_stdout_excluded_not_decode_error(tmp_path):
     root, fp = _clean_repo(tmp_path)
-    (root / "results" / "x").mkdir()
-    (root / "results" / "x" / "docker_run_stdout.txt").write_bytes(b"\x00\x01\x02\xff")
+    d = root / "results" / "stage1_6"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "docker_run_stdout.txt").write_bytes(b"\x00\x01\x02\xff")
     report = mod.audit(root, fp)
     assert report["gate_ok"] is True
     assert report["independence"] == "CONFIRMATION_INDEPENDENCE_VERIFIED_BY_ARTIFACT_SEARCH"
+    assert any(e["path"].endswith("docker_run_stdout.txt") for e in report["exclusion_log"])
 
 
 def test_real_repo_honestly_reports_legacy_decode_issue():
@@ -207,3 +209,67 @@ def test_classify_verdict_matrix():
     assert mod.classify_verdict([], True) == mod.V_NO_HIT
     assert mod.classify_verdict([{"source_class": mod.C_SCORED}], True) == mod.V_SCORED
     assert mod.classify_verdict([], False) == mod.V_INCONCLUSIVE
+
+
+
+# ---------------------------------------------------------------------------
+# R6: precise exclusions + legacy encoding honesty
+# ---------------------------------------------------------------------------
+
+def test_reviewed_exclusions_are_logged_with_hashes(tmp_path):
+    root, fp = _clean_repo(tmp_path)
+    d = root / "results" / "pilot1_live_run"
+    d.mkdir(parents=True, exist_ok=True)
+    binlog = d / "docker_live_stdout.txt"
+    binlog.write_bytes(b"\x00\x01\xff\xfe")
+    report = mod.audit(root, fp)
+    excl = report.get("exclusion_log") or []
+    hit = [e for e in excl if e["path"].endswith("docker_live_stdout.txt")]
+    assert hit, excl
+    assert hit[0]["sha256"]
+    assert hit[0]["reason"]
+    assert hit[0]["kind"] == "REVIEWED_NON_TEXT"
+    assert report["gate_ok"] is True
+
+
+def test_unknown_same_basename_is_not_excluded(tmp_path):
+    """Same basename at an unreviewed path must still be scanned/strict-decoded."""
+    root, fp = _clean_repo(tmp_path)
+    other = root / "results" / "elsewhere"
+    other.mkdir(parents=True, exist_ok=True)
+    # same name as a reviewed exclusion, different path
+    bad = other / "docker_run_stdout.txt"
+    bad.write_bytes(b"\xff\xfe\x00")
+    report = mod.audit(root, fp)
+    assert any("FILE_DECODE_ERROR" in e for e in report["problems"] + report["scan_errors"])
+    assert report["independence"] == "CONFIRMATION_INDEPENDENCE_BLOCKED"
+
+
+def test_legacy_encoding_file_not_forced_excluded():
+    """PHASE2 mixed encoding stays a required-text problem (honest BLOCKED)."""
+    assert "PHASE2" not in str(mod.REVIEWED_NON_TEXT_EXCLUSIONS)
+    report = mod.audit(ROOT, FREEZE)
+    assert "docs/PHASE2_EVOLUTION_MEMORY.md" in report.get("legacy_encoding_probes", {})
+    if any("PHASE2" in e for e in report["problems"]):
+        assert report["independence"] == "CONFIRMATION_INDEPENDENCE_BLOCKED"
+
+
+def test_original_phase2_bytes_unchanged():
+    pth = ROOT / "docs/PHASE2_EVOLUTION_MEMORY.md"
+    if not pth.exists():
+        pytest.skip("no legacy file")
+    import hashlib
+
+    h1 = hashlib.sha256(pth.read_bytes()).hexdigest()
+    # re-read
+    h2 = hashlib.sha256(pth.read_bytes()).hexdigest()
+    assert h1 == h2
+    # still fails strict utf-8 (we did not rewrite it)
+    with pytest.raises(UnicodeDecodeError):
+        pth.read_bytes().decode("utf-8", errors="strict")
+
+
+def test_r6_reports_include_exclusion_log():
+    report = mod.audit(ROOT, FREEZE)
+    assert "exclusion_log" in report
+    assert isinstance(report["exclusion_log"], list)

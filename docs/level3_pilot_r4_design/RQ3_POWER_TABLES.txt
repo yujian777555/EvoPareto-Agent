@@ -40,3 +40,5 @@ mu_d  sigma_d  R_approx
 0.05  0.04  5.0
 0.08  0.05  3.1
 0.10  0.06  2.8
+
+NOTE (R6): F2 = IUT over {E-D, E-C}. R>=6 is necessary for nonzero-n_eff exact Wilcoxon, not sufficient.

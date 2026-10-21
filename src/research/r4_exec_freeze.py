@@ -19,6 +19,13 @@ import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
+from src.research.r4_budget_policy import (
+    HTTP_FORBIDDEN_STATUSES,
+    POLICY,
+    POLICY_VERSION,
+    policy_mismatch,
+)
+
 __all__ = [
     "DEFAULT_EXEC_FREEZE",
     "BudgetRequirements",
@@ -29,6 +36,8 @@ __all__ = [
     "verify_exec_config_structure",
     "verify_budget_feasibility",
     "verify_exec_freeze",
+    "verify_execution_allowed",
+    "POLICY_VERSION",
     "build_exec_freeze",
     "REQUESTS_FORMULA",
     "SAFETY_MARGIN",
@@ -107,12 +116,20 @@ def compute_budget_requirements(
 
     Raises BudgetError on illegal / overflowing inputs. Never silently clamps.
     """
+    def _finite(name, v):
+        if isinstance(v, bool):
+            raise BudgetError("%s_NOT_NUMBER" % name)
+        if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
+            raise BudgetError("%s_NOT_FINITE" % name)
+        return v
+
     if isinstance(r, bool) or not isinstance(r, int):
         raise BudgetError("R_NOT_INT")
     if r < 0:
         raise BudgetError("R_NEGATIVE")
     if r > _MAX_REQ:
         raise BudgetError("R_OVERFLOW")
+    safety_margin = _finite("MARGIN", safety_margin)
     if not isinstance(safety_margin, (int, float)) or isinstance(safety_margin, bool):
         raise BudgetError("MARGIN_NOT_NUMBER")
     if not (0.0 <= safety_margin <= 1.0):
@@ -124,6 +141,7 @@ def compute_budget_requirements(
             raise BudgetError("%s_NEGATIVE" % name)
         if v > _MAX_TOKEN:
             raise BudgetError("%s_OVERFLOW" % name)
+    usd_per_req = _finite("USD", usd_per_req)
     if isinstance(usd_per_req, bool) or not isinstance(usd_per_req, (int, float)):
         raise BudgetError("USD_NOT_NUMBER")
     if usd_per_req < 0:
@@ -182,18 +200,37 @@ def load_auth_snapshot(path: Optional[Path] = None) -> AuthSnapshot:
     if not isinstance(caps, dict) or not isinstance(consumed, dict):
         raise AuthError("AUTH_SCHEMA")
     try:
-        snap = AuthSnapshot(
-            max_requests=int(caps["max_physical"]),
-            max_tokens_in=int(caps["max_total_in"]),
-            max_tokens_out=int(caps["max_total_out"]),
-            max_cost_usd=float(caps["max_cost_usd"]),
-            consumed_requests=int(consumed.get("physical_attempts", 0)),
-            spent_usd=float(consumed.get("spent_cost_usd", 0.0)),
-            blocked=bool(raw.get("blocked", False)),
-            auth_id=str(raw.get("auth_id", "")),
-        )
+        max_req = int(caps["max_physical"])
+        max_in = int(caps["max_total_in"])
+        max_out = int(caps["max_total_out"])
+        max_usd = float(caps["max_cost_usd"])
+        cons_req = int(consumed.get("physical_attempts", 0))
+        cons_in = int(consumed.get("actual_tokens_in", 0) or 0)
+        cons_out = int(consumed.get("actual_tokens_out", 0) or 0)
+        spent = float(consumed.get("spent_cost_usd", 0.0))
     except Exception as exc:
         raise AuthError("AUTH_FIELD_INVALID:%s" % type(exc).__name__) from exc
+    if cons_req < 0 or cons_in < 0 or cons_out < 0 or spent < 0:
+        raise AuthError("AUTH_CONSUMED_NEGATIVE")
+    if cons_req > max_req or cons_in > max_in or cons_out > max_out:
+        raise AuthError("AUTH_CONSUMED_EXCEEDS_CAP")
+    snap = AuthSnapshot(
+        max_requests=max_req,
+        max_tokens_in=max_in,
+        max_tokens_out=max_out,
+        max_cost_usd=max_usd,
+        consumed_requests=cons_req,
+        consumed_tokens_in=cons_in,
+        consumed_tokens_out=cons_out,
+        spent_usd=spent,
+        remaining_requests=max_req - cons_req,
+        remaining_tokens_in=max_in - cons_in,
+        remaining_tokens_out=max_out - cons_out,
+        remaining_usd=max_usd - spent,
+        blocked=bool(raw.get("blocked", False)),
+        auth_id=str(raw.get("auth_id", "")),
+        policy_version=POLICY_VERSION,
+    )
     return snap
 
 
@@ -201,14 +238,14 @@ def verify_budget_feasibility(
     requirements: BudgetRequirements,
     auth: AuthSnapshot,
 ) -> str:
-    """Compare computed requirements to authorization caps. '' if feasible.
+    """Compare plan demand to REMAINING authorization (max - consumed).
 
-    Checks (each has a stable error code):
-      * auth blocked
-      * requests (with margin) vs max_requests
-      * tokens in (with margin) vs max_tokens_in
-      * tokens out (with margin) vs max_tokens_out
-      * worst-case USD (with margin) vs max_cost_usd
+    Remaining semantics:
+      remaining_requests = max_requests - consumed_requests
+      remaining_tokens_* = max_tokens_* - consumed_tokens_*
+      remaining_usd      = max_cost_usd - spent_usd
+
+    If remaining fields are absent, fail closed (do not fall back to max).
     """
     if not isinstance(requirements, dict):
         return "BUDGET_REQ_TYPE"
@@ -217,26 +254,36 @@ def verify_budget_feasibility(
     if auth.get("blocked"):
         return "BUDGET_AUTH_BLOCKED"
 
+    # Prefer explicit remaining_*; do NOT silently use max_* when remaining missing.
+    for key in ("remaining_requests", "remaining_tokens_in", "remaining_tokens_out", "remaining_usd"):
+        if key not in auth:
+            return "BUDGET_REMAINING_MISSING:%s" % key
+
     try:
         need_req = int(requirements["requests_with_margin"])
         need_in = int(requirements["tokens_in_with_margin"])
         need_out = int(requirements["tokens_out_with_margin"])
         need_usd = float(requirements["usd_with_margin"])
-        max_req = int(auth["max_requests"])
-        max_in = int(auth["max_tokens_in"])
-        max_out = int(auth["max_tokens_out"])
-        max_usd = float(auth["max_cost_usd"])
+        rem_req = int(auth["remaining_requests"])
+        rem_in = int(auth["remaining_tokens_in"])
+        rem_out = int(auth["remaining_tokens_out"])
+        rem_usd = float(auth["remaining_usd"])
     except Exception:
         return "BUDGET_FIELDS_INVALID"
 
-    if need_req > max_req:
-        return "BUDGET_REQUESTS_EXCEEDED:need=%d,max=%d" % (need_req, max_req)
-    if need_in > max_in:
-        return "BUDGET_TOKENS_IN_EXCEEDED:need=%d,max=%d" % (need_in, max_in)
-    if need_out > max_out:
-        return "BUDGET_TOKENS_OUT_EXCEEDED:need=%d,max=%d" % (need_out, max_out)
-    if need_usd > max_usd + 1e-12:
-        return "BUDGET_USD_EXCEEDED:need=%.6f,max=%.6f" % (need_usd, max_usd)
+    if need_req < 0 or need_in < 0 or need_out < 0 or need_usd < 0:
+        return "BUDGET_NEED_NEGATIVE"
+    if rem_req < 0 or rem_in < 0 or rem_out < 0 or rem_usd < 0:
+        return "BUDGET_REMAINING_NEGATIVE"
+
+    if need_req > rem_req:
+        return "BUDGET_REQUESTS_EXCEEDED:need=%d,remaining=%d" % (need_req, rem_req)
+    if need_in > rem_in:
+        return "BUDGET_TOKENS_IN_EXCEEDED:need=%d,remaining=%d" % (need_in, rem_in)
+    if need_out > rem_out:
+        return "BUDGET_TOKENS_OUT_EXCEEDED:need=%d,remaining=%d" % (need_out, rem_out)
+    if need_usd > rem_usd + 1e-12:
+        return "BUDGET_USD_EXCEEDED:need=%.6f,remaining=%.6f" % (need_usd, rem_usd)
     return ""
 
 
@@ -249,10 +296,10 @@ def canonical_config_sha256(config: Dict[str, Any]) -> str:
 def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)) -> Dict[str, Any]:
     plan_seed_of = lambda r: BASE_SEED + 1009 * r
     cfg: Dict[str, Any] = {
-        "version": "R4-exec-v1-proposed",
+        "version": "R4-exec-v2-proposed",
         "status": "PROPOSED_PENDING_PLANNER_ACCEPTANCE",
-        "supersedes": "R4-exec-v0-proposed",
-        "supersedes_reason": "v0 verifier accepted plans without computing budget vs auth; v1 adds fail-closed budget gate",
+        "supersedes": "R4-exec-v0-proposed and R4-exec-v1-proposed",
+        "supersedes_reason": "v2 hardens budget policy in code (anti hash-recompute), remaining-quota checks, IUT F2, execution_authorized flag",
         "created_for": "LEVEL3-PILOT-R4 execution protocol (zero real model calls at freeze time)",
         "baseline_commit": baseline_commit,
         "parent_artefacts": {
@@ -334,18 +381,19 @@ def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)
             "request_log_required": True,
         },
         "endpoints": {
-            "primary": "seed-level paired E-D confirmation accuracy (conditional on frozen 40 tasks)",
+            "primary": "co-primary seed-level paired E-D and E-C confirmation accuracy (IUT; conditional on frozen 40 tasks)",
             "secondary": [
-                "seed-level paired E-C confirmation accuracy",
                 "task-level McNemar within block",
                 "task-level Holm family F1",
+                "cost/call/latency (RQ4)",
             ],
             "holm_family": ["B-A", "C-A", "D-A", "E-A", "E-D"],
             "holm_note": "F1 Holm(5) is TASK-level only. Seed-level RQ3 uses family F2 = {E-D, E-C} with Holm(2) if both are co-primary; see R4_R5_STATISTICAL_CONSISTENCY.md. R=6 unadj. min Wilcoxon p=0.03125 is NOT enough for Holm(5) step-1 (0.01).",
             "rq3_comparisons": {
-                "E-D": {"role": "co-primary", "family": "F2"},
-                "E-C": {"role": "co-primary", "family": "F2"},
-                "claim_rule": "E beats search baselines only if BOTH E-D and E-C pass their F2 thresholds",
+                "E-D": {"role": "co-primary", "family": "F2", "test": "exact_wilcoxon_signed_rank_two_sided", "alpha": 0.05, "direction": "favor_E"},
+                "E-C": {"role": "co-primary", "family": "F2", "test": "exact_wilcoxon_signed_rank_two_sided", "alpha": 0.05, "direction": "favor_E"},
+                "multiplicity": "IUT",
+                "claim_rule": "IUT: joint claim E beats BOTH D and C requires BOTH E-D and E-C to reject in favor of E at alpha=0.05; no Holm(2) on F2. Single-comparison confirmatory claims need separate pre-declared FWER control else exploratory only.",
             },
             "tests": {
                 "task_level": "exact McNemar two-sided",
@@ -372,7 +420,9 @@ def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)
             "authorization_required": True,
             "real_api_allowed_at_freeze_time": False,
             "budget_gate_is_fail_closed": True,
+            "policy_version": POLICY_VERSION,
         },
+        "execution_authorized": False,
     }
     cfg["config_sha256"] = canonical_config_sha256(cfg)
     return cfg
@@ -442,9 +492,50 @@ def verify_exec_config_structure(config: Dict[str, Any]) -> str:
     if "requests_formula" not in bc:
         return "EXEC_BUDGET_FORMULA"
 
+    # P0: budget numbers must match the VERSIONED POLICY — config_sha256 is
+    # never sufficient to prove budget integrity.
+    err = policy_mismatch(bc)
+    if err:
+        return err
+
+    # planned_r_values must agree with seeds.r_values and plan_seeds keys
+    planned = bc.get("planned_r_values")
+    r_values = seeds.get("r_values") or []
+    plan_keys = sorted((seeds.get("plan_seeds") or {}).keys(), key=lambda x: int(x))
+    if not isinstance(planned, (list, tuple)) or not planned:
+        return "BUDGET_PLANNED_R_INVALID"
+    try:
+        planned_ints = [int(x) for x in planned]
+        r_ints = [int(x) for x in r_values]
+        key_ints = [int(x) for x in plan_keys]
+    except Exception:
+        return "BUDGET_R_NOT_INT"
+    if planned_ints != r_ints:
+        return "BUDGET_PLANNED_R_NEQ_SEEDS"
+    if sorted(planned_ints) != key_ints:
+        return "BUDGET_PLANNED_R_NEQ_PLAN_SEEDS"
+
     ep = config.get("endpoints") or {}
     if "holm_family" not in ep or len(ep.get("holm_family") or []) != 5:
         return "EXEC_ENDPOINTS_HOLM_FAMILY"
+
+    # F2 / IUT consistency with Planner decision (Task C)
+    rq3 = ep.get("rq3_comparisons") or {}
+    if "E-D" not in rq3 or "E-C" not in rq3:
+        return "EXEC_ENDPOINTS_RQ3_MISSING_COMPARISON"
+    for key in ("E-D", "E-C"):
+        if (rq3.get(key) or {}).get("role") != "co-primary":
+            return "EXEC_ENDPOINTS_RQ3_ROLE:%s" % key
+    claim = (rq3.get("claim_rule") or "").lower()
+    if "iut" not in claim and "both" not in claim:
+        return "EXEC_ENDPOINTS_RQ3_CLAIM_RULE"
+
+    # status must be PROPOSED-ish and execution_authorized must be false/absent
+    status = str(config.get("status", ""))
+    if status in HTTP_FORBIDDEN_STATUSES:
+        pass  # expected for proposed freeze
+    if config.get("execution_authorized") is True:
+        return "EXEC_EXECUTION_AUTH_FLAG"
 
     return ""
 
@@ -503,6 +594,50 @@ def verify_exec_freeze(
             req = _requirements_from_config(config, int(r))
         except BudgetError as exc:
             return "BUDGET_REQ_INVALID:R=%s:%s" % (r, exc.args[0] if exc.args else "")
+        err = verify_budget_feasibility(req, auth)
+        if err:
+            return err
+    return ""
+
+
+def verify_execution_allowed(
+    config: Dict[str, Any],
+    *,
+    auth: Optional[AuthSnapshot] = None,
+    execution_authorized: bool = False,
+) -> str:
+    """Gate BEFORE any HTTP. Budget/config success never implies authorization.
+
+    Returns '' only when:
+      * config status is not a forbidden/PROPOSED status, AND
+      * explicit execution_authorized flag is True, AND
+      * auth snapshot is present, not blocked, and remaining budget is sufficient
+        for the plan (re-checked here).
+
+    Otherwise a stable error code. Never mutates auth.
+    """
+    status = str((config or {}).get("status", ""))
+    if status in HTTP_FORBIDDEN_STATUSES or not status:
+        return "EXEC_STATUS_BLOCKS_HTTP:status=%s" % status
+    if not execution_authorized:
+        return "EXEC_NOT_AUTHORIZED_BY_PLANNER"
+    if (config or {}).get("execution_authorized") is not True:
+        return "EXEC_CONFIG_AUTH_FLAG"
+    if auth is None:
+        try:
+            auth = load_auth_snapshot()
+        except AuthError as exc:
+            return "BUDGET_AUTH_UNAVAILABLE:%s" % (exc.args[0] if exc.args else "")
+    if auth.get("blocked"):
+        return "BUDGET_AUTH_BLOCKED"
+    # re-check budget vs remaining
+    bc = config.get("budget_caps") or {}
+    planned = bc.get("planned_r_values") or []
+    for r in planned:
+        try:
+            req = _requirements_from_config(config, int(r))
+        except Exception as exc:
+            return "BUDGET_REQ_INVALID:%s" % exc
         err = verify_budget_feasibility(req, auth)
         if err:
             return err

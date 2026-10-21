@@ -1,6 +1,6 @@
 # R4-R5 Statistical Protocol Consistency
 
-**Status:** PROPOSED — not signed. Zero real model results this round.  
+**Status:** PROPOSED freeze status; **F2 method decided (IUT)** by Planner — still not an execution approval. Zero real model results this round.  
 **Files unified:** `PREREGISTRATION.md`, `TASKSET_AND_STATISTICS.md`, `RQ3_MULTI_SEED_DESIGN.md`, `RQ3_POWER_TABLES.txt`, `BUDGET_AND_EXECUTION_PLAN.md`, `execution_freeze_v1_proposed.json`, `src/research/r4_exec_freeze.py`.
 
 ---
@@ -29,19 +29,20 @@ Research question: *does evolutionary selection beat random search **and** fixed
 **Claim rule (frozen for this proposal):**  
 RQ3 “E beats the search/fixed baselines” requires **both** E−D and E−C to reject in favor of E at their pre-declared F2 threshold. A hit on E−D alone supports only “E beats random search”, not “E beats fixed modification”.
 
-### F2 multiplicity options (Planner must pick one)
+### F2 multiplicity — **DECIDED: IUT** (Planner)
 
-| Option | Correction | R needed to possibly reject at α=0.05 | Effect |
-|---|---|---|---|
-| **F2-a (recommended)** | Holm(2) over {E−D, E−C} | worst-case step-1 threshold 0.025 → exact Wilcoxon needs **R≥7** (p_min=0.015625) | controls FWER for the two co-primaries |
-| **F2-b** | each unadjusted α=0.05 | **R≥6** (p_min=0.03125) | inflates FWER for the joint claim; only OK if claiming each separately |
-| **F2-c** | intersection-union (IUT): both must pass at unadjusted 0.05 | **R≥6** each | IUT is valid for joint “both better” claim without extra correction |
+| Item | Rule |
+|---|---|
+| Family | F2 = {E−D, E−C} |
+| Test | exact two-sided Wilcoxon signed-rank per contrast, α=0.05, direction must favor E |
+| Multiplicity | **IUT only** — joint claim requires **both** contrasts to reject in favor of E |
+| Holm(2) | **NOT used on F2** |
+| Single-contrast confirmatory claims | require a pre-declared FWER control; otherwise **exploratory/descriptive only** |
 
-**Recommendation to Planner:** if the scientific claim is the **conjunction** (“E beats D and E beats C”), **F2-c (IUT)** is the cleanest and does not add a Holm penalty. If separate claims are reported, use **F2-a Holm(2)**.
+**Claim rule:** “E simultaneously beats D and C” holds iff both E−D and E−C reject favoring E at α=0.05.  
+A hit on E−D alone supports only “E beats random search”, not the joint claim.
 
-**This document does not sign the choice. Status stays PROPOSED.**
-
----
+**R=6 is necessary, not sufficient:** exact two-sided Wilcoxon min p uses the number of **nonzero** paired differences `n_eff`, not nominal R. Report `n_eff`, zeros, ties, and attainable min p.
 
 ## 3. Consistency table (D3)
 
