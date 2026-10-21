@@ -1,20 +1,37 @@
-"""R4 execution freeze (separate from confirmation-set freeze) + verifier.
+"""R4 execution freeze (separate from confirmation-set freeze) + fail-closed verifier.
 
-Zero model calls. Fail-closed: any missing field, bad hash, illegal seed /
-probability, or budget shortfall returns a non-empty error code.
+Three distinct verification layers — never conflated:
+
+1. **Config structure & hash** — `verify_exec_config_structure`
+2. **Budget feasibility vs a supplied auth snapshot** — `verify_budget_feasibility`
+3. **Real authorization state** — read-only check via `load_auth_snapshot` (never creates/resets)
+
+Zero model calls. Any missing field, illegal number, overflow, or cap breach
+returns a stable non-empty error code. Config hash correctness is NEVER
+treated as evidence of budget sufficiency.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import math
+import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 __all__ = [
     "DEFAULT_EXEC_FREEZE",
+    "BudgetRequirements",
+    "AuthSnapshot",
     "canonical_config_sha256",
+    "compute_budget_requirements",
+    "load_auth_snapshot",
+    "verify_exec_config_structure",
+    "verify_budget_feasibility",
     "verify_exec_freeze",
     "build_exec_freeze",
+    "REQUESTS_FORMULA",
+    "SAFETY_MARGIN",
 ]
 
 BASE_SEED = 20260601
@@ -23,6 +40,12 @@ EXPECTED_PARENT_LF_SHA = "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11
 EXPECTED_PARENT_PROMPT_SHA = "34b149ab37e571def0875faeac171867c3a2bb9fff03db4bc0ccca034e48e979"
 EXPECTED_CONFIRM_V1_SHA = "1771a67ccf232984d8c79c5179ea9ff3a11001324222709308058eb9d58735b4"
 EXPECTED_TRAIN_SHA = "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465"
+
+REQUESTS_FORMULA = "240 + 240 * R"
+SAFETY_MARGIN = 0.10
+WORST_TOKEN_IN_PER_REQ = 400
+WORST_TOKEN_OUT_PER_REQ = 800
+WORST_USD_PER_REQ = 0.003
 
 REQUIRED_KEYS = (
     "version",
@@ -41,20 +64,195 @@ REQUIRED_KEYS = (
     "config_sha256",
 )
 
+# Hard arithmetic ceilings to catch overflow / absurd values before math
+_MAX_REQ = 10 ** 9
+_MAX_TOKEN = 10 ** 12
+_MAX_USD = 10 ** 9
+
+
+class BudgetError(ValueError):
+    """Illegal budget input (not a cap breach)."""
+
+
+class AuthError(ValueError):
+    """Authorization snapshot missing or corrupt."""
+
+
+class BudgetRequirements(dict):
+    """Pure computed requirements for one R. Dict for easy JSON/logging."""
+
+    pass
+
+
+class AuthSnapshot(dict):
+    """Read-only view of authorization caps + consumed. Never mutated by verifier."""
+
+    pass
+
+
+def compute_budget_requirements(
+    r: int,
+    *,
+    safety_margin: float = SAFETY_MARGIN,
+    token_in_high: int = WORST_TOKEN_IN_PER_REQ,
+    token_out_high: int = WORST_TOKEN_OUT_PER_REQ,
+    usd_per_req: float = WORST_USD_PER_REQ,
+    base_requests: int = 240,
+    per_r_requests: int = 240,
+) -> BudgetRequirements:
+    """Pure budget arithmetic for Plan C-style total requests.
+
+    TOTAL = base_requests + per_r_requests * R
+    WITH_MARGIN = ceil(TOTAL * (1 + safety_margin))
+
+    Raises BudgetError on illegal / overflowing inputs. Never silently clamps.
+    """
+    if isinstance(r, bool) or not isinstance(r, int):
+        raise BudgetError("R_NOT_INT")
+    if r < 0:
+        raise BudgetError("R_NEGATIVE")
+    if r > _MAX_REQ:
+        raise BudgetError("R_OVERFLOW")
+    if not isinstance(safety_margin, (int, float)) or isinstance(safety_margin, bool):
+        raise BudgetError("MARGIN_NOT_NUMBER")
+    if not (0.0 <= safety_margin <= 1.0):
+        raise BudgetError("MARGIN_OUT_OF_RANGE")
+    for name, v in (("token_in_high", token_in_high), ("token_out_high", token_out_high)):
+        if isinstance(v, bool) or not isinstance(v, int):
+            raise BudgetError("%s_NOT_INT" % name)
+        if v < 0:
+            raise BudgetError("%s_NEGATIVE" % name)
+        if v > _MAX_TOKEN:
+            raise BudgetError("%s_OVERFLOW" % name)
+    if isinstance(usd_per_req, bool) or not isinstance(usd_per_req, (int, float)):
+        raise BudgetError("USD_NOT_NUMBER")
+    if usd_per_req < 0:
+        raise BudgetError("USD_NEGATIVE")
+    if usd_per_req > _MAX_USD:
+        raise BudgetError("USD_OVERFLOW")
+
+    try:
+        total = base_requests + per_r_requests * r
+        if total > _MAX_REQ:
+            raise BudgetError("TOTAL_REQ_OVERFLOW")
+        # exact ceil(total * (1+margin)) via Fraction — float 1.1*1680 is 1848.000…2
+        from fractions import Fraction
+
+        m = Fraction(safety_margin).limit_denominator(1000000)
+        with_margin = int(math.ceil(Fraction(total) * (1 + m)))
+        tok_in = total * token_in_high
+        tok_out = total * token_out_high
+        tok_in_m = with_margin * token_in_high
+        tok_out_m = with_margin * token_out_high
+        usd = total * float(usd_per_req)
+        usd_m = with_margin * float(usd_per_req)
+    except OverflowError as exc:
+        raise BudgetError("ARITH_OVERFLOW:%s" % type(exc).__name__) from exc
+
+    return BudgetRequirements(
+        r=r,
+        safety_margin=float(safety_margin),
+        total_requests=total,
+        requests_with_margin=with_margin,
+        tokens_in_worst=tok_in,
+        tokens_out_worst=tok_out,
+        tokens_in_with_margin=tok_in_m,
+        tokens_out_with_margin=tok_out_m,
+        usd_worst=usd,
+        usd_with_margin=usd_m,
+    )
+
+
+def load_auth_snapshot(path: Optional[Path] = None) -> AuthSnapshot:
+    """READ-ONLY load of the authorization record. Never creates or resets it.
+
+    Raises AuthError if missing or corrupt. Callers must not write this file.
+    """
+    p = path or (Path.home() / ".evopareto" / "state" / "level3_pilot_authorization.json")
+    if not p.exists():
+        raise AuthError("AUTH_FILE_MISSING")
+    try:
+        raw = json.loads(p.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise AuthError("AUTH_PARSE_ERROR:%s" % type(exc).__name__) from exc
+    if not isinstance(raw, dict):
+        raise AuthError("AUTH_NOT_OBJECT")
+    caps = raw.get("caps")
+    consumed = raw.get("consumed")
+    if not isinstance(caps, dict) or not isinstance(consumed, dict):
+        raise AuthError("AUTH_SCHEMA")
+    try:
+        snap = AuthSnapshot(
+            max_requests=int(caps["max_physical"]),
+            max_tokens_in=int(caps["max_total_in"]),
+            max_tokens_out=int(caps["max_total_out"]),
+            max_cost_usd=float(caps["max_cost_usd"]),
+            consumed_requests=int(consumed.get("physical_attempts", 0)),
+            spent_usd=float(consumed.get("spent_cost_usd", 0.0)),
+            blocked=bool(raw.get("blocked", False)),
+            auth_id=str(raw.get("auth_id", "")),
+        )
+    except Exception as exc:
+        raise AuthError("AUTH_FIELD_INVALID:%s" % type(exc).__name__) from exc
+    return snap
+
+
+def verify_budget_feasibility(
+    requirements: BudgetRequirements,
+    auth: AuthSnapshot,
+) -> str:
+    """Compare computed requirements to authorization caps. '' if feasible.
+
+    Checks (each has a stable error code):
+      * auth blocked
+      * requests (with margin) vs max_requests
+      * tokens in (with margin) vs max_tokens_in
+      * tokens out (with margin) vs max_tokens_out
+      * worst-case USD (with margin) vs max_cost_usd
+    """
+    if not isinstance(requirements, dict):
+        return "BUDGET_REQ_TYPE"
+    if not isinstance(auth, dict):
+        return "BUDGET_AUTH_TYPE"
+    if auth.get("blocked"):
+        return "BUDGET_AUTH_BLOCKED"
+
+    try:
+        need_req = int(requirements["requests_with_margin"])
+        need_in = int(requirements["tokens_in_with_margin"])
+        need_out = int(requirements["tokens_out_with_margin"])
+        need_usd = float(requirements["usd_with_margin"])
+        max_req = int(auth["max_requests"])
+        max_in = int(auth["max_tokens_in"])
+        max_out = int(auth["max_tokens_out"])
+        max_usd = float(auth["max_cost_usd"])
+    except Exception:
+        return "BUDGET_FIELDS_INVALID"
+
+    if need_req > max_req:
+        return "BUDGET_REQUESTS_EXCEEDED:need=%d,max=%d" % (need_req, max_req)
+    if need_in > max_in:
+        return "BUDGET_TOKENS_IN_EXCEEDED:need=%d,max=%d" % (need_in, max_in)
+    if need_out > max_out:
+        return "BUDGET_TOKENS_OUT_EXCEEDED:need=%d,max=%d" % (need_out, max_out)
+    if need_usd > max_usd + 1e-12:
+        return "BUDGET_USD_EXCEEDED:need=%.6f,max=%.6f" % (need_usd, max_usd)
+    return ""
+
 
 def canonical_config_sha256(config: Dict[str, Any]) -> str:
-    """SHA over the config with config_sha256 field removed, sorted keys."""
     body = {k: v for k, v in config.items() if k != "config_sha256"}
     blob = json.dumps(body, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
 def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)) -> Dict[str, Any]:
-    """Construct the canonical R4 execution freeze dict (config_sha256 filled)."""
     plan_seed_of = lambda r: BASE_SEED + 1009 * r
     cfg: Dict[str, Any] = {
-        "version": "R4-exec-v0-proposed",
+        "version": "R4-exec-v1-proposed",
         "status": "PROPOSED_PENDING_PLANNER_ACCEPTANCE",
+        "supersedes": "R4-exec-v0-proposed",
+        "supersedes_reason": "v0 verifier accepted plans without computing budget vs auth; v1 adds fail-closed budget gate",
         "created_for": "LEVEL3-PILOT-R4 execution protocol (zero real model calls at freeze time)",
         "baseline_commit": baseline_commit,
         "parent_artefacts": {
@@ -78,6 +276,8 @@ def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)
             "sampling_ks": [2, 3, 4],
             "allow_noop": False,
             "rng": "LCG (1664525, 1013904223, 2^32) keyed by (plan.seed + 10007*(slot+1))",
+            "enabled_operators": ["M_SET_INSTRUCTION", "M_ADD_SAMPLING"],
+            "disabled_operators": ["M_ADD_CHECK_STAGE", "M_SINGLE_EDIT"],
         },
         "seeds": {
             "base_seed": BASE_SEED,
@@ -135,105 +335,175 @@ def build_exec_freeze(*, baseline_commit: str, r_values: Sequence[int] = (6, 10)
         },
         "endpoints": {
             "primary": "seed-level paired E-D confirmation accuracy (conditional on frozen 40 tasks)",
-            "secondary": ["task-level McNemar within block", "B-A/C-A/D-A/E-A Holm family"],
+            "secondary": [
+                "seed-level paired E-C confirmation accuracy",
+                "task-level McNemar within block",
+                "task-level Holm family F1",
+            ],
             "holm_family": ["B-A", "C-A", "D-A", "E-A", "E-D"],
-            "holm_note": "E-D in the 5-family uses Holm-adjusted thresholds; raw Wilcoxon p=0.03125 at R=6 is NOT enough for the first Holm step (0.01). R>=8 needed for min exact p=0.0078125 <= 0.01.",
+            "holm_note": "F1 Holm(5) is TASK-level only. Seed-level RQ3 uses family F2 = {E-D, E-C} with Holm(2) if both are co-primary; see R4_R5_STATISTICAL_CONSISTENCY.md. R=6 unadj. min Wilcoxon p=0.03125 is NOT enough for Holm(5) step-1 (0.01).",
+            "rq3_comparisons": {
+                "E-D": {"role": "co-primary", "family": "F2"},
+                "E-C": {"role": "co-primary", "family": "F2"},
+                "claim_rule": "E beats search baselines only if BOTH E-D and E-C pass their F2 thresholds",
+            },
             "tests": {
                 "task_level": "exact McNemar two-sided",
-                "seed_level_unadjusted": "exact Wilcoxon signed-rank two-sided (R>=6 to reject at 0.05)",
-                "seed_level_in_holm": "same Wilcoxon p-values adjusted over 5-family",
+                "seed_level": "exact Wilcoxon signed-rank two-sided on paired d[r]",
             },
             "stopping": "fixed-N; no optional stopping",
         },
         "budget_caps": {
-            "requests_formula": "240 + 240 * R",
-            "safety_margin": 0.10,
+            "requests_formula": REQUESTS_FORMULA,
+            "base_requests": 240,
+            "per_r_requests": 240,
+            "safety_margin": SAFETY_MARGIN,
             "token_in_per_req": [150, 400],
             "token_out_per_req": [150, 800],
-            "worst_case_usd_per_req": 0.003,
-            "current_auth": {
+            "worst_case_usd_per_req": WORST_USD_PER_REQ,
+            "planned_r_values": list(r_values),
+            "current_auth_caps_reference": {
                 "max_requests": 300,
                 "max_tokens_in": 2000000,
                 "max_tokens_out": 200000,
                 "max_cost_usd": 5.0,
+                "note": "reference only; feasibility is computed against a live AuthSnapshot at verify time",
             },
             "authorization_required": True,
             "real_api_allowed_at_freeze_time": False,
+            "budget_gate_is_fail_closed": True,
         },
     }
     cfg["config_sha256"] = canonical_config_sha256(cfg)
     return cfg
 
 
-DEFAULT_EXEC_FREEZE = build_exec_freeze(baseline_commit="1705dcf40151684b0e97b1b00020a8877a4eb966")
+DEFAULT_EXEC_FREEZE = build_exec_freeze(baseline_commit="ed1623a7fae56d6293fb05a71258b5d3747af7c5")
 
 
-def verify_exec_freeze(config: Dict[str, Any]) -> str:
-    """Return '' if OK else a fail-closed error code."""
+def verify_exec_config_structure(config: Dict[str, Any]) -> str:
+    """Layer 1: structure + hash only. Does NOT imply budget sufficiency."""
+    if not isinstance(config, dict):
+        return "EXEC_CONFIG_NOT_OBJECT"
     for k in REQUIRED_KEYS:
         if k not in config:
             return "EXEC_FREEZE_MISSING_FIELD:%s" % k
 
-    # config hash
     declared = config.get("config_sha256")
     recomputed = canonical_config_sha256(config)
     if declared != recomputed:
         return "EXEC_FREEZE_HASH_MISMATCH"
 
-    # parent artefacts
-    pa = config["parent_artefacts"]
+    pa = config.get("parent_artefacts") or {}
     if pa.get("graph_sha256_byte") != EXPECTED_PARENT_GRAPH_SHA:
         return "EXEC_PARENT_GRAPH_SHA"
     if pa.get("prompt_sha256") != EXPECTED_PARENT_PROMPT_SHA:
         return "EXEC_PARENT_PROMPT_SHA"
 
-    # mutation plan
-    mp = config["mutation_plan"]
+    mp = config.get("mutation_plan") or {}
     names = mp.get("operator_names") or []
     probs = mp.get("operator_probs") or []
     if not names or len(names) != len(probs):
         return "EXEC_PLAN_NAME_PROB_LEN"
-    if any(not isinstance(p, (int, float)) or p < 0 for p in probs):
+    if any(not isinstance(p, (int, float)) or isinstance(p, bool) or p < 0 for p in probs):
         return "EXEC_PLAN_PROB_NEGATIVE"
     if abs(sum(probs) - 1.0) > 1e-6:
         return "EXEC_PLAN_PROB_SUM"
     if not mp.get("instruction_pool"):
         return "EXEC_PLAN_EMPTY_POOL"
 
-    # seeds
-    seeds = config["seeds"]
+    seeds = config.get("seeds") or {}
     if "base_seed" not in seeds or "plan_seeds" not in seeds:
         return "EXEC_SEEDS_INCOMPLETE"
     pss = list(seeds["plan_seeds"].values())
     if len(pss) != len(set(pss)):
         return "EXEC_SEEDS_NOT_UNIQUE"
     for r, s in seeds["plan_seeds"].items():
-        expected = int(seeds["base_seed"]) + 1009 * int(r)
-        if int(s) != expected:
-            return "EXEC_SEEDS_RULE_MISMATCH:%s" % r
+        try:
+            expected = int(seeds["base_seed"]) + 1009 * int(r)
+            if int(s) != expected:
+                return "EXEC_SEEDS_RULE_MISMATCH:%s" % r
+        except Exception:
+            return "EXEC_SEEDS_RULE_INVALID:%s" % r
 
-    # selection
-    sr = config["selection_rules"]
+    sr = config.get("selection_rules") or {}
     if sr.get("failed_candidate_score") != 0.0:
         return "EXEC_SELECTION_FAILED_SCORE"
 
-    # datasets
-    ds = config["datasets"]
-    if ds.get("confirmation", {}).get("task_set_sha256") != EXPECTED_CONFIRM_V1_SHA:
+    ds = config.get("datasets") or {}
+    if (ds.get("confirmation") or {}).get("task_set_sha256") != EXPECTED_CONFIRM_V1_SHA:
         return "EXEC_CONFIRM_SHA"
-    if ds.get("development", {}).get("sha256") != EXPECTED_TRAIN_SHA:
+    if (ds.get("development") or {}).get("sha256") != EXPECTED_TRAIN_SHA:
         return "EXEC_DEV_SHA"
 
-    # budget
-    bc = config["budget_caps"]
+    bc = config.get("budget_caps") or {}
     if bc.get("real_api_allowed_at_freeze_time") is not False:
         return "EXEC_BUDGET_REAL_API_FLAG"
     if "requests_formula" not in bc:
         return "EXEC_BUDGET_FORMULA"
 
-    # endpoints mention Holm and R>=6 constraint
-    ep = config["endpoints"]
-    if "holm_family" not in ep or len(ep["holm_family"]) != 5:
+    ep = config.get("endpoints") or {}
+    if "holm_family" not in ep or len(ep.get("holm_family") or []) != 5:
         return "EXEC_ENDPOINTS_HOLM_FAMILY"
 
+    return ""
+
+
+def _requirements_from_config(config: Dict[str, Any], r: int) -> BudgetRequirements:
+    bc = config.get("budget_caps") or {}
+    try:
+        return compute_budget_requirements(
+            r,
+            safety_margin=float(bc.get("safety_margin", SAFETY_MARGIN)),
+            token_in_high=int(bc.get("token_in_per_req", [150, 400])[1]),
+            token_out_high=int(bc.get("token_out_per_req", [150, 800])[1]),
+            usd_per_req=float(bc.get("worst_case_usd_per_req", WORST_USD_PER_REQ)),
+            base_requests=int(bc.get("base_requests", 240)),
+            per_r_requests=int(bc.get("per_r_requests", 240)),
+        )
+    except BudgetError as exc:
+        raise
+
+
+def verify_exec_freeze(
+    config: Dict[str, Any],
+    *,
+    auth: Optional[AuthSnapshot] = None,
+    require_budget: bool = True,
+) -> str:
+    """Full fail-closed verification.
+
+    * Always runs structure/hash checks.
+    * If ``require_budget`` (default True), also loads/uses auth snapshot and
+      rejects any planned R whose demand (incl. safety margin) exceeds caps.
+    * Never creates or resets authorization state.
+    """
+    err = verify_exec_config_structure(config)
+    if err:
+        return err
+
+    if not require_budget:
+        return ""
+
+    if auth is None:
+        try:
+            auth = load_auth_snapshot()
+        except AuthError as exc:
+            return "BUDGET_AUTH_UNAVAILABLE:%s" % (exc.args[0] if exc.args else type(exc).__name__)
+
+    bc = config.get("budget_caps") or {}
+    planned = bc.get("planned_r_values")
+    if not planned:
+        return "BUDGET_PLANNED_R_MISSING"
+    if not isinstance(planned, (list, tuple)) or not planned:
+        return "BUDGET_PLANNED_R_INVALID"
+
+    for r in planned:
+        try:
+            req = _requirements_from_config(config, int(r))
+        except BudgetError as exc:
+            return "BUDGET_REQ_INVALID:R=%s:%s" % (r, exc.args[0] if exc.args else "")
+        err = verify_budget_feasibility(req, auth)
+        if err:
+            return err
     return ""

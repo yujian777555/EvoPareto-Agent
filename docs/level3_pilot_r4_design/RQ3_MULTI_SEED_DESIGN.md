@@ -123,7 +123,12 @@ Per request: input 150–400, output 150–800 (median ~300). R=10 high-bound ou
 
 ## 6. Statistical analysis (Plan C)
 
-### 6.0 Multiplicity: ONE pre-declared scheme (R4-R4 decision)
+### 6.0 Multiplicity: ONE pre-declared scheme (R4-R5 unified)
+
+See also `R4_R5_STATISTICAL_CONSISTENCY.md` for the signed-off-pending table.
+
+**RQ3 needs BOTH:** `E−D` (vs random search) and `E−C` (vs fixed modification), **co-primary** in seed family **F2**. Joint claim requires both to pass (IUT) or Holm(2) if separate claims. **E−D alone does not prove E beats C.**
+
 
 There are two layers of comparisons. They must not be mixed ad hoc.
 

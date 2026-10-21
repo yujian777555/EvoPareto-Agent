@@ -141,3 +141,60 @@ def test_seed_audit_script_runs(tmp_path):
     # D all success expected under default plan from frozen parent
     d_fail = [r for r in fails if r.get("kind") == "D"]
     assert d_fail == []
+
+
+
+def test_m_single_edit_dispatch_requires_pool(parent):
+    from src.research.r4_workflow_program import MutationPlan
+
+    no_pool = MutationPlan(
+        seed=1,
+        operator_names=("M_SINGLE_EDIT",),
+        operator_probs=(1.0,),
+        instruction_pool=("x",),
+        single_edit_pool=(),
+    )
+    out = apply_mutation(parent, no_pool, slot=0)
+    assert isinstance(out, FailedCandidate)
+    assert out.reason == "M_SINGLE_EDIT_NO_POOL"
+
+    with_pool = MutationPlan(
+        seed=1,
+        operator_names=("M_SINGLE_EDIT",),
+        operator_probs=(1.0,),
+        instruction_pool=("x",),
+        single_edit_pool=(("total_cost", "usage_cost"),),
+    )
+    child = apply_mutation(parent, with_pool, slot=0)
+    assert isinstance(child, WorkflowProgram)
+    assert "usage_cost" in child.graph_source
+    assert child.parent_program_id == parent.program_id
+
+
+def test_unknown_operator_is_failed_slot_not_silent(parent):
+    from src.research.r4_workflow_program import MutationPlan
+
+    bad = MutationPlan(
+        seed=1,
+        operator_names=("M_TOTALLY_FAKE",),
+        operator_probs=(1.0,),
+        instruction_pool=("x",),
+    )
+    out = apply_mutation(parent, bad, slot=3)
+    assert isinstance(out, FailedCandidate)
+    assert out.reason.startswith("UNKNOWN_OPERATOR")
+    assert out.slot == 3
+    assert out.dev_accuracy == 0.0
+
+
+def test_operator_specs_enabled_flags():
+    assert OPERATOR_SPECS["M_SET_INSTRUCTION"]["enabled_in_default_plan"] is True
+    assert OPERATOR_SPECS["M_ADD_SAMPLING"]["enabled_in_default_plan"] is True
+    assert OPERATOR_SPECS["M_SINGLE_EDIT"]["enabled_in_default_plan"] is False
+    assert OPERATOR_SPECS["M_ADD_CHECK_STAGE"]["enabled_in_default_plan"] is False
+
+
+def test_default_plan_distribution_unchanged():
+    plan = default_mutation_plan(20260601)
+    assert list(plan.operator_names) == ["M_SET_INSTRUCTION", "M_ADD_SAMPLING"]
+    assert list(plan.operator_probs) == [0.5, 0.5]

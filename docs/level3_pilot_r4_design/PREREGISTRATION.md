@@ -22,7 +22,7 @@ R4 is designed to **decompose** those contributions. It is a preparation-stage d
 
 **RQ2.** Can any gain be explained by extra sampling, answer format, or a fixed modification alone?
 
-**RQ3.** Does evolutionary selection contribute **beyond** random mutation and fixed modification?
+**RQ3.** Does evolutionary selection contribute **beyond** random mutation and fixed modification? (**co-primary: both E−D and E−C** must hold — see `R4_R5_STATISTICAL_CONSISTENCY.md`)
 
 **RQ4.** If accuracy improves, how many extra calls, tokens, latency, and dollars does the improvement cost?
 

@@ -50,6 +50,15 @@ EXCLUDE_PATH_SUBSTRINGS = (
     "confirmation_set_v1_proposed.json",
 )
 
+# Binary / non-text artefacts: excluded from TEXT scan by explicit rule.
+# This is NOT the same as a decode failure on a required text file.
+NON_TEXT_BASENAMES = (
+    "docker_live_stdout.txt",
+    "docker_run_stdout.txt",
+    "docker_live_stderr.txt",
+    "docker_run_stderr.txt",
+)
+
 V_NO_HIT = "NO_HIT"
 V_ALLOWED = "ALLOWED_SOURCE_ONLY"
 V_DECLARED = "PROTOCOL_DECLARED_HIT"
@@ -205,6 +214,8 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
             if p.suffix.lower() not in SCAN_SUFFIXES:
                 continue
             rel = p.relative_to(root).as_posix()
+            if p.name in NON_TEXT_BASENAMES:
+                continue  # documented non-text exclusion
             if any(s in rel for s in EXCLUDE_PATH_SUBSTRINGS):
                 continue
             try:
@@ -218,10 +229,20 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
                 "size": len(raw),
                 "source_class": source_class(rel),
             })
+            # STRICT decode: invalid UTF-8 is a completeness failure, not a
+            # silent replacement. Non-text exclusions are handled by suffix
+            # filters above; anything in SCAN_SUFFIXES must decode cleanly.
             try:
-                texts.append((rel, raw.decode("utf-8", errors="replace")))
+                texts.append((rel, raw.decode("utf-8", errors="strict")))
+            except UnicodeDecodeError as exc:
+                scan_errors.append(
+                    "FILE_DECODE_ERROR:%s:UnicodeDecodeError:byte=%s:reason=%s:required_text=true"
+                    % (rel, getattr(exc, "start", "?"), getattr(exc, "reason", "utf-8"))
+                )
             except Exception as exc:
-                scan_errors.append("FILE_DECODE_ERROR:%s:%s" % (rel, type(exc).__name__))
+                scan_errors.append(
+                    "FILE_DECODE_ERROR:%s:%s:%s" % (rel, type(exc).__name__, exc)
+                )
 
     if scan_errors:
         problems.extend(scan_errors)
@@ -334,7 +355,9 @@ def audit(root: Path, freeze_path: Path) -> Dict[str, Any]:
         "per_task": per_task,
         "independence": independence,
         "notes": [
-            "NO_HIT is not DATA_ONLY. Allowed sources are official file, freeze draft, audit self.",
+            "NO_HIT is not DATA_ONLY and is not absolute independence.",
+            "STRICT utf-8 decode: decode errors are scan errors and block independence.",
+            "Allowed sources are official file, freeze draft, audit self.",
             "HISTORICAL_SCORED_HIT downgrades independence; gate failure blocks it.",
             "No performance-based selection or exclusion is applied.",
         ],

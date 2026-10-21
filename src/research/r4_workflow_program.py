@@ -503,6 +503,8 @@ class MutationPlan:
     instruction_pool: Tuple[str, ...]
     sampling_ks: Tuple[int, ...] = (2, 3, 4)
     allow_noop: bool = False
+    #: optional (old, new) literal pairs for M_SINGLE_EDIT; empty => operator disabled
+    single_edit_pool: Tuple[Tuple[str, str], ...] = ()
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
@@ -510,6 +512,7 @@ class MutationPlan:
         d["operator_probs"] = list(self.operator_probs)
         d["instruction_pool"] = list(self.instruction_pool)
         d["sampling_ks"] = list(self.sampling_ks)
+        d["single_edit_pool"] = [list(x) for x in self.single_edit_pool]
         return d
 
 
@@ -581,7 +584,15 @@ def apply_mutation(
             return mutate_add_sampling(parent, n_samples=k)
         if op == "M_ADD_CHECK_STAGE":
             return mutate_add_check_stage(parent)
-        raise MutationError(f"UNKNOWN_OPERATOR:{op}")
+        if op == "M_SINGLE_EDIT":
+            # Parameter contract: pick (old,new) from plan.single_edit_pool if
+            # provided; otherwise fail closed (cannot invent an edit target).
+            pool = getattr(plan, "single_edit_pool", None) or ()
+            if not pool:
+                raise MutationError("M_SINGLE_EDIT_NO_POOL")
+            old_s, new_s = pool[rng.next_int(len(pool))]
+            return mutate_single_edit(parent, old=old_s, new=new_s, operator="M_SINGLE_EDIT")
+        raise MutationError("UNKNOWN_OPERATOR:%s" % op)
     except MutationError as exc:
         # ALL mutation failures (including NOOP) become FailedCandidate slots.
         # They never abort the search loop or force a silent redraw.
@@ -901,6 +912,7 @@ MUTATION_OPERATORS = (
 #: Structured applicability contract for every mutation operator.
 OPERATOR_SPECS = {
     "M_SET_INSTRUCTION": {
+        "enabled_in_default_plan": True,
         "supported_style": ["aflow_custom", "direct_llm", "aflow_custom_verify"],
         "preconditions": ["graph contains instruction=<literal> OR self.solve=<literal> slot", "new instruction differs from current"],
         "params": {"instruction": "non-empty str, != current instruction"},
@@ -909,6 +921,7 @@ OPERATOR_SPECS = {
         "slot_effect": "success -> new child; failure -> FailedCandidate kept at slot",
     },
     "M_ADD_SAMPLING": {
+        "enabled_in_default_plan": True,
         "supported_style": ["aflow_custom", "direct_llm"],
         "preconditions": ["n_samples==1", "aggregation==none", "not fixed_verify"],
         "params": {"n_samples": "int in [2,8]"},
@@ -917,6 +930,8 @@ OPERATOR_SPECS = {
         "slot_effect": "success -> new child; failure -> FailedCandidate kept at slot",
     },
     "M_ADD_CHECK_STAGE": {
+        "enabled_in_default_plan": False,
+        "enabled_when": "listed in plan.operator_names; default plan uses only M_SET_INSTRUCTION + M_ADD_SAMPLING",
         "supported_style": ["direct_llm"],
         "preconditions": ["aggregation==majority_vote"],
         "params": {},
@@ -925,6 +940,8 @@ OPERATOR_SPECS = {
         "slot_effect": "success -> new child; failure -> FailedCandidate kept at slot",
     },
     "M_SINGLE_EDIT": {
+        "enabled_in_default_plan": False,
+        "enabled_when": "plan.single_edit_pool non-empty; otherwise apply_mutation returns FailedCandidate(M_SINGLE_EDIT_NO_POOL)",
         "supported_style": ["any valid graph source"],
         "preconditions": ["old literal occurs in source", "old != new"],
         "params": {"old": "non-empty str", "new": "str"},
