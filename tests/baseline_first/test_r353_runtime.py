@@ -211,3 +211,31 @@ def test_preflight_rejects_boolean_task_index():
     bad["dev"]["indices"][0] = True
     result = r35.preflight_verify(man, bad)
     assert any("INDEX_TYPE_INVALID" in error for error in result["errors"])
+
+
+def test_invalid_execution_evidence_stops_later_calls(parent, monkeypatch):
+    budget = r35.Budget()
+    calls = []
+    tasks = [
+        r35.GSM8KTask("t0", "question 0", "1", "#### 1", "train"),
+        r35.GSM8KTask("t1", "question 1", "2", "#### 2", "train"),
+    ]
+
+    def fake_execute(prog, question, *, llm, task_id, expect_graph_sha256):
+        calls.append(task_id)
+        return {
+            "ok": False,
+            "error": "DOCKER_EXECUTION_FAILED",
+            "answer_text": None,
+            "executed_graph_source": False,
+            "graph_sha256_match": False,
+            "n_llm_calls": 0,
+        }
+
+    monkeypatch.setattr(r35, "execute_candidate_docker", fake_execute)
+    rows = r35.run_arm(parent, tasks, budget, "dev:test", False)
+
+    assert calls == ["t0"]
+    assert budget.stop == "EXECUTION_ERROR_STOP"
+    assert rows[1]["skipped"] is True
+    assert r35.accuracy(rows) is None
