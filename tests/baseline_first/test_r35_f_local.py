@@ -104,7 +104,7 @@ def test_e2_uses_winner_own_failures_not_parent(parent):
         FailureRecord("WINNER_FAIL_10", winner.program_id, hash_program(winner),
                       False, "ANSWER_MISMATCH", predicted="3", gold="4"),
     ]
-    out = generate_e2_from_winner(winner, winner_fails)
+    out = generate_e2_from_winner(winner, winner_fails, suffix_index=1)
     e2, rec = out["child"], out["record"]
     assert e2 is not None
     assert rec["status"] == "SUCCESS"

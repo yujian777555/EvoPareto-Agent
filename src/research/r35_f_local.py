@@ -201,10 +201,13 @@ def generate_e2_from_winner(
         rec["parent_program_id"] = child.parent_program_id
         rec["generation"] = child.generation
         rec["status"] = "SUCCESS"
-        # reject stacking an identical suffix with no effective change
-        if child.instruction == winner.instruction:
+        # reject stacking: if the chosen suffix already appears at the end
+        # (or anywhere) of the winner instruction, this is not a new mutation
+        suffix_pool = F_LOCAL_SUFFIXES.get(diag.coarse_label, [])
+        chosen = suffix_pool[suffix_index % len(suffix_pool)] if suffix_pool else ""
+        if child.instruction == winner.instruction or (chosen and chosen.strip() in (winner.instruction or "")):
             rec["status"] = "NO_OP"
-            rec["reason"] = "IDENTICAL_INSTRUCTION_TO_WINNER"
+            rec["reason"] = "SUFFIX_ALREADY_PRESENT" if chosen and chosen.strip() in (winner.instruction or "") else "IDENTICAL_INSTRUCTION_TO_WINNER"
             return {"child": None, "record": rec}
     return {"child": child, "record": rec}
 

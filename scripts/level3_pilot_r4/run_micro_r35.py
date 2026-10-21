@@ -32,6 +32,8 @@ from src.research.r4_workflow_program import load_frozen_parent
 from src.runtime.provider_gateway import conservative_input_tokens, estimate_cost, worst_case_cost
 
 MODEL_ID = "deepseek-flash"
+EXPERIMENT_PROTOCOL_ID = "MICRO-R3.5-EXP-v1"
+CODE_REVISION = "r3.5.3"
 BASE_URL = "https://api.deepseek.com"
 MAX_PHYSICAL = 300
 MAX_COST_USD = 0.30
@@ -77,10 +79,15 @@ class Budget:
             self.stop = self.stop or "INCOMPLETE_BUDGET_STOP"
 
     def dump(self):
+        unsettled = sum(1 for r in self.rows if r.get("settle") == "fail_closed_unknown" or r.get("cost_usd") is None)
         return {
             "evidence_class": "R35_LEDGER",
             "n_physical_requests": self.n,
-            "total_cost_usd": round(self.cost, 8),
+            "known_cost_usd": round(self.cost, 8),
+            "unsettled_request_count": unsettled,
+            "cost_final": unsettled == 0,
+            "total_cost_usd": round(self.cost, 8) if unsettled == 0 else None,
+            "total_cost_note": "UNKNOWN_UNSETTLED" if unsettled else "FINAL",
             "tokens_in": self.tok_in,
             "tokens_out": self.tok_out,
             "stop_reason": self.stop,
@@ -165,6 +172,10 @@ def to_task(t):
 def run_arm(prog, tasks, budget, phase, mock_mode, fixtures=None):
     fixtures = fixtures or {}
     rows = []
+    if getattr(budget, "stop", None):
+        # budget abort: do not fabricate execution/failure rows
+        return [{"task_id": t.task_id, "skipped": True, "skip_reason": budget.stop,
+                 "correct": False, "counts_toward_accuracy": False} for t in tasks]
     for t in tasks:
         mock = fixtures.get(t.task_id, "Compute. Answer: 12345" if mock_mode else None)
         box = Mailbox(budget, t.task_id, phase, mock, mock_mode)
@@ -197,7 +208,8 @@ def classify_row(row) -> str:
         return "EXECUTION_ERROR"
     if not row.get("executed_graph_source"):
         return "EXECUTION_ERROR"
-    if row.get("graph_sha256_match") is False:
+    if row.get("graph_sha256_match") is not True:
+        # missing or false both fail the evidence bar
         return "EXECUTION_ERROR"
     if row.get("ok") is not True:
         return "EXECUTION_ERROR"
@@ -279,6 +291,37 @@ def preflight_verify(man: dict, ts: dict) -> dict:
     for block in (ts["dev"], ts["confirm"]):
         if set(block["indices"]) & used:
             errors.append("HISTORICAL_INDEX_REUSE")
+    # index <-> task_id <-> official content mapping
+    official = {}
+    with train.open(encoding="utf-8") as f:
+        for i, line in enumerate(f):
+            line = line.strip()
+            if not line:
+                continue
+            o = json.loads(line)
+            ans = o["answer"]
+            gold = " ".join((ans.rsplit("####", 1)[-1] if "####" in ans else ans).strip().split())
+            official[i] = (" ".join(o["question"].split()), gold)
+    for block_name in ("dev", "confirm"):
+        block = ts[block_name]
+        ids = [t["task_id"] for t in block["tasks"]]
+        idxs = block.get("indices") or []
+        if len(ids) != len(idxs):
+            errors.append(f"{block_name.upper()}_INDEX_TASK_COUNT_MISMATCH")
+        for tid, idx, task in zip(ids, idxs, block["tasks"]):
+            expected_id = f"gsm8k-train-{idx:04d}"
+            if tid != expected_id:
+                errors.append(f"{block_name.upper()}_TASK_ID_INDEX_MISMATCH:{tid}")
+            if idx not in official:
+                errors.append(f"{block_name.upper()}_INDEX_NOT_IN_TRAIN:{idx}")
+                continue
+            oq, og = official[idx]
+            if " ".join(task["question"].split()) != oq or task["gold_answer"] != og:
+                errors.append(f"{block_name.upper()}_CONTENT_MISMATCH:{tid}")
+        # historical exclusion must use real indices
+        real_idxs = set(idxs)
+        if real_idxs & used:
+            errors.append(f"{block_name.upper()}_HISTORICAL_INDEX_REUSE")
     # parent frozen hash
     try:
         from src.research.r4_workflow_program import PARENT_GRAPH_LF_SHA256, program_provenance
@@ -291,8 +334,16 @@ def preflight_verify(man: dict, ts: dict) -> dict:
     return {"errors": errors, "dev_sha": dev_sha, "confirm_sha": conf_sha, "train_sha": train_sha}
 
 
-def verify_execution_authorization(*, protocol: str, model: str, confirm_sha: str, max_requests: int, max_cost_usd: float) -> str:
-    """Fail-closed authorization check. Never creates or enables an auth record."""
+def verify_execution_authorization(
+    *,
+    protocol: str,
+    model: str,
+    confirm_sha: str,
+    max_requests: int,
+    max_cost_usd: float,
+    code_revision: str | None = None,
+) -> str:
+    """Fail-closed authorization. protocol is experiment id; code_revision is separate."""
     import os as _os
 
     path = Path(_os.environ.get(AUTH_PATH_ENV) or AUTH_PATH_DEFAULT)
@@ -310,6 +361,8 @@ def verify_execution_authorization(*, protocol: str, model: str, confirm_sha: st
         "max_requests": max_requests,
         "max_cost_usd": max_cost_usd,
     }
+    if code_revision is not None:
+        required["code_revision"] = code_revision
     for k, v in required.items():
         if raw.get(k) != v:
             return f"EXEC_AUTH_FIELD_MISMATCH:{k}"
@@ -325,9 +378,6 @@ def main() -> int:
     if not args.mock and not os.environ.get("DEEPSEEK_API_KEY"):
         print("BLOCKED: DEEPSEEK_API_KEY missing")
         return 2
-    if not args.mock:
-        print("BLOCKED: real execution requires explicit new authorization (R3.5.1)")
-        return 3
 
     ts = json.loads((TS / "taskset_r35.json").read_text(encoding="utf-8"))
     man = json.loads((TS / "taskset_r35_manifest.json").read_text(encoding="utf-8"))
@@ -337,16 +387,16 @@ def main() -> int:
         dev_tasks = dev_tasks[:2]
         conf_tasks = conf_tasks[:2]
 
-    # Pre-run integrity (must pass before any HTTP)
+    # Order: preflight -> auth -> output dir -> experiment
     ver = preflight_verify(man, ts)
     if ver["errors"]:
         print("PREFLIGHT_FAILED:", ver["errors"])
         return 5
     parent = load_frozen_parent(FROZEN)
-    # Authorization gate (fail-closed; no auth record is created here)
     if not args.mock:
         auth_err = verify_execution_authorization(
-            protocol="MICRO-R3.5.1",
+            protocol=EXPERIMENT_PROTOCOL_ID,
+            code_revision=CODE_REVISION,
             model=MODEL_ID,
             confirm_sha=man["confirm_task_set_sha256"],
             max_requests=MAX_PHYSICAL,
@@ -421,8 +471,13 @@ def main() -> int:
     if e2 and winner_name in conf and "E2_local" in conf:
         analysis[f"E2_local_vs_{winner_name}"] = paired(conf[winner_name], conf["E2_local"])
 
+    incomplete = budget.stop is not None
+    analysis_out = {} if incomplete else analysis
     summary = {
         "evidence_class": "SIMULATED" if args.mock else "REAL_MODEL",
+        "experiment_complete": not incomplete,
+        "incomplete_reason": budget.stop,
+        "completed_stages": [],
         "protocol": "MICRO-R3.5.1",
         "seed": SEED,
         "taskset_sha256": {"dev": man["dev_task_set_sha256"], "confirm": man["confirm_task_set_sha256"]},
@@ -438,9 +493,11 @@ def main() -> int:
         "e2_generation": e2.generation if e2 else None,
         "e2_parent_ok": (e2.parent_program_id == winner.program_id) if e2 and winner else False,
         "confirm_accuracy": {k: acc(v) for k, v in conf.items()},
-        "paired_analysis": analysis,
+        "paired_analysis": analysis_out if not incomplete else {"note": "INCOMPLETE_NO_FULL_STATS"},
         "requests_total": budget.n,
-        "cost_usd_total": round(budget.cost, 8),
+        "known_cost_usd": round(budget.cost, 8),
+        "unsettled_request_count": budget.dump().get("unsettled_request_count", 0),
+        "cost_usd_total": None if budget.dump().get("unsettled_request_count") else round(budget.cost, 8),
         "stop_reason": budget.stop,
         "budget": {"max_physical": MAX_PHYSICAL, "max_cost_usd": MAX_COST_USD},
         "confirm_used_for_selection": False,
