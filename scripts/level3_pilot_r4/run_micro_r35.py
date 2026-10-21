@@ -33,7 +33,7 @@ from src.runtime.provider_gateway import conservative_input_tokens, estimate_cos
 
 MODEL_ID = "deepseek-flash"
 EXPERIMENT_PROTOCOL_ID = "MICRO-R3.5-EXP-v1"
-CODE_REVISION = "r3.5.3"
+CODE_REVISION = "r3.5.3-planner-fix1"
 BASE_URL = "https://api.deepseek.com"
 MAX_PHYSICAL = 300
 MAX_COST_USD = 0.30
