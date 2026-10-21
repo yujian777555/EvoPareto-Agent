@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/level3_pilot_r4/run_micro_r33.py"
       - "src/research/r3_docker_executor.py"
+      - "src/research/r4_workflow_program.py"
       - "tests/baseline_first/test_r33_real_experiment_safety.py"
       - ".github/workflows/level3-pilot-r33-live.yml"
 

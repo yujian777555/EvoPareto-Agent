@@ -80,6 +80,7 @@ def test_mock_mode_requires_explicit_task_fixtures(tmp_path):
 
 def test_execution_failure_is_not_scored_as_model_answer(monkeypatch, tmp_path):
     task = GSM8KTask("task-1", "question", "1", "#### 1", "train")
+    monkeypatch.setattr(m, "hash_program", lambda *_a, **_k: "fake-expected-sha")
     monkeypatch.setattr(m, "execute_candidate_docker", lambda *_a, **_k: {
         "ok": False,
         "error": "DOCKER_UNAVAILABLE",
@@ -119,3 +120,11 @@ def test_executor_hashes_the_exact_compiled_source():
     src = (ROOT / "src" / "research" / "r3_docker_executor.py").read_text(encoding="utf-8")
     assert 'compiled_sha = hashlib.sha256(graph_src.encode("utf-8")).hexdigest()' in src
     assert 'GRAPH_SHA_MISMATCH_BEFORE_EXECUTION' in src
+
+
+def test_frozen_parent_placeholder_is_explicitly_labelled():
+    from src.research.r4_workflow_program import load_frozen_parent
+
+    parent = load_frozen_parent(ROOT / "results/level3_pilot_r2/frozen_candidates")
+    assert parent.source_artifact_status == "KNOWN_PLACEHOLDER_UNREFERENCED"
+    assert parent.lineage()["source_artifact_status"] == "KNOWN_PLACEHOLDER_UNREFERENCED"

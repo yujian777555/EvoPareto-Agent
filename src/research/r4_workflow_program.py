@@ -101,6 +101,9 @@ class WorkflowProgram:
     operator_history: List[str] = field(default_factory=list)
     failed: bool = False
     failure_reason: Optional[str] = None
+    # Explicit provenance for the frozen parent prompt artifact. The repository
+    # currently contains a known placeholder; never report it as the original prompt.
+    source_artifact_status: str = "UNSPECIFIED"
 
     def clone_with(self, **updates: Any) -> "WorkflowProgram":
         base = asdict(self)
@@ -124,6 +127,7 @@ class WorkflowProgram:
             "fixed_verify": self.fixed_verify,
             "failed": self.failed,
             "failure_reason": self.failure_reason,
+            "source_artifact_status": self.source_artifact_status,
         }
 
 
@@ -191,6 +195,10 @@ def validate_graph_source(src: str) -> str:
 PARENT_GRAPH_BYTE_SHA256 = "ee6cde435b71893e424d96b39a10afac125c221f7d5f631d1510f40998f93d8e"
 PARENT_GRAPH_LF_SHA256 = "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe"
 PARENT_PROMPT_RAW_SHA256 = "34b149ab37e571def0875faeac171867c3a2bb9fff03db4bc0ccca034e48e979"
+# The committed parent_prompt.py is a known placeholder, not the original raw prompt.
+# It is accepted only because the frozen graph uses instruction="" and does not read
+# this file's contents; the status is propagated into candidate lineage and reports.
+PARENT_PROMPT_PLACEHOLDER_SHA256 = "89758a63470c31c0a5d9613cd97d88d07c1c4fde8793f165fa8de5773892e5cf"
 
 
 def _sha256_bytes(b: bytes) -> str:
@@ -211,7 +219,11 @@ def load_frozen_parent(frozen_dir: Path | str) -> WorkflowProgram:
     p_byte = _sha256_bytes(pbytes)
     if g_byte != PARENT_GRAPH_BYTE_SHA256 and g_lf != PARENT_GRAPH_LF_SHA256:
         raise ParentLoadError(f"PARENT_GRAPH_SHA_MISMATCH:byte={g_byte} lf={g_lf}")
-    if p_byte != PARENT_PROMPT_RAW_SHA256:
+    if p_byte == PARENT_PROMPT_RAW_SHA256:
+        prompt_artifact_status = "ORIGINAL_RAW_HASH_VERIFIED"
+    elif p_byte == PARENT_PROMPT_PLACEHOLDER_SHA256:
+        prompt_artifact_status = "KNOWN_PLACEHOLDER_UNREFERENCED"
+    else:
         raise ParentLoadError(f"PARENT_PROMPT_SHA_MISMATCH:{p_byte}")
 
     graph_src = _lf(gbytes.decode("utf-8"))
@@ -231,6 +243,7 @@ def load_frozen_parent(frozen_dir: Path | str) -> WorkflowProgram:
         generation=0,
         parent_program_id=None,
         operator_history=["ROOT_PARENT"],
+        source_artifact_status=prompt_artifact_status,
     )
 
 
