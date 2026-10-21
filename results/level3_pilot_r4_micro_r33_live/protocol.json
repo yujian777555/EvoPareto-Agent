@@ -1,0 +1,51 @@
+{
+  "base_url": "https://api.deepseek.com",
+  "budget": {
+    "baseline_requests": 50,
+    "max_cost_usd": 0.05,
+    "max_input_tokens_per_request": 1500,
+    "max_output_tokens_per_request": 300,
+    "max_physical_requests": 55,
+    "reservation_per_request_usd": 0.00081
+  },
+  "claims": "Exploratory GSM8K micro-pilot only; not thesis-mainline evidence and not a confirmatory RSI claim.",
+  "confirm_indices": [
+    3098,
+    6031,
+    4459,
+    6404,
+    2184,
+    1856,
+    856,
+    4627
+  ],
+  "confirm_used_for_selection": false,
+  "dev_indices": [
+    4336,
+    2201,
+    2495,
+    5648,
+    4346
+  ],
+  "evidence_class": "REAL_MODEL",
+  "expected_episode_calls_upper_bound": 44,
+  "mode": "real",
+  "model": "deepseek-flash",
+  "protocol": "MICRO-R3.3",
+  "proxy_bypass": true,
+  "screening_indices": [
+    5895,
+    1540,
+    6485,
+    7068,
+    7166,
+    3011,
+    7396,
+    6596,
+    1900,
+    6752
+  ],
+  "seed": 20260603,
+  "splits_disjoint": true,
+  "train_sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465"
+}

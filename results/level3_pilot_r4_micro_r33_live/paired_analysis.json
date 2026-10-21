@@ -1,0 +1,13 @@
+{
+  "P_vs_winner": {
+    "base_accuracy": 1.0,
+    "base_only_correct": 0,
+    "both_correct": 8,
+    "both_wrong": 0,
+    "candidate_accuracy": 1.0,
+    "candidate_only_correct": 0,
+    "interpretation": "EXPLORATORY_ONLY_NOT_CONFIRMATORY",
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 8
+  }
+}

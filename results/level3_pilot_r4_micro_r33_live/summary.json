@@ -1,0 +1,38 @@
+{
+  "billing_uncertain": false,
+  "budget_baseline_requests": 50,
+  "budget_cap_usd": 0.05,
+  "budget_charged_upper_bound_usd": 0.0058992,
+  "budget_suggested_cap_requests": 55,
+  "confirm_used_for_selection": false,
+  "cost_usd_total": 0.0058992,
+  "dev_scores": {
+    "R": 1.0
+  },
+  "e2_feedback_label": "NO_FAILURE",
+  "e2_generation": null,
+  "e2_parent_ok": false,
+  "e2_status": "FAILED",
+  "evidence_class": "REAL_MODEL",
+  "gen1_winner": "R",
+  "mock_mode": false,
+  "mode": "real",
+  "paired_analysis": {
+    "P_vs_winner": {
+      "base_accuracy": 1.0,
+      "base_only_correct": 0,
+      "both_correct": 8,
+      "both_wrong": 0,
+      "candidate_accuracy": 1.0,
+      "candidate_only_correct": 0,
+      "interpretation": "EXPLORATORY_ONLY_NOT_CONFIRMATORY",
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 8
+    }
+  },
+  "protocol": "MICRO-R3.3",
+  "requests_total": 26,
+  "seed": 20260603,
+  "statistical_claim": "EXPLORATORY_MICRO_PILOT_ONLY_NO_CONFIRMATORY_CLAIM",
+  "winner_dev_accuracy": 1.0
+}

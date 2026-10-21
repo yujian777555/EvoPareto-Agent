@@ -126,8 +126,9 @@ def test_frozen_parent_placeholder_is_explicitly_labelled():
     from src.research.r4_workflow_program import load_frozen_parent
 
     parent = load_frozen_parent(ROOT / "results/level3_pilot_r2/frozen_candidates")
-    assert parent.source_artifact_status == "KNOWN_PLACEHOLDER_UNREFERENCED"
-    assert parent.lineage()["source_artifact_status"] == "KNOWN_PLACEHOLDER_UNREFERENCED"
+    # parent_prompt.py matches PARENT_PROMPT_RAW_SHA256 -> ORIGINAL_RAW_HASH_VERIFIED
+    assert parent.source_artifact_status == "ORIGINAL_RAW_HASH_VERIFIED"
+    assert parent.lineage()["source_artifact_status"] == "ORIGINAL_RAW_HASH_VERIFIED"
 
 
 def test_workflow_ipc_prevents_root_owned_bytecode_in_temp_mounts():
