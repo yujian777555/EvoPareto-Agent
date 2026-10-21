@@ -1,0 +1,71 @@
+{
+  "arms": {
+    "E2": {
+      "confirm_acc": 0.3333333333333333,
+      "operator": "OP_ARITH_RECHECK",
+      "parent": "wfp-2d57a9a6663b",
+      "wrong": 20
+    },
+    "F": {
+      "confirm_acc": 0.43333333333333335,
+      "feedback_label": "ANSWER_MISMATCH",
+      "operator": "OP_ARITH_RECHECK",
+      "wrong": 17
+    },
+    "P": {
+      "confirm_acc": 0.7333333333333333,
+      "wrong": 8
+    },
+    "R": {
+      "confirm_acc": 0.7333333333333333,
+      "operator": "OP_ERROR_RECOVERY",
+      "wrong": 8
+    }
+  },
+  "e2_scope": {
+    "changed": "instruction only via M_SET_INSTRUCTION / OP_ARITH_RECHECK",
+    "graph_call_style_unchanged": true,
+    "risk": "full instruction overwrite collapses original solve strategy"
+  },
+  "evidence_class": "OFFLINE_ATTRIBUTION_FROM_REAL_R34_ARTIFACTS",
+  "execution_vs_parse_vs_reasoning": {
+    "executed_graph_source_flags": "all true for successful arms in paired_results",
+    "note": "wrong answers are model reasoning/answer errors, not harness failures",
+    "parse_errors": 0
+  },
+  "failure_records": {
+    "calibration_errors": 2,
+    "dev_parent_errors": 2,
+    "gold_in_candidate_prompts": false,
+    "used_for_f": true
+  },
+  "hypotheses": {
+    "H1_overconstraint": {
+      "evidence": "F/E2 instructions replace full solve prompt with 'Compute, then re-add\u2026/verify arithmetic' variants; confirm acc drops 0.733\u21920.433/0.333",
+      "status": "SUPPORTED_PATTERN"
+    },
+    "H2_bad_attribution": {
+      "evidence": "only coarse ANSWER_MISMATCH available; no fine error labels",
+      "status": "UNTESTED"
+    },
+    "H3_destroyed_logic": {
+      "evidence": "mutate_insert_instruction overwrites instruction slot entirely; prefix of original solve not preserved",
+      "status": "SUPPORTED_PATTERN"
+    },
+    "H4_seed_noise": {
+      "evidence": "single seed 20260604; R matched P (1/1 delta)",
+      "status": "OPEN"
+    }
+  },
+  "leakage_check": {
+    "confirm_used_for_selection": null,
+    "dev_confirm_disjoint": true,
+    "gold_in_prompts": false
+  },
+  "operator_dispatch": {
+    "E2": "OP_ARITH_RECHECK again on winner (stacked overwrite)",
+    "F": "OP_ARITH_RECHECK via policy[ANSWER_MISMATCH]",
+    "R": "OP_ERROR_RECOVERY (seeded random)"
+  },
+  "r34_commit": "6d8107df27b35f6d6240829ce28be473ff3d4962"
+}
