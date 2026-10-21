@@ -1,0 +1,97 @@
+name: Level3 Pilot R3.3 guarded live micro-pilot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/level3_pilot_r4/run_micro_r33.py"
+      - "src/research/r3_docker_executor.py"
+      - "tests/baseline_first/test_r33_real_experiment_safety.py"
+      - ".github/workflows/level3-pilot-r33-live.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: level3-r33-live-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  offline-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Run R3.2 and R3.3 offline regression
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: >-
+          python -m pytest
+          tests/baseline_first/test_r32_experiment_logic.py
+          tests/baseline_first/test_r33_real_experiment_safety.py
+
+  live-micro:
+    needs: offline-preflight
+    if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[RUN_REAL_R3_3_ONCE]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Require API secret before any live call
+        run: |
+          if [ -z "$DEEPSEEK_API_KEY" ]; then
+            mkdir -p results/level3_pilot_r4_micro_r33_live
+            printf '%s\n' 'BLOCKED: repository Actions secret DEEPSEEK_API_KEY is not configured; no API request was sent.' > results/level3_pilot_r4_micro_r33_live/PRECHECK_BLOCKED.md
+            echo "::error::Missing DEEPSEEK_API_KEY secret. No real API request was sent."
+            exit 2
+          fi
+      - name: Run guarded real-model micro-pilot
+        id: experiment
+        continue-on-error: true
+        run: >-
+          python scripts/level3_pilot_r4/run_micro_r33.py
+          --real
+          --out results/level3_pilot_r4_micro_r33_live
+      - name: Upload run evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: level3-pilot-r33-live-evidence
+          path: results/level3_pilot_r4_micro_r33_live/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Commit durable run evidence to main
+        if: always()
+        run: |
+          if [ -d results/level3_pilot_r4_micro_r33_live ] && [ "$(find results/level3_pilot_r4_micro_r33_live -type f | wc -l)" -gt 0 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add results/level3_pilot_r4_micro_r33_live
+            if ! git diff --cached --quiet; then
+              git commit -m "Results: R3.3 controlled live micro-pilot evidence"
+              git push origin HEAD:main
+            fi
+          fi
+      - name: Fail workflow if the experiment did not complete
+        if: always()
+        run: |
+          if [ "${{ steps.experiment.outcome }}" != "success" ]; then
+            echo "::error::R3.3 live experiment did not complete successfully; inspect the committed ledger/report."
+            exit 1
+          fi

@@ -134,6 +134,23 @@ def execute_candidate_docker(
             "evidence_class": "SIMULATED_DOCKER_IPC",
         }
 
+    compiled_sha = hashlib.sha256(graph_src.encode("utf-8")).hexdigest()
+    expected_sha = expect_graph_sha256 or prov["graph_sha256"]
+    if compiled_sha != expected_sha:
+        return {
+            "ok": False,
+            "executed_graph_source": False,
+            "error": "GRAPH_SHA_MISMATCH_BEFORE_EXECUTION",
+            "program_id": prog.program_id,
+            "parent_program_id": prog.parent_program_id,
+            "generation": prog.generation,
+            "graph_sha256": compiled_sha,
+            "graph_sha256_expected": expected_sha,
+            "graph_sha256_match": False,
+            "answer_text": None,
+            "n_llm_calls": 0,
+            "evidence_class": "SIMULATED_DOCKER_IPC",
+        }
     extras = extra_modules if extra_modules is not None else build_production_extras()
     res = run_workflow_code_isolated(
         graph_src,
@@ -149,11 +166,12 @@ def execute_candidate_docker(
     res["parent_program_id"] = prog.parent_program_id
     res["generation"] = prog.generation
     res["operator_history"] = list(prog.operator_history)
-    res["graph_sha256"] = prov["graph_sha256"]
-    res["graph_sha256_expected"] = expect_graph_sha256 or prov["graph_sha256"]
-    res["graph_sha256_match"] = (res["graph_sha256"] == res["graph_sha256_expected"])
+    # Hash the exact compiled source passed to the production Docker/IPC entry.
+    res["graph_sha256"] = compiled_sha
+    res["graph_sha256_expected"] = expected_sha
+    res["graph_sha256_match"] = (compiled_sha == expected_sha)
     res["n_llm_calls"] = len(res.get("ipc_processed") or []) or (1 if res.get("answer_text") is not None else 0)
-    res["executed_graph_source"] = evidence_executed_graph(res)
+    res["executed_graph_source"] = evidence_executed_graph(res) and res["graph_sha256_match"]
     res["evidence_class"] = "SIMULATED_DOCKER_IPC"
     res["production_entry"] = "run_workflow_code_isolated"
     return res
