@@ -1,0 +1,411 @@
+{
+  "calibration": {
+    "indices": [
+      4902,
+      7454,
+      213,
+      518,
+      6384,
+      2144,
+      4802,
+      6282,
+      3430,
+      5085
+    ],
+    "n": 10,
+    "role": "calibration",
+    "tasks": [
+      {
+        "gold_answer": "17",
+        "question": "Sally took 342 pens to her class of 44 students. If she gave 7 pens to each student, left half of the remainder in her locker, and took the rest home, how many did she take home?",
+        "question_norm_sha256": "fe6cc3459933fc9a233bbfb41466824474da7d2b116ff0ed619edc04b82cad68",
+        "task_id": "gsm8k-train-4902"
+      },
+      {
+        "gold_answer": "20",
+        "question": "It takes Jennifer 20 minutes to groom each of her 2 long hair dachshunds.  If she grooms her dogs every day, how many hours does she spend grooming her dogs in 30 days?",
+        "question_norm_sha256": "76e212011d641eb037e012d21cbaf73f88e3c40e43c5264383c8f7945af6e96c",
+        "task_id": "gsm8k-train-7454"
+      },
+      {
+        "gold_answer": "250",
+        "question": "Mike and Ted planted tomatoes.  In the morning, Mike planted 50 tomato seeds while Ted planted twice as much as Mike.  In the afternoon, Mike planted 60 tomato seeds while Ted planted 20 fewer tomato seeds than Mike. How many tomato seeds did they plant altogether?",
+        "question_norm_sha256": "f02f831d701b84ab8464860d8f3eaabc6299947cf84fd32ab17deda3ba6e9b7d",
+        "task_id": "gsm8k-train-0213"
+      },
+      {
+        "gold_answer": "30",
+        "question": "Merill has twice as many marbles as Elliot and the two of them together have five fewer marbles than Selma. If Selma has fifty marbles, how many marbles does Merill have?",
+        "question_norm_sha256": "d077c1ae6ac52e49d07704f43d18c62fd944e3047b35d50233f26e10abb41f21",
+        "task_id": "gsm8k-train-0518"
+      },
+      {
+        "gold_answer": "36",
+        "question": "Sam is twice as old as Sue. Kendra is 3 times as old as Sam. If Kendra is currently 18, what will be their total age in 3 years?",
+        "question_norm_sha256": "9bc77c97184088384f39f10451ff795de9fc034714c4ba1f420b4d6c1901ab76",
+        "task_id": "gsm8k-train-6384"
+      },
+      {
+        "gold_answer": "32",
+        "question": "Sharon’s vacation rental has a Keurig coffee machine.  She will be there for 40 days.  She has 3 cups of coffee (3 coffee pods) every morning.  Her coffee pods come 30 pods to a box for $8.00.  How much will she spend on coffee to last her for the entire vacation?",
+        "question_norm_sha256": "0e64cc9ac21bfdd1276ab78eaba4fb2c1aca0452d7d06de10597e66acc10882b",
+        "task_id": "gsm8k-train-2144"
+      },
+      {
+        "gold_answer": "2",
+        "question": "The battery charge in Mary’s cordless vacuum cleaner lasts ten minutes. It takes her four minutes to vacuum each room in her house. Mary has three bedrooms, a kitchen, and a living room. How many times does Mary need to charge her vacuum cleaner to vacuum her whole house?",
+        "question_norm_sha256": "ca8817c8b1195288d777ef5a06fa6bb6e128100b119829865423ccee29f4f584",
+        "task_id": "gsm8k-train-4802"
+      },
+      {
+        "gold_answer": "21",
+        "question": "There is a massive rainstorm lasting 4 days.  There is an area that collects water to prevent flooding in the area.  It ends up overflowing on the 4th day.  The area can hold the equivalent of 6 feet of rain.  It can also drain out the equivalent of 3 inches of rain per day to the nearby river without causing problems.  The first day it rained 10 inches.  The second day it rained twice that much.  On the third day, it rained 50% more than the second day.  It flooded the fourth day before getting a chance to do any of the draining.  What is the minimum amount it rained on the fourth day?",
+        "question_norm_sha256": "eec5bfbd7c33b6f965ad0e1980b027183eda056fc50d46d5ff42a1e70ac729b0",
+        "task_id": "gsm8k-train-6282"
+      },
+      {
+        "gold_answer": "70",
+        "question": "Samantha sleeps an average of 8 hours a night. Her baby sister sleeps 2.5 times as much as Samantha does. Because her father is so tired from watching the baby, for every hour the baby sleeps, he sleeps 30 minutes. How many hours does her father sleep in a week?",
+        "question_norm_sha256": "b34e198f974930c8648e1be6b3a58bffd2fbacf20b5e0d6b49d35514d6478c44",
+        "task_id": "gsm8k-train-3430"
+      },
+      {
+        "gold_answer": "377050",
+        "question": "Salem is 15 times the size of Leesburg. Leesburg has 58940 people. If 130000 people move out of Salem, and half of Salem's population is women, how many women live in Salem?",
+        "question_norm_sha256": "2777d0932f10d2227e710fcc4465c05262a0f085300a4f4d76a795b5ef908cec",
+        "task_id": "gsm8k-train-5085"
+      }
+    ]
+  },
+  "confirm": {
+    "indices": [
+      757,
+      5400,
+      5711,
+      6836,
+      5569,
+      1260,
+      2708,
+      1602,
+      1705,
+      4719,
+      3498,
+      1641,
+      3973,
+      7417,
+      6249,
+      5438,
+      289,
+      1777,
+      522,
+      1947,
+      83,
+      2600,
+      1614,
+      5995,
+      2257,
+      3729,
+      4633,
+      1074,
+      2541,
+      4341
+    ],
+    "n": 30,
+    "role": "confirmation",
+    "tasks": [
+      {
+        "gold_answer": "7",
+        "question": "Luna, the poodle, is supposed to eat 2 cups of kibble every day.  But Luna's master, Mary, and her husband, Frank, sometimes feed Luna too much kibble.  One day, starting with a new, 12-cup bag of kibble, Mary gave Luna 1 cup of kibble in the morning and 1 cup of kibble in the evening, But on the same day, Frank also gave Luna 1 cup of kibble in the afternoon and twice as much in the late evening as he had given Luna in the afternoon.  The next morning, how many cups of kibble will Mary find remaining in the bag?",
+        "question_norm_sha256": "c5a83c15228ce969d5398287d6e26c7ad39342e0a245ce595b474fe4ab8a5620",
+        "task_id": "gsm8k-train-0757"
+      },
+      {
+        "gold_answer": "78",
+        "question": "Seth and Max were selling candy bars for a school fundraiser. Seth sold 6 more candy bars than 3 times the number of candy bars that Max sold. If Max sold 24 candy bars, how many did Seth sell?",
+        "question_norm_sha256": "761f89c664a9334315866f98b8c8fdc419027a8c609b3bc7da5b4fec425e1e40",
+        "task_id": "gsm8k-train-5400"
+      },
+      {
+        "gold_answer": "3",
+        "question": "Biff is getting ready for a long bus trip. He spends $11 on the ticket, $3 on drinks and snacks, and $16 on a new pair of headphones to listen to music. Biff plans to do online tasks using the bus's WiFi during his trip. If Biff makes $12/hour working online and has to pay $2/hour to access the bus's WiFi, how many hours long will the bus ride need to be for him to break even?",
+        "question_norm_sha256": "7c580527974efe7f779d80b7691831887698f4589c59e102f7396c6485f52926",
+        "task_id": "gsm8k-train-5711"
+      },
+      {
+        "gold_answer": "38",
+        "question": "Darius, Matt, and Marius are friends, who played table football. During all the games they played, Marius scored 3 points more than Darius, and Darius scored 5 points less than Matt. How many points did all three friends score together, if Darius scored 10 points?",
+        "question_norm_sha256": "957d0c8488e08401dfc3b452a3ce3e04e80f7dea55eb9f122fc82d96e32e2951",
+        "task_id": "gsm8k-train-6836"
+      },
+      {
+        "gold_answer": "50",
+        "question": "Some friends wanted to make a road trip from New York to Los Angeles. They drove at a constant speed of 62 miles/hour, taking breaks of 30 minutes every 5 hours. Once in the city, they looked for the hotel for 30 minutes. If the trip took around 2,790 miles, how many hours will they have to spend to complete the trip to the hotel?",
+        "question_norm_sha256": "522ffcca25e58cb85c9205091486af646d9b9c1c59d9e8421252af1c48a1c0e3",
+        "task_id": "gsm8k-train-5569"
+      },
+      {
+        "gold_answer": "102",
+        "question": "Jackson buys a computer game for $66 and three movie tickets for $12 each. How much did he spend on entertainment total?",
+        "question_norm_sha256": "bb1e1aed1dad1323f4a03ec166c312d514b12ee85d8f41445e88472d95665a4c",
+        "task_id": "gsm8k-train-1260"
+      },
+      {
+        "gold_answer": "160",
+        "question": "Ofelia joined a saving challenge wherein she has to save twice the amount she saved from the previous month. In January, she saved $10. How much is she going to save in May?",
+        "question_norm_sha256": "1875a70486a132a057c968189094047621d6b166fd82baeb795c0d386adcf4eb",
+        "task_id": "gsm8k-train-2708"
+      },
+      {
+        "gold_answer": "6716",
+        "question": "The distance across a country is 8205 kilometers. Amelia started at one end and drove 907 kilometers on Monday and 582 kilometers on Tuesday. How many kilometers does Amelia still have to drive to make it across the country?",
+        "question_norm_sha256": "4f35984444848e38c749c6103599100e57016ea7381d79c75da3979d053fd4f5",
+        "task_id": "gsm8k-train-1602"
+      },
+      {
+        "gold_answer": "42",
+        "question": "For every one dozen flowers bought, a customer gets 2 free flowers. If Maria wants to buy 3 dozens flowers, how many pieces of flowers will she have in all?",
+        "question_norm_sha256": "369316a069281d4e7a9a47055d09e97933f7c2c9d8ce99dca846b002f0b37acd",
+        "task_id": "gsm8k-train-1705"
+      },
+      {
+        "gold_answer": "12",
+        "question": "Sid takes $48 with him on a shopping trip to the mall.  He spent some of his money on computer accessories and another $8 on snacks. After these purchases, he only has $4 more than half of his original money left. How much did he spend on computer accessories?",
+        "question_norm_sha256": "e973c992976a6aa66e31bd789e8aac191b488060b8cec767429683378a571268",
+        "task_id": "gsm8k-train-4719"
+      },
+      {
+        "gold_answer": "20",
+        "question": "Harry's birthday was three weeks after the closing of the school. His three friends decided to contribute an equal amount of money to throw him a party. Harry added $30 to the contribution, making the total contribution three times as much as Harry contributed. Calculate the total amount of money that each of Harry's friends contributed.",
+        "question_norm_sha256": "a6458c68e3bc732f68682bb567917c81f7302764b1da4311855bcee8b695e8e4",
+        "task_id": "gsm8k-train-3498"
+      },
+      {
+        "gold_answer": "3",
+        "question": "John uses the bathroom every 50 minutes.  How many times does he use the bathroom during a 2.5-hour movie?",
+        "question_norm_sha256": "1adaa56b4d23a45b343a2f1739b2ec9124afd6001a36a8f3ae699e8a9e4379aa",
+        "task_id": "gsm8k-train-1641"
+      },
+      {
+        "gold_answer": "38",
+        "question": "Jenny has 6 Pokemon cards. Orlando has 2 more cards than Jenny. Richard has three times as many cards as Orlando. How many Pokemon cards do they have in all?",
+        "question_norm_sha256": "f4c6d4feb36ba6eeec2b0703493a173ff5164c79f907df8ddae5715bd03469c7",
+        "task_id": "gsm8k-train-3973"
+      },
+      {
+        "gold_answer": "170",
+        "question": "Max fills up water balloons for 30 minutes at a rate of 2 water balloons every minute. Max’s friend Zach fills up water balloons for 40 minutes at a rate of 3 water balloons every minute. In the process, 10 of the water balloons pop on the ground. How many filled water balloons do Max and Zach have in total?",
+        "question_norm_sha256": "59787eb09cd8abd78b3d916096193f090fdb7f8a4ac9e8d761aa8bbd918053cf",
+        "task_id": "gsm8k-train-7417"
+      },
+      {
+        "gold_answer": "55",
+        "question": "Raul had $87 to spare so he decided to go to the bookshop. Raul bought 8 comics, each of which cost $4. How much money does Raul have left?",
+        "question_norm_sha256": "4215a7dfc3c2e01b77c0395adaf6974aa63f0e147af7e73923d59afcaccc22e7",
+        "task_id": "gsm8k-train-6249"
+      },
+      {
+        "gold_answer": "63",
+        "question": "Elena has 8 lilies and 5 tulips in her garden. Each lily has 6 petals. Each tulip has 3 petals. How many flower petals are in Elena’s garden?",
+        "question_norm_sha256": "3e3acf22bff91d6996871672f4f2ef84c2e11e5253e0848ae0fd00fb33eef400",
+        "task_id": "gsm8k-train-5438"
+      },
+      {
+        "gold_answer": "220",
+        "question": "Jim collects model cars, and he has 301 models total.  Jim has 4 times as many Buicks as Fords, and 3 more than twice the number of Fords than Chevys.  How many Buicks does Jim have?",
+        "question_norm_sha256": "45646ba2ae673e53824082300db93b8e53f82cd9b5bd68b98cb58b4aadc92934",
+        "task_id": "gsm8k-train-0289"
+      },
+      {
+        "gold_answer": "90",
+        "question": "A school is getting ready to open for the year and the sports class is organizing the equipment they have been donated. In total, they have 300 donations to organize. 60 of these were basketball hoops, half of which also had basketballs included as part of the donation. 120 pool floats were donated, but a quarter of these were damaged and were discarded before the sports class arrived. There were 50 footballs, 40 tennis balls, and the remaining donations were basketballs. In total, how many basketballs have been donated?",
+        "question_norm_sha256": "9115eddd0095521f48f582fefb601a87051d8f76275235a3d9df06b2715b3f6a",
+        "task_id": "gsm8k-train-1777"
+      },
+      {
+        "gold_answer": "3",
+        "question": "One barnyard owl makes 5 hoot sounds per minute.  If 5 less than 20 hoots per minute are heard coming out of the barn, how many Barnyard owls would this noise be coming from?",
+        "question_norm_sha256": "dcbaa00b3305c42c4d4b033baf9f70ee56c8c868dbf77e6e2ea4ca1f0442ae51",
+        "task_id": "gsm8k-train-0522"
+      },
+      {
+        "gold_answer": "54",
+        "question": "Caleb has 3 dozen jellybeans.  Sophie has half as many jellybeans as Caleb.  How many jellybeans do they have in total?",
+        "question_norm_sha256": "69dd6aefdcf8d9eb9e3db546a09b4f9e7bf161242090b32b8a52ef0dfc6c2afb",
+        "task_id": "gsm8k-train-1947"
+      },
+      {
+        "gold_answer": "54",
+        "question": "Paityn has 20 red hats and 24 blue hats. Her friend Zola has 4/5 times as many red hats as she has and twice the number of blue hats. If they combine all the hats together and share them equally between themselves, calculate the number of hats each gets.",
+        "question_norm_sha256": "a869e44547ce2413df798ebfec7fc4f572cf3a4ab984eb011833b3e431de070b",
+        "task_id": "gsm8k-train-0083"
+      },
+      {
+        "gold_answer": "2",
+        "question": "Emir wants to buy a dictionary that costs $5, a dinosaur book that costs $11, and a children's cookbook that costs $5. He has saved $19 from his allowance. How much more money does Emir need to buy all three books?",
+        "question_norm_sha256": "5b3aa94e408865459e3d69b7a0f909912482df9efc815bf0bbc1f74bdf7a90ec",
+        "task_id": "gsm8k-train-2600"
+      },
+      {
+        "gold_answer": "6",
+        "question": "Joseph wants to go to Boston for a road trip. If he takes route A, it will take him 5 hours to arrive; but if he takes route B, it will only take him 2 hours to arrive at his destination. How much time will he save if he takes route B to Boston and back to his home?",
+        "question_norm_sha256": "f0fa85fb03753279991cedae63b5b0a725e02c73effec5abc025363cb2d63544",
+        "task_id": "gsm8k-train-1614"
+      },
+      {
+        "gold_answer": "266",
+        "question": "Mary has 300 sheep and Bob has double the number of sheep as Mary plus another 35. How many sheep must Mary buy to have 69 fewer sheep than Bob?",
+        "question_norm_sha256": "cfb27339ba245995cf3c928e4ee1048374ca8ba51513e5b1dc73ed345dceb7f2",
+        "task_id": "gsm8k-train-5995"
+      },
+      {
+        "gold_answer": "750",
+        "question": "There are 4,000 jelly beans in a jar. If three fourths of the jelly beans are red, and one quarter of the red jelly beans are coconut flavored, how many jelly beans are coconut flavored?",
+        "question_norm_sha256": "ba6d9f25300493d4a004013a94b66171d121e0d8a2c819d400817ae6b0d3a4e6",
+        "task_id": "gsm8k-train-2257"
+      },
+      {
+        "gold_answer": "40",
+        "question": "Stan makes a playlist for the next time he goes running. He has 10 3-minute songs and 15 2-minute songs on his playlist. His entire run takes 100 minutes. If Stan wants a playlist to cover his entire run, how many more minutes of songs will he need in his playlist?",
+        "question_norm_sha256": "a20612841c8842b8dc99055b705478705620061c5114cf654be30a9d16b82ce1",
+        "task_id": "gsm8k-train-3729"
+      },
+      {
+        "gold_answer": "7",
+        "question": "Toby is dining out with his friend. They each order a cheeseburger for $3.65. He gets a milkshake for $2 and his friend gets a coke for $1. They split a large fries that cost $4. His friend also gets three cookies that cost $.5 each. The tax is $.2. They agree to split the bill. If Toby arrived with $15, how much change is he bringing home?",
+        "question_norm_sha256": "76d2868f5226eed3be0e1090916e68c593700131416fe7c0ebedc7bfacd3879c",
+        "task_id": "gsm8k-train-4633"
+      },
+      {
+        "gold_answer": "50",
+        "question": "A bathroom has 10 6 inch tiles along its width and 20 6 inch tiles along its length.  What is the square footage of the bathroom?",
+        "question_norm_sha256": "5bbed16169a8113f19e2259e5f6e7cbe0bb06f1fbbb46af353f5b400e2c4af8b",
+        "task_id": "gsm8k-train-1074"
+      },
+      {
+        "gold_answer": "15",
+        "question": "The bald eagle can dive at a speed of 100 miles per hour, while the peregrine falcon can dive at a speed of twice that of the bald eagle.   Starting from the same treetop, if it takes the bald eagle 30 seconds to dive to the ground, how long,  in seconds, will it take the peregrine falcon to dive the same distance?",
+        "question_norm_sha256": "306780b0e057d441f05676b4dee7410d3490854b545489d4955c7efa686eefaa",
+        "task_id": "gsm8k-train-2541"
+      },
+      {
+        "gold_answer": "46",
+        "question": "It starts raining at 7:00 and pours heavily until its stops at 17:00  on a particular day. On the second day, the rain takes 2 more hours than it took on the first day to stop. On the third day, the rain pours for twice the amount of time it took on the second day. Calculate the total time it was raining in the three days.",
+        "question_norm_sha256": "2115a037775e86f8a9f58bc273a77dec39a834381189c55cb6949add1a60fcbc",
+        "task_id": "gsm8k-train-4341"
+      }
+    ]
+  },
+  "dev": {
+    "indices": [
+      5876,
+      3683,
+      3045,
+      845,
+      3377,
+      2364,
+      6238,
+      2023,
+      5317,
+      3460,
+      5494,
+      6271,
+      629,
+      3059,
+      1218
+    ],
+    "n": 15,
+    "role": "development",
+    "tasks": [
+      {
+        "gold_answer": "55",
+        "question": "Thomas made 4 stacks of wooden blocks. The first stack was 7 blocks tall. The second stack was 3 blocks taller than the first. The third stack was 6 blocks shorter than the second stack, and the fourth stack was 10 blocks taller than the third stack. If the fifth stack has twice as many blocks as the second stack, how many blocks did Thomas use in all?",
+        "question_norm_sha256": "fb02fea16f88e77c1107df54ef71fa7f8acdc9624f75900879b95e4138f5261f",
+        "task_id": "gsm8k-train-5876"
+      },
+      {
+        "gold_answer": "35",
+        "question": "At a party, there are 50 people. 30% of them are boys. How many girls are at this party?",
+        "question_norm_sha256": "b822f099bdba1d1c39b1bfe590ef177e0bec7b65a3af8f064422882148558991",
+        "task_id": "gsm8k-train-3683"
+      },
+      {
+        "gold_answer": "950",
+        "question": "For the funfair, the school organizers ordered 30 rolls of tickets. Each roll of tickets has 100 tickets. The 4th graders bought 30% of the tickets while the 5th graders bought 50% of the remaining tickets. Then the 6th graders bought a total of 100 tickets. How many tickets were left unsold?",
+        "question_norm_sha256": "5a9bf86c7aa18f161bd4e0be947b7428e066b5ad01562a0b72b5226a1bc21671",
+        "task_id": "gsm8k-train-3045"
+      },
+      {
+        "gold_answer": "20",
+        "question": "In a show, there can be 5 actors at a time. Every actor is in the show for about 15 minutes, and then another 5 actors come in. How many actors can there be on the show in 1 hour?",
+        "question_norm_sha256": "85cd8b011a14405071ea62b097d6bbcf26af773115bf84fb82bad5f711ad1f23",
+        "task_id": "gsm8k-train-0845"
+      },
+      {
+        "gold_answer": "20",
+        "question": "Kyle goes to basketball practice every day for 2 hours. At practice he spends half of the time shooting and the rest of the time running and weight lifting. If he runs for twice the time he spends weightlifting, how much time in minutes does he spend lifting weight?",
+        "question_norm_sha256": "9afe61b9b962c5f7ac72cdc89efd652b4984950246c4b86accfd2f6582fea99c",
+        "task_id": "gsm8k-train-3377"
+      },
+      {
+        "gold_answer": "27",
+        "question": "Ms. Mitsuko told the class that if the average score on their quiz is higher than 75% then they will get a pizza party. There are 25 students in the class. One student is absent and has to take the test the next day. The average score of the students who took the test was 77%. What is the lowest grade the absent student can get for the class to still get a pizza party?",
+        "question_norm_sha256": "e702c5b78725091276947c4ccc00b205b16f40dc1470b0502bb7c73a5df9cf71",
+        "task_id": "gsm8k-train-2364"
+      },
+      {
+        "gold_answer": "11",
+        "question": "Three friends went out to watch a movie. Mitch paid for their tickets at $7 each. On the other hand, Jam paid for the 2 boxes of popcorn at $1.5 while Jay paid for the 3 cups of milk tea at $3 each. If the three of them will split the total expenses, how much should each contribute?",
+        "question_norm_sha256": "a37ef70eeb27a1540a30cdfcbc725d4f066c2c39ab483ed690798f0eee4f9619",
+        "task_id": "gsm8k-train-6238"
+      },
+      {
+        "gold_answer": "8",
+        "question": "If Beth is 18 years old and her little sister is 5, in how many years would she be twice her sister's age?",
+        "question_norm_sha256": "69122ae929f31ab42f82c0cf95de09941f834b4611feed8efa89881ee6d92a98",
+        "task_id": "gsm8k-train-2023"
+      },
+      {
+        "gold_answer": "48",
+        "question": "A couple agreed to split their expenses equally, including the salary of their house help. While doing her job, the house help had an accident; thus, she underwent a medical procedure which cost her $128. The couple decided to pay half of the medical expenses and the other half will be deducted from her $160 salary. If the husband paid for the entire half of the hospital bill, how much does he still need to pay so that they split the expenses for the house help equally?",
+        "question_norm_sha256": "e2fa1ae00c0aa98cb9f8dd19f1ce2b9967085ae8520b665f4be46e40b324d769",
+        "task_id": "gsm8k-train-5317"
+      },
+      {
+        "gold_answer": "6",
+        "question": "Aaron and his brother Carson each saved up $40 to go to dinner. The bill is 3/4 of their total money. After, they go out for ice cream. Each scoop costs $1.5 and they get the same amount as each other. If they leave with $1 in change each, how many scoops did they each buy?",
+        "question_norm_sha256": "301acab74ffcc3b0f13f882ac36b5d4b7f4d20b3bf5f2ddcc431c6dc960ec138",
+        "task_id": "gsm8k-train-3460"
+      },
+      {
+        "gold_answer": "9",
+        "question": "A movie ticket for an adult costs $8, and a child's ticket costs $3. One adult is taking a group of children to the movies. She has $35. How many children can she take with her to the movies?",
+        "question_norm_sha256": "3e4bc0f2e202fa363644928aa90ba4c9de27f3b2a6c9616194b783aaa1b01f7e",
+        "task_id": "gsm8k-train-5494"
+      },
+      {
+        "gold_answer": "110",
+        "question": "While on vacation in New York, Greg went out for a lunch that cost $100. If sales tax in New York is 4% and he left a 6% tip, how much did Greg pay?",
+        "question_norm_sha256": "1a69fda34b53f6494d7df346c0ba06b894b6e8ca262f9b907e11f9b0803cf92e",
+        "task_id": "gsm8k-train-6271"
+      },
+      {
+        "gold_answer": "3600",
+        "question": "A teacher teaches 5 periods a day and works 24 days a month. He is paid $5 per period. if he has been working for 6 months now how much has he earned in total?",
+        "question_norm_sha256": "e6f0e8690ac23a230b3efe5ba69604ef7cebdb419155b63d84f7f816f148e558",
+        "task_id": "gsm8k-train-0629"
+      },
+      {
+        "gold_answer": "5",
+        "question": "Terry's mom brought home 4 different colored dogs from the shelter. The brown dog weighs 4 pounds. The black dog weighs 1 pound more than the brown dog. The white dog weighs twice as much as the brown dog. The grey dog weighs 2 pounds less than the black dog. What's the average weight of all the dogs?",
+        "question_norm_sha256": "86b9594a8d7eabd26dc0ab5e0b50b7ae2d94380117af390fda9aa157580aee07",
+        "task_id": "gsm8k-train-3059"
+      },
+      {
+        "gold_answer": "297",
+        "question": "John needs to replace his shoes so he decides to buy a $150 pair of Nikes and a $120 pair of work boots.  Tax is 10%.  How much did he pay for everything?",
+        "question_norm_sha256": "5929eceddb881d8a9db5413dda34401a199a9256cd860a1a5f1640c56f0ee5a4",
+        "task_id": "gsm8k-train-1218"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "dev_B": [
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "55",
+      "parent_graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+      "parent_program_id": "wfp-9168f1df31cf",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-5876"
+    },
+    {
+      "diagnosis_uses_gold": true,
+      "diagnostic": null,
+      "error_category": "ANSWER_MISMATCH",
+      "gold": "35",
+      "parent_graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+      "parent_program_id": "wfp-9168f1df31cf",
+      "predicted": "12345",
+      "success": false,
+      "task_id": "gsm8k-train-3683"
+    }
+  ]
+}

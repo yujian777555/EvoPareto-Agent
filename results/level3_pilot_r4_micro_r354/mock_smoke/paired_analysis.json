@@ -1,0 +1,48 @@
+{
+  "holm": {
+    "A_vs_B": {
+      "p_holm": 1.0,
+      "p_raw": 1.0,
+      "reject_0_05": false
+    },
+    "A_vs_O": {
+      "p_holm": 1.0,
+      "p_raw": 1.0,
+      "reject_0_05": false
+    },
+    "O_vs_B": {
+      "p_holm": 1.0,
+      "p_raw": 1.0,
+      "reject_0_05": false
+    }
+  },
+  "paired": {
+    "A_vs_B": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0,
+      "status": "COMPLETE"
+    },
+    "A_vs_O": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0,
+      "status": "COMPLETE"
+    },
+    "O_vs_B": {
+      "both_correct": 0,
+      "both_wrong": 2,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 2,
+      "regressed": 0,
+      "status": "COMPLETE"
+    }
+  }
+}
