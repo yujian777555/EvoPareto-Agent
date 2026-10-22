@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pytest
 
+import experiments.run_benchmark_extension as benchmark_extension
+
 from src.agent.genome import AgentGenome
 from src.agent.individual import Individual
 from src.backend.base import MockLLMBackend
@@ -192,3 +194,43 @@ def test_budget_equal_across_methods():
         cfg = d["config"]
         assert cfg["pop"] * (cfg["gens"] + 1) == cfg["budget_evals"]
         assert len(cfg["seeds"]) == 3
+
+# ====================================================================== #
+# Random-search baseline correctness
+# ====================================================================== #
+def test_random_search_is_independent_and_budget_matched(monkeypatch):
+    class FakeAdapter:
+        max_workers = 1
+
+    class FakePipeline:
+        instances = []
+
+        def __init__(self, config, cache=None):
+            self.config = config
+            self.adapter = FakeAdapter()
+            self.genomes = []
+            self.__class__.instances.append(self)
+
+        def evaluate_genome(self, genome):
+            self.genomes.append(genome.key())
+            x = genome.reasoning_budget / 128.0
+            return [x, 1.0 - x, x / 1000.0, 0.5, 0.5]
+
+    monkeypatch.setattr(benchmark_extension, "RealLLMPipeline", FakePipeline)
+    monkeypatch.setattr(
+        benchmark_extension,
+        "CONFIG",
+        {"pop": 2, "gens": 2, "tasks": 1, "seeds": [11], "budget_evals": 6},
+    )
+
+    result = benchmark_extension.run_random_search(benchmark="alfworld", seed=11)
+
+    assert "B0_random_search" not in benchmark_extension.METHODS
+    assert result["method"] == "B0_random_search"
+    assert result["evaluation_protocol"] == "uniform_random_genomes_pareto_archive"
+    assert result["evaluations"] == 6
+    assert len(FakePipeline.instances[0].genomes) == 6
+    assert [row["n_evaluations"] for row in result["curve"]] == [2, 4, 6]
+    assert result["curve"][-1]["generation"] == 2
+    assert result["final_hv"] >= 0.0
+
