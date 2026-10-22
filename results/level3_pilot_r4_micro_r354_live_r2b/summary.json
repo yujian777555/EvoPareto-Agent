@@ -1,0 +1,133 @@
+{
+  "a_record": {
+    "arm": "A",
+    "base_prefix_preserved": true,
+    "child_graph_sha256": "51e18b690ec0501def81fb206ba14c2c431b9cd9c8e402ae5136974b5bff443c",
+    "child_program_id": "wfp-1bdfe6c2c6af",
+    "feedback_id": "1166d372b0f26a1a",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_text_used": " Double-check the final calculation before answering.",
+    "generation": 2,
+    "gold_in_candidate_prompt": false,
+    "instruction_after": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'. Double-check the final calculation before answering.",
+    "instruction_before": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'.",
+    "operator": "APPEND_FEEDBACK_SUFFIX",
+    "parent_graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+    "parent_program_id": "wfp-adabc3f37cd3",
+    "source_task_ids": [
+      "gsm8k-train-2364",
+      "gsm8k-train-5317"
+    ],
+    "status": "SUCCESS"
+  },
+  "a_vs_o_same_feedback_text": true,
+  "baseline_b": {
+    "base_text": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'.",
+    "base_text_sha256": "74939992a50237b4f5064356fd24a1fd6cfe230f6b81bfa102305da26d54d40f",
+    "graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+    "program_id": "wfp-adabc3f37cd3",
+    "protocol_id": "MICRO-R3.5.4-MECHANISM-ISOLATION-v1",
+    "source": "derived_from_frozen_parent_single_instruction_set"
+  },
+  "calibration_note": "calib tasks frozen for future use; entry runs dev-feedback only; request budget excludes calib",
+  "calibration_status": "NOT_EXECUTED_IN_ENTRY",
+  "confirm_accuracy": {
+    "A": 0.8333333333333334,
+    "B": 0.8333333333333334,
+    "O": 0.8666666666666667
+  },
+  "confirm_used_for_selection": false,
+  "cost_final": true,
+  "evidence_class": "REAL_MODEL",
+  "experiment_complete": true,
+  "feedback_id": "1166d372b0f26a1a",
+  "feedback_label": "ANSWER_MISMATCH",
+  "feedback_source_task_ids": [
+    "gsm8k-train-2364",
+    "gsm8k-train-5317"
+  ],
+  "holm_adjusted": {
+    "A_vs_B": {
+      "p_holm": 1.0,
+      "p_raw": 1.0,
+      "reject_0_05": false
+    },
+    "A_vs_O": {
+      "p_holm": 1.0,
+      "p_raw": 1.0,
+      "reject_0_05": false
+    },
+    "O_vs_B": {
+      "p_holm": 1.0,
+      "p_raw": 1.0,
+      "reject_0_05": false
+    }
+  },
+  "incomplete_reason": null,
+  "known_cost_usd": 0.028161,
+  "multiplicity": "Holm over {A_vs_B, O_vs_B, A_vs_O} task-level McNemar",
+  "n_calib": 10,
+  "n_confirm": 30,
+  "n_dev": 15,
+  "o_record": {
+    "arm": "O",
+    "base_prefix_preserved": false,
+    "child_graph_sha256": "8cd91d6875c2c3c14763afd3ffed62fb41b25453ea50af16a1c8791c56abb5ca",
+    "child_program_id": "wfp-e68303508a83",
+    "feedback_id": "1166d372b0f26a1a",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_text_used": " Double-check the final calculation before answering.",
+    "generation": 2,
+    "gold_in_candidate_prompt": false,
+    "instruction_after": "Double-check the final calculation before answering.",
+    "instruction_before": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'.",
+    "operator": "REPLACE_WITH_FEEDBACK_TEXT",
+    "parent_graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+    "parent_program_id": "wfp-adabc3f37cd3",
+    "source_task_ids": [
+      "gsm8k-train-2364",
+      "gsm8k-train-5317"
+    ],
+    "status": "SUCCESS"
+  },
+  "paired_analysis": {
+    "A_vs_B": {
+      "both_correct": 25,
+      "both_wrong": 5,
+      "improved": 0,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 0,
+      "status": "COMPLETE"
+    },
+    "A_vs_O": {
+      "both_correct": 24,
+      "both_wrong": 3,
+      "improved": 1,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 2,
+      "status": "COMPLETE"
+    },
+    "O_vs_B": {
+      "both_correct": 24,
+      "both_wrong": 3,
+      "improved": 2,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 1,
+      "status": "COMPLETE"
+    }
+  },
+  "preflight_errors": [],
+  "protocol": "MICRO-R3.5.4-MECHANISM-ISOLATION-v1",
+  "requests_total": 105,
+  "seed": 20260606,
+  "statistical_claim": "EXPLORATORY_ONLY",
+  "statistical_unit": "task-level paired (n=confirm); seed-level not run this stage",
+  "taskset_sha256": {
+    "calib_task_set_sha256": "40bf5de1f7387befeab559f5d569151d52094500c26fc5635de039630632c30e",
+    "confirm_task_set_sha256": "e749cd1279efc5f715eea8c99455b83aefc66d89baf09788c39632c6ee4a69f2",
+    "dev_task_set_sha256": "3262fe5c71c05a54296fc42713f75747918b6e768bbd87c53e4fed3ef408131c"
+  }
+}

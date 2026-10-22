@@ -150,10 +150,19 @@ class TestStaticPreflight:
 
 class TestAuthGate:
     def test_missing_auth(self, tmp_path):
-        # no authorization file in expected location
-        errs = r.check_real_authorization({"confirm_task_set_sha256": "x"},
-                                          {"protocol_id": r.PROTOCOL_ID})
-        assert errs == ["AUTH_MISSING"] or "AUTH_MISSING" in errs
+        # isolate from a live authorization.json if present
+        auth = Path("results/level3_pilot_r4_micro_r354/authorization.json")
+        backup = None
+        if auth.exists():
+            backup = auth.read_text(encoding="utf-8")
+            auth.unlink()
+        try:
+            errs = r.check_real_authorization({"confirm_task_set_sha256": "x"},
+                                              {"protocol_id": r.PROTOCOL_ID})
+            assert errs == ["AUTH_MISSING"] or "AUTH_MISSING" in errs
+        finally:
+            if backup is not None:
+                auth.write_text(backup, encoding="utf-8")
 
     def test_field_missing(self, tmp_path):
         # monkeypatch path

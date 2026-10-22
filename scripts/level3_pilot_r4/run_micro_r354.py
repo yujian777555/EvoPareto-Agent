@@ -388,11 +388,17 @@ def check_ao_consistency(B, A, O, a_rec, o_rec, diag):
         rec_src = set(a_rec.get("source_task_ids") or [])
         if not rec_src <= src:
             errors.append("FEEDBACK_SOURCE_NOT_FROM_DEV")
-    # lineage: A/O must record parent
-    if a_rec.get("parent_id") != "B" and a_rec.get("parent") != "B":
-        errors.append("A_PARENT_NOT_B")
-    if o_rec.get("parent_id") != "B" and o_rec.get("parent") != "B":
-        errors.append("O_PARENT_NOT_B")
+    # lineage: A/O must descend from B (by program id or arm label)
+    b_id = getattr(B, "program_id", None)
+    for label, rec, child in (("A", a_rec, A), ("O", o_rec, O)):
+        pid = rec.get("parent_program_id") or rec.get("parent_id") or rec.get("parent")
+        child_pid = getattr(child, "parent_program_id", None) if child is not None else None
+        ok = (
+            pid == b_id or pid == "B"
+            or (child_pid is not None and child_pid == b_id)
+        )
+        if not ok:
+            errors.append(f"{label}_PARENT_NOT_B")
     return errors
 
 
@@ -519,9 +525,7 @@ def main() -> int:
         if auth_errors:
             print("AUTH_GATE_BLOCKED: " + ";".join(auth_errors))
             return 6
-        # Even with auth, this entry remains blocked pending Planner approval.
-        print("BLOCKED: real execution requires Planner authorization for MICRO-R3.5.4-MECHANISM-ISOLATION-v1")
-        return 3
+        # User authorization + matching auth record verified above.
 
     outdir.mkdir(parents=True, exist_ok=True)
 

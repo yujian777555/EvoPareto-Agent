@@ -1,0 +1,52 @@
+{
+  "A": {
+    "arm": "A",
+    "base_prefix_preserved": true,
+    "child_graph_sha256": "51e18b690ec0501def81fb206ba14c2c431b9cd9c8e402ae5136974b5bff443c",
+    "child_program_id": "wfp-1bdfe6c2c6af",
+    "feedback_id": "1166d372b0f26a1a",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_text_used": " Double-check the final calculation before answering.",
+    "generation": 2,
+    "gold_in_candidate_prompt": false,
+    "instruction_after": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'. Double-check the final calculation before answering.",
+    "instruction_before": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'.",
+    "operator": "APPEND_FEEDBACK_SUFFIX",
+    "parent_graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+    "parent_program_id": "wfp-adabc3f37cd3",
+    "source_task_ids": [
+      "gsm8k-train-2364",
+      "gsm8k-train-5317"
+    ],
+    "status": "SUCCESS"
+  },
+  "B": {
+    "base_text": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'.",
+    "base_text_sha256": "74939992a50237b4f5064356fd24a1fd6cfe230f6b81bfa102305da26d54d40f",
+    "graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+    "program_id": "wfp-adabc3f37cd3",
+    "protocol_id": "MICRO-R3.5.4-MECHANISM-ISOLATION-v1",
+    "source": "derived_from_frozen_parent_single_instruction_set"
+  },
+  "O": {
+    "arm": "O",
+    "base_prefix_preserved": false,
+    "child_graph_sha256": "8cd91d6875c2c3c14763afd3ffed62fb41b25453ea50af16a1c8791c56abb5ca",
+    "child_program_id": "wfp-e68303508a83",
+    "feedback_id": "1166d372b0f26a1a",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_text_used": " Double-check the final calculation before answering.",
+    "generation": 2,
+    "gold_in_candidate_prompt": false,
+    "instruction_after": "Double-check the final calculation before answering.",
+    "instruction_before": "Solve the problem step by step. Identify the quantities, compute the result, and end with 'Answer: <num>'.",
+    "operator": "REPLACE_WITH_FEEDBACK_TEXT",
+    "parent_graph_sha256": "86a484cadb3815303c2f9cdf6db263d67650567cf1d2a3ff22804316fb1cdd34",
+    "parent_program_id": "wfp-adabc3f37cd3",
+    "source_task_ids": [
+      "gsm8k-train-2364",
+      "gsm8k-train-5317"
+    ],
+    "status": "SUCCESS"
+  }
+}
