@@ -1,0 +1,98 @@
+{
+  "budget": {
+    "max_cost_usd": 0.3,
+    "max_physical": 300
+  },
+  "code_revision": "r3.5.3-planner-fix1",
+  "completed_stages": [
+    "dev_parent",
+    "dev_gen1",
+    "confirm"
+  ],
+  "confirm_accuracy": {
+    "F_local": 0.8,
+    "F_old": 0.3333333333333333,
+    "P": 0.9,
+    "R": 0.9333333333333333
+  },
+  "confirm_used_for_selection": false,
+  "cost_final": true,
+  "cost_usd_total": 0.0459486,
+  "dev_scores": {
+    "F_local": 0.95,
+    "F_old": 0.6,
+    "R": 1.0
+  },
+  "e2_feedback_from": null,
+  "e2_generation": null,
+  "e2_parent_ok": false,
+  "e2_reason": "WINNER_NO_FAILURES",
+  "e2_source_task_ids": null,
+  "e2_status": "NOT_GENERATED_NO_FAILURE",
+  "evidence_class": "REAL_MODEL",
+  "experiment_complete": true,
+  "f_local_status": "SUCCESS",
+  "f_old_status": "SUCCESS",
+  "gen1_winner": "R",
+  "incomplete_reason": null,
+  "known_cost_usd": 0.0459486,
+  "n_confirm": 30,
+  "n_dev": 20,
+  "paired_analysis": {
+    "F_local_vs_F_old": {
+      "both_correct": 8,
+      "both_wrong": 4,
+      "improved": 16,
+      "mcnemar_exact_p_two_sided": 0.001312255859375,
+      "n": 30,
+      "regressed": 2,
+      "status": "COMPLETE"
+    },
+    "F_local_vs_R": {
+      "both_correct": 23,
+      "both_wrong": 1,
+      "improved": 1,
+      "mcnemar_exact_p_two_sided": 0.21875,
+      "n": 30,
+      "regressed": 5,
+      "status": "COMPLETE"
+    },
+    "P_vs_F_local": {
+      "both_correct": 23,
+      "both_wrong": 2,
+      "improved": 1,
+      "mcnemar_exact_p_two_sided": 0.375,
+      "n": 30,
+      "regressed": 4,
+      "status": "COMPLETE"
+    },
+    "P_vs_F_old": {
+      "both_correct": 9,
+      "both_wrong": 2,
+      "improved": 1,
+      "mcnemar_exact_p_two_sided": 7.62939453125e-05,
+      "n": 30,
+      "regressed": 18,
+      "status": "COMPLETE"
+    },
+    "P_vs_R": {
+      "both_correct": 26,
+      "both_wrong": 1,
+      "improved": 2,
+      "mcnemar_exact_p_two_sided": 1.0,
+      "n": 30,
+      "regressed": 1,
+      "status": "COMPLETE"
+    }
+  },
+  "protocol": "MICRO-R3.5-EXP-v1",
+  "requests_total": 200,
+  "seed": 20260605,
+  "statistical_claim": "EXPLORATORY_ONLY",
+  "stop_reason": null,
+  "taskset_sha256": {
+    "confirm": "8bafc69872c8583fd79556ba932da7aded988936bb193fcebd6d28416cd2ea42",
+    "dev": "5838ae12ac4b55019f1286ef79eed7509dd3893a3e180099e9db32a4e64a8890"
+  },
+  "unsettled_request_count": 0
+}

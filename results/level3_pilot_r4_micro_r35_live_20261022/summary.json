@@ -1,0 +1,44 @@
+{
+  "budget": {
+    "max_cost_usd": 0.3,
+    "max_physical": 300
+  },
+  "code_revision": "r3.5.3-planner-fix1",
+  "completed_stages": [],
+  "confirm_accuracy": {
+    "P": null,
+    "R": null
+  },
+  "confirm_used_for_selection": false,
+  "cost_final": true,
+  "cost_usd_total": 0.0,
+  "dev_scores": {},
+  "e2_feedback_from": null,
+  "e2_generation": null,
+  "e2_parent_ok": false,
+  "e2_reason": "NO_WINNER",
+  "e2_source_task_ids": null,
+  "e2_status": "NOT_GENERATED_NO_FAILURE",
+  "evidence_class": "REAL_MODEL",
+  "experiment_complete": false,
+  "f_local_status": "NO_USABLE_FEEDBACK",
+  "f_old_status": "FAILED",
+  "gen1_winner": null,
+  "incomplete_reason": "EXECUTION_ERROR_STOP",
+  "known_cost_usd": 0.0,
+  "n_confirm": 30,
+  "n_dev": 20,
+  "paired_analysis": {
+    "note": "INCOMPLETE_NO_FULL_STATS"
+  },
+  "protocol": "MICRO-R3.5-EXP-v1",
+  "requests_total": 0,
+  "seed": 20260605,
+  "statistical_claim": "INCOMPLETE",
+  "stop_reason": "EXECUTION_ERROR_STOP",
+  "taskset_sha256": {
+    "confirm": "8bafc69872c8583fd79556ba932da7aded988936bb193fcebd6d28416cd2ea42",
+    "dev": "5838ae12ac4b55019f1286ef79eed7509dd3893a3e180099e9db32a4e64a8890"
+  },
+  "unsettled_request_count": 0
+}

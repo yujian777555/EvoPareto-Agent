@@ -1,0 +1,724 @@
+{
+  "confirm": {
+    "P": [
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0211"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3779"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6145"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6857"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4600"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7434"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5798"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0313"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5814"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0297"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-2872"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1305"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1924"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6164"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7210"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0353"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4737"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5287"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1603"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4540"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5493"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3878"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6578"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-2052"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1051"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5621"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6649"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7091"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4162"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5118"
+      }
+    ],
+    "R": [
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0211"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3779"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6145"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6857"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4600"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7434"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5798"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0313"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5814"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0297"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-2872"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1305"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1924"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6164"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7210"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0353"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4737"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5287"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1603"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4540"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5493"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3878"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6578"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-2052"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1051"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5621"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6649"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7091"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-4162"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5118"
+      }
+    ]
+  },
+  "dev": {
+    "F_local": [],
+    "F_old": [],
+    "P": [
+      {
+        "correct": false,
+        "counts_toward_accuracy": false,
+        "error": "NO_JSON_FOUND",
+        "executed_graph_source": false,
+        "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+        "graph_sha256_match": true,
+        "n_llm_calls": 0,
+        "ok": false,
+        "phase": "dev:P",
+        "predicted": null,
+        "program_id": "parent-frozen-0001",
+        "skipped": false,
+        "task_id": "gsm8k-train-5425"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1071"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5282"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3365"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7427"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3840"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5188"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1931"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5898"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7453"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0318"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5822"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1410"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6305"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5502"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0295"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3177"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3204"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6105"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-2916"
+      }
+    ],
+    "R": [
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5425"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1071"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5282"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3365"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7427"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3840"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5188"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1931"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5898"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-7453"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0318"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5822"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-1410"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6305"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-5502"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-0295"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3177"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-3204"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-6105"
+      },
+      {
+        "correct": null,
+        "counts_toward_accuracy": false,
+        "skip_reason": "EXECUTION_ERROR_STOP",
+        "skipped": true,
+        "task_id": "gsm8k-train-2916"
+      }
+    ]
+  }
+}

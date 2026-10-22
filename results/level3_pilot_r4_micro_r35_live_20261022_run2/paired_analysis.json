@@ -1,0 +1,47 @@
+{
+  "F_local_vs_F_old": {
+    "both_correct": 8,
+    "both_wrong": 4,
+    "improved": 16,
+    "mcnemar_exact_p_two_sided": 0.001312255859375,
+    "n": 30,
+    "regressed": 2,
+    "status": "COMPLETE"
+  },
+  "F_local_vs_R": {
+    "both_correct": 23,
+    "both_wrong": 1,
+    "improved": 1,
+    "mcnemar_exact_p_two_sided": 0.21875,
+    "n": 30,
+    "regressed": 5,
+    "status": "COMPLETE"
+  },
+  "P_vs_F_local": {
+    "both_correct": 23,
+    "both_wrong": 2,
+    "improved": 1,
+    "mcnemar_exact_p_two_sided": 0.375,
+    "n": 30,
+    "regressed": 4,
+    "status": "COMPLETE"
+  },
+  "P_vs_F_old": {
+    "both_correct": 9,
+    "both_wrong": 2,
+    "improved": 1,
+    "mcnemar_exact_p_two_sided": 7.62939453125e-05,
+    "n": 30,
+    "regressed": 18,
+    "status": "COMPLETE"
+  },
+  "P_vs_R": {
+    "both_correct": 26,
+    "both_wrong": 1,
+    "improved": 2,
+    "mcnemar_exact_p_two_sided": 1.0,
+    "n": 30,
+    "regressed": 1,
+    "status": "COMPLETE"
+  }
+}

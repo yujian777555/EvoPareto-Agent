@@ -1,0 +1,77 @@
+{
+  "E2_local": {
+    "feedback_id": null,
+    "operator": "E2_LOCAL_FROM_WINNER",
+    "parent_graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+    "parent_program_id": "wfp-e57a20150aac",
+    "reason": "WINNER_NO_FAILURES",
+    "source_task_ids": [],
+    "status": "NOT_GENERATED_NO_FAILURE"
+  },
+  "F_local": {
+    "child_graph_sha256": "1eedaa21071e017e935c8de5da6000f6123a27d44dd0829eef188e8ffa3212c0",
+    "child_program_id": "wfp-7daa49cdf81b",
+    "diff_note": "append-only instruction suffix; original solve logic retained",
+    "feedback_id": "54bbc29c4da4a919",
+    "feedback_label": "ANSWER_MISMATCH",
+    "generation": 1,
+    "gold_in_candidate_prompt": false,
+    "instruction_after": "Solve the problem. Double-check the final calculation before answering.",
+    "instruction_before": "",
+    "local_prefix_preserved": true,
+    "operator": "F_LOCAL_APPEND_SUFFIX",
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "status": "SUCCESS",
+    "suffix_index": 0
+  },
+  "F_old": {
+    "child_graph_sha256": "cb42ef94a56a58b7ae91f6d6ebcdd949557627c767e5fba1566dd055c277620a",
+    "child_program_id": "wfp-777777ddeafc",
+    "feedback_label": "ANSWER_MISMATCH",
+    "feedback_rationale": "single verifiable coarse category from failure records",
+    "generation": 1,
+    "operator": "OP_ARITH_RECHECK",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260605,
+    "selected_operator": "OP_ARITH_RECHECK",
+    "selection_reason": "policy[ANSWER_MISMATCH] -> OP_ARITH_RECHECK",
+    "slot": 2,
+    "status": "SUCCESS"
+  },
+  "P": {
+    "generation": 0,
+    "graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "program_id": "parent-frozen-0001"
+  },
+  "R": {
+    "child_graph_sha256": "d625359dca66bd5313a8cdc4aa64ce5e2f676561572b95f78c8e25bd34ee6b71",
+    "child_program_id": "wfp-e57a20150aac",
+    "generation": 1,
+    "operator": "OP_OUTPUT_CONSTRAINT",
+    "operator_history": [
+      "ROOT_PARENT",
+      "M_SET_INSTRUCTION"
+    ],
+    "params": {
+      "instruction_pool_index": 0
+    },
+    "parent_graph_sha256": "a92febff3c94d065812af510f97b06a070dd2603e4daa9b27fdc11f24ab9e4fe",
+    "parent_program_id": "parent-frozen-0001",
+    "seed": 20260605,
+    "slot": 1,
+    "status": "SUCCESS"
+  },
+  "winner": {
+    "arm": "R",
+    "program_id": "wfp-e57a20150aac"
+  }
+}
