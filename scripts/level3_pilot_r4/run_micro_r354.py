@@ -21,6 +21,7 @@ from src.benchmark.gsm8k_tasks import GSM8KTask, evaluate_workflow_output
 from src.research.r3_docker_executor import execute_candidate_docker
 from src.research.r3_mutation_feedback import FailureRecord
 from src.research.r354_mechanism import (
+    BASE_STRATEGY_TEXT,
     PROTOCOL_ID,
     build_append_child,
     build_replace_child,
@@ -33,8 +34,8 @@ from src.runtime.provider_gateway import conservative_input_tokens, estimate_cos
 
 MODEL_ID = "deepseek-flash"
 BASE_URL = "https://api.deepseek.com"
-MAX_PHYSICAL = 400
-MAX_COST_USD = 0.35
+MAX_PHYSICAL = 150
+MAX_COST_USD = 0.15
 MAX_IN, MAX_OUT = 1500, 300
 SEED = 20260606
 FROZEN = ROOT / "results/level3_pilot_r2" / "frozen_candidates"
@@ -156,41 +157,92 @@ def to_task(t):
     return GSM8KTask(t["task_id"], t["question"], t["gold_answer"], f"#### {t['gold_answer']}", "train")
 
 
+def classify_execution(row) -> str:
+    """Strict taxonomy: valid answer error vs parse vs execution vs skip."""
+    if row.get("skipped"):
+        return "SKIPPED"
+    if row.get("error"):
+        return "EXECUTION_ERROR"
+    if row.get("executed_graph_source") is not True:
+        return "EXECUTION_ERROR"
+    if row.get("graph_sha256_match") is not True:
+        return "EXECUTION_ERROR"
+    if row.get("ok") is not True:
+        return "EXECUTION_ERROR"
+    if row.get("predicted") in (None, ""):
+        return "PARSE_ERROR"
+    return "ANSWER_MISMATCH" if not row.get("correct") else "NO_FAILURE"
+
+
+def is_valid_eval(row) -> bool:
+    """True only if execution evidence and parse are good enough for accuracy."""
+    return (
+        not row.get("skipped")
+        and row.get("executed_graph_source") is True
+        and row.get("graph_sha256_match") is True
+        and row.get("ok") is True
+        and row.get("predicted") not in (None, "")
+    )
+
+
 def run_arm(prog, tasks, budget, phase, mock_mode, fixtures=None):
     fixtures = fixtures or {}
     rows = []
     if getattr(budget, "stop", None):
         return [{"task_id": t.task_id, "skipped": True, "skip_reason": budget.stop,
-                 "correct": False, "counts_toward_accuracy": False} for t in tasks]
+                 "correct": None, "valid_eval": False} for t in tasks]
     for i, t in enumerate(tasks):
         if getattr(budget, "stop", None):
             rows.extend([{"task_id": x.task_id, "skipped": True, "skip_reason": budget.stop,
-                          "correct": False, "counts_toward_accuracy": False} for x in tasks[i:]])
+                          "correct": None, "valid_eval": False} for x in tasks[i:]])
             break
         mock = fixtures.get(t.task_id, "Compute. Answer: 12345" if mock_mode else None)
         box = Mailbox(budget, t.task_id, phase, mock, mock_mode)
         try:
             r = execute_candidate_docker(prog, t.question, llm=box, task_id=t.task_id, expect_graph_sha256=hash_program(prog))
         except Exception as e:
-            r = {"ok": False, "error": str(e), "answer_text": None, "executed_graph_source": False, "n_llm_calls": 1}
+            r = {"ok": False, "error": str(e), "answer_text": None, "executed_graph_source": False,
+                 "graph_sha256_match": False, "n_llm_calls": 1}
         sc = evaluate_workflow_output(t, r.get("answer_text") or "")
+        valid = (
+            not r.get("error")
+            and r.get("executed_graph_source") is True
+            and r.get("graph_sha256_match") is True
+            and r.get("ok") is True
+            and sc.get("predicted") not in (None, "")
+        )
         rows.append({
             "task_id": t.task_id, "program_id": r.get("program_id"),
             "graph_sha256": r.get("graph_sha256"), "graph_sha256_match": r.get("graph_sha256_match"),
             "executed_graph_source": r.get("executed_graph_source"), "ok": r.get("ok"),
             "n_llm_calls": r.get("n_llm_calls"), "predicted": sc.get("predicted"),
-            "correct": bool(sc.get("correct")), "error": r.get("error"), "phase": phase,
+            "correct": bool(sc.get("correct")) if valid else None,
+            "valid_eval": valid,
+            "exec_class": None,  # filled below
+            "error": r.get("error"), "phase": phase,
         })
+        rows[-1]["exec_class"] = classify_execution(rows[-1])
     return rows
 
 
+def acc(rows):
+    """Accuracy only over valid_eval rows. None if any required row invalid."""
+    if not rows:
+        return None
+    if any(not r.get("valid_eval") for r in rows):
+        return None
+    return sum(1 for x in rows if x.get("correct")) / len(rows)
+
+
 def paired(a_rows, b_rows):
+    """COMPLETE only if both arms fully valid and same length."""
     if len(a_rows) != len(b_rows):
-        return {"status": "INCOMPLETE", "reason": "LENGTH_MISMATCH"}
+        return {"status": "INCOMPLETE", "reason": "LENGTH_MISMATCH", "n_a": len(a_rows), "n_b": len(b_rows)}
+    if any(not r.get("valid_eval") for r in a_rows + b_rows):
+        invalid = [r.get("task_id") for r in list(a_rows) + list(b_rows) if not r.get("valid_eval")]
+        return {"status": "INCOMPLETE", "reason": "INVALID_OR_MISSING_EVAL", "invalid_tasks": invalid[:10]}
     imp = reg = both_c = both_w = 0
     for a, b in zip(a_rows, b_rows):
-        if a.get("skipped") or b.get("skipped"):
-            return {"status": "INCOMPLETE", "reason": "SKIPPED_ROWS"}
         if b["correct"] and not a["correct"]:
             imp += 1
         elif a["correct"] and not b["correct"]:
@@ -203,6 +255,70 @@ def paired(a_rows, b_rows):
     p = 1.0 if n == 0 else min(1.0, 2 * sum(__import__("math").comb(n, i) for i in range(0, min(imp, reg) + 1)) / (2 ** n))
     return {"improved": imp, "regressed": reg, "both_correct": both_c, "both_wrong": both_w,
             "mcnemar_exact_p_two_sided": p, "n": len(a_rows), "status": "COMPLETE"}
+
+
+def build_feedback_records(B, dev_tasks, b_dev):
+    """Only valid, hash-matched, executed rows may drive ANSWER_MISMATCH feedback."""
+    out = []
+    for t, r in zip(dev_tasks, b_dev):
+        cls = classify_execution(r)
+        out.append(FailureRecord(
+            task_id=t.task_id, parent_program_id=B.program_id,
+            parent_graph_sha256=hash_program(B),
+            success=bool(r.get("valid_eval") and r.get("correct")),
+            error_category=cls if cls != "NO_FAILURE" else "NO_FAILURE",
+            predicted=r.get("predicted"), gold=t.gold_answer,
+            diagnosis_uses_gold=True,
+            diagnostic=f"valid_eval={r.get('valid_eval')} sha={r.get('graph_sha256_match')} err={r.get('error')}",
+        ))
+    return out
+
+
+def preflight_runtime(man, ts, baseline_freeze, a_rec, o_rec):
+    """Recompute everything before any HTTP. Returns list of errors."""
+    import hashlib as _h
+
+    errors = []
+    train = ROOT / "results/level3_pilot_r4_data/gsm8k_train_official.jsonl"
+    if _h.sha256(train.read_bytes()).hexdigest() != man.get("train_sha256"):
+        errors.append("TRAIN_SHA_MISMATCH")
+
+    def content_sha(block):
+        blob = json.dumps(
+            [(t["task_id"], " ".join(t["question"].split()), t["gold_answer"]) for t in block["tasks"]],
+            sort_keys=True, ensure_ascii=False, separators=(",", ":"),
+        )
+        return _h.sha256(blob.encode("utf-8")).hexdigest()
+
+    for role, key in (("calibration", "calib_task_set_sha256"), ("dev", "dev_task_set_sha256"), ("confirm", "confirm_task_set_sha256")):
+        if content_sha(ts[role]) != man.get(key):
+            errors.append(f"{role.upper()}_SHA_MISMATCH")
+        nkey = {"calibration": "n_calib", "dev": "n_dev", "confirm": "n_confirm"}[role]
+        if len(ts[role]["tasks"]) != man.get(nkey):
+            errors.append(f"{role.upper()}_COUNT_MISMATCH")
+        ids = [t["task_id"] for t in ts[role]["tasks"]]
+        idxs = ts[role].get("indices") or []
+        if len(ids) != len(idxs):
+            errors.append(f"{role.upper()}_INDEX_LEN")
+        for tid, idx, task in zip(ids, idxs, ts[role]["tasks"]):
+            if tid != f"gsm8k-train-{idx:04d}":
+                errors.append(f"{role.upper()}_ID_INDEX:{tid}")
+    sets = [set(ts[r]["indices"]) for r in ("calibration", "dev", "confirm")]
+    if sets[0] & sets[1] or sets[0] & sets[2] or sets[1] & sets[2]:
+        errors.append("SETS_OVERLAP")
+    used = set(man.get("used_indices_excluded") or [])
+    for s in sets:
+        if s & used:
+            errors.append("HISTORICAL_REUSE")
+    if baseline_freeze.get("base_text") != BASE_STRATEGY_TEXT:
+        errors.append("BASELINE_TEXT_MISMATCH")
+    if not baseline_freeze.get("base_text_sha256"):
+        errors.append("BASELINE_SHA_MISSING")
+    fb_a = a_rec.get("feedback_text_used") if a_rec else None
+    fb_o = o_rec.get("feedback_text_used") if o_rec else None
+    if a_rec and o_rec and fb_a != fb_o:
+        errors.append("A_O_FEEDBACK_TEXT_MISMATCH")
+    return errors
 
 
 def holm_adjust(pvals: Dict[str, float]) -> Dict[str, Dict[str, float]]:
@@ -224,7 +340,7 @@ def main() -> int:
     ap.add_argument("--out", default=str(TS / "live_r354"))
     args = ap.parse_args()
     if not args.mock:
-        print("BLOCKED: real execution requires new authorization for MICRO-R3.5.4")
+        print("BLOCKED: real execution requires matching authorization for MICRO-R3.5.4-MECHANISM-ISOLATION-v1")
         return 3
 
     ts = json.loads((TS / "taskset_r354.json").read_text(encoding="utf-8"))
@@ -247,16 +363,10 @@ def main() -> int:
 
     # Dev B to generate real failures (feedback source only)
     b_dev = run_arm(B, dev_tasks, budget, "dev:B", args.mock)
-    fails = [
-        FailureRecord(
-            task_id=t.task_id, parent_program_id=B.program_id,
-            parent_graph_sha256=hash_program(B), success=bool(r.get("correct")),
-            error_category="ANSWER_MISMATCH" if (r.get("executed_graph_source") and r.get("graph_sha256_match") and r.get("predicted")) and not r.get("correct") else ("EXECUTION_ERROR" if r.get("error") or not r.get("executed_graph_source") else "PARSE_ERROR"),
-            predicted=r.get("predicted"), gold=t.gold_answer, diagnosis_uses_gold=True,
-        )
-        for t, r in zip(dev_tasks, b_dev)
-    ]
-    diag = diagnosis_from_dev_failures(fails)
+    fails = build_feedback_records(B, dev_tasks, b_dev)
+    # only ANSWER_MISMATCH-class records may drive answer-feedback mutation
+    answer_fails = [f for f in fails if f.error_category == "ANSWER_MISMATCH" and not f.success]
+    diag = diagnosis_from_dev_failures(answer_fails) if answer_fails else None
     feedback_label = diag.coarse_label if diag else None
     feedback_id = diag.feedback_id if diag else None
     src_ids = list(diag.source_task_ids) if diag else []
@@ -287,8 +397,33 @@ def main() -> int:
     pvals = {k: v["mcnemar_exact_p_two_sided"] for k, v in analysis.items() if v.get("status") == "COMPLETE"}
     holm = holm_adjust(pvals) if pvals else {}
 
+    # strict complete: all required arms, all valid evals, settled costs, complete stats
+    required_arms = {"B", "A", "O"}
+    arms_ok = required_arms.issubset(set(conf.keys()))
+    all_valid = all(all(r.get("valid_eval") for r in rows) for rows in conf.values()) if conf else False
+    stats_ok = all(v.get("status") == "COMPLETE" for v in analysis.values()) if analysis else False
+    settled = budget.dump().get("cost_final") is True
+    complete = arms_ok and all_valid and stats_ok and settled and budget.stop is None
+    incomplete_reason = None
+    if not complete:
+        reasons = []
+        if not arms_ok:
+            reasons.append("MISSING_ARMS")
+        if not all_valid:
+            reasons.append("INVALID_EVALS")
+        if not stats_ok:
+            reasons.append("INCOMPLETE_STATS")
+        if not settled:
+            reasons.append("UNSETTLED_COST")
+        if budget.stop:
+            reasons.append(str(budget.stop))
+        incomplete_reason = ";".join(reasons)
+
+    preflight_errors = preflight_runtime(man, ts, base_pack["freeze"], a_out.get("record") if isinstance(a_out, dict) else None, o_out.get("record") if isinstance(o_out, dict) else None)
+
     summary = {
         "evidence_class": "SIMULATED" if args.mock else "REAL_MODEL",
+        "preflight_errors": preflight_errors,
         "protocol": PROTOCOL_ID,
         "seed": SEED,
         "taskset_sha256": {k: man[k] for k in ("calib_task_set_sha256", "dev_task_set_sha256", "confirm_task_set_sha256")},
@@ -308,8 +443,10 @@ def main() -> int:
         "requests_total": budget.n,
         "known_cost_usd": round(budget.cost, 8),
         "cost_final": budget.dump()["cost_final"],
-        "experiment_complete": budget.stop is None,
-        "incomplete_reason": budget.stop,
+        "calibration_status": "NOT_EXECUTED_IN_ENTRY",
+        "calibration_note": "calib tasks frozen for future use; entry runs dev-feedback only; request budget excludes calib",
+        "experiment_complete": complete,
+        "incomplete_reason": incomplete_reason,
         "confirm_used_for_selection": False,
         "statistical_claim": "EXPLORATORY_ONLY",
     }
