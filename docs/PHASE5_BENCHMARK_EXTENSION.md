@@ -1,3 +1,17 @@
+> **Audit notice (2026-10-22): historical results below are not paper-ready until rerun.**
+> The original `B0_random_search` and `B3_nsga3` entries used the same
+> `MemoryEvolutionLoop` configuration, so B0 was not an independent random
+> search. The repair and acceptance checklist are documented in
+> [PHASE5_BENCHMARK_BASELINE_REPAIR.md](PHASE5_BENCHMARK_BASELINE_REPAIR.md).
+> The repaired runner also computes final HV on the cumulative archive of all
+> candidate evaluations. Existing numbers below are retained as historical
+> records and must not be presented as post-repair results. ReAct is a fixed
+> reference configuration, not a 108-evaluation optimizer.
+>
+> **Current status:** baseline code repaired; tests and benchmark rerun pending.
+>
+> ---
+>
 # Phase 5 — Benchmark Extension (WebShop + NSGA-II)
 
 **Status:** complete (algorithms frozen; adapters, baselines, experiments only)

@@ -14,6 +14,7 @@ Outputs under results/benchmark_extension/.
 from __future__ import annotations
 
 import json
+import random
 import sys
 import time
 from pathlib import Path
@@ -92,6 +93,13 @@ def run_method(
     if hasattr(pipe.adapter, "max_workers"):
         pipe.adapter.max_workers = 4
 
+    evaluation_rows: List[List[float]] = []
+
+    def evaluate_and_record(genome: AgentGenome) -> List[float]:
+        vec = list(pipe.evaluate_genome(genome))
+        evaluation_rows.append(vec)
+        return vec
+
     if fixed_genome is not None:
         agent = pipe.builder.build(fixed_genome, agent_id=0)
         ep, recs = pipe.adapter.run_recorded(agent)
@@ -110,23 +118,31 @@ def run_method(
         preference=preference,
     )
     loop_cls = NSGA2Loop if use_nsga2 else MemoryEvolutionLoop
-    loop = loop_cls(evaluator=pipe.as_evaluate_fn(), config=mcfg)
+    loop = loop_cls(evaluator=evaluate_and_record, config=mcfg)
+
+    def archive_snapshot(generation: int) -> Dict[str, Any]:
+        archive_front = reference_front_from_population(evaluation_rows)
+        return {
+            "generation": generation,
+            "hypervolume": hypervolume(archive_front, n_samples=1024, seed=seed),
+            "n_non_dominated": len(archive_front),
+            "n_evaluations": len(evaluation_rows),
+        }
+
     loop.initialize()
-    curve = [dict(h) for h in loop.history]
+    curve = [archive_snapshot(0)]
     for _ in range(cfg["gens"]):
         loop.next_generation()
-        if track_curve:
-            curve.append(dict(loop.history[-1]))
-    if not track_curve:
-        curve = list(loop.history)
+        curve.append(archive_snapshot(loop.generation))
 
-    front = loop.pareto_front()
-    ff = [list(i.fitness_vector or []) for i in front]
-    rows = [list(i.fitness_vector or []) for i in loop.individuals]
+    # Score every optimizer on the non-dominated archive of all candidates
+    # evaluated under the same budget, not just its final surviving population.
+    ff = reference_front_from_population(evaluation_rows)
+    rows = ff
     pref = encode_preference(preference) if preference is not None else encode_preference("balanced")
     return {
         "method": method, "benchmark": benchmark, "seed": seed,
-        "final_hv": loop.current_hypervolume(),
+        "final_hv": hypervolume(ff, n_samples=1024, seed=seed),
         "final_pareto": len(ff),
         "success": sum(r[0] for r in rows) / len(rows) if rows else 0.0,
         "cost": sum(r[2] for r in rows) / len(rows) if rows else 0.0,
@@ -137,12 +153,63 @@ def run_method(
         "population_rows": rows,
         "curve": curve,
         "wall_time": time.time() - t0,
-        "evaluations": cfg["pop"] * (cfg["gens"] + 1),
+        "evaluations": len(evaluation_rows),
+        "evaluation_protocol": "all_evaluated_candidates_pareto_archive",
+    }
+
+
+def run_random_search(*, benchmark: str, seed: int) -> Dict[str, Any]:
+    """True random search: fresh random genomes, no parent selection or evolution.
+
+    It uses the same number of candidate evaluations and the same generation-sized
+    batches as the evolutionary methods. Metrics are computed on the Pareto
+    archive of every evaluated candidate, using the same fixed HV reference.
+    """
+    cfg = CONFIG
+    t0 = time.time()
+    rng = random.Random(seed)
+    pipe = RealLLMPipeline(
+        RealLLMConfig(n_tasks=cfg["tasks"], backend="mock", seed=seed, benchmark=benchmark),
+        cache=None,
+    )
+    if hasattr(pipe.adapter, "max_workers"):
+        pipe.adapter.max_workers = 4
+
+    evaluated_rows: List[List[float]] = []
+    curve: List[Dict[str, Any]] = []
+    for generation in range(cfg["gens"] + 1):
+        for _ in range(cfg["pop"]):
+            genome = AgentGenome.random(rng)
+            evaluated_rows.append(list(pipe.evaluate_genome(genome)))
+        archive_front = reference_front_from_population(evaluated_rows)
+        curve.append({
+            "generation": generation,
+            "hypervolume": hypervolume(archive_front, n_samples=1024, seed=seed),
+            "n_non_dominated": len(archive_front),
+            "n_evaluations": len(evaluated_rows),
+        })
+
+    front = reference_front_from_population(evaluated_rows)
+    pref = encode_preference("balanced")
+    return {
+        "method": "B0_random_search", "benchmark": benchmark, "seed": seed,
+        "final_hv": hypervolume(front, n_samples=1024, seed=seed),
+        "final_pareto": len(front),
+        "success": sum(r[0] for r in front) / len(front) if front else 0.0,
+        "cost": sum(r[2] for r in front) / len(front) if front else 0.0,
+        "efficiency": sum(r[1] for r in front) / len(front) if front else 0.0,
+        "steps_proxy": sum(1.0 - r[1] for r in front) / len(front) if front else 0.0,
+        "pss": preference_satisfaction_score(front, pref) if front else 0.0,
+        "front_rows": front,
+        "population_rows": front,
+        "curve": curve,
+        "wall_time": time.time() - t0,
+        "evaluations": len(evaluated_rows),
+        "evaluation_protocol": "uniform_random_genomes_pareto_archive",
     }
 
 
 METHODS = {
-    "B0_random_search": dict(use_adaptive=False, experience_mode="phase2"),
     "B2_nsga2": dict(use_adaptive=False, experience_mode="phase2", use_nsga2=True),
     "B3_nsga3": dict(use_adaptive=False, experience_mode="phase2"),
     "B4_nsga3_peem": dict(use_adaptive=True, experience_mode="robust_peem"),
@@ -160,6 +227,8 @@ def run_benchmark(benchmark: str) -> Dict[str, Any]:
             "B1_react", benchmark=benchmark, seed=seed,
             fixed_genome=react,
         ))
+        print(f"  B0_random_search seed={seed}", flush=True)
+        runs.append(run_random_search(benchmark=benchmark, seed=seed))
         for name, kw in METHODS.items():
             print(f"  {name} seed={seed}", flush=True)
             runs.append(run_method(name, benchmark=benchmark, seed=seed, **kw))
