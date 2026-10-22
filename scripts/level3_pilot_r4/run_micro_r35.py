@@ -33,7 +33,7 @@ from src.runtime.provider_gateway import conservative_input_tokens, estimate_cos
 
 MODEL_ID = "deepseek-flash"
 EXPERIMENT_PROTOCOL_ID = "MICRO-R3.5-EXP-v1"
-CODE_REVISION = "r3.5.3"
+CODE_REVISION = "r3.5.3-planner-fix1"
 BASE_URL = "https://api.deepseek.com"
 MAX_PHYSICAL = 300
 MAX_COST_USD = 0.30
@@ -68,7 +68,7 @@ class Budget:
         self.rows.append(row)
         self.n += 1
         settle = str(row.get("settle") or "")
-        if settle == "fail_closed_unknown" or row.get("cost_usd") is None and row.get("error"):
+        if settle == "fail_closed_unknown" or row.get("cost_usd") is None:
             self.stop = "INCOMPLETE_BUDGET_STOP"
         if self.stop and self.stop.startswith("REQUEST_CAP"):
             self.stop = "INCOMPLETE_BUDGET_STOP"
@@ -169,14 +169,30 @@ def to_task(t):
     return GSM8KTask(t["task_id"], t["question"], t["gold_answer"], f"#### {t['gold_answer']}", "train")
 
 
+def _skipped_rows(tasks, reason):
+    return [
+        {
+            "task_id": t.task_id,
+            "skipped": True,
+            "skip_reason": reason,
+            "correct": None,
+            "counts_toward_accuracy": False,
+        }
+        for t in tasks
+    ]
+
+
 def run_arm(prog, tasks, budget, phase, mock_mode, fixtures=None):
     fixtures = fixtures or {}
     rows = []
     if getattr(budget, "stop", None):
-        # budget abort: do not fabricate execution/failure rows
-        return [{"task_id": t.task_id, "skipped": True, "skip_reason": budget.stop,
-                 "correct": False, "counts_toward_accuracy": False} for t in tasks]
-    for t in tasks:
+        return _skipped_rows(tasks, budget.stop)
+
+    for i, t in enumerate(tasks):
+        if getattr(budget, "stop", None):
+            rows.extend(_skipped_rows(tasks[i:], budget.stop))
+            break
+
         mock = fixtures.get(t.task_id, "Compute. Answer: 12345" if mock_mode else None)
         box = Mailbox(budget, t.task_id, phase, mock, mock_mode)
         try:
@@ -184,13 +200,29 @@ def run_arm(prog, tasks, budget, phase, mock_mode, fixtures=None):
         except Exception as e:
             r = {"ok": False, "error": str(e), "answer_text": None, "executed_graph_source": False, "n_llm_calls": 1}
         sc = evaluate_workflow_output(t, r.get("answer_text") or "")
+        valid_execution = (
+            r.get("error") in (None, "")
+            and r.get("ok") is True
+            and r.get("executed_graph_source") is True
+            and r.get("graph_sha256_match") is True
+        )
         rows.append({
             "task_id": t.task_id, "program_id": r.get("program_id"),
             "graph_sha256": r.get("graph_sha256"), "graph_sha256_match": r.get("graph_sha256_match"),
             "executed_graph_source": r.get("executed_graph_source"), "ok": r.get("ok"),
             "n_llm_calls": r.get("n_llm_calls"), "predicted": sc.get("predicted"),
             "correct": bool(sc.get("correct")), "error": r.get("error"), "phase": phase,
+            "skipped": False, "counts_toward_accuracy": valid_execution,
         })
+
+        # Infrastructure/evidence failures invalidate the arm and stop further spend.
+        if not valid_execution and not getattr(budget, "stop", None):
+            budget.stop = "EXECUTION_ERROR_STOP"
+
+        # A stop triggered during this task must prevent all later task executions.
+        if getattr(budget, "stop", None) and i + 1 < len(tasks):
+            rows.extend(_skipped_rows(tasks[i + 1:], budget.stop))
+            break
     return rows
 
 
@@ -221,6 +253,9 @@ def classify_row(row) -> str:
 def fails_from(prog, tasks, rows):
     out = []
     for t, r in zip(tasks, rows):
+        # Skipped/incomplete rows are not failures and cannot drive feedback.
+        if r.get("skipped") or r.get("counts_toward_accuracy") is False:
+            continue
         cat = classify_row(r)
         out.append(FailureRecord(
             task_id=t.task_id, parent_program_id=prog.program_id,
@@ -234,7 +269,29 @@ def fails_from(prog, tasks, rows):
     return out
 
 
+def accuracy(rows):
+    """Return accuracy only for a complete set of valid execution rows."""
+    if not rows:
+        return None
+    if any(
+        row.get("skipped")
+        or row.get("counts_toward_accuracy") is False
+        or "correct" not in row
+        or not isinstance(row.get("correct"), bool)
+        for row in rows
+    ):
+        return None
+    return sum(1 for row in rows if row["correct"]) / len(rows)
+
+
 def paired(a_rows, b_rows):
+    if len(a_rows) != len(b_rows) or accuracy(a_rows) is None or accuracy(b_rows) is None:
+        return {
+            "status": "INCOMPLETE",
+            "reason": "MISSING_OR_INVALID_PAIRED_ROWS",
+            "n_a": len(a_rows),
+            "n_b": len(b_rows),
+        }
     imp = reg = both_c = both_w = 0
     for a, b in zip(a_rows, b_rows):
         if b["correct"] and not a["correct"]:
@@ -247,7 +304,7 @@ def paired(a_rows, b_rows):
             both_w += 1
     n = imp + reg
     p = 1.0 if n == 0 else min(1.0, 2 * sum(__import__("math").comb(n, i) for i in range(0, min(imp, reg) + 1)) / (2 ** n))
-    return {"improved": imp, "regressed": reg, "both_correct": both_c, "both_wrong": both_w,
+    return {"status": "COMPLETE", "improved": imp, "regressed": reg, "both_correct": both_c, "both_wrong": both_w,
             "mcnemar_exact_p_two_sided": p, "n": len(a_rows)}
 
 
@@ -309,6 +366,9 @@ def preflight_verify(man: dict, ts: dict) -> dict:
         if len(ids) != len(idxs):
             errors.append(f"{block_name.upper()}_INDEX_TASK_COUNT_MISMATCH")
         for tid, idx, task in zip(ids, idxs, block["tasks"]):
+            if type(idx) is not int:
+                errors.append(f"{block_name.upper()}_INDEX_TYPE_INVALID:{tid}")
+                continue
             expected_id = f"gsm8k-train-{idx:04d}"
             if tid != expected_id:
                 errors.append(f"{block_name.upper()}_TASK_ID_INDEX_MISMATCH:{tid}")
@@ -318,6 +378,9 @@ def preflight_verify(man: dict, ts: dict) -> dict:
             oq, og = official[idx]
             if " ".join(task["question"].split()) != oq or task["gold_answer"] != og:
                 errors.append(f"{block_name.upper()}_CONTENT_MISMATCH:{tid}")
+        valid_indices = [idx for idx in idxs if type(idx) is int]
+        if len(valid_indices) != len(set(valid_indices)):
+            errors.append(f"{block_name.upper()}_DUPLICATE_INDICES")
         # historical exclusion must use real indices
         real_idxs = set(idxs)
         if real_idxs & used:
@@ -412,8 +475,12 @@ def main() -> int:
         return 4
     outdir.mkdir(parents=True, exist_ok=True)
 
+    completed_stages = []
+
     # Dev P
     p_dev = run_arm(parent, dev_tasks, budget, "dev:P", args.mock)
+    if accuracy(p_dev) is not None:
+        completed_stages.append("dev_parent")
     p_fails = fails_from(parent, dev_tasks, p_dev)
     parent_diag = build_feedback_diagnosis([f for f in p_fails if not f.success])
 
@@ -436,10 +503,13 @@ def main() -> int:
         else:
             dev_rows[name] = []
 
-    def acc(rows):
-        return sum(1 for x in rows if x.get("correct")) / max(1, len(rows))
-
-    scores = {k: acc(v) for k, v in dev_rows.items() if k != "P" and v}
+    gen1_names = [name for name in ("R", "F_old", "F_local") if arms_g1[name][0]]
+    scores = {}
+    if not budget.stop and accuracy(p_dev) is not None and gen1_names and all(
+        accuracy(dev_rows.get(name, [])) is not None for name in gen1_names
+    ):
+        scores = {name: accuracy(dev_rows[name]) for name in gen1_names}
+        completed_stages.append("dev_gen1")
     order = [k for k in ("R", "F_old", "F_local") if k in scores]
     winner_name = max(order, key=lambda n: (scores[n], -order.index(n))) if order else None
     winner = {"R": child_r, "F_old": f_old, "F_local": f_local}.get(winner_name)
@@ -451,6 +521,8 @@ def main() -> int:
     }
     e2, rec_e2 = e2_out["child"], e2_out["record"]
     e2_rows = run_arm(e2, dev_tasks, budget, "dev:E2_local", args.mock) if e2 else []
+    if e2 and accuracy(e2_rows) is not None:
+        completed_stages.append("dev_gen2")
 
     # Confirm — all arms with a program
     arms = {}
@@ -458,6 +530,9 @@ def main() -> int:
         if prog:
             arms[name] = prog
     conf = {n: run_arm(p, conf_tasks, budget, f"conf:{n}", args.mock) for n, p in arms.items()}
+
+    if not budget.stop and conf and all(accuracy(rows) is not None for rows in conf.values()):
+        completed_stages.append("confirm")
 
     analysis = {}
     base = conf["P"]
@@ -471,14 +546,22 @@ def main() -> int:
     if e2 and winner_name in conf and "E2_local" in conf:
         analysis[f"E2_local_vs_{winner_name}"] = paired(conf[winner_name], conf["E2_local"])
 
-    incomplete = budget.stop is not None
-    analysis_out = {} if incomplete else analysis
+    required_eval_sets = [p_dev]
+    required_eval_sets.extend(dev_rows[name] for name in gen1_names)
+    if e2:
+        required_eval_sets.append(e2_rows)
+    required_eval_sets.extend(conf.values())
+    invalid_execution_rows = any(accuracy(rows) is None for rows in required_eval_sets)
+    incomplete = budget.stop is not None or invalid_execution_rows
+    incomplete_reason = budget.stop or ("INVALID_OR_INCOMPLETE_EXECUTION_ROWS" if invalid_execution_rows else None)
+    analysis_out = {"note": "INCOMPLETE_NO_FULL_STATS"} if incomplete else analysis
     summary = {
         "evidence_class": "SIMULATED" if args.mock else "REAL_MODEL",
         "experiment_complete": not incomplete,
-        "incomplete_reason": budget.stop,
-        "completed_stages": [],
-        "protocol": "MICRO-R3.5.1",
+        "incomplete_reason": incomplete_reason,
+        "completed_stages": completed_stages,
+        "protocol": EXPERIMENT_PROTOCOL_ID,
+        "code_revision": CODE_REVISION,
         "seed": SEED,
         "taskset_sha256": {"dev": man["dev_task_set_sha256"], "confirm": man["confirm_task_set_sha256"]},
         "n_dev": len(dev_tasks), "n_confirm": len(conf_tasks),
@@ -492,37 +575,42 @@ def main() -> int:
         "e2_source_task_ids": rec_e2.get("e2_source_task_ids"),
         "e2_generation": e2.generation if e2 else None,
         "e2_parent_ok": (e2.parent_program_id == winner.program_id) if e2 and winner else False,
-        "confirm_accuracy": {k: acc(v) for k, v in conf.items()},
-        "paired_analysis": analysis_out if not incomplete else {"note": "INCOMPLETE_NO_FULL_STATS"},
+        "confirm_accuracy": {k: accuracy(v) for k, v in conf.items()},
+        "paired_analysis": analysis_out,
         "requests_total": budget.n,
-        "known_cost_usd": round(budget.cost, 8),
-        "unsettled_request_count": budget.dump().get("unsettled_request_count", 0),
-        "cost_usd_total": None if budget.dump().get("unsettled_request_count") else round(budget.cost, 8),
+        "known_cost_usd": budget.dump()["known_cost_usd"],
+        "unsettled_request_count": budget.dump()["unsettled_request_count"],
+        "cost_final": budget.dump()["cost_final"],
+        "cost_usd_total": budget.dump()["total_cost_usd"],
         "stop_reason": budget.stop,
         "budget": {"max_physical": MAX_PHYSICAL, "max_cost_usd": MAX_COST_USD},
         "confirm_used_for_selection": False,
-        "statistical_claim": "EXPLORATORY_ONLY" if not args.mock else "SIMULATED_ONLY",
-        "experiment_complete": budget.stop is None,
-        "incomplete_reason": budget.stop,
+        "statistical_claim": ("SIMULATED_INCOMPLETE" if incomplete else "SIMULATED_ONLY") if args.mock else ("INCOMPLETE" if incomplete else "EXPLORATORY_ONLY"),
     }
     lineage = {
         "P": {"program_id": parent.program_id, "graph_sha256": hash_program(parent), "generation": 0},
         "R": rec_r, "F_old": rec_f_old, "F_local": rec_f_local, "E2_local": rec_e2,
         "winner": {"arm": winner_name, "program_id": winner.program_id if winner else None},
     }
-    (outdir / "protocol.json").write_text(json.dumps({**man, "model": MODEL_ID, "arms": list(arms)}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (outdir / "protocol.json").write_text(json.dumps({**man, "model": MODEL_ID, "protocol_id": EXPERIMENT_PROTOCOL_ID, "code_revision": CODE_REVISION, "arms": list(arms)}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (outdir / "candidate_lineage.json").write_text(json.dumps(lineage, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
     (outdir / "failure_archive.json").write_text(json.dumps({
         "parent_dev": [f.to_dict() for f in p_fails],
         "winner_dev": [f.to_dict() for f in winner_fails],
     }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (outdir / "paired_results.json").write_text(json.dumps({"dev": dev_rows, "confirm": conf}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    (outdir / "paired_analysis.json").write_text(json.dumps(analysis, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (outdir / "paired_analysis.json").write_text(json.dumps(analysis_out, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (outdir / "request_ledger.json").write_text(json.dumps(budget.dump(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (outdir / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    ledger_summary = budget.dump()
+    if ledger_summary["cost_final"]:
+        cost_text = f"${ledger_summary['total_cost_usd']:.6f} (final)"
+    else:
+        cost_text = f"UNKNOWN; known subtotal=${ledger_summary['known_cost_usd']:.6f}; unsettled={ledger_summary['unsettled_request_count']}"
     (outdir / "REPORT.md").write_text(
-        f"# MICRO-R3.5.1\n\nMode: **{'SIMULATED' if args.mock else 'REAL'}**\n\n"
-        f"- requests={budget.n} cost=${budget.cost:.6f}\n- winner={winner_name} scores={scores}\n"
+        f"# {EXPERIMENT_PROTOCOL_ID} / {CODE_REVISION}\n\nMode: **{'SIMULATED' if args.mock else 'REAL'}**\n\n"
+        f"- requests={budget.n} cost={cost_text}\n- experiment_complete={summary['experiment_complete']} reason={summary['incomplete_reason']}\n"
+        f"- winner={winner_name} scores={scores}\n"
         f"- E2: {summary['e2_status']} from={summary['e2_feedback_from']} src={summary['e2_source_task_ids']}\n"
         f"- confirm={summary['confirm_accuracy']}\n\n**Not RSI proof.**\n",
         encoding="utf-8",
